@@ -1,0 +1,13 @@
+{
+    "name": "spameri/elastic",
+    "authors": [
+        {
+            "name": "VBoss",
+            "email": "vcevela@gmail.com"
+        }
+    ],
+    "require": {
+    },
+    "require-dev": {
+    }
+}
