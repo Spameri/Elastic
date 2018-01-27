@@ -17,6 +17,6 @@
 	},
 	"require-dev": {
 		"nette/tester": "2.0.*",
-		"phpstan/phpstan-shim": "0.9.*",
+		"phpstan/phpstan-shim": "0.9.*"
 	}
 }
