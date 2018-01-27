@@ -1,13 +1,22 @@
 {
-    "name": "spameri/elastic",
-    "authors": [
-        {
-            "name": "VBoss",
-            "email": "vcevela@gmail.com"
-        }
-    ],
-    "require": {
-    },
-    "require-dev": {
-    }
+	"name": "spameri/elastic",
+	"authors": [
+		{
+			"name": "VBoss",
+			"email": "vcevela@gmail.com"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"Spameri\\Elastic\\": "src/"
+		}
+	},
+	"require": {
+		"spameri/elastic-query": "0.*",
+		"elasticsearch/elasticsearch": "6.0.*"
+	},
+	"require-dev": {
+		"nette/tester": "2.0.*",
+		"phpstan/phpstan-shim": "0.9.*",
+	}
 }

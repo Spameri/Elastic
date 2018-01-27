@@ -1,0 +1,28 @@
+services:
+	- Spameri\Elastic\Generator\EntityBuilder
+	- Spameri\Elastic\Generator\FileBuilder
+	- Spameri\Elastic\Generator\ServiceBuilder
+
+	- Spameri\Elastic\Mapper\ElasticMapper
+
+	- Spameri\Elastic\Model\Insert
+	- Spameri\Elastic\Model\Insert\PrepareEntityArray
+	- Spameri\Elastic\Model\Insert\ApplyTimestamp
+	- Spameri\Elastic\Model\Get
+	- Spameri\Elastic\Model\GetBy
+	- Spameri\Elastic\Model\GetAllBy
+	- Spameri\Elastic\Model\Delete
+	- Spameri\Elastic\Model\ServiceLocator
+
+	- Spameri\Elastic\Controls\EntityEdit\EntitySettingsProvider(%entities%)
+
+#	###
+#	Commands
+#	###
+
+	-
+		class: Spameri\Elastic\Commands\CreateEntityCommand(.., %entities%)
+		tags: [kdyby.console.command]
+	-
+		class: Spameri\Elastic\Commands\SetUpElasticCommand(.., %entities%)
+		tags: [kdyby.console.command]
