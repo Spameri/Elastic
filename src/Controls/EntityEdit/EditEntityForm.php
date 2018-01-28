@@ -3,7 +3,7 @@
 namespace Spameri\Elastic\Controls\EntityEdit;
 
 
-class EditEntityForm extends \Spameri\CoreModule\BaseForm\BaseForm
+class EditEntityForm extends \Spameri\Elastic\Controls\BaseForm
 {
 	public const BANNED_PROPERTIES = [
 		'id',

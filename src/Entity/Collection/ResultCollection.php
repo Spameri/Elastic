@@ -1,40 +1,42 @@
 <?php declare(strict_types = 1);
 
-namespace Spameri\Model\Collection;
+namespace Spameri\Elastic\Entity\Collection;
 
 
-class ResultCollection extends Collection
+class ResultCollection
 {
 
-	public function getCount() : int
+	/**
+	 * @var array
+	 */
+	private $metadata;
+
+
+	public function __construct(
+		array $metadata
+	)
+	{
+		$this->metadata = $metadata;
+	}
+
+
+	public function count() : int
 	{
 		return $this->metadata['hits']['total'];
 	}
 
 
-	public function setCount(int $count)
+	public function rows() : array
 	{
-		$this->metadata['hits']['total'] = $count;
-	}
-
-
-	public function getRows() : \Generator
-	{
-		/**
-		 * @var $data array
-		 */
+		/** @var $data array */
 		$data = $this->metadata['hits']['hits'];
 
+		$entities = [];
 		foreach ($data as $hit) {
 			$entityData = $hit['_source'];
 			$entityData['id'] = $hit['_id'];
-			yield new $this->entity($entityData);
+			$entities[] = $entityData;
 		}
-	}
-
-
-	public function setRows(array $rows)
-	{
-		$this->metadata['hits']['hits'] = $rows;
+		return $entities;
 	}
 }

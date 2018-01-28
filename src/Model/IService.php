@@ -15,7 +15,7 @@ interface IService
 	public function getBy(array $options) : \Spameri\Elastic\Entity\IElasticEntity;
 
 
-	public function getAllBy(array $options) : \Spameri\Model\Collection\ResultCollection;
+	public function getAllBy(array $options) : \Spameri\Elastic\Entity\IEntityCollection;
 
 
 	public function delete(\Spameri\Elastic\Entity\Property\IElasticId $id) : bool;

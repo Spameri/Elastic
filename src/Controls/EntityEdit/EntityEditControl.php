@@ -3,7 +3,7 @@
 namespace Spameri\Elastic\Controls\EntityEdit;
 
 
-class EntityEditControl extends \Spameri\CoreModule\BaseControl\BaseControl
+class EntityEditControl extends \Spameri\Elastic\Controls\BaseControl
 {
 
 	/**

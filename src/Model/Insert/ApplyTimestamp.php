@@ -7,7 +7,7 @@ class ApplyTimestamp
 {
 
 	/**
-	 * @var \Spameri\UserModule\Model\UserProvider
+	 * @var \Spameri\Elastic\Model\UserProvider
 	 */
 	protected $userProvider;
 
@@ -18,7 +18,7 @@ class ApplyTimestamp
 
 
 	public function __construct(
-		\Spameri\UserModule\Model\UserProvider $userProvider
+		\Spameri\Elastic\Model\UserProvider $userProvider
 		, \Kdyby\Clock\IDateTimeProvider $dateTimeProvider
 	)
 	{

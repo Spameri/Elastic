@@ -20,7 +20,7 @@ class SetUpElasticCommand extends \Symfony\Component\Console\Command\Command
 	public function __construct(
 		$name = NULL
 		, $entities
-		, \App\Elastic\Mapper\ElasticMapper $elasticMapper
+		, \Spameri\Elastic\Mapper\ElasticMapper $elasticMapper
 	)
 	{
 		parent::__construct($name);
