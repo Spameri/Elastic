@@ -37,6 +37,7 @@ class ElasticMapper
 		$mapping = new \Elastica\Type\Mapping();
 		$mapping->setType($elasticType);
 
+		$mapping->setParam('dynamic', $entity['dynamic']);
 		$mapping->setProperties(
 			$entity['properties']
 		);

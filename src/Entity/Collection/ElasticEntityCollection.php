@@ -3,16 +3,16 @@
 namespace Spameri\Elastic\Entity\Collection;
 
 
-abstract class EntityCollection implements \Spameri\Elastic\Entity\IEntityCollection
+abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElasticEntityCollection
 {
 	/**
-	 * @var \Spameri\Elastic\Entity\IEntity[]
+	 * @var \Spameri\Elastic\Entity\IElasticEntity[]
 	 */
 	private $collection;
 
 
 	public function __construct(
-		\Spameri\Elastic\Entity\IEntity ... $entityCollection
+		\Spameri\Elastic\Entity\IElasticEntity ... $entityCollection
 	)
 	{
 		$this->collection = [];
@@ -23,10 +23,15 @@ abstract class EntityCollection implements \Spameri\Elastic\Entity\IEntityCollec
 
 
 	public function add(
-		\Spameri\Elastic\Entity\IEntity $entity
+		\Spameri\Elastic\Entity\IElasticEntity $elasticEntity
 	) : void
 	{
-		$this->collection[$entity->key()] = $entity;
+		if ($elasticEntity->id() instanceof \Spameri\Elastic\Entity\Property\ElasticId) {
+			$this->collection[$elasticEntity->id()->value()] = $elasticEntity;
+
+		} else {
+			$this->collection[] = $elasticEntity;
+		}
 	}
 
 
@@ -43,11 +48,15 @@ abstract class EntityCollection implements \Spameri\Elastic\Entity\IEntityCollec
 
 
 	public function entity(
-		string $key
-	) : ?\Spameri\Elastic\Entity\IEntity
+		\Spameri\Elastic\Entity\Property\IElasticId $id
+	) : ?\Spameri\Elastic\Entity\IElasticEntity
 	{
-		if (\array_key_exists($key, $this->collection)) {
-			return $this->collection[$key];
+		if ($id instanceof \Spameri\Elastic\Entity\Property\EmptyElasticId) {
+			return NULL;
+		}
+
+		if (\array_key_exists($id->value(), $this->collection)) {
+			return $this->collection[$id->value()];
 		}
 
 		return NULL;
@@ -55,18 +64,18 @@ abstract class EntityCollection implements \Spameri\Elastic\Entity\IEntityCollec
 
 
 	public function remove(
-		string $key
+		\Spameri\Elastic\Entity\Property\IElasticId $id
 	) : void
 	{
-		unset($this->collection[$key]);
+		unset($this->collection[$id->value()]);
 	}
 
 
 	public function isValue(
-		string $key
+		\Spameri\Elastic\Entity\Property\IElasticId $id
 	) : bool
 	{
-		return \array_key_exists($key, $this->collection);
+		return \array_key_exists($id->value(), $this->collection);
 	}
 
 

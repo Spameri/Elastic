@@ -29,14 +29,20 @@ class ResultCollection
 	public function rows() : array
 	{
 		/** @var $data array */
-		$data = $this->metadata['hits']['hits'];
+		if (isset($this->metadata['hits']['hits'])) {
+			$data = $this->metadata['hits']['hits'];
 
-		$entities = [];
-		foreach ($data as $hit) {
-			$entityData = $hit['_source'];
-			$entityData['id'] = $hit['_id'];
-			$entities[] = $entityData;
+			$entities = [];
+			foreach ($data as $hit) {
+				$entityData = $hit['_source'];
+				$entityData['id'] = $hit['_id'];
+				$entities[] = $entityData;
+			}
+
+		} else {
+			$entities = [$this->metadata];
 		}
+
 		return $entities;
 	}
 }

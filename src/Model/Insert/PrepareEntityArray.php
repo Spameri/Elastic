@@ -10,6 +10,7 @@ class PrepareEntityArray
 	 * @var \Spameri\Elastic\Model\Insert\ApplyTimestamp
 	 */
 	protected $applyTimestamp;
+
 	/**
 	 * @var \Spameri\Elastic\Model\ServiceLocator
 	 */
@@ -32,45 +33,59 @@ class PrepareEntityArray
 	{
 		$this->applyTimestamp->apply($entity);
 
-		return $this->iterateVariables($entity);
+		return $this->iterateVariables($entity->entityVariables());
 	}
 
 
 	public function iterateVariables(
-		\Spameri\Elastic\Entity\IEntity $entity
+		array $variables
 	) : array
 	{
 		$preparedArray = [];
 
-		foreach ($entity->entityVariables() as $key => $property) {
-			if ($property instanceof \Spameri\Elastic\Entity\IEntity) {
-				$preparedArray[$key] = $this->iterateVariables($property);
+		foreach ($variables as $key => $property) {
+			if ($property instanceof \Spameri\Elastic\Entity\IElasticEntity) {
+				$preparedArray[$key] = $this->serviceLocator->locate($property)->insert($property);
+
+			} elseif ($property instanceof \Spameri\Elastic\Entity\IEntity) {
+				$preparedArray[$key] = $this->iterateVariables($property->entityVariables());
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\IValue) {
 				$preparedArray[$key] = $property->value();
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\IEntityCollection) {
 				$preparedArray[$key] = [];
-				foreach ($property as $item) {
-					$preparedArray[$key][] = $this->iterateVariables($item);
+				/** @var \Spameri\Elastic\Entity\IEntity $item */
+				/** @var \Spameri\Elastic\Entity\IEntityCollection $property */
+				foreach ($property as $itemKey => $item) {
+					$preparedArray[$key][$itemKey] = $this->iterateVariables($item->entityVariables());
+				}
+
+			} elseif ($property instanceof \Spameri\Elastic\Entity\IElasticEntityCollection) {
+				$preparedArray[$key] = [];
+				/** @var \Spameri\Elastic\Entity\IElasticEntity $item */
+				/** @var \Spameri\Elastic\Entity\IElasticEntityCollection $property */
+				foreach ($property as $itemKey => $item) {
+					$preparedArray[$key][$itemKey] = $this->serviceLocator->locate($item)->insert($item);
 				}
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\IValueCollection) {
-				/**
-				 * @var $value \Spameri\Elastic\Entity\IValue
-				 */
 				$preparedArray[$key] = [];
+				/** @var $value \Spameri\Elastic\Entity\IValue */
+				/** @var \Spameri\Elastic\Entity\IValueCollection $property */
 				foreach ($property as $value) {
-					$preparedArray[$key][] = $value->value();
+					if ($value instanceof \Spameri\Elastic\Entity\IValue) {
+						$preparedArray[$key][] = $value->value();
+
+					} else {
+						$preparedArray[$key][] = $value;
+					}
 				}
 
-			} elseif ($property instanceof \Spameri\Elastic\Entity\IElasticEntity) {
-				$this->serviceLocator->locate($property)->insert($property);
-
 			} elseif (
-				is_string($property)
-				|| is_int($property)
-				|| is_bool($property)
+				\is_string($property)
+				|| \is_int($property)
+				|| \is_bool($property)
 				|| $property === NULL
 			) {
 				$preparedArray[$key] = $property;
@@ -79,11 +94,11 @@ class PrepareEntityArray
 				$preparedArray[$key] = $property->format('Y-m-d H:i:s');
 
 			} else {
-				if (is_object($property)) {
-					throw new \Spameri\Elastic\Exception\EntityIsNotValid('Property ' . $key . ' in ' . get_class($property) . ' is not supported.');
-				} else {
-					throw new \Spameri\Elastic\Exception\EntityIsNotValid('Property ' . $key . ' with value' . $property . ' is not supported.');
+				if (\is_object($property)) {
+					throw new \Spameri\Elastic\Exception\EntityIsNotValid('Property ' . $key . ' in ' . \get_class($property) . ' is not supported.');
 				}
+
+				throw new \Spameri\Elastic\Exception\EntityIsNotValid('Property ' . $key . ' with value' . $property . ' is not supported.');
 			}
 		}
 

@@ -7,7 +7,7 @@ class EntityEditControl extends \Spameri\Elastic\Controls\BaseControl
 {
 
 	/**
-	 * @var \Spameri\Elastic\Entity\IEntity
+	 * @var \Spameri\Elastic\Entity\IElasticEntity
 	 */
 	public $entity;
 
@@ -47,8 +47,8 @@ class EntityEditControl extends \Spameri\Elastic\Controls\BaseControl
 	{
 		$form = new EditEntityForm();
 
-		$end = explode('\\', get_class($this->getEntity()));
-		$form->setEntitySettings($this->entitySettingsProvider->getEntitySettings(end($end)));
+		$end = \explode('\\', \get_class($this->getEntity()));
+		$form->setEntitySettings($this->entitySettingsProvider->getEntitySettings(\end($end)));
 
 		$form->setEntity($this->getEntity()->toArray());
 
@@ -62,7 +62,7 @@ class EntityEditControl extends \Spameri\Elastic\Controls\BaseControl
 
 	public function insert(EditEntityForm $form)
 	{
-		$entityName = get_class($this->getEntity());
+		$entityName = \get_class($this->getEntity());
 		$entity = new $entityName($form->getValues(TRUE));
 
 		$id = $this->serviceLocator->locate($entity)->insert($entity);

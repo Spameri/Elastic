@@ -31,18 +31,18 @@ class Insert
 			$document = new \Elastica\Document('', $entityArray);
 
 		} else {
-			$document = new \Elastica\Document($entity->id(), $entityArray);
+			unset($entityArray['id']);
+			$document = new \Elastica\Document($entity->id()->value(), $entityArray);
 		}
 
 		$response = $type->addDocument($document);
 
 		$type->getIndex()->refresh();
 
-		if (in_array($response->getStatus(), [\Nette\Http\Response::S200_OK, \Nette\Http\Response::S201_CREATED], TRUE)) {
+		if (\in_array($response->getStatus(), [\Nette\Http\Response::S200_OK, \Nette\Http\Response::S201_CREATED], TRUE)) {
 			return $response->getData()['_id'];
-
-		} else {
-			throw new \Spameri\Elastic\Exception\DocumentInsertFailed();
 		}
+
+		throw new \Spameri\Elastic\Exception\DocumentInsertFailed();
 	}
 }

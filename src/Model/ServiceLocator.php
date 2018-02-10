@@ -21,11 +21,11 @@ class ServiceLocator
 
 
 	public function locate(
-		\Spameri\Elastic\Entity\IEntity $entity
-	) : IService
+		\Spameri\Elastic\Entity\IElasticEntity $entity
+	) : \Spameri\Elastic\Model\IService
 	{
-		$entityName = get_class($entity);
-		$serviceName = $entityName . 'Service';
+		$entityName = \get_class($entity);
+		$serviceName = \str_replace('Entity', 'Model' , $entityName . 'Service');
 
 		/**
 		 * @var $service \Spameri\Elastic\Model\IService
