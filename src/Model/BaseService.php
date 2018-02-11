@@ -5,7 +5,7 @@ namespace Spameri\Elastic\Model;
 
 abstract class BaseService implements IService
 {
-	const ELASTIC_INDEX = 'spameri';
+	public const ELASTIC_INDEX = 'spameri_v2';
 
 	/**
 	 * @var string

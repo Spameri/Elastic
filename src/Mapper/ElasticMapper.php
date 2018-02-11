@@ -64,7 +64,7 @@ class ElasticMapper
 	}
 
 
-	public function deleteIndex()
+	public function deleteIndex() : void
 	{
 		try {
 			$index = $this->client->getIndex(\Spameri\Elastic\Model\BaseService::ELASTIC_INDEX);
