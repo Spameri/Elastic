@@ -58,7 +58,7 @@ class PrepareEntityArray
 				/** @var \Spameri\Elastic\Entity\IEntity $item */
 				/** @var \Spameri\Elastic\Entity\IEntityCollection $property */
 				foreach ($property as $itemKey => $item) {
-					$preparedArray[$key][$itemKey] = $this->iterateVariables($item->entityVariables());
+					$preparedArray[$key][] = $this->iterateVariables($item->entityVariables());
 				}
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\IElasticEntityCollection) {
@@ -66,7 +66,7 @@ class PrepareEntityArray
 				/** @var \Spameri\Elastic\Entity\IElasticEntity $item */
 				/** @var \Spameri\Elastic\Entity\IElasticEntityCollection $property */
 				foreach ($property as $itemKey => $item) {
-					$preparedArray[$key][$itemKey] = $this->serviceLocator->locate($item)->insert($item);
+					$preparedArray[$key][] = $this->serviceLocator->locate($item)->insert($item);
 				}
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\IValueCollection) {

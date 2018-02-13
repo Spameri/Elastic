@@ -26,12 +26,12 @@ class Insert
 	) : string
 	{
 		$entityArray = $this->prepareEntityArray->prepare($entity);
+		unset($entityArray['id']);
 
 		if ($entity->id() instanceof \Spameri\Elastic\Entity\Property\EmptyElasticId) {
 			$document = new \Elastica\Document('', $entityArray);
 
 		} else {
-			unset($entityArray['id']);
 			$document = new \Elastica\Document($entity->id()->value(), $entityArray);
 		}
 

@@ -49,9 +49,13 @@ class ElasticMapper
 	/**
 	 * @throws \Exception
 	 */
-	public function createIndex()
+	public function createIndex() : void
 	{
-		$result = $this->client->request(\Spameri\Elastic\Model\BaseService::ELASTIC_INDEX, \Elastica\Request::HEAD);
+		$result = $this->client->request(
+			\Spameri\Elastic\Model\BaseService::ELASTIC_INDEX,
+			\Elastica\Request::HEAD
+		);
+
 		if ($result->getStatus() !== \Nette\Http\Response::S200_OK) {
 			$indexName = \Spameri\Elastic\Model\BaseService::ELASTIC_INDEX . '-' . $this->constantProvider->getDateTime()->format('Y-m-d_H-i-s');
 			$index = $this->client->getIndex($indexName);
@@ -64,16 +68,20 @@ class ElasticMapper
 	}
 
 
-	public function deleteIndex() : void
+	public function deleteIndex() : ?\Elastica\Response
 	{
 		try {
 			$index = $this->client->getIndex(\Spameri\Elastic\Model\BaseService::ELASTIC_INDEX);
 			if ($index) {
-				$index->delete();
+				$response = $index->removeAlias($index->getName());
+//				$index->delete();
+				return $response;
 			}
 
 		} catch (\Elastica\Exception\ResponseException $exception) {
 
 		}
+
+		return NULL;
 	}
 }

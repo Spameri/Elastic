@@ -29,7 +29,7 @@ class SetUpElasticCommand extends \Symfony\Component\Console\Command\Command
 	}
 
 
-	protected function configure()
+	protected function configure() : void
 	{
 		$this
 			->setName('elastic:set-up')
