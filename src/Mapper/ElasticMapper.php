@@ -30,7 +30,7 @@ class ElasticMapper
 	 * @param array $entity
 	 * @throws \Exception
 	 */
-	public function createMapping($entity)
+	public function createMapping($entity) : void
 	{
 		$elasticType = $this->client->getIndex(\Spameri\Elastic\Model\BaseService::ELASTIC_INDEX)->getType($entity['type']);
 
@@ -59,10 +59,7 @@ class ElasticMapper
 		if ($result->getStatus() !== \Nette\Http\Response::S200_OK) {
 			$indexName = \Spameri\Elastic\Model\BaseService::ELASTIC_INDEX . '-' . $this->constantProvider->getDateTime()->format('Y-m-d_H-i-s');
 			$index = $this->client->getIndex($indexName);
-			$index->create([
-				'number_of_shards'   => 5,
-				'number_of_replicas' => 1,
-			]);
+			$index->create([]);
 			$index->addAlias(\Spameri\Elastic\Model\BaseService::ELASTIC_INDEX);
 		}
 	}
@@ -74,7 +71,7 @@ class ElasticMapper
 			$index = $this->client->getIndex(\Spameri\Elastic\Model\BaseService::ELASTIC_INDEX);
 			if ($index) {
 				$response = $index->removeAlias($index->getName());
-//				$index->delete();
+				$index->delete();
 				return $response;
 			}
 
