@@ -7,9 +7,9 @@ class ElasticMapper
 {
 
 	/**
-	 * @var \Kdyby\ElasticSearch\Client
+	 * @var \Spameri\Elastic\ClientProvider
 	 */
-	protected $client;
+	protected $clientProvider;
 	/**
 	 * @var \Kdyby\Clock\IDateTimeProvider
 	 */
@@ -17,11 +17,11 @@ class ElasticMapper
 
 
 	public function __construct(
-		\Kdyby\ElasticSearch\Client $client
+		\Spameri\Elastic\ClientProvider $clientProvider
 		, \Kdyby\Clock\IDateTimeProvider $constantProvider
 	)
 	{
-		$this->client = $client;
+		$this->clientProvider = $clientProvider;
 		$this->constantProvider = $constantProvider;
 	}
 
@@ -30,19 +30,20 @@ class ElasticMapper
 	 * @param array $entity
 	 * @throws \Exception
 	 */
-	public function createMapping($entity)
+	public function createMapping($entity) : void
 	{
-		$elasticType = $this->client->getIndex(\Spameri\Elastic\Model\BaseService::ELASTIC_INDEX)->getType($entity['type']);
-
-		$mapping = new \Elastica\Type\Mapping();
-		$mapping->setType($elasticType);
-
-		$mapping->setParam('dynamic', $entity['dynamic']);
-		$mapping->setProperties(
-			$entity['properties']
+		$this->clientProvider->client()->indices()->putMapping(
+			(
+				new \Spameri\ElasticQuery\Document(
+					\Spameri\Elastic\Model\BaseService::ELASTIC_INDEX, // TODO pro každou entitu vlastní index
+					new \Spameri\ElasticQuery\Document\Body\Plain([
+						'dynamic' => $entity['dynamic'],
+						'properties' => $entity['properties'],
+					]),
+					$entity['type']
+				)
+			)->toArray()
 		);
-
-		$mapping->send();
 	}
 
 
@@ -51,34 +52,65 @@ class ElasticMapper
 	 */
 	public function createIndex() : void
 	{
-		$result = $this->client->request(
-			\Spameri\Elastic\Model\BaseService::ELASTIC_INDEX,
-			\Elastica\Request::HEAD
-		);
+		try {
+			$this->clientProvider->client()->indices()->get(
+				(
+					new \Spameri\ElasticQuery\Document(
+						\Spameri\Elastic\Model\BaseService::ELASTIC_INDEX
+					)
+				)->toArray()
+			);
 
-		if ($result->getStatus() !== \Nette\Http\Response::S200_OK) {
+		} catch (\Elasticsearch\Common\Exceptions\Missing404Exception $exception) {
 			$indexName = \Spameri\Elastic\Model\BaseService::ELASTIC_INDEX . '-' . $this->constantProvider->getDateTime()->format('Y-m-d_H-i-s');
-			$index = $this->client->getIndex($indexName);
-			$index->create([
-				'number_of_shards'   => 5,
-				'number_of_replicas' => 1,
-			]);
-			$index->addAlias(\Spameri\Elastic\Model\BaseService::ELASTIC_INDEX);
+			$this->clientProvider->client()->indices()->create(
+				(
+					new \Spameri\ElasticQuery\Document(
+						$indexName
+					)
+				)->toArray()
+			);
+			$this->clientProvider->client()->indices()->putAlias(
+				(
+					new \Spameri\ElasticQuery\Document(
+						$indexName,
+						new \Spameri\ElasticQuery\Document\Body\Plain([
+							'actions' => [
+								'add' => [
+									'index' => $indexName,
+									'alias' => \Spameri\Elastic\Model\BaseService::ELASTIC_INDEX,
+								],
+							],
+						]),
+						NULL,
+						NULL,
+						[
+							'name' => \Spameri\Elastic\Model\BaseService::ELASTIC_INDEX,
+						]
+					)
+				)->toArray()
+			);
 		}
 	}
 
 
-	public function deleteIndex() : ?\Elastica\Response
+	public function deleteIndex()
 	{
 		try {
-			$index = $this->client->getIndex(\Spameri\Elastic\Model\BaseService::ELASTIC_INDEX);
+			$index = $this->clientProvider->client()->indices()->get(
+				(
+					new \Spameri\ElasticQuery\Document(
+						\Spameri\Elastic\Model\BaseService::ELASTIC_INDEX
+					)
+				)->toArray()
+			);
 			if ($index) {
-				$response = $index->removeAlias($index->getName());
+//				$response = $index->removeAlias($index->getName()); // TODO
 //				$index->delete();
-				return $response;
+//				return $response;
 			}
 
-		} catch (\Elastica\Exception\ResponseException $exception) {
+		} catch (\Elasticsearch\Common\Exceptions\Missing404Exception $exception) {
 
 		}
 

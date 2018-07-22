@@ -18,6 +18,14 @@ services:
 	- Spameri\Elastic\Controls\EntityEdit\IEntityEditControl
 	- Spameri\Elastic\Model\UserProvider
 
+	neonSettingsProvider:
+		class: Spameri\Elastic\Settings\NeonSettingsProvider
+		setup:
+			- fromArray(%elasticSearch%)
+
+	clientProvider:
+	 	class: Spameri\Elastic\ClientProvider
+
 #	###
 #	Commands
 #	###
@@ -28,3 +36,9 @@ services:
 	-
 		class: Spameri\Elastic\Commands\SetUpElasticCommand(.., %entities%)
 		tags: [kdyby.console.command]
+
+#	###
+#	Elastic/Elastic
+#	###
+
+	- Elasticsearch\ClientBuilder
