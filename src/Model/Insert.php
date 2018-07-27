@@ -10,37 +10,48 @@ class Insert
 	 * @var \Spameri\Elastic\Model\Insert\PrepareEntityArray
 	 */
 	private $prepareEntityArray;
+	/**
+	 * @var \Spameri\Elastic\ClientProvider
+	 */
+	private $clientProvider;
 
 
 	public function __construct(
-		\Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray
+		\Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray,
+		\Spameri\Elastic\ClientProvider $clientProvider
 	)
 	{
 		$this->prepareEntityArray = $prepareEntityArray;
+		$this->clientProvider = $clientProvider;
 	}
 
 
 	public function execute(
 		\Spameri\Elastic\Entity\IElasticEntity $entity,
-		\Elastica\Type $type
+		string $index
 	) : string
 	{
 		$entityArray = $this->prepareEntityArray->prepare($entity);
 		unset($entityArray['id']);
 
-		if ($entity->id() instanceof \Spameri\Elastic\Entity\Property\EmptyElasticId) {
-			$document = new \Elastica\Document('', $entityArray);
+		$document = new \Spameri\ElasticQuery\Document(
+			$index,
+			new \Spameri\ElasticQuery\Document\Body\Plain($entityArray),
+			$index,
+			$entity->id()->value()
+		);
 
-		} else {
-			$document = new \Elastica\Document($entity->id()->value(), $entityArray);
-		}
+		$response = $this->clientProvider->client()->index($document->toArray());
 
-		$response = $type->addDocument($document);
+		$this->clientProvider->client()->indices()->refresh(
+			(
+			new \Spameri\ElasticQuery\Document($index)
+			)
+				->toArray()
+		);
 
-		$type->getIndex()->refresh();
-
-		if (\in_array($response->getStatus(), [\Nette\Http\Response::S200_OK, \Nette\Http\Response::S201_CREATED], TRUE)) {
-			return $response->getData()['_id'];
+		if (\in_array($response['result'], ['created', 'updated'], TRUE)) {
+			return $response['_id'];
 		}
 
 		throw new \Spameri\Elastic\Exception\DocumentInsertFailed();

@@ -18,18 +18,17 @@ class CreateEntityCommand extends \Symfony\Component\Console\Command\Command
 
 
 	public function __construct(
-		$name = NULL
-		, $entities
+		$entities
 		, \Spameri\Elastic\Generator\FileBuilder $fileBuilder
 	)
 	{
-		parent::__construct($name);
+		parent::__construct(NULL);
 		$this->entities = $entities;
 		$this->fileBuilder = $fileBuilder;
 	}
 
 
-	protected function configure()
+	protected function configure() : void
 	{
 		$this
 			->setName('elastic:generate-entities')

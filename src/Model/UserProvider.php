@@ -20,19 +20,13 @@ class UserProvider
 	}
 
 
-	/**
-	 * @return \Nette\Security\User
-	 */
-	public function getUser()
+	public function getUser() : \Nette\Security\User
 	{
 		return $this->user;
 	}
 
 
-	/**
-	 * @return \Nette\Security\IIdentity|NULL
-	 */
-	public function getIdentity()
+	public function getIdentity() : ?\Nette\Security\IIdentity
 	{
 		return $this->user->getIdentity();
 	}

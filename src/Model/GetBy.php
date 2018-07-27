@@ -6,22 +6,44 @@ namespace Spameri\Elastic\Model;
 class GetBy
 {
 
+	/**
+	 * @var \Spameri\Elastic\ClientProvider
+	 */
+	private $clientProvider;
+
+
+	public function __construct(
+		\Spameri\Elastic\ClientProvider $clientProvider
+	)
+	{
+		$this->clientProvider = $clientProvider;
+	}
+
+
 	public function execute(
-		array $options,
-		\Elastica\Type $type
+		\Spameri\ElasticQuery\ElasticQuery $options,
+		string $index
 	) : array
 	{
-		$documents = $type->search($options);
+		$documents = $this->clientProvider->client()->search(
+			(
+				new \Spameri\ElasticQuery\Document(
+					$index,
+					new \Spameri\ElasticQuery\Document\Body\Plain($options->toArray()),
+					$index
+				)
+			)
+				->toArray()
+		);
 
-		$data = FALSE;
-		if ($documents->count()) {
-			$document = $documents->getResults()[0];
-			$data = $document->getData();
-			$data['id'] = $document->getId();
+		$data = NULL;
+		if ($documents['hits']['total']) {
+			$data = $documents['hits']['hits'][0]['_source'];
+			$data['id'] = $documents['hits']['hits'][0]['_id'];
 		}
 
 		if ( ! $data) {
-			throw new \Spameri\Elastic\Exception\DocumentNotFound($type->getName());
+			throw new \Spameri\Elastic\Exception\DocumentNotFound($index);
 		}
 
 		return $data;

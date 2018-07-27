@@ -12,10 +12,10 @@ interface IService
 	public function get(\Spameri\Elastic\Entity\Property\ElasticId $id) : \Spameri\Elastic\Entity\IElasticEntity;
 
 
-	public function getBy(array $options) : \Spameri\Elastic\Entity\IElasticEntity;
+	public function getBy(\Spameri\ElasticQuery\ElasticQuery $elasticQuery) : \Spameri\Elastic\Entity\IElasticEntity;
 
 
-	public function getAllBy(array $options) : \Spameri\Elastic\Entity\IElasticEntityCollection;
+	public function getAllBy(\Spameri\ElasticQuery\ElasticQuery $elasticQuery) : \Spameri\Elastic\Entity\IElasticEntityCollection;
 
 
 	public function delete(\Spameri\Elastic\Entity\Property\IElasticId $id) : bool;

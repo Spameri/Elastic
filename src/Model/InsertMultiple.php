@@ -3,7 +3,7 @@
 namespace Spameri\Elastic\Model;
 
 
-class Insert
+class InsertMultiple
 {
 
 	/**
@@ -27,24 +27,36 @@ class Insert
 
 
 	public function execute(
-		\Spameri\Elastic\Entity\IElasticEntity $entity,
+		\Spameri\Elastic\Entity\IElasticEntityCollection $entityCollection,
 		string $index
-	) : string
+	) : array
 	{
-		$entityArray = $this->prepareEntityArray->prepare($entity);
-		unset($entityArray['id']);
+		$documentsArray = [];
+		foreach ($entityCollection as $entity) {
+			$entityArray = $this->prepareEntityArray->prepare($entity);
+			unset($entityArray['id']);
 
-		$document = new \Spameri\ElasticQuery\Document(
-			$index,
-			new \Spameri\ElasticQuery\Document\Body\Plain($entityArray),
-			$index,
-			$entity->id()->value()
+			$documentsArray[] = [
+				'index' => [
+					'_index' => $index,
+					'_type'  => $index,
+				]
+			];
+			$documentsArray[] = $entityArray;
+		}
+
+		$document = new \Spameri\ElasticQuery\Document\Bulk($documentsArray);
+
+		$response = $this->clientProvider->client()->bulk($document->toArray());
+		$this->clientProvider->client()->indices()->refresh(
+			(
+			new \Spameri\ElasticQuery\Document($index)
+			)
+				->toArray()
 		);
 
-		$response = $this->clientProvider->client()->index($document->toArray());
-
-		if (\in_array($response['result'], ['created', 'updated'], TRUE)) {
-			return $response['_id'];
+		if ( ! $response['errors']) {
+			return $response['items'];
 		}
 
 		throw new \Spameri\Elastic\Exception\DocumentInsertFailed();

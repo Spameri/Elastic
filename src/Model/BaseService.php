@@ -10,7 +10,7 @@ abstract class BaseService implements IService
 	/**
 	 * @var string
 	 */
-	protected $type;
+	protected $index;
 
 	/**
 	 * @var \Kdyby\ElasticSearch\Client
@@ -47,25 +47,19 @@ abstract class BaseService implements IService
 	 */
 	protected $entityProperties;
 
-	/**
-	 * @var \Elastica\Type
-	 */
-	protected $elasticType;
-
 
 	public function __construct(
-		string $type
+		string $index
 		, array $entityProperties
-		, \Kdyby\ElasticSearch\Client $client
+		, \Spameri\Elastic\ClientProvider $client
 		, Insert $insert
 		, Get $get
 		, GetBy $getBy
 		, GetAllBy $getAllBy
 		, Delete $delete
 	) {
-		$this->client = $client;
-		$this->type = $type;
-		$this->elasticType = $this->client->getIndex(BaseService::ELASTIC_INDEX)->getType($type);
+		$this->client = $client->client();
+		$this->index = $index;
 		$this->insert = $insert;
 		$this->get = $get;
 		$this->delete = $delete;

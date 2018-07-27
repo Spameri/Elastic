@@ -6,18 +6,45 @@ namespace Spameri\Elastic\Model;
 class Delete
 {
 
+	/**
+	 * @var \Spameri\Elastic\ClientProvider
+	 */
+	private $clientProvider;
+
+
+	public function __construct(
+		\Spameri\Elastic\ClientProvider $clientProvider
+	)
+	{
+		$this->clientProvider = $clientProvider;
+	}
+
+
 	public function execute(
 		\Spameri\Elastic\Entity\Property\IElasticId $id,
-		\Elastica\Type $type
+		string $index
 	) : bool
 	{
-		$response = $type->deleteById($id->value());
+		$response = $this->clientProvider->client()->delete(
+			(
+				new \Spameri\ElasticQuery\Document(
+					$index,
+					NULL,
+					$index,
+					$id->value()
+				)
+			)
+			->toArray()
+		);
 
-		if ($response->getStatus() === \Nette\Http\Response::S200_OK) {
-			return TRUE;
+		$this->clientProvider->client()->indices()->refresh(
+			(
+			new \Spameri\ElasticQuery\Document($index)
+			)
+				->toArray()
+		);
 
-		} else {
-			return FALSE;
-		}
+		return $response['result'] === 'deleted';
 	}
+
 }

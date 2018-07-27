@@ -29,8 +29,8 @@ class ResultCollection
 	public function rows() : array
 	{
 		/** @var $data array */
-		if (isset($this->metadata['hits']['hits'])) {
-			$data = $this->metadata['hits']['hits'];
+		if (isset($this->metadata['hits'])) {
+			$data = $this->metadata['hits'];
 
 			$entities = [];
 			foreach ($data as $hit) {

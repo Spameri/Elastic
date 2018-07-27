@@ -48,7 +48,7 @@ class EntityBuilder
 				}
 
 			} else {
-				if (count($property) > 1 || key($property) !== 'type') {
+				if (\count($property) > 1 || \key($property) !== 'type') {
 					$this->processProperties($class, $propertyKey, $property);
 
 				} else {

@@ -35,12 +35,12 @@ class ElasticMapper
 		$this->clientProvider->client()->indices()->putMapping(
 			(
 				new \Spameri\ElasticQuery\Document(
-					\Spameri\Elastic\Model\BaseService::ELASTIC_INDEX, // TODO pro každou entitu vlastní index
+					$entity['index'],
 					new \Spameri\ElasticQuery\Document\Body\Plain([
 						'dynamic' => $entity['dynamic'],
 						'properties' => $entity['properties'],
 					]),
-					$entity['type']
+					$entity['index']
 				)
 			)->toArray()
 		);
@@ -50,19 +50,19 @@ class ElasticMapper
 	/**
 	 * @throws \Exception
 	 */
-	public function createIndex() : void
+	public function createIndex(array $entity) : void
 	{
 		try {
 			$this->clientProvider->client()->indices()->get(
 				(
 					new \Spameri\ElasticQuery\Document(
-						\Spameri\Elastic\Model\BaseService::ELASTIC_INDEX
+						$entity['index']
 					)
 				)->toArray()
 			);
 
 		} catch (\Elasticsearch\Common\Exceptions\Missing404Exception $exception) {
-			$indexName = \Spameri\Elastic\Model\BaseService::ELASTIC_INDEX . '-' . $this->constantProvider->getDateTime()->format('Y-m-d_H-i-s');
+			$indexName = $entity['index'] . '-' . $this->constantProvider->getDateTime()->format('Y-m-d_H-i-s');
 			$this->clientProvider->client()->indices()->create(
 				(
 					new \Spameri\ElasticQuery\Document(
@@ -78,14 +78,14 @@ class ElasticMapper
 							'actions' => [
 								'add' => [
 									'index' => $indexName,
-									'alias' => \Spameri\Elastic\Model\BaseService::ELASTIC_INDEX,
+									'alias' => $entity['index'],
 								],
 							],
 						]),
 						NULL,
 						NULL,
 						[
-							'name' => \Spameri\Elastic\Model\BaseService::ELASTIC_INDEX,
+							'name' => $entity['index'],
 						]
 					)
 				)->toArray()
@@ -94,20 +94,25 @@ class ElasticMapper
 	}
 
 
-	public function deleteIndex()
+	public function deleteIndex(array $entity)
 	{
 		try {
-			$index = $this->clientProvider->client()->indices()->get(
+			/** @var array $indexes */
+			$indexes = $this->clientProvider->client()->indices()->get(
 				(
 					new \Spameri\ElasticQuery\Document(
-						\Spameri\Elastic\Model\BaseService::ELASTIC_INDEX
+						$entity['index']
 					)
 				)->toArray()
 			);
-			if ($index) {
-//				$response = $index->removeAlias($index->getName()); // TODO
-//				$index->delete();
-//				return $response;
+			if ($indexes) {
+				foreach ($indexes as $index) {
+					$this->clientProvider->client()->indices()->delete(
+						[
+							'index' => $index['settings']['index']['provided_name'],
+						]
+					);
+				}
 			}
 
 		} catch (\Elasticsearch\Common\Exceptions\Missing404Exception $exception) {

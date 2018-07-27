@@ -6,17 +6,41 @@ namespace Spameri\Elastic\Model;
 class Get
 {
 
+	/**
+	 * @var \Spameri\Elastic\ClientProvider
+	 */
+	private $clientProvider;
+
+
+	public function __construct(
+		\Spameri\Elastic\ClientProvider $clientProvider
+	)
+	{
+		$this->clientProvider = $clientProvider;
+	}
+
+
 	public function execute(
 		\Spameri\Elastic\Entity\Property\ElasticId $id,
-		\Elastica\Type $type
-	) : array
+		string $index
+	) : ?array
 	{
-		$document = $type->getDocument($id->value());
+		$response = $this->clientProvider->client()->get(
+			(
+				new \Spameri\ElasticQuery\Document(
+					$index,
+					NULL,
+					$index,
+					$id->value()
+				)
+			)
+			->toArray()
+		);
 
-		$data = FALSE;
-		if ($document) {
-			$data = $document->getData();
-			$data['id'] = $document->getId();
+		$data = NULL;
+		if ($response['found']) {
+			$data = $response['_source'];
+			$data['id'] = $response['_id'];
 		}
 
 		return $data;

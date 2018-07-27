@@ -6,12 +6,14 @@ services:
 	- Spameri\Elastic\Mapper\ElasticMapper
 
 	- Spameri\Elastic\Model\Insert
+	- Spameri\Elastic\Model\InsertMultiple
 	- Spameri\Elastic\Model\Insert\PrepareEntityArray
 	- Spameri\Elastic\Model\Insert\ApplyTimestamp
 	- Spameri\Elastic\Model\Get
 	- Spameri\Elastic\Model\GetBy
 	- Spameri\Elastic\Model\GetAllBy
 	- Spameri\Elastic\Model\Delete
+	- Spameri\Elastic\Model\DeleteMultiple
 	- Spameri\Elastic\Model\ServiceLocator
 
 	- Spameri\Elastic\Controls\EntityEdit\EntitySettingsProvider(%entities%)
@@ -31,10 +33,10 @@ services:
 #	###
 
 	-
-		class: Spameri\Elastic\Commands\CreateEntityCommand(.., %entities%)
+		class: Spameri\Elastic\Commands\CreateEntityCommand(%entities%)
 		tags: [kdyby.console.command]
 	-
-		class: Spameri\Elastic\Commands\SetUpElasticCommand(.., %entities%)
+		class: Spameri\Elastic\Commands\SetUpElasticCommand(%entities%)
 		tags: [kdyby.console.command]
 
 #	###

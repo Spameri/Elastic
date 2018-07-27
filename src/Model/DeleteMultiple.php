@@ -3,13 +3,9 @@
 namespace Spameri\Elastic\Model;
 
 
-class InsertMultiple
+class DeleteMultiple
 {
 
-	/**
-	 * @var \Spameri\Elastic\Model\Insert\PrepareEntityArray
-	 */
-	private $prepareEntityArray;
 	/**
 	 * @var \Spameri\Elastic\ClientProvider
 	 */
@@ -17,11 +13,9 @@ class InsertMultiple
 
 
 	public function __construct(
-		\Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray,
 		\Spameri\Elastic\ClientProvider $clientProvider
 	)
 	{
-		$this->prepareEntityArray = $prepareEntityArray;
 		$this->clientProvider = $clientProvider;
 	}
 
@@ -32,25 +26,31 @@ class InsertMultiple
 	) : array
 	{
 		$documentsArray = [];
+		/** @var \Spameri\Elastic\Entity\IElasticEntity $entity */
 		foreach ($entityCollection as $entity) {
-			$entityArray = $this->prepareEntityArray->prepare($entity);
-			unset($entityArray['id']);
-
 			$documentsArray[] = [
-				'index' => [
+				'delete' => [
 					'_index' => $index,
 					'_type'  => $index,
-				]
+					'_id' 	 => $entity->id()->value(),
+				],
 			];
-			$documentsArray[] = $entityArray;
 		}
 
-		$document = new \Spameri\ElasticQuery\Document\Bulk($documentsArray);
+		if (\count($documentsArray)) {
+			$document = new \Spameri\ElasticQuery\Document\Bulk($documentsArray);
 
-		$response = $this->clientProvider->client()->bulk($document->toArray());
+			$response = $this->clientProvider->client()->bulk($document->toArray());
+			$this->clientProvider->client()->indices()->refresh(
+				(
+				new \Spameri\ElasticQuery\Document($index)
+				)
+					->toArray()
+			);
 
-		if ( ! $response['errors']) {
-			return $response['items'];
+			if ( ! $response['errors']) {
+				return $response['items'];
+			}
 		}
 
 		throw new \Spameri\Elastic\Exception\DocumentInsertFailed();
