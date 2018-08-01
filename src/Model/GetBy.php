@@ -20,6 +20,9 @@ class GetBy
 	}
 
 
+	/**
+	 * @throws \Spameri\Elastic\Exception\DocumentNotFound
+	 */
 	public function execute(
 		\Spameri\ElasticQuery\ElasticQuery $options,
 		string $index

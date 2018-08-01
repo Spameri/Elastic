@@ -15,6 +15,7 @@ services:
 	- Spameri\Elastic\Model\Delete
 	- Spameri\Elastic\Model\DeleteMultiple
 	- Spameri\Elastic\Model\ServiceLocator
+	- Spameri\Elastic\Model\Mapping
 
 	- Spameri\Elastic\Controls\EntityEdit\EntitySettingsProvider(%entities%)
 	- Spameri\Elastic\Controls\EntityEdit\IEntityEditControl
@@ -37,6 +38,9 @@ services:
 		tags: [kdyby.console.command]
 	-
 		class: Spameri\Elastic\Commands\SetUpElasticCommand(%entities%)
+		tags: [kdyby.console.command]
+	-
+		class: Spameri\Elastic\Commands\UpdateMapping(%entities%)
 		tags: [kdyby.console.command]
 
 #	###

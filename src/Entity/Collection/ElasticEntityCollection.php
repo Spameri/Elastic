@@ -5,17 +5,38 @@ namespace Spameri\Elastic\Entity\Collection;
 
 abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElasticEntityCollection
 {
+
 	/**
 	 * @var \Spameri\Elastic\Entity\IElasticEntity[]
 	 */
-	private $collection;
+	protected $collection;
+	/**
+	 * @var \Spameri\Elastic\Model\IService
+	 */
+	private $service;
+	/**
+	 * @var array
+	 */
+	private $elasticIds;
+	/**
+	 * @var bool
+	 */
+	private $initialized;
 
 
 	public function __construct(
-		\Spameri\Elastic\Entity\IElasticEntity ... $entityCollection
+		\Spameri\Elastic\Model\IService $service
+		, array $elasticIds = NULL
+		, \Spameri\Elastic\Entity\IElasticEntity ... $entityCollection
 	)
 	{
 		$this->collection = [];
+		$this->service = $service;
+		$this->elasticIds = $elasticIds;
+		$this->initialized = FALSE;
+		if ( ! $elasticIds || (! $elasticIds && $entityCollection)) {
+			$this->initialized = TRUE;
+		}
 		foreach ($entityCollection as $elasticEntity) {
 			$this->add($elasticEntity);
 		}
@@ -26,11 +47,43 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 		\Spameri\Elastic\Entity\IElasticEntity $elasticEntity
 	) : void
 	{
+		if ( ! $this->initialized) {
+			$this->initialize();
+		}
+
 		if ($elasticEntity->id() instanceof \Spameri\Elastic\Entity\Property\ElasticId) {
 			$this->collection[$elasticEntity->id()->value()] = $elasticEntity;
 
 		} else {
 			$this->collection[] = $elasticEntity;
+		}
+	}
+
+
+	public function initialize() : void
+	{
+		if ($this->elasticIds) {
+			$entities = $this->service->getAllBy(
+				new \Spameri\ElasticQuery\ElasticQuery(
+					new \Spameri\ElasticQuery\Query\QueryCollection(
+						new \Spameri\ElasticQuery\Query\MustCollection(
+							new \Spameri\ElasticQuery\Query\Terms(
+								'_id',
+								$this->elasticIds
+							)
+						)
+					)
+				)
+			);
+
+			$this->initialized = TRUE;
+
+			foreach ($entities as $entity) {
+				$this->add($entity);
+			}
+
+		} else {
+			$this->initialized = TRUE;
 		}
 	}
 
@@ -43,6 +96,9 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 
 	public function getIterator(): \ArrayIterator
 	{
+		if ( ! $this->initialized) {
+			$this->initialize();
+		}
 		return new \ArrayIterator($this->collection);
 	}
 
@@ -51,6 +107,10 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 		\Spameri\Elastic\Entity\Property\IElasticId $id
 	) : ?\Spameri\Elastic\Entity\IElasticEntity
 	{
+		if ( ! $this->initialized) {
+			$this->initialize();
+		}
+
 		if ($id instanceof \Spameri\Elastic\Entity\Property\EmptyElasticId) {
 			return NULL;
 		}
@@ -67,6 +127,10 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 		\Spameri\Elastic\Entity\Property\IElasticId $id
 	) : void
 	{
+		if ( ! $this->initialized) {
+			$this->initialize();
+		}
+
 		unset($this->collection[$id->value()]);
 	}
 
@@ -75,18 +139,30 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 		\Spameri\Elastic\Entity\Property\IElasticId $id
 	) : bool
 	{
+		if ( ! $this->initialized) {
+			$this->initialize();
+		}
+
 		return \array_key_exists($id->value(), $this->collection);
 	}
 
 
 	public function count() : int
 	{
+		if ( ! $this->initialized) {
+			$this->initialize();
+		}
+
 		return \count($this->collection);
 	}
 
 
 	public function keys() : array
 	{
+		if ( ! $this->initialized) {
+			$this->initialize();
+		}
+
 		return \array_map('\strval', \array_keys($this->collection));
 	}
 
@@ -95,6 +171,10 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 		string $key
 	) : bool
 	{
+		if ( ! $this->initialized) {
+			$this->initialize();
+		}
+
 		return array_key_exists($key, \array_map('\strval', \array_keys($this->collection)));
 	}
 
@@ -110,6 +190,9 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 		string $type
 	) : void
 	{
+		if ( ! $this->initialized) {
+			$this->initialize();
+		}
 		if ( ! \in_array($type, ['asc', 'desc'], TRUE)) {
 			throw new \Nette\InvalidArgumentException('Not supported sorting method.');
 		}
