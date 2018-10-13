@@ -118,8 +118,6 @@ class ElasticMapper
 		} catch (\Elasticsearch\Common\Exceptions\Missing404Exception $exception) {
 
 		}
-
-		return NULL;
 	}
 
 }

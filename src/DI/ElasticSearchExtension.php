@@ -7,15 +7,18 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 {
 
 	public $defaults = [
-		'host' 	=> 'localhost',
-		'port' 	=> 9200,
-		'debug'	=> FALSE
+		'host' 		=> 'localhost',
+		'port' 		=> 9200,
+		'debug'		=> FALSE,
+		'entities' 	=> [],
 	];
 
 
 	public function loadConfiguration(): void
 	{
 		parent::loadConfiguration();
+
+		$config = \Nette\DI\Config\Helpers::merge($this->getConfig(), $this->defaults);
 
 		$builder = $this->getContainerBuilder();
 
@@ -24,6 +27,8 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 			$this->loadFromFile(__DIR__ . '/../Config/Elastic.neon'),
 			$this->name
 		);
+
+//		$builder->getByType();
 	}
 
 

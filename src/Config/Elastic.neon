@@ -37,7 +37,7 @@ services:
 		class: Spameri\Elastic\Model\Mapping
 
 	entitySettingsProvider:
-		class: Spameri\Elastic\Controls\EntityEdit\EntitySettingsProvider(%entities%)
+		class: Spameri\Elastic\Controls\EntityEdit\EntitySettingsProvider(@entities)
 
 
 #	- Spameri\Elastic\Controls\EntityEdit\IEntityEditControl
@@ -48,7 +48,7 @@ services:
 	neonSettingsProvider:
 		class: Spameri\Elastic\Settings\NeonSettingsProvider
 		setup:
-			- fromArray(%elasticSearch%)
+			- fromArray([@host, @port])
 
 	clientProvider:
 	 	class: Spameri\Elastic\ClientProvider
@@ -57,16 +57,17 @@ services:
 #	Commands
 #	###
 
-	createMapping:
-		class: Spameri\Elastic\Commands\CreateMapping(%entities%)
-		tags: [kdyby.console.command]
+#	createMapping:
+#		class: Spameri\Elastic\Commands\CreateMapping(@entities)
+#		tags: [kdyby.console.command]
+# TODO CREATE
 
 	updateMapping:
-		class: Spameri\Elastic\Commands\UpdateMapping(%entities%)
+		class: Spameri\Elastic\Commands\UpdateMapping(@entities)
 		tags: [kdyby.console.command]
 
 	setUpElasticCommand:
-		class: Spameri\Elastic\Commands\SetUpElasticCommand(%entities%)
+		class: Spameri\Elastic\Commands\SetUpElasticCommand(@entities)
 		tags: [kdyby.console.command]
 		# TODO DEPRECATED
 
