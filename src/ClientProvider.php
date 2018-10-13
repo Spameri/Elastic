@@ -41,6 +41,9 @@ class ClientProvider
 	}
 
 
+	/**
+	 * @throws \Elasticsearch\Common\Exceptions\ElasticsearchException
+	 */
 	public function client() : \Elasticsearch\Client
 	{
 		return $this->clientBuilder->build();

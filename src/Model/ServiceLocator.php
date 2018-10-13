@@ -27,9 +27,7 @@ class ServiceLocator
 		$entityName = \get_class($entity);
 		$serviceName = \str_replace('Entity', 'Model' , $entityName . 'Service');
 
-		/**
-		 * @var $service \Spameri\Elastic\Model\IService
-		 */
+		/** @var $service \Spameri\Elastic\Model\IService */
 		$service = $this->container->getByType($serviceName);
 
 		return $service;

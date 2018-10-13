@@ -1,25 +1,49 @@
 services:
-	- Spameri\Elastic\Generator\EntityBuilder
-	- Spameri\Elastic\Generator\FileBuilder
-	- Spameri\Elastic\Generator\ServiceBuilder
+#	spameri.elasticMapper: TODO PREFIX VIABLE?
+	elasticMapper:
+	 	class: Spameri\Elastic\Mapper\ElasticMapper
 
-	- Spameri\Elastic\Mapper\ElasticMapper
+	insert:
+		class: Spameri\Elastic\Model\Insert
 
-	- Spameri\Elastic\Model\Insert
-	- Spameri\Elastic\Model\InsertMultiple
-	- Spameri\Elastic\Model\Insert\PrepareEntityArray
-	- Spameri\Elastic\Model\Insert\ApplyTimestamp
-	- Spameri\Elastic\Model\Get
-	- Spameri\Elastic\Model\GetBy
-	- Spameri\Elastic\Model\GetAllBy
-	- Spameri\Elastic\Model\Delete
-	- Spameri\Elastic\Model\DeleteMultiple
-	- Spameri\Elastic\Model\ServiceLocator
-	- Spameri\Elastic\Model\Mapping
+	insertMultiple:
+		class: Spameri\Elastic\Model\InsertMultiple
 
-	- Spameri\Elastic\Controls\EntityEdit\EntitySettingsProvider(%entities%)
-	- Spameri\Elastic\Controls\EntityEdit\IEntityEditControl
-	- Spameri\Elastic\Model\UserProvider
+	prepareEntityArray:
+		class: Spameri\Elastic\Model\Insert\PrepareEntityArray
+
+	applyTimestamp:
+		class: Spameri\Elastic\Model\Insert\ApplyTimestamp
+
+	get:
+		class: Spameri\Elastic\Model\Get
+
+	getBy:
+		class: Spameri\Elastic\Model\GetBy
+
+	getAllBy:
+		class: Spameri\Elastic\Model\GetAllBy
+
+	delete:
+		class: Spameri\Elastic\Model\Delete
+
+	deleteMultiple:
+		class: Spameri\Elastic\Model\DeleteMultiple
+
+	serviceLocator:
+		class: Spameri\Elastic\Model\ServiceLocator
+
+	mapping:
+		class: Spameri\Elastic\Model\Mapping
+
+	entitySettingsProvider:
+		class: Spameri\Elastic\Controls\EntityEdit\EntitySettingsProvider(%entities%)
+
+
+#	- Spameri\Elastic\Controls\EntityEdit\IEntityEditControl
+
+	userProvider:
+	 	class: Spameri\Elastic\Model\UserProvider
 
 	neonSettingsProvider:
 		class: Spameri\Elastic\Settings\NeonSettingsProvider
@@ -33,18 +57,24 @@ services:
 #	Commands
 #	###
 
-	-
-		class: Spameri\Elastic\Commands\CreateEntityCommand(%entities%)
+	createMapping:
+		class: Spameri\Elastic\Commands\CreateMapping(%entities%)
 		tags: [kdyby.console.command]
-	-
-		class: Spameri\Elastic\Commands\SetUpElasticCommand(%entities%)
-		tags: [kdyby.console.command]
-	-
+
+	updateMapping:
 		class: Spameri\Elastic\Commands\UpdateMapping(%entities%)
 		tags: [kdyby.console.command]
+
+	setUpElasticCommand:
+		class: Spameri\Elastic\Commands\SetUpElasticCommand(%entities%)
+		tags: [kdyby.console.command]
+		# TODO DEPRECATED
 
 #	###
 #	Elastic/Elastic
 #	###
 
-	- Elasticsearch\ClientBuilder
+	clientBuilder:
+	 	class: Elasticsearch\ClientBuilder
+
+

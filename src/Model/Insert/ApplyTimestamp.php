@@ -12,14 +12,14 @@ class ApplyTimestamp
 	protected $userProvider;
 
 	/**
-	 * @var \Kdyby\Clock\IDateTimeProvider
+	 * @var \Kdyby\DateTimeProvider\Provider\ConstantProvider
 	 */
 	protected $dateTimeProvider;
 
 
 	public function __construct(
 		\Spameri\Elastic\Model\UserProvider $userProvider
-		, \Kdyby\Clock\IDateTimeProvider $dateTimeProvider
+		, \Kdyby\DateTimeProvider\Provider\ConstantProvider $dateTimeProvider
 	)
 	{
 		$this->userProvider = $userProvider;

@@ -1,5 +1,22 @@
 {
 	"name": "spameri/elastic",
+    "type": "library",
+    "description": "ElasticSearch for Nette Framework",
+    "keywords": [
+        "nette",
+        "spameri",
+        "elastic",
+        "elasticsearch"
+    ],
+    "homepage": "http://github.com/spameri",
+    "license": [
+        "BSD-3-Clause",
+        "GPL-2.0",
+        "GPL-3.0"
+    ],
+    "support": {
+        "issues": "https://github.com/spameri/elastic/issues"
+    },
 	"authors": [
 		{
 			"name": "VBoss",
@@ -13,10 +30,12 @@
 	},
 	"require": {
 		"spameri/elastic-query": "dev-master",
-		"elasticsearch/elasticsearch": "6.0.*"
+		"elasticsearch/elasticsearch": "v6.4.2",
+        "kdyby/console": "v2.7.1",
+        "kdyby/datetime-provider": "v1.0.0"
 	},
 	"require-dev": {
-		"nette/tester": "2.0.*",
-		"phpstan/phpstan-shim": "0.9.*"
+		"nette/tester": "2.1.*",
+		"phpstan/phpstan-shim": "0.10.*"
 	}
 }

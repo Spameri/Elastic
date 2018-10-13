@@ -9,16 +9,17 @@ class ElasticMapper
 	/**
 	 * @var \Spameri\Elastic\ClientProvider
 	 */
-	protected $clientProvider;
+	private $clientProvider;
+
 	/**
-	 * @var \Kdyby\Clock\IDateTimeProvider
+	 * @var \Kdyby\DateTimeProvider\Provider\ConstantProvider
 	 */
-	protected $constantProvider;
+	private $constantProvider;
 
 
 	public function __construct(
 		\Spameri\Elastic\ClientProvider $clientProvider
-		, \Kdyby\Clock\IDateTimeProvider $constantProvider
+		, \Kdyby\DateTimeProvider\Provider\ConstantProvider $constantProvider
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -27,8 +28,7 @@ class ElasticMapper
 
 
 	/**
-	 * @param array $entity
-	 * @throws \Exception
+	 * @throws \Elasticsearch\Common\Exceptions\ElasticsearchException
 	 */
 	public function createMapping($entity) : void
 	{
@@ -48,7 +48,7 @@ class ElasticMapper
 
 
 	/**
-	 * @throws \Exception
+	 * @throws \Elasticsearch\Common\Exceptions\ElasticsearchException
 	 */
 	public function createIndex(array $entity) : void
 	{
@@ -94,7 +94,7 @@ class ElasticMapper
 	}
 
 
-	public function deleteIndex(array $entity)
+	public function deleteIndex(array $entity): void
 	{
 		try {
 			/** @var array $indexes */
@@ -121,4 +121,5 @@ class ElasticMapper
 
 		return NULL;
 	}
+
 }
