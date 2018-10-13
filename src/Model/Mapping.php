@@ -38,6 +38,7 @@ class Mapping
 
 	}
 
+
 	public function compareMappings(
 		$newMappings,
 		$existingMappings,
@@ -47,18 +48,22 @@ class Mapping
 		if (isset($entityMappings['properties'])) {
 			foreach ($entityMappings['properties'] as $key => $entityMapping) {
 				if ( ! isset($existingMappings['properties'][$key])) {
-					$newMappings['properties'] = $entityMapping['properties'];
+					$newMappings['properties'][$key] = $entityMapping['properties'];
 
 				} else {
-					$newMappings[$key] = $this->compareMappings(
+					$comparedMapping = $this->compareMappings(
 						$newMappings,
 						$existingMappings['properties'][$key],
 						$entityMapping
 					);
+
+					if ($comparedMapping) {
+						$newMappings[$key] = $comparedMapping;
+					}
 				}
 			}
 		}
-		// TODO špatně skládá hloubku
+
 		return $newMappings;
 	}
 

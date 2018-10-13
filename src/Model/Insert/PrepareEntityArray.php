@@ -63,10 +63,15 @@ class PrepareEntityArray
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\IElasticEntityCollection) {
 				$preparedArray[$key] = [];
-				/** @var \Spameri\Elastic\Entity\IElasticEntity $item */
-				/** @var \Spameri\Elastic\Entity\IElasticEntityCollection $property */
-				foreach ($property as $itemKey => $item) {
-					$preparedArray[$key][] = $this->serviceLocator->locate($item)->insert($item);
+				if ( ! $property->initialized()) {
+					$preparedArray[$key] = $property->elasticIds();
+
+				} else {
+					/** @var \Spameri\Elastic\Entity\IElasticEntity $item */
+					/** @var \Spameri\Elastic\Entity\IElasticEntityCollection $property */
+					foreach ($property as $itemKey => $item) {
+						$preparedArray[$key][] = $this->serviceLocator->locate($item)->insert($item);
+					}
 				}
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\IValueCollection) {

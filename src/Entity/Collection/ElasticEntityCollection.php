@@ -88,6 +88,18 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 	}
 
 
+	public function initialized() : bool
+	{
+		return $this->initialized;
+	}
+
+
+	public function elasticIds() : array
+	{
+		return $this->elasticIds;
+	}
+
+
 	protected function collection() : array
 	{
 		return $this->collection;

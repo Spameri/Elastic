@@ -35,6 +35,12 @@ interface IElasticEntityCollection extends \IteratorAggregate
 	public function clear() : void;
 
 
+	public function initialized() : bool;
+
+
+	public function elasticIds() : array;
+
+
 	public function sort(
 		\Spameri\Elastic\Model\Collection\SortField $sortField,
 		string $type
