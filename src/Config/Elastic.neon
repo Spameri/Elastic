@@ -1,5 +1,4 @@
 services:
-#	spameri.elasticMapper: TODO PREFIX VIABLE?
 	elasticMapper:
 	 	class: Spameri\Elastic\Mapper\ElasticMapper
 
@@ -38,9 +37,6 @@ services:
 
 	entitySettingsProvider:
 		class: Spameri\Elastic\Controls\EntityEdit\EntitySettingsProvider(%entities%)
-
-
-#	- Spameri\Elastic\Controls\EntityEdit\IEntityEditControl
 
 	userProvider:
 	 	class: Spameri\Elastic\Model\UserProvider

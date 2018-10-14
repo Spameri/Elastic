@@ -11,6 +11,75 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 		'port' 		=> 9200,
 		'debug'		=> FALSE,
 		'entities' 	=> [],
+		'settings' 	=> [
+			'analysis' => [
+				'analyzer' => [
+					'czechStemmer' => [
+						'tokenizer' => 'standard',
+						'filter' 	=> [
+							'lowercase',
+							'stopWords_CZ',
+							'stemmer_CZ',
+							'removeDuplicities',
+							'asciifolding',
+						],
+					],
+					'czechDictionary' => [
+						'tokenizer' => 'standard',
+						'filter' => [
+							'lowercase',
+							'stopWords_CZ',
+							'dictionary_CZ',
+							'lowercase',
+							'stopWords_CZ',
+							'removeDuplicities',
+							'asciifolding',
+						],
+					],
+					'synonym' => [
+						'tokenizer' => 'standard',
+						'filter' => [
+							'lowercase',
+							'synonym',
+							'lowercase',
+							'stopWords_CZ',
+							'removeDuplicities',
+							'asciifolding',
+						],
+					],
+				],
+			],
+			'tokenizer' => [],
+			'filter' => [
+				'stopWords_CZ' => [
+					'type' => 'stop',
+					'stopwords' => [
+						'právě',
+						'že',
+						'_czech_',
+					],
+					'ignore_case' => TRUE,
+				],
+				'dictionary_CZ' => [
+					'type' => 'hunspell',
+					'locale' => 'cs_CZ',
+					'dedup' => TRUE,
+					'recursion_level' => 0,
+				],
+				'removeDuplicities' => [
+					'type' => 'unique',
+					'only_on_same_position' => TRUE,
+				],
+				'synonym' => [
+					'type' => 'synonym',
+					'synonyms_path' => '',
+				],
+				'stemmer_CZ' => [
+					'type' => 'stemmer',
+					'name' => 'Czech',
+				],
+			],
+		],
 	];
 
 
