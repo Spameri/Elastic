@@ -7,20 +7,28 @@ class NeonSettingsProvider implements \Spameri\Elastic\SettingsProviderInterface
 {
 
 	/**
+	 * @var string
+	 */
+	private $host;
+	/**
+	 * @var int
+	 */
+	private $port;
+	/**
 	 * @var array
 	 */
-	private $parameters;
+	private $headers;
 
 
-	public function fromArray(array $parameters) : void
+	public function __construct(
+		string $host,
+		int $port,
+		array $headers = []
+	)
 	{
-		$this->parameters = $parameters;
-	}
-
-
-	public function fromFile(string $file) : void
-	{
-		$this->parameters = \Nette\Neon\Neon::decode($file);
+		$this->host = $host;
+		$this->port = $port;
+		$this->headers = $headers;
 	}
 
 
@@ -29,18 +37,10 @@ class NeonSettingsProvider implements \Spameri\Elastic\SettingsProviderInterface
 	 */
 	public function provide() : \Spameri\Elastic\Settings
 	{
-		if ( ! $this->parameters) {
-			throw new \RuntimeException(
-				'Settings from neon was not set, please initialize parameters with function '
-						. '`' . \Spameri\Elastic\Settings\NeonSettingsProvider::class . '::fromArray` or '
-						. '`' . \Spameri\Elastic\Settings\NeonSettingsProvider::class . '::fromFile`'
-			);
-		}
-
 		return new \Spameri\Elastic\Settings(
-			$this->parameters['host'],
-			$this->parameters['port'],
-			$this->parameters['headers'] ?? []
+			$this->host,
+			$this->port,
+			$this->headers
 		);
 	}
 

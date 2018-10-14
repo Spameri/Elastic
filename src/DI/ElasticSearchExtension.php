@@ -22,13 +22,28 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 
 		$builder = $this->getContainerBuilder();
 
+		$services = $this->loadFromFile(__DIR__ . '/../Config/Elastic.neon');
+
+		/** @var \Nette\DI\Statement $entitySettingsProvider */
+		$entitySettingsProvider = $services['services']['entitySettingsProvider']['class'];
+		$entitySettingsProvider->arguments[0] = $config['entities'];
+
+		$updateMapping = $services['services']['updateMapping']['class'];
+		$updateMapping->arguments[0] = $config['entities'];
+
+		$setUpElasticCommand = $services['services']['setUpElasticCommand']['class'];
+		$setUpElasticCommand->arguments[0] = $config['entities'];
+
+		$neonSettingsProvider = $services['services']['neonSettingsProvider']['class'];
+		$neonSettingsProvider->arguments[0] = $config['host'];
+		$neonSettingsProvider->arguments[1] = $config['port'];
+
+
 		$this->compiler->parseServices(
 			$builder,
-			$this->loadFromFile(__DIR__ . '/../Config/Elastic.neon'),
+			$services,
 			$this->name
 		);
-
-//		$builder->getByType();
 	}
 
 

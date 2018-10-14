@@ -32,7 +32,8 @@
 		"spameri/elastic-query": "dev-master",
 		"elasticsearch/elasticsearch": "^6.0",
         "kdyby/console": "v2.7.1",
-        "kdyby/datetime-provider": "v1.0.0"
+        "kdyby/datetime-provider": "v1.0.0",
+        "kdyby/monolog": "v1.3.2"
 	},
 	"require-dev": {
 		"nette/tester": "2.1.*",
