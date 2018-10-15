@@ -1,23 +1,11 @@
 
-# Elastic
-Fetching data from ElasticSearch, examples, tests.
+# ElasticSearch implementation in Nette framework
+Fetching data from ElasticSearch, filtering, aggregation and more.
 
-Why ODM?
-Ne protože je rychlé.
-Ne protože dělá správné dotazy do ElasticSearche.
-Ale protože pracuje s objekty. Dotaz do elasticu je typovaný objekt, 
-návratová hodnota z elasticu je typovaný objekt, mapovaný na postkynutou strukturu entit.
+## Why this library?
+Not because of speed, coolness, scalability.
+This is here because queries are typed objects. Hopefully easy to understand and true to ElasticSearch great documentation.
+Documents in ElasticSearch are typed objects.
+Responce is mapped on typed objects.
 
-## Typy objektů
-
-- IElasticEntity, Entita která se persistuje do elasticu, lze na ni dělat vazby
-- IEntity, Entita která obsahuje další strukturu objektu
-- IValue, Konkrétní konečná hodnota, obsahuje pouze jednu hodnotu
-
-### Kolekce
-
-- IElasticEntityCollection, extend z \Spameri\Elastic\Entity\Collection\ElasticEntityCollection
-- IEntityCollection, extend z \Spameri\Elastic\Entity\Collection\EntityCollection
-- IValueCollection
-
-
+[Documentation](./doc/01_intro.md)
