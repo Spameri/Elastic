@@ -67,6 +67,11 @@ services:
 		class: Spameri\Elastic\Commands\UpdateMapping(%entities%)
 		tags: [kdyby.console.command]
 
+#	validateMapping:
+#		class: Spameri\Elastic\Commands\ValidateMapping(%entities%)
+#		tags: [kdyby.console.command]
+# TODO VALIDATE
+
 	setUpElasticCommand:
 		class: Spameri\Elastic\Commands\SetUpElasticCommand(%entities%)
 		tags: [kdyby.console.command]
