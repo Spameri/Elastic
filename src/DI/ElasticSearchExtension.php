@@ -107,7 +107,15 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 		if ( ! $config['debug']) {
 			unset($services['tracy']);
 			unset($services['services']['elasticPanelLogger']);
+			unset($services['services']['nullLogger']);
+			unset($services['services']['elasticPanel']);
 			unset($services['services']['clientBuilder']['setup']);
+
+		} else {
+			$builder
+				->getDefinition('tracy.bar')
+				->addSetup('addPanel', ['@' . $this->prefix('elasticPanel')])
+			;
 		}
 
 		$this->setConfigOptions($services, $config);
