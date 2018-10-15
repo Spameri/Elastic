@@ -1,3 +1,7 @@
+tracy:
+	bar:
+		- Spameri\Elastic\Diagnostics\Panel
+
 services:
 	elasticMapper:
 	 	class: Spameri\Elastic\Mapper\ElasticMapper
@@ -47,6 +51,9 @@ services:
 	clientProvider:
 	 	class: Spameri\Elastic\ClientProvider
 
+	elasticPanelLogger:
+		class: Spameri\Elastic\Diagnostics\PanelLogger
+
 #	###
 #	Commands
 #	###
@@ -71,6 +78,8 @@ services:
 
 	clientBuilder:
 	 	class: Elasticsearch\ClientBuilder
+	 	setup:
+	 		- setLogger(@elasticPanelLogger)
 
 	constantProvider:
 		class: Kdyby\DateTimeProvider\Provider\ConstantProvider(new \DateTimeImmutable)

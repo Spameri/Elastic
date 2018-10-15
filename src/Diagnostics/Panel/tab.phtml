@@ -1,0 +1,9 @@
+<?php
+
+namespace Spameri\Elastic\Diagnostics\Panel;
+
+?>
+<span title="ElasticSearch">
+<img src="data:image/png;base64,<?= base64_encode(file_get_contents(__DIR__ . '/logo-elastic.svg')) ?>"/>
+	<?= count($queries) ?> queries / <?= sprintf('%0.1f', $queriesDuration * 1000) ?>ms
+</span>

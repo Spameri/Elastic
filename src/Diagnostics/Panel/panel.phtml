@@ -1,0 +1,78 @@
+<?php
+
+namespace Spameri\Elastic\Diagnostics\Panel;
+
+?>
+<style>
+	#nette-debug .elasticSearchPanel-method { font-weight: bold; }
+
+	#nette-debug .elasticSearchPanel-error { font-size: xx-small; }
+</style>
+<h1>
+	Elastic queries:
+	<?= count($queries) ?> queries / <?= sprintf('%0.1f', $queriesDuration * 1000) ?>ms
+</h1>
+<div class="nette-inner elasticSearchPanel">
+	<table>
+		<thead>
+		<tr>
+			<?php foreach ($queriesHeader as $header): ?>
+				<th class="elasticSearchPanel-<?= $header ?>">
+					<?= $header; ?>
+				</th>
+			<?php endforeach; ?>
+			<th>Request</th>
+			<th>Request string</th>
+			<th>Response</th>
+		</tr>
+		</thead>
+		<tbody>
+		<?php foreach ($queries as $key => $query): ?>
+			<tr>
+				<?php foreach ($queriesHeader as $header): ?>
+					<?php
+					$value = isset($query[$header]) ? $query[$header] : NULL;
+					if ($header === 'duration' && $value !== NULL) {
+						$value = sprintf('%0.1f', $value * 1000) . 'ms';
+					}
+					if ( ! is_scalar($value)) {
+						$value = json_encode($value);
+					}
+					?>
+					<td class="elasticSearchPanel-<?= $header ?>">
+						<?= $value ?>
+					</td>
+				<?php endforeach; ?>
+				<td>
+					<span class="tracy-toggle tracy-collapsed">
+						<span class="tracy-dump-object">Show</span>
+					</span>
+					<div class="tracy-collapsed">
+						<?= \Tracy\Dumper::toHtml(\json_decode($requestBodies[$key][0]), [
+							\Tracy\Dumper::DEPTH => 30,
+						]); ?>
+					</div>
+				</td>
+				<td>
+					<span class="tracy-toggle tracy-collapsed">
+						<span class="tracy-dump-object">Show</span>
+					</span>
+					<div class="tracy-collapsed">
+						<?= $requestBodies[$key][0]; ?>
+					</div>
+				</td>
+				<td>
+					<span class="tracy-toggle tracy-collapsed">
+						<span class="tracy-dump-object">Show</span>
+					</span>
+					<div class="tracy-collapsed">
+						<?= \Tracy\Dumper::toHtml($responseBodies[$key][0], [
+							\Tracy\Dumper::DEPTH => 30,
+						]); ?>
+					</div>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
+</div>

@@ -10,10 +10,19 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 		'host' 		=> 'localhost',
 		'port' 		=> 9200,
 		'debug'		=> FALSE,
+		'synonymPath' => NULL,
 		'entities' 	=> [],
 		'settings' 	=> [
 			'analysis' => [
 				'analyzer' => [
+					'defaultAnalyzer' => [
+						'tokenizer' => 'standard',
+						'filter' => [
+							'lowercase',
+							'removeDuplicities',
+							'asciifolding',
+						],
+					],
 					'czechStemmer' => [
 						'tokenizer' => 'standard',
 						'filter' 	=> [
@@ -36,7 +45,7 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 							'asciifolding',
 						],
 					],
-					'synonym' => [
+					'czechSynonym' => [
 						'tokenizer' => 'standard',
 						'filter' => [
 							'lowercase',
@@ -89,24 +98,19 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 
 		$config = \Nette\DI\Config\Helpers::merge($this->getConfig(), $this->defaults);
 
+		$config = $this->toggleSynonymAnalyzer($config);
+
 		$builder = $this->getContainerBuilder();
 
 		$services = $this->loadFromFile(__DIR__ . '/../Config/Elastic.neon');
 
-		/** @var \Nette\DI\Statement $entitySettingsProvider */
-		$entitySettingsProvider = $services['services']['entitySettingsProvider']['class'];
-		$entitySettingsProvider->arguments[0] = $config['entities'];
+		if ( ! $config['debug']) {
+			unset($services['tracy']);
+			unset($services['services']['elasticPanelLogger']);
+			unset($services['services']['clientBuilder']['setup']);
+		}
 
-		$updateMapping = $services['services']['updateMapping']['class'];
-		$updateMapping->arguments[0] = $config['entities'];
-
-		$setUpElasticCommand = $services['services']['setUpElasticCommand']['class'];
-		$setUpElasticCommand->arguments[0] = $config['entities'];
-
-		$neonSettingsProvider = $services['services']['neonSettingsProvider']['class'];
-		$neonSettingsProvider->arguments[0] = $config['host'];
-		$neonSettingsProvider->arguments[1] = $config['port'];
-
+		$this->setConfigOptions($services, $config);
 
 		$this->compiler->parseServices(
 			$builder,
@@ -126,6 +130,41 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 		) {
 			$compiler->addExtension('elasticSearch', new ElasticSearchExtension());
 		};
+	}
+
+
+	public function toggleSynonymAnalyzer(array $config): array
+	{
+		if ( ! $config['synonymPath']) {
+			unset($config['settings']['analysis']['analyzer']['czechSynonym']);
+			unset($config['settings']['filter']['synonym']);
+
+		} else {
+			$config['settings']['filter']['synonym']['synonyms_path'] = $config['synonymPath'];
+		}
+
+		return $config;
+	}
+
+
+	public function setConfigOptions(
+		array $services,
+		array $config
+	): void
+	{
+		/** @var \Nette\DI\Statement $entitySettingsProvider */
+		$entitySettingsProvider = $services['services']['entitySettingsProvider']['class'];
+		$entitySettingsProvider->arguments[0] = $config['entities'];
+
+		$updateMapping = $services['services']['updateMapping']['class'];
+		$updateMapping->arguments[0] = $config['entities'];
+
+		$setUpElasticCommand = $services['services']['setUpElasticCommand']['class'];
+		$setUpElasticCommand->arguments[0] = $config['entities'];
+
+		$neonSettingsProvider = $services['services']['neonSettingsProvider']['class'];
+		$neonSettingsProvider->arguments[0] = $config['host'];
+		$neonSettingsProvider->arguments[1] = $config['port'];
 	}
 
 }

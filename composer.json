@@ -29,14 +29,16 @@
 		}
 	},
 	"require": {
+	  	"php": ">=7.1",
 		"spameri/elastic-query": "dev-master",
 		"elasticsearch/elasticsearch": "^6.0",
         "kdyby/console": "v2.7.1",
         "kdyby/datetime-provider": "v1.0.0",
-        "kdyby/monolog": "v1.3.2"
+        "kdyby/monolog": "v1.3.2",
+	  	"tracy/tracy": "v2.5.3"
 	},
 	"require-dev": {
-		"nette/tester": "2.1.*",
-		"phpstan/phpstan-shim": "0.10.*"
+		"nette/tester": "2.1.0",
+		"phpstan/phpstan-shim": "0.10.3"
 	}
 }
