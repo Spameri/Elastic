@@ -100,28 +100,14 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 
 		$config = $this->toggleSynonymAnalyzer($config);
 
-		$builder = $this->getContainerBuilder();
-
 		$services = $this->loadFromFile(__DIR__ . '/../Config/Elastic.neon');
 
-		if ( ! $config['debug']) {
-			unset($services['tracy']);
-			unset($services['services']['elasticPanelLogger']);
-			unset($services['services']['nullLogger']);
-			unset($services['services']['elasticPanel']);
-			unset($services['services']['clientBuilder']['setup']);
-
-		} else {
-			$builder
-				->getDefinition('tracy.bar')
-				->addSetup('addPanel', ['@' . $this->prefix('elasticPanel')])
-			;
-		}
+		$services = $this->toggleDebugBar($config, $services);
 
 		$this->setConfigOptions($services, $config);
 
 		$this->compiler->parseServices(
-			$builder,
+			$this->getContainerBuilder(),
 			$services,
 			$this->name
 		);
@@ -173,6 +159,29 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 		$neonSettingsProvider = $services['services']['neonSettingsProvider']['class'];
 		$neonSettingsProvider->arguments[0] = $config['host'];
 		$neonSettingsProvider->arguments[1] = $config['port'];
+	}
+
+
+	public function toggleDebugBar(
+		array $config,
+		array $services
+	): array
+	{
+		if ( ! $config['debug']) {
+			unset($services['tracy']);
+			unset($services['services']['elasticPanelLogger']);
+			unset($services['services']['nullLogger']);
+			unset($services['services']['elasticPanel']);
+			unset($services['services']['clientBuilder']['setup']);
+
+		} else {
+			$this->getContainerBuilder()
+				->getDefinition('tracy.bar')
+				->addSetup('addPanel', ['@' . $this->prefix('elasticPanel')])
+			;
+		}
+
+		return $services;
 	}
 
 }
