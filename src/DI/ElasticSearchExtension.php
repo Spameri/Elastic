@@ -153,8 +153,8 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 		$updateMapping = $services['services']['updateMapping']['class'];
 		$updateMapping->arguments[0] = $config['entities'];
 
-		$setUpElasticCommand = $services['services']['setUpElasticCommand']['class'];
-		$setUpElasticCommand->arguments[0] = $config['entities'];
+		$createMapping = $services['services']['createMapping']['class'];
+		$createMapping->arguments[0] = $config['entities'];
 
 		$neonSettingsProvider = $services['services']['neonSettingsProvider']['class'];
 		$neonSettingsProvider->arguments[0] = $config['host'];

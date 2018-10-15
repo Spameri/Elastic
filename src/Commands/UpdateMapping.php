@@ -42,6 +42,8 @@ class UpdateMapping extends \Symfony\Component\Console\Command\Command
 		\Symfony\Component\Console\Output\OutputInterface $output
 	)
 	{
+		throw new \Nette\NotImplementedException('This command is not implemented');
+
 		$entityName = $input->getArgument('entityName');
 
 		$this->mapping->updateMapping($this->entities[$entityName]);

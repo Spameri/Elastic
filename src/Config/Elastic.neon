@@ -60,10 +60,9 @@ services:
 #	Commands
 #	###
 
-#	createMapping:
-#		class: Spameri\Elastic\Commands\CreateMapping(%entities%)
-#		tags: [kdyby.console.command]
-# TODO CREATE
+	createMapping:
+		class: Spameri\Elastic\Commands\CreateMapping(%entities%)
+		tags: [kdyby.console.command]
 
 	updateMapping:
 		class: Spameri\Elastic\Commands\UpdateMapping(%entities%)
@@ -73,11 +72,6 @@ services:
 #		class: Spameri\Elastic\Commands\ValidateMapping(%entities%)
 #		tags: [kdyby.console.command]
 # TODO VALIDATE
-
-	setUpElasticCommand:
-		class: Spameri\Elastic\Commands\SetUpElasticCommand(%entities%)
-		tags: [kdyby.console.command]
-		# TODO DEPRECATED
 
 #	###
 #	Elastic/Elastic
