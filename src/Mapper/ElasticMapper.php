@@ -30,12 +30,15 @@ class ElasticMapper
 	/**
 	 * @throws \Elasticsearch\Common\Exceptions\ElasticsearchException
 	 */
-	public function createMapping($entity) : void
+	public function createMapping(
+		array $entity,
+		string $indexName
+	) : void
 	{
 		$this->clientProvider->client()->indices()->putMapping(
 			(
 				new \Spameri\ElasticQuery\Document(
-					$entity['index'],
+					$indexName,
 					new \Spameri\ElasticQuery\Document\Body\Plain([
 						'dynamic' => $entity['dynamic'],
 						'properties' => $entity['properties'],
@@ -70,6 +73,7 @@ class ElasticMapper
 					)
 				)->toArray()
 			);
+			$this->createMapping($entity, $indexName);
 			$this->clientProvider->client()->indices()->putAlias(
 				(
 					new \Spameri\ElasticQuery\Document(
@@ -94,14 +98,16 @@ class ElasticMapper
 	}
 
 
-	public function deleteIndex(array $entity): void
+	public function deleteIndex(
+		string $indexName
+	): void
 	{
 		try {
 			/** @var array $indexes */
 			$indexes = $this->clientProvider->client()->indices()->get(
 				(
 					new \Spameri\ElasticQuery\Document(
-						$entity['index']
+						$indexName
 					)
 				)->toArray()
 			);

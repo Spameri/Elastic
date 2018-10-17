@@ -3,7 +3,7 @@
 namespace Spameri\Elastic\Commands;
 
 
-class UpdateMapping extends \Symfony\Component\Console\Command\Command
+class UpdateIndex extends \Symfony\Component\Console\Command\Command
 {
 
 	/**
@@ -30,8 +30,8 @@ class UpdateMapping extends \Symfony\Component\Console\Command\Command
 	protected function configure() : void
 	{
 		$this
-			->setName('spameri:elastic:update-mapping')
-			->setDescription('Updates mapping for entity.')
+			->setName('spameri:elastic:update-index')
+			->setDescription('Updates mapping in index for entity.')
 			->addArgument('entityName')
 		;
 	}

@@ -60,12 +60,16 @@ services:
 #	Commands
 #	###
 
-	createMapping:
-		class: Spameri\Elastic\Commands\CreateMapping(%entities%)
+	createIndex:
+		class: Spameri\Elastic\Commands\CreateIndex(%entities%)
 		tags: [kdyby.console.command]
 
-	updateMapping:
-		class: Spameri\Elastic\Commands\UpdateMapping(%entities%)
+	updateIndex:
+		class: Spameri\Elastic\Commands\UpdateIndex(%entities%)
+		tags: [kdyby.console.command]
+
+	deleteIndex:
+		class: Spameri\Elastic\Commands\DeleteIndex
 		tags: [kdyby.console.command]
 
 #	validateMapping:
@@ -83,4 +87,7 @@ services:
 	 		- setLogger(@elasticSearch.elasticPanelLogger)
 
 	constantProvider:
-		class: Kdyby\DateTimeProvider\Provider\ConstantProvider(new \DateTimeImmutable)
+		class: Kdyby\DateTimeProvider\Provider\ConstantProvider(@elasticSearch.dateTime)
+
+	dateTime:
+		class: \DateTimeImmutable

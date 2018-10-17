@@ -99,6 +99,7 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 		$config = \Nette\DI\Config\Helpers::merge($this->getConfig(), $this->defaults);
 
 		$config = $this->toggleSynonymAnalyzer($config);
+		$this->compiler->getContainerBuilder()->parameters['elasticSearch'] = $config;
 
 		$services = $this->loadFromFile(__DIR__ . '/../Config/Elastic.neon');
 
@@ -150,11 +151,11 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 		$entitySettingsProvider = $services['services']['entitySettingsProvider']['class'];
 		$entitySettingsProvider->arguments[0] = $config['entities'];
 
-		$updateMapping = $services['services']['updateMapping']['class'];
-		$updateMapping->arguments[0] = $config['entities'];
+		$updateIndex = $services['services']['updateIndex']['class'];
+		$updateIndex->arguments[0] = $config['entities'];
 
-		$createMapping = $services['services']['createMapping']['class'];
-		$createMapping->arguments[0] = $config['entities'];
+		$createIndex = $services['services']['createIndex']['class'];
+		$createIndex->arguments[0] = $config['entities'];
 
 		$neonSettingsProvider = $services['services']['neonSettingsProvider']['class'];
 		$neonSettingsProvider->arguments[0] = $config['host'];

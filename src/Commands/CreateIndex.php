@@ -3,7 +3,7 @@
 namespace Spameri\Elastic\Commands;
 
 
-class CreateMapping extends \Symfony\Component\Console\Command\Command
+class CreateIndex extends \Symfony\Component\Console\Command\Command
 {
 
 	/**
@@ -30,8 +30,8 @@ class CreateMapping extends \Symfony\Component\Console\Command\Command
 	protected function configure() : void
 	{
 		$this
-			->setName('spameri:elastic:create-mapping')
-			->setDescription('Creates mapping for entity/ies.')
+			->setName('spameri:elastic:create-index')
+			->setDescription('Creates index and puts mapping for entity/ies.')
 			->addArgument('entityName', \Symfony\Component\Console\Input\InputArgument::OPTIONAL)
 			->addOption('force', 'f', NULL, 'Warning this deletes your data! Forces now used index to be deleted before new index is created and mapping set.')
 		;
@@ -49,16 +49,16 @@ class CreateMapping extends \Symfony\Component\Console\Command\Command
 
 		if ($entityName) {
 			if ($forcedDelete) {
-				$this->elasticMapper->deleteIndex($this->entities[$entityName]);
+				$this->elasticMapper->deleteIndex($this->entities[$entityName]['index']);
 			}
 			$this->elasticMapper->createIndex($this->entities[$entityName]);
 
 		} else {
 			foreach ($this->entities as $entity) {
 				if ($forcedDelete) {
-					$this->elasticMapper->deleteIndex($entity);
+					$this->elasticMapper->deleteIndex($entity['index']);
 				}
-				$this->elasticMapper->createMapping($entity);
+				$this->elasticMapper->createIndex($entity);
 			}
 		}
 	}
