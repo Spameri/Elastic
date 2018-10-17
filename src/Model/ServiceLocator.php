@@ -32,4 +32,18 @@ class ServiceLocator
 
 		return $service;
 	}
+
+
+	public function locateByEntityClass(
+		string $entityClass
+	) : \Spameri\Elastic\Model\IService
+	{
+		$serviceName = \str_replace('Entity', 'Model', $entityClass . 'Service');
+
+		/** @var $service \Spameri\Elastic\Model\IService */
+		$service = $this->container->getByType($serviceName);
+
+		return $service;
+	}
+
 }
