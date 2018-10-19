@@ -48,7 +48,7 @@ namespace Spameri\Elastic\Diagnostics\Panel;
 						<span class="tracy-dump-object">Show</span>
 					</span>
 					<div class="tracy-collapsed">
-						<?= \Tracy\Dumper::toHtml(\json_decode($requestBodies[$key][0]), [
+						<?= \Tracy\Dumper::toHtml(\json_decode($requestBodies[$key][0] ?? []), [
 							\Tracy\Dumper::DEPTH => 30,
 						]); ?>
 					</div>
@@ -66,7 +66,7 @@ namespace Spameri\Elastic\Diagnostics\Panel;
 						<span class="tracy-dump-object">Show</span>
 					</span>
 					<div class="tracy-collapsed">
-						<?= \Tracy\Dumper::toHtml($responseBodies[$key][0], [
+						<?= \Tracy\Dumper::toHtml($responseBodies[$key][0] ?? [], [
 							\Tracy\Dumper::DEPTH => 30,
 						]); ?>
 					</div>

@@ -23,6 +23,9 @@ services:
 	getAllBy:
 		class: Spameri\Elastic\Model\GetAllBy
 
+	search:
+		class: Spameri\Elastic\Model\Search
+
 	delete:
 		class: Spameri\Elastic\Model\Delete
 
