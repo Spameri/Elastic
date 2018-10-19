@@ -28,9 +28,9 @@ class Tracker
 
 
 	public function __construct(
-		?string $created
+		string $created
 		, \Spameri\Elastic\Entity\Property\IElasticId $createdBy
-		, ?string $edited
+		, string $edited
 		, \Spameri\Elastic\Entity\Property\IElasticId $editedBy
 	)
 	{
@@ -43,7 +43,7 @@ class Tracker
 	public function initialize(
 		string $created
 		, \Spameri\Elastic\Entity\Property\ElasticId $createdBy
-	)
+	) : void
 	{
 		$this->created = $created;
 		$this->createdBy = $createdBy;
@@ -52,7 +52,7 @@ class Tracker
 	public function edit(
 		string $edited
 		, \Spameri\Elastic\Entity\Property\ElasticId $editedBy
-	)
+	) : void
 	{
 		$this->edited = $edited;
 		$this->editedBy = $editedBy;

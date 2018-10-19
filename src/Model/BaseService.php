@@ -12,7 +12,7 @@ abstract class BaseService implements IService
 	protected $index;
 
 	/**
-	 * @var \Spameri\Elastic\ClientProvider
+	 * @var \Elasticsearch\Client
 	 */
 	protected $client;
 
@@ -50,6 +50,7 @@ abstract class BaseService implements IService
 	 * @var \Spameri\Elastic\Factory\IEntityFactory
 	 */
 	protected $entityFactory;
+
 	/**
 	 * @var \Spameri\Elastic\Factory\ICollectionFactory
 	 */
@@ -155,7 +156,6 @@ abstract class BaseService implements IService
 		try {
 			$documents = $this->getAllBy->execute($elasticQuery, $this->index);
 
-			$result = FALSE;
 			if ($documents) {
 				$resultCollection = new \Spameri\Elastic\Entity\Collection\ResultCollection($documents);
 				$result = $this->collectionFactory->create(
@@ -163,7 +163,13 @@ abstract class BaseService implements IService
 					NULL,
 					... $this->entityFactory->create($resultCollection)
 				);
+
+			} else {
+				$result = $this->collectionFactory->create(
+					$this
+				);
 			}
+
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
 

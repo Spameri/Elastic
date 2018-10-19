@@ -42,8 +42,8 @@ interface IElasticEntityCollection extends \IteratorAggregate
 
 
 	public function sort(
-		\Spameri\Elastic\Model\Collection\SortField $sortField,
-		string $type
+		\Spameri\Elastic\Entity\Collection\SortField $sortField
+		, string $type
 	) : void;
 
 }

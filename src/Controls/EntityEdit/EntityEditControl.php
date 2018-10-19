@@ -17,7 +17,7 @@ class EntityEditControl extends \Spameri\Elastic\Controls\BaseControl
 	protected $entitySettingsProvider;
 
 	/**
-	 * @var \Spameri\Elastic\Model\ServiceLocator
+	 * @var \Spameri\Elastic\Model\ServiceLocatorInterface
 	 */
 	private $serviceLocator;
 
@@ -25,7 +25,7 @@ class EntityEditControl extends \Spameri\Elastic\Controls\BaseControl
 	public function __construct(
 		\Spameri\Elastic\Entity\IElasticEntity $entity
 		, \Spameri\Elastic\Controls\EntityEdit\EntitySettingsProvider $entitySettingsProvider
-		, \Spameri\Elastic\Model\ServiceLocator $serviceLocator
+		, \Spameri\Elastic\Model\ServiceLocatorInterface $serviceLocator
 	)
 	{
 		parent::__construct();

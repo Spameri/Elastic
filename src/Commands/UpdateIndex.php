@@ -10,6 +10,7 @@ class UpdateIndex extends \Symfony\Component\Console\Command\Command
 	 * @var array
 	 */
 	private $entities;
+
 	/**
 	 * @var \Spameri\Elastic\Model\Mapping
 	 */
@@ -17,7 +18,7 @@ class UpdateIndex extends \Symfony\Component\Console\Command\Command
 
 
 	public function __construct(
-		$entities
+		array $entities
 		, \Spameri\Elastic\Model\Mapping $mapping
 	)
 	{
@@ -38,14 +39,17 @@ class UpdateIndex extends \Symfony\Component\Console\Command\Command
 
 
 	protected function execute(
-		\Symfony\Component\Console\Input\InputInterface $input,
-		\Symfony\Component\Console\Output\OutputInterface $output
+		\Symfony\Component\Console\Input\InputInterface $input
+		, \Symfony\Component\Console\Output\OutputInterface $output
 	)
 	{
 		throw new \Nette\NotImplementedException('This command is not implemented');
 
+		/** @var string $entityName */
 		$entityName = $input->getArgument('entityName');
 
-		$this->mapping->updateMapping($this->entities[$entityName]);
+		if (isset($this->entities[$entityName])) {
+			$this->mapping->updateMapping($this->entities[$entityName]);
+		}
 	}
 }

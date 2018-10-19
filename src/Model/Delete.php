@@ -21,8 +21,8 @@ class Delete
 
 
 	public function execute(
-		\Spameri\Elastic\Entity\Property\IElasticId $id,
-		string $index
+		\Spameri\Elastic\Entity\Property\IElasticId $id
+		, string $index
 	) : bool
 	{
 		$response = $this->clientProvider->client()->delete(

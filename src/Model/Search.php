@@ -21,8 +21,8 @@ class Search
 
 
 	public function execute(
-		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
-		string $index
+		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
+		, string $index
 	) : ?array
 	{
 		$result = $this->clientProvider->client()->search(

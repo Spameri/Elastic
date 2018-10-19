@@ -10,6 +10,7 @@ class CreateIndex extends \Symfony\Component\Console\Command\Command
 	 * @var array
 	 */
 	private $entities;
+
 	/**
 	 * @var \Spameri\Elastic\Mapper\ElasticMapper
 	 */
@@ -17,7 +18,7 @@ class CreateIndex extends \Symfony\Component\Console\Command\Command
 
 
 	public function __construct(
-		$entities
+		array $entities
 		, \Spameri\Elastic\Mapper\ElasticMapper $elasticMapper
 	)
 	{
@@ -39,15 +40,16 @@ class CreateIndex extends \Symfony\Component\Console\Command\Command
 
 
 	protected function execute(
-		\Symfony\Component\Console\Input\InputInterface $input,
-		\Symfony\Component\Console\Output\OutputInterface $output
+		\Symfony\Component\Console\Input\InputInterface $input
+		, \Symfony\Component\Console\Output\OutputInterface $output
 	)
 	{
+		/** @var string $entityName */
 		$entityName = $input->getArgument('entityName');
 		$forcedDelete = $input->getOption('force');
 
 
-		if ($entityName) {
+		if ($entityName && isset($this->entities[$entityName])) {
 			if ($forcedDelete) {
 				$this->elasticMapper->deleteIndex($this->entities[$entityName]['index']);
 			}

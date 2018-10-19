@@ -10,10 +10,12 @@ class NeonSettingsProvider implements \Spameri\Elastic\SettingsProviderInterface
 	 * @var string
 	 */
 	private $host;
+
 	/**
 	 * @var int
 	 */
 	private $port;
+
 	/**
 	 * @var array
 	 */

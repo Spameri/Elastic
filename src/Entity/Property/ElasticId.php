@@ -27,4 +27,5 @@ class ElasticId implements \Spameri\Elastic\Entity\IValue, \Spameri\Elastic\Enti
 	{
 		return $this->value;
 	}
+
 }

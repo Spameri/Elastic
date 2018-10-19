@@ -40,9 +40,9 @@ class Mapping
 
 
 	public function compareMappings(
-		$newMappings,
-		$existingMappings,
-		$entityMappings
+		$newMappings
+		, $existingMappings
+		, $entityMappings
 	) : array
 	{
 		if (isset($entityMappings['properties'])) {

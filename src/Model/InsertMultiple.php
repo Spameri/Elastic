@@ -10,6 +10,7 @@ class InsertMultiple
 	 * @var \Spameri\Elastic\Model\Insert\PrepareEntityArray
 	 */
 	private $prepareEntityArray;
+
 	/**
 	 * @var \Spameri\Elastic\ClientProvider
 	 */
@@ -17,8 +18,8 @@ class InsertMultiple
 
 
 	public function __construct(
-		\Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray,
-		\Spameri\Elastic\ClientProvider $clientProvider
+		\Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray
+		, \Spameri\Elastic\ClientProvider $clientProvider
 	)
 	{
 		$this->prepareEntityArray = $prepareEntityArray;
@@ -27,8 +28,8 @@ class InsertMultiple
 
 
 	public function execute(
-		\Spameri\Elastic\Entity\IElasticEntityCollection $entityCollection,
-		string $index
+		\Spameri\Elastic\Entity\IElasticEntityCollection $entityCollection
+		, string $index
 	) : array
 	{
 		$documentsArray = [];

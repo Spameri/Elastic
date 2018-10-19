@@ -24,8 +24,8 @@ class GetBy
 	 * @throws \Spameri\Elastic\Exception\DocumentNotFound
 	 */
 	public function execute(
-		\Spameri\ElasticQuery\ElasticQuery $options,
-		string $index
+		\Spameri\ElasticQuery\ElasticQuery $options
+		, string $index
 	) : array
 	{
 		$documents = $this->clientProvider->client()->search(

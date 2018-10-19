@@ -10,23 +10,26 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 	 * @var \Spameri\Elastic\Entity\IElasticEntity[]
 	 */
 	protected $collection;
+
 	/**
 	 * @var \Spameri\Elastic\Model\IService
 	 */
-	private $service;
+	protected $service;
+
 	/**
 	 * @var array
 	 */
-	private $elasticIds;
+	protected $elasticIds;
+
 	/**
 	 * @var bool
 	 */
-	private $initialized;
+	protected $initialized;
 
 
 	public function __construct(
 		\Spameri\Elastic\Model\IService $service
-		, array $elasticIds = NULL
+		, array $elasticIds = []
 		, \Spameri\Elastic\Entity\IElasticEntity ... $entityCollection
 	)
 	{
@@ -127,7 +130,7 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 			return NULL;
 		}
 
-		if (\array_key_exists($id->value(), $this->collection)) {
+		if ($id->value() && \array_key_exists($id->value(), $this->collection)) {
 			return $this->collection[$id->value()];
 		}
 
@@ -198,8 +201,8 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 
 
 	public function sort(
-		\Spameri\Elastic\Model\Collection\SortField $sortField,
-		string $type
+		\Spameri\Elastic\Entity\Collection\SortField $sortField
+		, string $type
 	) : void
 	{
 		if ( ! $this->initialized) {

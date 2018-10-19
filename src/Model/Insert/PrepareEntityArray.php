@@ -12,14 +12,14 @@ class PrepareEntityArray
 	protected $applyTimestamp;
 
 	/**
-	 * @var \Spameri\Elastic\Model\ServiceLocator
+	 * @var \Spameri\Elastic\Model\ServiceLocatorInterface
 	 */
 	private $serviceLocator;
 
 
 	public function __construct(
 		ApplyTimestamp $applyTimestamp
-		, \Spameri\Elastic\Model\ServiceLocator $serviceLocator
+		, \Spameri\Elastic\Model\ServiceLocatorInterface $serviceLocator
 	)
 	{
 		$this->applyTimestamp = $applyTimestamp;

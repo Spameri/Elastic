@@ -5,7 +5,9 @@ namespace Spameri\Elastic\Factory;
 
 interface IEntityFactory
 {
+
 	public function create(
 		\Spameri\Elastic\Entity\Collection\ResultCollection $collection
 	) : \Generator;
+
 }

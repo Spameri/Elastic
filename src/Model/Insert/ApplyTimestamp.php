@@ -27,14 +27,17 @@ class ApplyTimestamp
 	}
 
 
-	public function apply(\Spameri\Elastic\Entity\IElasticEntity $entity) : void
+	public function apply(
+		\Spameri\Elastic\Entity\IElasticEntity $entity
+	) : void
 	{
 		if ( ! $entity instanceof \Spameri\Elastic\Entity\ITrackedEntity) {
 			return;
 		}
 
 		$timestamp = $this->dateTimeProvider->getDateTime()->format('Y-m-d H:i:s');
-		$userId = $this->userProvider->getIdentity()->getId();
+		$identity = $this->userProvider->getIdentity();
+		$userId = $identity ? $identity->getId() : NULL;
 
 		if ($entity->id() instanceof \Spameri\Elastic\Entity\Property\EmptyElasticId) {
 			$entity->tracking()->initialize(

@@ -21,8 +21,8 @@ class Get
 
 
 	public function execute(
-		\Spameri\Elastic\Entity\Property\ElasticId $id,
-		string $index
+		\Spameri\Elastic\Entity\Property\ElasticId $id
+		, string $index
 	) : ?array
 	{
 		$response = $this->clientProvider->client()->get(

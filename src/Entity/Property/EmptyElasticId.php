@@ -27,4 +27,5 @@ class EmptyElasticId implements \Spameri\Elastic\Entity\IValue, \Spameri\Elastic
 	{
 		return $this->value;
 	}
+
 }

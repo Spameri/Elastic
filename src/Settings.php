@@ -10,10 +10,12 @@ class Settings
 	 * @var string
 	 */
 	private $host;
+
 	/**
 	 * @var int
 	 */
 	private $port;
+
 	/**
 	 * @var array
 	 */

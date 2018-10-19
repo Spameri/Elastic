@@ -21,8 +21,8 @@ class GetAllBy
 
 
 	public function execute(
-		\Spameri\ElasticQuery\ElasticQuery $options,
-		string $index
+		\Spameri\ElasticQuery\ElasticQuery $options
+		, string $index
 	) : array
 	{
 		$result = $this->clientProvider->client()->search(

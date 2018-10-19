@@ -97,8 +97,8 @@ abstract class EntityCollection implements \Spameri\Elastic\Entity\IEntityCollec
 
 
 	public function sort(
-		\Spameri\Elastic\Model\Collection\SortField $sortField,
-		string $type
+		\Spameri\Elastic\Entity\Collection\SortField $sortField
+		, string $type
 	) : void
 	{
 		if ( ! \in_array($type, ['asc', 'desc'], TRUE)) {

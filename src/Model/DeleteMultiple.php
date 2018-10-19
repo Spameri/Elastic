@@ -21,8 +21,8 @@ class DeleteMultiple
 
 
 	public function execute(
-		\Spameri\Elastic\Entity\IElasticEntityCollection $entityCollection,
-		string $index
+		\Spameri\Elastic\Entity\IElasticEntityCollection $entityCollection
+		, string $index
 	) : array
 	{
 		$documentsArray = [];

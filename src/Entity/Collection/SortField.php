@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace Spameri\Elastic\Model\Collection;
+namespace Spameri\Elastic\Entity\Collection;
 
 
 class SortField

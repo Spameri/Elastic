@@ -10,6 +10,7 @@ class ClientProvider
 	 * @var \Elasticsearch\ClientBuilder
 	 */
 	private $clientBuilder;
+
 	/**
 	 * @var \Spameri\Elastic\SettingsProviderInterface
 	 */

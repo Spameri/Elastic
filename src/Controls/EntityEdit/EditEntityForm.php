@@ -5,6 +5,7 @@ namespace Spameri\Elastic\Controls\EntityEdit;
 
 class EditEntityForm extends \Spameri\Elastic\Controls\BaseForm
 {
+
 	public const BANNED_PROPERTIES = [
 		'id',
 		'created',
@@ -12,9 +13,11 @@ class EditEntityForm extends \Spameri\Elastic\Controls\BaseForm
 		'editedBy',
 		'createdBy',
 	];
+
 	public const HIDDEN_PROPERTIES = [
 		'id'
 	];
+
 	public const INTEGER = 'integer';
 	public const DATE = 'date';
 

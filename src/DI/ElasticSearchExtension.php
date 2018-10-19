@@ -96,6 +96,7 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 	{
 		parent::loadConfiguration();
 
+		/** @var array $config */
 		$config = \Nette\DI\Config\Helpers::merge($this->getConfig(), $this->defaults);
 
 		$config = $this->toggleSynonymAnalyzer($config);
@@ -116,7 +117,7 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 
 
 	public static function register(
-		\Nette\Configurator $config
+		$config
 	): void
 	{
 		$config->onCompile[] = static function (

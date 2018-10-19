@@ -30,4 +30,5 @@ class UserProvider
 	{
 		return $this->user->getIdentity();
 	}
+
 }
