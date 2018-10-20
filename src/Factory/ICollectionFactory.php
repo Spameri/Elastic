@@ -8,7 +8,7 @@ interface ICollectionFactory
 
 	public function create(
 		\Spameri\Elastic\Model\IService $service
-		, array $elasticIds = NULL
+		, array $elasticIds = []
 		, \Spameri\Elastic\Entity\IElasticEntity ... $entityCollection
 	) : \Spameri\Elastic\Entity\IElasticEntityCollection;
 

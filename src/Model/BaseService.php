@@ -160,7 +160,7 @@ abstract class BaseService implements IService
 				$resultCollection = new \Spameri\Elastic\Entity\Collection\ResultCollection($documents);
 				$result = $this->collectionFactory->create(
 					$this,
-					NULL,
+					[],
 					... $this->entityFactory->create($resultCollection)
 				);
 
