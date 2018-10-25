@@ -7,6 +7,11 @@ class ClientProvider
 {
 
 	/**
+	 * @var \Elasticsearch\Client
+	 */
+	private $client;
+
+	/**
 	 * @var \Elasticsearch\ClientBuilder
 	 */
 	private $clientBuilder;
@@ -47,7 +52,11 @@ class ClientProvider
 	 */
 	public function client() : \Elasticsearch\Client
 	{
-		return $this->clientBuilder->build();
+		if ( ! $this->client) {
+			$this->client = $this->clientBuilder->build();
+		}
+
+		return $this->client;
 	}
 
 }
