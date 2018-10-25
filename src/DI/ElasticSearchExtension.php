@@ -152,8 +152,8 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 		$entitySettingsProvider = $services['services']['entitySettingsProvider']['class'];
 		$entitySettingsProvider->arguments[0] = $config['entities'];
 
-		$updateIndex = $services['services']['updateIndex']['class'];
-		$updateIndex->arguments[0] = $config['entities'];
+		$updateMapping = $services['services']['updateMapping']['class'];
+		$updateMapping->arguments[0] = $config['entities'];
 
 		$createIndex = $services['services']['createIndex']['class'];
 		$createIndex->arguments[0] = $config['entities'];

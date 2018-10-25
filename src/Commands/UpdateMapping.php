@@ -3,7 +3,7 @@
 namespace Spameri\Elastic\Commands;
 
 
-class UpdateIndex extends \Symfony\Component\Console\Command\Command
+class UpdateMapping extends \Symfony\Component\Console\Command\Command
 {
 
 	/**
@@ -31,7 +31,7 @@ class UpdateIndex extends \Symfony\Component\Console\Command\Command
 	protected function configure() : void
 	{
 		$this
-			->setName('spameri:elastic:update-index')
+			->setName('spameri:elastic:update-mapping')
 			->setDescription('Updates mapping in index for entity.')
 			->addArgument('entityName')
 		;
@@ -43,8 +43,6 @@ class UpdateIndex extends \Symfony\Component\Console\Command\Command
 		, \Symfony\Component\Console\Output\OutputInterface $output
 	)
 	{
-		throw new \Nette\NotImplementedException('This command is not implemented');
-
 		/** @var string $entityName */
 		$entityName = $input->getArgument('entityName');
 
@@ -52,4 +50,5 @@ class UpdateIndex extends \Symfony\Component\Console\Command\Command
 			$this->mapping->updateMapping($this->entities[$entityName]);
 		}
 	}
+
 }

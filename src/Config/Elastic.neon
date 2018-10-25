@@ -67,8 +67,8 @@ services:
 		class: Spameri\Elastic\Commands\CreateIndex(%entities%)
 		tags: [kdyby.console.command]
 
-	updateIndex:
-		class: Spameri\Elastic\Commands\UpdateIndex(%entities%)
+	updateMapping:
+		class: Spameri\Elastic\Commands\UpdateMapping(%entities%)
 		tags: [kdyby.console.command]
 
 	deleteIndex:
