@@ -52,6 +52,7 @@ class ElasticMapper
 
 	/**
 	 * @throws \Elasticsearch\Common\Exceptions\ElasticsearchException
+	 * @throws \Spameri\Elastic\Exception\IndexAlreadyExists
 	 */
 	public function createIndex(array $entity) : void
 	{
@@ -63,6 +64,8 @@ class ElasticMapper
 					)
 				)->toArray()
 			);
+
+			throw new \Spameri\Elastic\Exception\IndexAlreadyExists($entity['index']);
 
 		} catch (\Elasticsearch\Common\Exceptions\Missing404Exception $exception) {
 			$indexName = $entity['index'] . '-' . $this->constantProvider->getDateTime()->format('Y-m-d_H-i-s');

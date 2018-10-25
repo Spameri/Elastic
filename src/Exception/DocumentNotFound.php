@@ -3,7 +3,7 @@
 namespace Spameri\Elastic\Exception;
 
 
-class DocumentNotFound extends \RuntimeException
+class DocumentNotFound extends \Spameri\Elastic\Exception\ElasticSearchException
 {
 
 	public function __construct($message)

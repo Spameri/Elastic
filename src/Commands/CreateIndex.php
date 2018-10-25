@@ -53,14 +53,24 @@ class CreateIndex extends \Symfony\Component\Console\Command\Command
 			if ($forcedDelete) {
 				$this->elasticMapper->deleteIndex($this->entities[$entityName]['index']);
 			}
-			$this->elasticMapper->createIndex($this->entities[$entityName]);
+			try {
+				$this->elasticMapper->createIndex($this->entities[$entityName]);
+
+			} catch (\Spameri\Elastic\Exception\ElasticSearchException $exception) {
+				$output->write($exception->getMessage());
+			}
 
 		} else {
 			foreach ($this->entities as $entity) {
 				if ($forcedDelete) {
 					$this->elasticMapper->deleteIndex($entity['index']);
 				}
-				$this->elasticMapper->createIndex($entity);
+				try {
+					$this->elasticMapper->createIndex($entity);
+
+				} catch (\Spameri\Elastic\Exception\ElasticSearchException $exception) {
+					$output->write($exception->getMessage());
+				}
 			}
 		}
 	}
