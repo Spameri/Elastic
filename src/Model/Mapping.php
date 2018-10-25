@@ -24,47 +24,16 @@ class Mapping
 		array $entitySettings
 	) : void
 	{
-		$existingMapping = $this->clientProvider->client()->indices()->getMapping([
-			'index' => $entitySettings['index'],
-			'type' => $entitySettings['index'],
-		]);
-		$indexMapping = \reset($existingMapping);
+		try {
+			$this->clientProvider->client()->indices()->putMapping([
+				'index' => $entitySettings['index'],
+				'type' => $entitySettings['index'],
+				'body' => $entitySettings['properties']
+			]);
 
-		$newMappings = $this->compareMappings(
-			[],
-			$indexMapping['mappings'][$entitySettings['index']],
-			$entitySettings
-		);
-
-	}
-
-
-	public function compareMappings(
-		$newMappings
-		, $existingMappings
-		, $entityMappings
-	) : array
-	{
-		if (isset($entityMappings['properties'])) {
-			foreach ($entityMappings['properties'] as $key => $entityMapping) {
-				if ( ! isset($existingMappings['properties'][$key])) {
-					$newMappings['properties'][$key] = $entityMapping['properties'];
-
-				} else {
-					$comparedMapping = $this->compareMappings(
-						$newMappings,
-						$existingMappings['properties'][$key],
-						$entityMapping
-					);
-
-					if ($comparedMapping) {
-						$newMappings[$key] = $comparedMapping;
-					}
-				}
-			}
+		} catch (\Elasticsearch\Common\Exceptions\BadRequest400Exception $exception) {
+			throw new \Spameri\Elastic\Exception\ConflictingMapping($entitySettings['index'], $exception);
 		}
-
-		return $newMappings;
 	}
 
 }
