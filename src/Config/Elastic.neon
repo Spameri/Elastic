@@ -75,10 +75,17 @@ services:
 		class: Spameri\Elastic\Commands\DeleteIndex
 		tags: [kdyby.console.command]
 
-#	validateMapping:
-#		class: Spameri\Elastic\Commands\ValidateMapping(%entities%)
-#		tags: [kdyby.console.command]
-# TODO VALIDATE
+	addAlias:
+		class: Spameri\Elastic\Commands\AddAlias
+		tags: [kdyby.console.command]
+
+	removeAlias:
+		class: Spameri\Elastic\Commands\RemoveAlias
+		tags: [kdyby.console.command]
+
+	validateMapping:
+		class: Spameri\Elastic\Commands\ValidateMapping(%entities%, %settings%)
+		tags: [kdyby.console.command]
 
 #	###
 #	Elastic/Elastic

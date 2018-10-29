@@ -158,6 +158,10 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 		$createIndex = $services['services']['createIndex']['class'];
 		$createIndex->arguments[0] = $config['entities'];
 
+		$validateMapping = $services['services']['validateMapping']['class'];
+		$validateMapping->arguments[0] = $config['entities'];
+		$validateMapping->arguments[1] = $config['settings'];
+
 		$neonSettingsProvider = $services['services']['neonSettingsProvider']['class'];
 		$neonSettingsProvider->arguments[0] = $config['host'];
 		$neonSettingsProvider->arguments[1] = $config['port'];

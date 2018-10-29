@@ -77,26 +77,7 @@ class ElasticMapper
 				)->toArray()
 			);
 			$this->createMapping($entity, $indexName);
-			$this->clientProvider->client()->indices()->putAlias(
-				(
-					new \Spameri\ElasticQuery\Document(
-						$indexName,
-						new \Spameri\ElasticQuery\Document\Body\Plain([
-							'actions' => [
-								'add' => [
-									'index' => $indexName,
-									'alias' => $entity['index'],
-								],
-							],
-						]),
-						NULL,
-						NULL,
-						[
-							'name' => $entity['index'],
-						]
-					)
-				)->toArray()
-			);
+			$this->addAlias($indexName, $entity['index']);
 		}
 	}
 
@@ -127,6 +108,74 @@ class ElasticMapper
 		} catch (\Elasticsearch\Common\Exceptions\Missing404Exception $exception) {
 
 		}
+	}
+
+	public function addAlias(
+		string $index,
+		string $alias
+	) : void
+	{
+		try {
+			$this->clientProvider->client()->indices()->get(
+				(
+					new \Spameri\ElasticQuery\Document(
+						$alias
+					)
+				)->toArray()
+			);
+
+			throw new \Spameri\Elastic\Exception\AliasAlreadyExists($alias);
+
+		} catch (\Elasticsearch\Common\Exceptions\Missing404Exception $exception) {
+			$this->clientProvider->client()->indices()->putAlias(
+				(
+					new \Spameri\ElasticQuery\Document(
+						$index,
+						new \Spameri\ElasticQuery\Document\Body\Plain([
+							'actions' => [
+								'add' => [
+									'index' => $index,
+									'alias' => $alias,
+								],
+							],
+						]),
+						NULL,
+						NULL,
+						[
+							'name' => $index,
+						]
+					)
+				)->toArray()
+			);
+		}
+	}
+
+
+	public function removeAlias(
+		string $index,
+		string $alias
+	) : void
+	{
+		$this->clientProvider->client()->indices()->putAlias(
+			(
+				new \Spameri\ElasticQuery\Document(
+					$index,
+					new \Spameri\ElasticQuery\Document\Body\Plain([
+						'actions' => [
+							'remove' => [
+								'index' => $index,
+								'alias' => $alias,
+							],
+						],
+					]),
+					NULL,
+					NULL,
+					[
+						'name' => $index,
+					]
+				)
+			)->toArray()
+		);
 	}
 
 }

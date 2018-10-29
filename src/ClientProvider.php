@@ -52,7 +52,7 @@ class ClientProvider
 	 */
 	public function client() : \Elasticsearch\Client
 	{
-		if ( ! $this->client) {
+		if ( ! ($this->client instanceof \Elasticsearch\Client)) {
 			$this->client = $this->clientBuilder->build();
 		}
 
