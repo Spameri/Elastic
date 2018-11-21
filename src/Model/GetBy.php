@@ -46,7 +46,7 @@ class GetBy
 		}
 
 		if ( ! $data) {
-			throw new \Spameri\Elastic\Exception\DocumentNotFound($index);
+			throw new \Spameri\Elastic\Exception\DocumentNotFound($index, $options);
 		}
 
 		return $data;

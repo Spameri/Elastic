@@ -6,8 +6,25 @@ namespace Spameri\Elastic\Exception;
 class DocumentNotFound extends \Spameri\Elastic\Exception\ElasticSearchException
 {
 
-	public function __construct($message)
+	public function __construct(
+		string $message
+		, ?\Spameri\ElasticQuery\ElasticQuery $elasticQuery = NULL
+	)
 	{
-		parent::__construct('Document "' . $message . '" not found.');
+		$queryString = '';
+		if ($elasticQuery) {
+			try {
+				$queryString = \Nette\Utils\Json::encode($elasticQuery->toArray());
+
+			} catch (\Nette\Utils\JsonException $exception) {
+				$queryString = 'not valid json';
+			}
+		}
+
+		parent::__construct(
+			'Document in index "' . $message . '" not found. With query: '
+			. $queryString
+		);
 	}
+
 }

@@ -238,11 +238,13 @@ class AllowedValues
 	public const BLOCK_ANALYZER = 'analyzer';
 	public const BLOCK_TOKENIZER = 'tokenizer';
 	public const BLOCK_PROPERTIES = 'properties';
+	public const BLOCK_FORMAT = 'format';
 
 	public const BLOCKS = [
 		self::BLOCK_TYPE 		=> self::BLOCK_TYPE,
 		self::BLOCK_ANALYZER 	=> self::BLOCK_ANALYZER,
 		self::BLOCK_TOKENIZER 	=> self::BLOCK_TOKENIZER,
 		self::BLOCK_PROPERTIES 	=> self::BLOCK_PROPERTIES,
+		self::BLOCK_FORMAT 		=> self::BLOCK_FORMAT,
 	];
 }

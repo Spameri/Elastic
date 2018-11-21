@@ -125,7 +125,10 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 
 	private function logRequestBody($message, $context): void
 	{
-		if ($message === 'Request Body') {
+		if (
+			$message === 'Request Body'
+			|| $message === 'Request Plain'
+		) {
 			$this->requestBodies[] = $context;
 		}
 	}

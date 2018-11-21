@@ -7,7 +7,7 @@ trait TEntityEditControl
 {
 
 	/**
-	 * @var IEntityEditControl @inject
+	 * @var \Spameri\Elastic\Controls\EntityEdit\IEntityEditControl @inject
 	 */
 	public $entityEdit;
 

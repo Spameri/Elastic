@@ -59,6 +59,12 @@ services:
 	elasticPanel:
 		class: Spameri\Elastic\Diagnostics\Panel
 
+	validateMapping:
+		class: Spameri\Elastic\Model\ValidateMapping(%entities%, %settings%, ...)
+
+	display:
+		class: Spameri\Elastic\Model\ValidateMapping\Display
+
 #	###
 #	Commands
 #	###
@@ -83,8 +89,8 @@ services:
 		class: Spameri\Elastic\Commands\RemoveAlias
 		tags: [kdyby.console.command]
 
-	validateMapping:
-		class: Spameri\Elastic\Commands\ValidateMapping(%entities%, %settings%)
+	validateMappingCommand:
+		class: Spameri\Elastic\Commands\ValidateMapping
 		tags: [kdyby.console.command]
 
 #	###

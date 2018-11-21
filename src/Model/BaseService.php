@@ -135,14 +135,7 @@ abstract class BaseService implements IService
 			\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::ERROR);
 		}
 
-		try {
-			$queryString = \Nette\Utils\Json::encode($elasticQuery->toArray());
-
-		} catch (\Nette\Utils\JsonException $exception) {
-			$queryString = 'not valid json';
-		}
-
-		throw new \Spameri\Elastic\Exception\DocumentNotFound(' with query ' . $queryString);
+		throw new \Spameri\Elastic\Exception\DocumentNotFound($this->index, $elasticQuery);
 	}
 
 
@@ -173,7 +166,7 @@ abstract class BaseService implements IService
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
 
-			throw new \Spameri\Elastic\Exception\DocumentNotFound($this->index);
+			throw new \Spameri\Elastic\Exception\DocumentNotFound($this->index, $elasticQuery);
 		}
 
 		return $result;
