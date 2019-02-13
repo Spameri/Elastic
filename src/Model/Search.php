@@ -25,16 +25,21 @@ class Search
 		, string $index
 	) : ?array
 	{
-		$result = $this->clientProvider->client()->search(
-			(
+		try {
+			$result = $this->clientProvider->client()->search(
+				(
 				new \Spameri\ElasticQuery\Document(
 					$index,
 					new \Spameri\ElasticQuery\Document\Body\Plain($elasticQuery->toArray()),
 					$index
 				)
-			)
-				->toArray()
-		);
+				)
+					->toArray()
+			);
+
+		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
+			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
+		}
 
 		return $result;
 	}

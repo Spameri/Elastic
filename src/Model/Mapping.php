@@ -28,11 +28,14 @@ class Mapping
 			$this->clientProvider->client()->indices()->putMapping([
 				'index' => $entitySettings['index'],
 				'type' => $entitySettings['index'],
-				'body' => $entitySettings['properties']
+				'body' => $entitySettings['properties'],
 			]);
 
 		} catch (\Elasticsearch\Common\Exceptions\BadRequest400Exception $exception) {
 			throw new \Spameri\Elastic\Exception\ConflictingMapping($entitySettings['index'], $exception);
+
+		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
+			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}
 	}
 

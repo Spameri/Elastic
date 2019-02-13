@@ -33,6 +33,7 @@ class InsertMultiple
 	) : array
 	{
 		$documentsArray = [];
+
 		foreach ($entityCollection as $entity) {
 			$entityArray = $this->prepareEntityArray->prepare($entity);
 			unset($entityArray['id']);
@@ -41,7 +42,7 @@ class InsertMultiple
 				'index' => [
 					'_index' => $index,
 					'_type'  => $index,
-				]
+				],
 			];
 			$documentsArray[] = $entityArray;
 		}

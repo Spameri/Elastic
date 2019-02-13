@@ -32,90 +32,120 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	}
 
 
-	public function emergency($message, array $context = []): void
+	public function emergency(
+		$message,
+		array $context = []
+	) : void
 	{
 		$this->logger->emergency($message, $context);
-		$this->logQuery($message, $context);
+		$this->logQuery($context);
 	}
 
 
-	public function alert($message, array $context = []): void
+	public function alert(
+		$message,
+		array $context = []
+	) : void
 	{
 		$this->logger->alert($message, $context);
-		$this->logQuery($message, $context);
+		$this->logQuery($context);
 	}
 
 
-	public function critical($message, array $context = []): void
+	public function critical(
+		$message,
+		array $context = []
+	) : void
 	{
 		$this->logger->critical($message, $context);
-		$this->logQuery($message, $context);
+		$this->logQuery($context);
 	}
 
 
-	public function error($message, array $context = []): void
+	public function error(
+		$message,
+		array $context = []
+	) : void
 	{
 		$this->logger->error($message, $context);
-		$this->logQuery($message, $context);
+		$this->logQuery($context);
 	}
 
 
-	public function warning($message, array $context = []): void
+	public function warning(
+		$message,
+		array $context = []
+	) : void
 	{
 		$this->logger->warning($message, $context);
-		$this->logQuery($message, $context);
+		$this->logQuery($context);
 	}
 
 
-	public function notice($message, array $context = []): void
+	public function notice(
+		$message,
+		array $context = []
+	) : void
 	{
 		$this->logger->notice($message, $context);
-		$this->logQuery($message, $context);
+		$this->logQuery($context);
 	}
 
 
-	public function info($message, array $context = []): void
+	public function info(
+		$message,
+		array $context = []
+	) : void
 	{
 		$this->logger->info($message, $context);
-		$this->logQuery($message, $context);
+		$this->logQuery($context);
 	}
 
 
-	public function debug($message, array $context = []): void
+	public function debug(
+		$message,
+		array $context = []
+	) : void
 	{
 		$this->logger->debug($message, $context);
-		$this->logQuery($message, $context);
+		$this->logQuery($context);
 		$this->logRequestBody($message, $context);
 		$this->logResponseBody($message, $context);
 	}
 
 
-	public function log($level, $message, array $context = []): void
+	public function log(
+		$level,
+		$message,
+		array $context = []
+	) : void
 	{
 		$this->logger->log($level, $message, $context);
-		$this->logQuery($message, $context);
+		$this->logQuery($context);
 	}
 
 
-	public function getQueries(): array
+	public function getQueries() : array
 	{
 		return $this->queries;
 	}
 
 
-	public function getRequestBodies(): array
+	public function getRequestBodies() : array
 	{
 		return $this->requestBodies;
 	}
 
 
-	public function getResponseBodies(): array
+	public function getResponseBodies() : array
 	{
 		return $this->responseBodies;
 	}
 
 
-	private function logQuery($message, array $context = []): void
+	private function logQuery(
+		array $context = []
+	) : void
 	{
 		if (isset($context['method'], $context['uri'])) {
 			$this->queries[] = $context;
@@ -123,7 +153,10 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	}
 
 
-	private function logRequestBody($message, $context): void
+	private function logRequestBody(
+		$message,
+		$context
+	) : void
 	{
 		if (
 			$message === 'Request Body'
@@ -134,7 +167,10 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	}
 
 
-	private function logResponseBody($message, $context): void
+	private function logResponseBody(
+		$message,
+		$context
+	) : void
 	{
 		if ($message === 'Response') {
 			$this->responseBodies[] = $context;

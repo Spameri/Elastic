@@ -20,38 +20,42 @@ class Panel implements \Tracy\IBarPanel
 	}
 
 
-	public function getTab()
+	public function getTab() : string
 	{
+		// phpcs:disable
 		$queries = $this->getQueries();
 		$queriesDuration = $this->getQueriesDuration();
-		ob_start();
+		// phpcs:enable
+		\ob_start();
 		require __DIR__ . '/Panel/tab.phtml';
 
-		return ob_get_clean();
+		return (string) \ob_get_clean();
 	}
 
 
-	public function getPanel()
+	public function getPanel() : string
 	{
+		// phpcs:disable
 		$queries = $this->getQueries();
 		$queriesHeader = $this->getQueriesHeader();
 		$queriesDuration = $this->getQueriesDuration();
 		$requestBodies = $this->logger->getRequestBodies();
 		$responseBodies = $this->logger->getResponseBodies();
-		ob_start();
+		// phpcs:enable
+		\ob_start();
 		require __DIR__ . '/Panel/panel.phtml';
 
-		return ob_get_clean();
+		return (string) \ob_get_clean();
 	}
 
 
-	private function getQueries(): array
+	private function getQueries() : array
 	{
 		return $this->logger->getQueries();
 	}
 
 
-	private function getQueriesHeader(): array
+	private function getQueriesHeader() : array
 	{
 		return [
 			'uri',
@@ -60,7 +64,7 @@ class Panel implements \Tracy\IBarPanel
 	}
 
 
-	private function getQueriesDuration(): float
+	private function getQueriesDuration() : float
 	{
 		return \array_sum(\array_column($this->getQueries(), 'duration'));
 	}

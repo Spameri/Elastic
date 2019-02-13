@@ -6,7 +6,7 @@ namespace Spameri\Elastic\Entity\Collection;
 abstract class EntityCollection implements \Spameri\Elastic\Entity\IEntityCollection
 {
 	/**
-	 * @var \Spameri\Elastic\Entity\IEntity[]
+	 * @var array<\Spameri\Elastic\Entity\IEntity>
 	 */
 	private $collection;
 
@@ -36,7 +36,7 @@ abstract class EntityCollection implements \Spameri\Elastic\Entity\IEntityCollec
 	}
 
 
-	public function getIterator(): \ArrayIterator
+	public function getIterator() : \ArrayIterator
 	{
 		return new \ArrayIterator($this->collection);
 	}
@@ -86,7 +86,7 @@ abstract class EntityCollection implements \Spameri\Elastic\Entity\IEntityCollec
 		string $key
 	) : bool
 	{
-		return array_key_exists($key, \array_map('\strval', \array_keys($this->collection)));
+		return \array_key_exists($key, \array_map('\strval', \array_keys($this->collection)));
 	}
 
 
@@ -97,12 +97,14 @@ abstract class EntityCollection implements \Spameri\Elastic\Entity\IEntityCollec
 
 
 	public function sort(
-		\Spameri\Elastic\Entity\Collection\SortField $sortField
+		\Spameri\Elastic\Entity\Collection\SortField $sortField // phpcs:ignore
 		, string $type
 	) : void
 	{
 		if ( ! \in_array($type, ['asc', 'desc'], TRUE)) {
 			throw new \Nette\InvalidArgumentException('Not supported sorting method.');
 		}
+
+		throw new \Nette\NotImplementedException();
 	}
 }

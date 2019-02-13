@@ -7,7 +7,7 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 {
 
 	/**
-	 * @var \Spameri\Elastic\Entity\IElasticEntity[]
+	 * @var array<\Spameri\Elastic\Entity\IElasticEntity>
 	 */
 	protected $collection;
 
@@ -17,7 +17,7 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 	protected $service;
 
 	/**
-	 * @var array
+	 * @var array<string>
 	 */
 	protected $elasticIds;
 
@@ -37,9 +37,14 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 		$this->service = $service;
 		$this->elasticIds = $elasticIds;
 		$this->initialized = FALSE;
-		if ( ! $elasticIds || (! $elasticIds && $entityCollection)) {
+
+		if (
+			! $elasticIds
+			&& \count($entityCollection) > 0
+		) {
 			$this->initialized = TRUE;
 		}
+
 		foreach ($entityCollection as $elasticEntity) {
 			$this->add($elasticEntity);
 		}
@@ -56,7 +61,6 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 
 		if ($elasticEntity->id() instanceof \Spameri\Elastic\Entity\Property\ElasticId) {
 			$this->collection[$elasticEntity->id()->value()] = $elasticEntity;
-
 		} else {
 			$this->collection[] = $elasticEntity;
 		}
@@ -84,7 +88,6 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 			foreach ($entities as $entity) {
 				$this->add($entity);
 			}
-
 		} else {
 			$this->initialized = TRUE;
 		}
@@ -109,11 +112,12 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 	}
 
 
-	public function getIterator(): \ArrayIterator
+	public function getIterator() : \ArrayIterator
 	{
 		if ( ! $this->initialized) {
 			$this->initialize();
 		}
+
 		return new \ArrayIterator($this->collection);
 	}
 
@@ -130,7 +134,7 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 			return NULL;
 		}
 
-		if ($id->value() && \array_key_exists($id->value(), $this->collection)) {
+		if ($id->value() && \array_key_exists($id->value(), $this->keys())) {
 			return $this->collection[$id->value()];
 		}
 
@@ -158,7 +162,7 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 			$this->initialize();
 		}
 
-		return \array_key_exists($id->value(), $this->collection);
+		return \array_key_exists($id->value(), $this->keys());
 	}
 
 
@@ -190,7 +194,7 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 			$this->initialize();
 		}
 
-		return array_key_exists($key, \array_map('\strval', \array_keys($this->collection)));
+		return \array_key_exists($key, \array_map('\strval', \array_keys($this->collection)));
 	}
 
 
@@ -201,15 +205,19 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 
 
 	public function sort(
-		\Spameri\Elastic\Entity\Collection\SortField $sortField
+		\Spameri\Elastic\Entity\Collection\SortField $sortField // phpcs:ignore
 		, string $type
 	) : void
 	{
 		if ( ! $this->initialized) {
 			$this->initialize();
 		}
+
 		if ( ! \in_array($type, ['asc', 'desc'], TRUE)) {
 			throw new \Nette\InvalidArgumentException('Not supported sorting method.');
 		}
+
+		throw new \Nette\NotImplementedException();
 	}
+
 }

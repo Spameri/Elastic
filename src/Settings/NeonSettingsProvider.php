@@ -34,9 +34,6 @@ class NeonSettingsProvider implements \Spameri\Elastic\SettingsProviderInterface
 	}
 
 
-	/**
-	 * @throws \RuntimeException
-	 */
 	public function provide() : \Spameri\Elastic\Settings
 	{
 		return new \Spameri\Elastic\Settings(

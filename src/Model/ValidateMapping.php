@@ -56,16 +56,17 @@ class ValidateMapping
 	) : void
 	{
 		foreach ($properties as $propertyName => $property) {
-			foreach ($property as $propertyParameterName => $propertyData) {
+			foreach (\array_keys($property) as $propertyParameterName) {
 				if ( ! \in_array($propertyParameterName, \Spameri\Elastic\Model\ValidateMapping\AllowedValues::BLOCKS, TRUE)) {
 					$this->display->store(
 						\Spameri\Elastic\Model\ValidateMapping\Display::BLOCKING,
 						$entityName,
 						$propertyName,
-						$propertyParameterName
+						(string) $propertyParameterName
 					);
 				}
 			}
+
 			if (isset($property['type'])) {
 				if ( ! isset(\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPES[$property['type']])) {
 					$this->display->store(

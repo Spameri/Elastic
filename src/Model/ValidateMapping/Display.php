@@ -49,7 +49,7 @@ class Display
 		string $entity,
 		string $propertyName,
 		string $value
-	): void
+	) : void
 	{
 		switch ($type) {
 			case self::BLOCKING:
@@ -86,7 +86,7 @@ class Display
 	public function isUnique(
 		string $entityName,
 		string $propertyName
-	): bool
+	) : bool
 	{
 		return ! isset($this->uniqueFieldNames[$entityName][$propertyName]);
 	}
@@ -94,7 +94,7 @@ class Display
 
 	public function render(
 		\Symfony\Component\Console\Output\OutputInterface $output
-	): void
+	) : void
 	{
 		$blockingFailed = FALSE;
 		$output->writeln('<options=bold>Blocking issues:</>');
@@ -107,6 +107,7 @@ class Display
 				$blockingFailed = TRUE;
 			}
 		}
+
 		if ($blockingFailed) {
 			$output->writeln('<bg=red;options=bold>FAIL</>');
 
@@ -128,6 +129,7 @@ class Display
 			}
 			$tokenizerFailed = TRUE;
 		}
+
 		if ($tokenizerFailed) {
 			$output->writeln('<bg=red;options=bold>FAIL</>');
 
@@ -149,6 +151,7 @@ class Display
 				$analyzerFailed = TRUE;
 			}
 		}
+
 		if ($analyzerFailed) {
 			$output->writeln('<bg=red;options=bold>FAIL</>');
 
@@ -170,6 +173,7 @@ class Display
 				$conflictingFailed = TRUE;
 			}
 		}
+
 		if ($conflictingFailed) {
 			$output->writeln('<bg=red;options=bold>FAIL</>');
 

@@ -92,7 +92,7 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 	];
 
 
-	public function loadConfiguration(): void
+	public function loadConfiguration() : void
 	{
 		parent::loadConfiguration();
 
@@ -118,10 +118,9 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 
 	public static function register(
 		$config
-	): void
+	) : void
 	{
 		$config->onCompile[] = static function (
-			$config,
 			\Nette\DI\Compiler $compiler
 		) {
 			$compiler->addExtension('elasticSearch', new ElasticSearchExtension());
@@ -129,7 +128,9 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 	}
 
 
-	public function toggleSynonymAnalyzer(array $config): array
+	public function toggleSynonymAnalyzer(
+		array $config
+	) : array
 	{
 		if ( ! $config['synonymPath']) {
 			unset($config['settings']['analysis']['analyzer']['czechSynonym']);
@@ -146,7 +147,7 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 	public function setConfigOptions(
 		array $services,
 		array $config
-	): void
+	) : void
 	{
 		/** @var \Nette\DI\Statement $entitySettingsProvider */
 		$entitySettingsProvider = $services['services']['entitySettingsProvider']['class'];
@@ -171,7 +172,7 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 	public function toggleDebugBar(
 		array $config,
 		array $services
-	): array
+	) : array
 	{
 		if ( ! $config['debug']) {
 			unset($services['tracy']);

@@ -37,7 +37,7 @@ class ClientProvider
 	{
 		$settings = $this->settingsProvider->provide();
 		$this->clientBuilder->setHosts([
-			$settings->host() . ':' . $settings->port()
+			$settings->host() . ':' . $settings->port(),
 		]);
 		$this->clientBuilder->setConnectionParams([
 			'client' => [
