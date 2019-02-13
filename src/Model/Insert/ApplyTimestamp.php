@@ -35,7 +35,7 @@ class ApplyTimestamp
 			return;
 		}
 
-		$timestamp = $this->dateTimeProvider->getDateTime()->format('Y-m-d H:i:s');
+		$timestamp = $this->dateTimeProvider->getDateTime()->format(\Spameri\Elastic\Entity\Property\DateTime::FORMAT);
 		$identity = $this->userProvider->getIdentity();
 		$userId = $identity ? $identity->getId() : NULL;
 
@@ -52,4 +52,5 @@ class ApplyTimestamp
 			);
 		}
 	}
+
 }

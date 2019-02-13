@@ -57,7 +57,7 @@ class PrepareEntityArray
 				$preparedArray[$key] = [];
 				/** @var \Spameri\Elastic\Entity\IEntity $item */
 				/** @var \Spameri\Elastic\Entity\IEntityCollection $property */
-				foreach ($property as $itemKey => $item) {
+				foreach ($property as $item) {
 					$preparedArray[$key][] = $this->iterateVariables($item->entityVariables());
 				}
 
@@ -69,7 +69,7 @@ class PrepareEntityArray
 				} else {
 					/** @var \Spameri\Elastic\Entity\IElasticEntity $item */
 					/** @var \Spameri\Elastic\Entity\IElasticEntityCollection $property */
-					foreach ($property as $itemKey => $item) {
+					foreach ($property as $item) {
 						$preparedArray[$key][] = $this->serviceLocator->locate($item)->insert($item);
 					}
 				}
@@ -95,15 +95,22 @@ class PrepareEntityArray
 			) {
 				$preparedArray[$key] = $property;
 
+			} elseif ($property instanceof \Spameri\Elastic\Entity\DateTimeInterface) {
+				$preparedArray[$key] = $property->format();
+
 			} elseif ($property instanceof \DateTime) {
-				$preparedArray[$key] = $property->format('Y-m-d H:i:s');
+				$preparedArray[$key] = $property->format(\Spameri\Elastic\Entity\Property\DateTime::FORMAT);
 
 			} else {
 				if (\is_object($property)) {
-					throw new \Spameri\Elastic\Exception\EntityIsNotValid('Property ' . $key . ' in ' . \get_class($property) . ' is not supported.');
+					throw new \Spameri\Elastic\Exception\EntityIsNotValid(
+						'Property ' . $key . ' in ' . \get_class($property) . ' is not supported.'
+					);
 				}
 
-				throw new \Spameri\Elastic\Exception\EntityIsNotValid('Property ' . $key . ' with value' . $property . ' is not supported.');
+				throw new \Spameri\Elastic\Exception\EntityIsNotValid(
+					'Property ' . $key . ' with value' . $property . ' is not supported.'
+				);
 			}
 		}
 
