@@ -68,7 +68,8 @@ abstract class BaseService implements IService
 		, GetBy $getBy
 		, GetAllBy $getAllBy
 		, Delete $delete
-	) {
+	)
+	{
 		$this->client = $client->client();
 		$this->index = $index;
 		$this->insert = $insert;
@@ -105,7 +106,6 @@ abstract class BaseService implements IService
 
 				return $this->entityFactory->create($resultCollection)->current();
 			}
-
 		} catch (\Spameri\Elastic\Exception\DocumentNotFound $exception) {
 			\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::ERROR);
 		}
@@ -130,7 +130,6 @@ abstract class BaseService implements IService
 			}
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
-
 		} catch (\Spameri\Elastic\Exception\DocumentNotFound $exception) {
 			\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::ERROR);
 		}
@@ -156,13 +155,11 @@ abstract class BaseService implements IService
 					[],
 					... $this->entityFactory->create($resultCollection)
 				);
-
 			} else {
 				$result = $this->collectionFactory->create(
 					$this
 				);
 			}
-
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
 
@@ -179,4 +176,23 @@ abstract class BaseService implements IService
 	{
 		return $this->delete->execute($id, $this->index);
 	}
+
+
+	public function aggregate(
+		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
+	) : array
+	{
+		return $this->client->search(
+			(
+			new \Spameri\ElasticQuery\Document(
+				$this->index,
+				new \Spameri\ElasticQuery\Document\Body\Plain(
+					$elasticQuery->toArray()
+				),
+				$this->index
+			)
+			)->toArray()
+		);
+	}
+
 }
