@@ -38,10 +38,13 @@ class DeleteIndex extends \Symfony\Component\Console\Command\Command
 	{
 		/** @var array $indexNames */
 		$indexNames = $input->getArgument('indexName');
+		$output->writeln('Starting');
 
 		foreach ($indexNames as $indexName) {
 			$this->elasticMapper->deleteIndex($indexName);
 		}
+
+		$output->writeln('Done');
 	}
 
 }

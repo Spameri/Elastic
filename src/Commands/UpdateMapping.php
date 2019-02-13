@@ -45,10 +45,13 @@ class UpdateMapping extends \Symfony\Component\Console\Command\Command
 	{
 		/** @var string $entityName */
 		$entityName = $input->getArgument('entityName');
+		$output->writeln('Starting');
 
 		if (isset($this->entities[$entityName])) {
 			$this->mapping->updateMapping($this->entities[$entityName]);
 		}
+
+		$output->writeln('Done');
 	}
 
 }

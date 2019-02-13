@@ -41,8 +41,11 @@ class RemoveAlias extends \Symfony\Component\Console\Command\Command
 		$index = $input->getArgument('index');
 		/** @var string $alias */
 		$alias = $input->getArgument('alias');
+		$output->writeln('Starting');
 
 		$this->elasticMapper->removeAlias($index, $alias);
+
+		$output->writeln('Done');
 	}
 
 }

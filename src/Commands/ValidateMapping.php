@@ -31,7 +31,7 @@ class ValidateMapping extends \Symfony\Component\Console\Command\Command
 
 
 	protected function execute(
-		\Symfony\Component\Console\Input\InputInterface $input
+		\Symfony\Component\Console\Input\InputInterface $input // phpcs:ignore
 		, \Symfony\Component\Console\Output\OutputInterface $output
 	)
 	{
