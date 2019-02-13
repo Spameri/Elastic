@@ -8,4 +8,5 @@ before_script:
   - composer install --no-interaction --prefer-dist
 
 script:
-  - vendor/bin/phpstan analyse -l 7  -c phpstan.neon src/Commands src/Config src/DI src/Diagnostics src/Exception src/Factory src/Model src/Settings src/ClientProvider.php src/Settings.php
+  - vendor/bin/phpstan analyse -l 7 -c phpstan.neon src tests
+  - vendor/bin/phpcs --standard=vendor/spameri/coding-standard/src/ruleset.xml src tests

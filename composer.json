@@ -32,7 +32,7 @@
 	  	"php": ">=7.1",
 	  	"nette/di": "v2.4.14",
 	  	"nette/security": "v2.4.3",
-		"spameri/elastic-query": "v0.1.2",
+		"spameri/elastic-query": "v0.2.0",
 		"elasticsearch/elasticsearch": "^6.0",
         "kdyby/console": "v2.7.1",
         "kdyby/datetime-provider": "v1.0.0",
@@ -41,6 +41,7 @@
 	},
 	"require-dev": {
 		"nette/tester": "2.1.0",
-		"phpstan/phpstan-shim": "0.10.3"
+		"phpstan/phpstan-shim": "0.11.2",
+        "spameri/coding-standard": "dev-master"
 	}
 }
