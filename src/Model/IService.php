@@ -30,4 +30,9 @@ interface IService
 		\Spameri\Elastic\Entity\Property\IElasticId $id
 	) : bool;
 
+
+	public function aggregate(
+		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
+	) : \Spameri\ElasticQuery\Response\ResultSearch;
+
 }

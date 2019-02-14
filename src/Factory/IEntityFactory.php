@@ -7,7 +7,7 @@ interface IEntityFactory
 {
 
 	public function create(
-		\Spameri\Elastic\Entity\Collection\ResultCollection $collection
+		\Spameri\ElasticQuery\Response\Result\Hit $hit
 	) : \Generator;
 
 }

@@ -20,6 +20,10 @@ class DeleteMultiple
 	}
 
 
+	/**
+	 * @throws \Spameri\Elastic\Exception\ElasticSearch
+	 * @throws \Spameri\Elastic\Exception\DocumentInsertFailed
+	 */
 	public function execute(
 		\Spameri\Elastic\Entity\IElasticEntityCollection $entityCollection
 		, string $index
@@ -40,13 +44,24 @@ class DeleteMultiple
 		if (\count($documentsArray)) {
 			$document = new \Spameri\ElasticQuery\Document\Bulk($documentsArray);
 
-			$response = $this->clientProvider->client()->bulk($document->toArray());
-			$this->clientProvider->client()->indices()->refresh(
-				(
-				new \Spameri\ElasticQuery\Document($index)
-				)
-					->toArray()
-			);
+			try {
+				$response = $this->clientProvider->client()->bulk($document->toArray());
+
+			} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
+				throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
+			}
+
+			try {
+				$this->clientProvider->client()->indices()->refresh(
+					(
+					new \Spameri\ElasticQuery\Document($index)
+					)
+						->toArray()
+				);
+
+			} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
+				throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
+			}
 
 			if ( ! $response['errors']) {
 				return $response['items'];

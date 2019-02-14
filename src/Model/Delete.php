@@ -20,29 +20,42 @@ class Delete
 	}
 
 
+	/**
+	 * @throws \Spameri\Elastic\Exception\ElasticSearch
+	 */
 	public function execute(
 		\Spameri\Elastic\Entity\Property\IElasticId $id
 		, string $index
 	) : bool
 	{
-		$response = $this->clientProvider->client()->delete(
-			(
+		try {
+			$response = $this->clientProvider->client()->delete(
+				(
 				new \Spameri\ElasticQuery\Document(
 					$index,
 					NULL,
 					$index,
 					$id->value()
 				)
-			)
-			->toArray()
-		);
+				)
+					->toArray()
+			);
 
-		$this->clientProvider->client()->indices()->refresh(
-			(
-			new \Spameri\ElasticQuery\Document($index)
-			)
-				->toArray()
-		);
+		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
+			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
+		}
+
+		try {
+			$this->clientProvider->client()->indices()->refresh(
+				(
+				new \Spameri\ElasticQuery\Document($index)
+				)
+					->toArray()
+			);
+
+		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
+			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
+		}
 
 		return $response['result'] === 'deleted';
 	}

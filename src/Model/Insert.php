@@ -27,6 +27,10 @@ class Insert
 	}
 
 
+	/**
+	 * @throws \Spameri\Elastic\Exception\ElasticSearch
+	 * @throws \Spameri\Elastic\Exception\DocumentInsertFailed
+	 */
 	public function execute(
 		\Spameri\Elastic\Entity\IElasticEntity $entity
 		, string $index
@@ -42,14 +46,24 @@ class Insert
 			$entity->id()->value()
 		);
 
-		$response = $this->clientProvider->client()->index($document->toArray());
+		try {
+			$response = $this->clientProvider->client()->index($document->toArray());
 
-		$this->clientProvider->client()->indices()->refresh(
-			(
-			new \Spameri\ElasticQuery\Document($index)
-			)
-				->toArray()
-		);
+		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
+			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
+		}
+
+		try {
+			$this->clientProvider->client()->indices()->refresh(
+				(
+				new \Spameri\ElasticQuery\Document($index)
+				)
+					->toArray()
+			);
+
+		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
+			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
+		}
 
 		if (\in_array($response['result'], ['created', 'updated'], TRUE)) {
 			return $response['_id'];

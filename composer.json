@@ -32,7 +32,7 @@
 	  	"php": ">=7.1",
 	  	"nette/di": "v2.4.14",
 	  	"nette/security": "v2.4.3",
-		"spameri/elastic-query": "v0.2.0",
+		"spameri/elastic-query": "v0.3.0",
 		"elasticsearch/elasticsearch": "^6.0",
         "kdyby/console": "v2.7.1",
         "kdyby/datetime-provider": "v1.0.0",

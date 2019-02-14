@@ -20,6 +20,9 @@ class Search
 	}
 
 
+	/**
+	 * @throws \Spameri\Elastic\Exception\ElasticSearch
+	 */
 	public function execute(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
 		, string $index

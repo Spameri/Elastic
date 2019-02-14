@@ -55,6 +55,10 @@ abstract class BaseService implements IService
 	 * @var \Spameri\Elastic\Factory\ICollectionFactory
 	 */
 	private $collectionFactory;
+	/**
+	 * @var \Spameri\Elastic\Model\Aggregate
+	 */
+	private $aggregate;
 
 
 	public function __construct(
@@ -68,6 +72,7 @@ abstract class BaseService implements IService
 		, GetBy $getBy
 		, GetAllBy $getAllBy
 		, Delete $delete
+		, Aggregate $aggregate
 	)
 	{
 		$this->client = $client->client();
@@ -80,9 +85,14 @@ abstract class BaseService implements IService
 		$this->entityProperties = $entityProperties;
 		$this->entityFactory = $entityFactory;
 		$this->collectionFactory = $collectionFactory;
+		$this->aggregate = $aggregate;
 	}
 
 
+	/**
+	 * @throws \Spameri\Elastic\Exception\ElasticSearch
+	 * @throws \Spameri\Elastic\Exception\DocumentInsertFailed
+	 */
 	public function insert(
 		\Spameri\Elastic\Entity\IElasticEntity $entity
 	) : string
@@ -99,42 +109,44 @@ abstract class BaseService implements IService
 	) : \Spameri\Elastic\Entity\IElasticEntity
 	{
 		try {
-			$data = $this->get->execute($id, $this->index);
+			$singleResult = $this->get->execute($id, $this->index);
 
-			if ($data) {
-				$resultCollection = new \Spameri\Elastic\Entity\Collection\ResultCollection($data);
+		} catch (\Spameri\Elastic\Exception\ElasticSearch $exception) {
+			\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
 
-				return $this->entityFactory->create($resultCollection)->current();
-			}
-		} catch (\Spameri\Elastic\Exception\DocumentNotFound $exception) {
-			\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::ERROR);
+			throw $exception;
 		}
-		throw new \Spameri\Elastic\Exception\DocumentNotFound(' with id ' . $id->value());
+
+		if ( ! $singleResult->stats()->found()) {
+			throw new \Spameri\Elastic\Exception\DocumentNotFound(' with id ' . $id->value());
+		}
+
+		return $this->entityFactory->create($singleResult->hit())->current();
 	}
 
 
 	/**
 	 * @throws \Spameri\Elastic\Exception\DocumentNotFound
+	 * @throws \Spameri\Elastic\Exception\ElasticSearch
 	 */
 	public function getBy(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
 	) : \Spameri\Elastic\Entity\IElasticEntity
 	{
 		try {
-			$data = $this->getBy->execute($elasticQuery, $this->index);
+			$resultSearch = $this->getBy->execute($elasticQuery, $this->index);
 
-			if ($data) {
-				$resultCollection = new \Spameri\Elastic\Entity\Collection\ResultCollection($data);
-
-				return $this->entityFactory->create($resultCollection)->current();
-			}
-		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
+		} catch (\Spameri\Elastic\Exception\ElasticSearch $exception) {
 			\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
-		} catch (\Spameri\Elastic\Exception\DocumentNotFound $exception) {
-			\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::ERROR);
+
+			throw $exception;
 		}
 
-		throw new \Spameri\Elastic\Exception\DocumentNotFound($this->index, $elasticQuery);
+		if ($resultSearch->stats()->total() === 0) {
+			throw new \Spameri\Elastic\Exception\DocumentNotFound($this->index, $elasticQuery);
+		}
+
+		return $this->entityFactory->create($resultSearch->hits()->getIterator()->current())->current();
 	}
 
 
@@ -146,27 +158,28 @@ abstract class BaseService implements IService
 	) : \Spameri\Elastic\Entity\IElasticEntityCollection
 	{
 		try {
-			$documents = $this->getAllBy->execute($elasticQuery, $this->index);
+			$resultSearch = $this->getAllBy->execute($elasticQuery, $this->index);
 
-			if ($documents) {
-				$resultCollection = new \Spameri\Elastic\Entity\Collection\ResultCollection($documents);
-				$result = $this->collectionFactory->create(
-					$this,
-					[],
-					... $this->entityFactory->create($resultCollection)
-				);
-			} else {
-				$result = $this->collectionFactory->create(
-					$this
-				);
-			}
-		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
+		} catch (\Spameri\Elastic\Exception\ElasticSearch $exception) {
 			\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
 
+			throw $exception;
+		}
+
+		if ($resultSearch->stats()->total() === 0) {
 			throw new \Spameri\Elastic\Exception\DocumentNotFound($this->index, $elasticQuery);
 		}
 
-		return $result;
+		$entities = [];
+		foreach ($resultSearch->hits() as $hit) {
+			$entities[] = $this->entityFactory->create($hit)->current();
+		}
+
+		return $this->collectionFactory->create(
+			$this,
+			[],
+			... $entities
+		);
 	}
 
 
@@ -174,25 +187,22 @@ abstract class BaseService implements IService
 		\Spameri\Elastic\Entity\Property\IElasticId $id
 	) : bool
 	{
-		return $this->delete->execute($id, $this->index);
+		try {
+			return $this->delete->execute($id, $this->index);
+
+		} catch (\Spameri\Elastic\Exception\ElasticSearch $exception) {
+			\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
+
+			throw $exception;
+		}
 	}
 
 
 	public function aggregate(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
-	) : array
+	) : \Spameri\ElasticQuery\Response\ResultSearch
 	{
-		return $this->client->search(
-			(
-			new \Spameri\ElasticQuery\Document(
-				$this->index,
-				new \Spameri\ElasticQuery\Document\Body\Plain(
-					$elasticQuery->toArray()
-				),
-				$this->index
-			)
-			)->toArray()
-		);
+		return $this->aggregate->execute($elasticQuery, $this->index);
 	}
 
 }

@@ -10,20 +10,26 @@ class Aggregate
 	 * @var \Spameri\Elastic\ClientProvider
 	 */
 	private $clientProvider;
+	/**
+	 * @var \Spameri\ElasticQuery\Response\ResultMapper
+	 */
+	private $resultMapper;
 
 
 	public function __construct(
 		\Spameri\Elastic\ClientProvider $clientProvider
+		, \Spameri\ElasticQuery\Response\ResultMapper $resultMapper
 	)
 	{
 		$this->clientProvider = $clientProvider;
+		$this->resultMapper = $resultMapper;
 	}
 
 
 	public function execute(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
 		string $index
-	) : array
+	) : \Spameri\ElasticQuery\Response\ResultSearch
 	{
 		try {
 			$result = $this->clientProvider->client()->search(
@@ -42,7 +48,7 @@ class Aggregate
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}
 
-		return $result;
+		return $this->resultMapper->mapSearchResults($result);
 	}
 
 }
