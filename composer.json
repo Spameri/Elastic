@@ -1,22 +1,22 @@
 {
 	"name": "spameri/elastic",
-    "type": "library",
-    "description": "ElasticSearch for Nette Framework",
-    "keywords": [
-        "nette",
-        "spameri",
-        "elastic",
-        "elasticsearch"
-    ],
-    "homepage": "http://github.com/spameri",
-    "license": [
-        "BSD-3-Clause",
-        "GPL-2.0",
-        "GPL-3.0"
-    ],
-    "support": {
-        "issues": "https://github.com/spameri/elastic/issues"
-    },
+	"type": "library",
+	"description": "ElasticSearch for Nette Framework",
+	"keywords": [
+		"nette",
+		"spameri",
+		"elastic",
+		"elasticsearch"
+	],
+	"homepage": "http://github.com/spameri",
+	"license": [
+		"BSD-3-Clause",
+		"GPL-2.0",
+		"GPL-3.0"
+	],
+	"support": {
+		"issues": "https://github.com/spameri/elastic/issues"
+	},
 	"authors": [
 		{
 			"name": "VBoss",
@@ -28,20 +28,25 @@
 			"Spameri\\Elastic\\": "src/"
 		}
 	},
+	"autoload-dev": {
+		"psr-4": {
+			"SpameriTests\\": "tests/SpameriTests"
+		}
+	},
 	"require": {
 	  	"php": ">=7.1",
 	  	"nette/di": "v2.4.14",
 	  	"nette/security": "v2.4.3",
 		"spameri/elastic-query": "v0.3.0",
 		"elasticsearch/elasticsearch": "^6.0",
-        "kdyby/console": "v2.7.1",
-        "kdyby/datetime-provider": "v1.0.0",
-        "kdyby/monolog": "v1.3.2",
+		"kdyby/console": "v2.7.1",
+		"kdyby/datetime-provider": "v1.0.0",
+		"kdyby/monolog": "v1.3.2",
 	  	"tracy/tracy": "v2.5.3"
 	},
 	"require-dev": {
 		"nette/tester": "2.1.0",
 		"phpstan/phpstan-shim": "0.11.2",
-        "spameri/coding-standard": "dev-master"
+		"spameri/coding-standard": "dev-master"
 	}
 }

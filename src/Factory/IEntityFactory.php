@@ -8,6 +8,6 @@ interface IEntityFactory
 
 	public function create(
 		\Spameri\ElasticQuery\Response\Result\Hit $hit
-	) : \Generator;
+	) : \Spameri\Elastic\Entity\IElasticEntity;
 
 }

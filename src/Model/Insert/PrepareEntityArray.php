@@ -101,16 +101,6 @@ class PrepareEntityArray
 			} elseif ($property instanceof \DateTime) {
 				$preparedArray[$key] = $property->format(\Spameri\Elastic\Entity\Property\DateTime::FORMAT);
 
-			} else {
-				if (\is_object($property)) {
-					throw new \Spameri\Elastic\Exception\EntityIsNotValid(
-						'Property ' . $key . ' in ' . \get_class($property) . ' is not supported.'
-					);
-				}
-
-				throw new \Spameri\Elastic\Exception\EntityIsNotValid(
-					'Property ' . $key . ' with value' . $property . ' is not supported.'
-				);
 			}
 		}
 
