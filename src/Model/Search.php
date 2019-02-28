@@ -11,12 +11,19 @@ class Search
 	 */
 	private $clientProvider;
 
+	/**
+	 * @var \Spameri\ElasticQuery\Response\ResultMapper
+	 */
+	private $resultMapper;
+
 
 	public function __construct(
 		\Spameri\Elastic\ClientProvider $clientProvider
+		, \Spameri\ElasticQuery\Response\ResultMapper $resultMapper
 	)
 	{
 		$this->clientProvider = $clientProvider;
+		$this->resultMapper = $resultMapper;
 	}
 
 
@@ -26,16 +33,21 @@ class Search
 	public function execute(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
 		, string $index
-	) : ?array
+		, ?string $type = NULL
+	) : \Spameri\ElasticQuery\Response\ResultSearch
 	{
+		if ($type === NULL) {
+			$type = $index;
+		}
+
 		try {
 			$result = $this->clientProvider->client()->search(
 				(
-				new \Spameri\ElasticQuery\Document(
-					$index,
-					new \Spameri\ElasticQuery\Document\Body\Plain($elasticQuery->toArray()),
-					$index
-				)
+					new \Spameri\ElasticQuery\Document(
+						$index,
+						new \Spameri\ElasticQuery\Document\Body\Plain($elasticQuery->toArray()),
+						$type
+					)
 				)
 					->toArray()
 			);
@@ -44,7 +56,7 @@ class Search
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}
 
-		return $result;
+		return $this->resultMapper->mapSearchResults($result);
 	}
 
 }

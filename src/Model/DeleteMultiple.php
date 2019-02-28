@@ -11,12 +11,19 @@ class DeleteMultiple
 	 */
 	private $clientProvider;
 
+	/**
+	 * @var \Spameri\ElasticQuery\Response\ResultMapper
+	 */
+	private $resultMapper;
+
 
 	public function __construct(
 		\Spameri\Elastic\ClientProvider $clientProvider
+		, \Spameri\ElasticQuery\Response\ResultMapper $resultMapper
 	)
 	{
 		$this->clientProvider = $clientProvider;
+		$this->resultMapper = $resultMapper;
 	}
 
 
@@ -27,15 +34,20 @@ class DeleteMultiple
 	public function execute(
 		\Spameri\Elastic\Entity\IElasticEntityCollection $entityCollection
 		, string $index
-	) : array
+		, ?string $type = NULL
+	) : \Spameri\ElasticQuery\Response\ResultBulk
 	{
+		if ($type === NULL) {
+			$type = $index;
+		}
+
 		$documentsArray = [];
 		/** @var \Spameri\Elastic\Entity\IElasticEntity $entity */
 		foreach ($entityCollection as $entity) {
 			$documentsArray[] = [
 				'delete' => [
 					'_index' => $index,
-					'_type'  => $index,
+					'_type'  => $type,
 					'_id' 	 => $entity->id()->value(),
 				],
 			];
@@ -54,7 +66,7 @@ class DeleteMultiple
 			try {
 				$this->clientProvider->client()->indices()->refresh(
 					(
-					new \Spameri\ElasticQuery\Document($index)
+						new \Spameri\ElasticQuery\Document($index)
 					)
 						->toArray()
 				);
@@ -63,11 +75,10 @@ class DeleteMultiple
 				throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 			}
 
-			if ( ! $response['errors']) {
-				return $response['items'];
-			}
+			return $this->resultMapper->mapBulkResult($response);
 		}
 
 		throw new \Spameri\Elastic\Exception\DocumentInsertFailed();
 	}
+
 }

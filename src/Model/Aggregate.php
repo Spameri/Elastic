@@ -27,10 +27,15 @@ class Aggregate
 
 
 	public function execute(
-		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
-		string $index
+		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
+		, string $index
+		, ?string $type = NULL
 	) : \Spameri\ElasticQuery\Response\ResultSearch
 	{
+		if ($type === NULL) {
+			$type = $index;
+		}
+
 		try {
 			$result = $this->clientProvider->client()->search(
 				(
@@ -39,7 +44,7 @@ class Aggregate
 					new \Spameri\ElasticQuery\Document\Body\Plain(
 						$elasticQuery->toArray()
 					),
-					$index
+					$type
 				)
 				)->toArray()
 			);

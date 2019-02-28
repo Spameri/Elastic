@@ -32,6 +32,24 @@ services:
 	deleteMultiple:
 		class: Spameri\Elastic\Model\DeleteMultiple
 
+	indiceClose:
+		class: Spameri\Elastic\Model\Indices\Close
+
+	indiceOpen:
+		class: Spameri\Elastic\Model\Indices\Open
+
+	indiceGet:
+		class: Spameri\Elastic\Model\Indices\Get
+
+	indiceGetMapping:
+		class: Spameri\Elastic\Model\Indices\GetMapping
+
+	indicePutMapping:
+		class: Spameri\Elastic\Model\Indices\PutMapping
+
+	indicesCreate:
+		class: Spameri\Elastic\Model\Indices\Create
+
 	serviceLocator:
 		class: Spameri\Elastic\Model\ServiceLocator
 
@@ -62,6 +80,12 @@ services:
 	display:
 		class: Spameri\Elastic\Model\ValidateMapping\Display
 
+	documentMigrateStatus:
+		class: Spameri\Elastic\Model\TypeToNewIndex\DocumentMigrateStatus
+
+	migrate:
+		class: Spameri\Elastic\Model\TypeToNewIndex\Migrate
+
 #	###
 #	Commands
 #	###
@@ -89,6 +113,21 @@ services:
 	validateMappingCommand:
 		class: Spameri\Elastic\Commands\ValidateMapping
 		tags: [kdyby.console.command]
+
+	typeToNewIndex:
+		class: Spameri\Elastic\Commands\TypeToNewIndex
+		tags: [kdyby.console.command]
+
+	dumpIndex:
+		class: Spameri\Elastic\Commands\DumpIndex
+		tags: [kdyby.console.command]
+
+#	###
+#	Spameri/ElasticQuery
+#	###
+
+	resultMapper:
+		class: Spameri\ElasticQuery\Response\ResultMapper
 
 #	###
 #	Elastic/Elastic
