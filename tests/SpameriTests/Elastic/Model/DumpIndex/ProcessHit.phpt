@@ -36,13 +36,14 @@ class ProcessHit extends \Tester\TestCase
 		/** @var \Spameri\ElasticQuery\Response\Result\Hit $hit */
 		$hit = $hits->getIterator()->offsetGet(0);
 
-		/** @var \Spameri\Elastic\Model\Search $search */
-		$search = \Spamer\DependencyMocker\Mocker::mockClassDependencies(\Spameri\Elastic\Model\Search::class);
+		/** @var \Spameri\Elastic\Model\Scroll $scroll */
+		$scroll = \Spamer\DependencyMocker\Mocker::mockClassDependencies(\Spameri\Elastic\Model\Scroll::class);
 		$dumpIndex = new \Spameri\Elastic\Model\DumpIndex(
-			$search
+			$scroll
 		);
 
-		$dumpIndex->processHit($hit, 'test.log');
+		$dumpIndex->processHit($hit);
+		$dumpIndex->writeToFile('test.log');
 
 		\Tester\Assert::same(
 	'{"index":{"_index":"spameri_guessed-2018-11-29_21-25-34","_type":"spameri_guessed","_id":"EWhVcWcBhsjlL-GzEP8i"}}'

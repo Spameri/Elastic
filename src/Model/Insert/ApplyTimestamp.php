@@ -7,19 +7,19 @@ class ApplyTimestamp
 {
 
 	/**
-	 * @var \Spameri\Elastic\Model\UserProvider
+	 * @var \Spameri\Elastic\Model\UserProviderInterface
 	 */
 	protected $userProvider;
 
 	/**
-	 * @var \Kdyby\DateTimeProvider\Provider\ConstantProvider
+	 * @var \Spameri\Elastic\Provider\DateTimeProvider
 	 */
 	protected $dateTimeProvider;
 
 
 	public function __construct(
-		\Spameri\Elastic\Model\UserProvider $userProvider
-		, \Kdyby\DateTimeProvider\Provider\ConstantProvider $dateTimeProvider
+		\Spameri\Elastic\Model\UserProviderInterface $userProvider
+		, \Spameri\Elastic\Provider\DateTimeProvider $dateTimeProvider
 	)
 	{
 		$this->userProvider = $userProvider;
@@ -35,9 +35,10 @@ class ApplyTimestamp
 			return;
 		}
 
-		$timestamp = $this->dateTimeProvider->getDateTime()->format(\Spameri\Elastic\Entity\Property\DateTime::FORMAT);
-		$identity = $this->userProvider->getIdentity();
-		$userId = $identity ? $identity->getId() : NULL;
+		$timestamp = $this->dateTimeProvider->provide()->format(\Spameri\Elastic\Entity\Property\DateTime::FORMAT);
+		$userId = new \Spameri\Elastic\Entity\Property\ElasticId(
+			$this->userProvider->getId()
+		);
 
 		if ($entity->id() instanceof \Spameri\Elastic\Entity\Property\EmptyElasticId) {
 			$entity->tracking()->initialize(

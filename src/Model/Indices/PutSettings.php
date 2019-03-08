@@ -3,7 +3,7 @@
 namespace Spameri\Elastic\Model\Indices;
 
 
-class Create
+class PutSettings
 {
 
 	/**
@@ -22,16 +22,16 @@ class Create
 
 	public function execute(
 		string $index
-		, array $parameters
+		, array $settings
 	) : array
 	{
 		try {
 			/** @var array $result */
-			$result = $this->clientProvider->client()->indices()->create(
+			$result = $this->clientProvider->client()->indices()->putSettings(
 				(
 					new \Spameri\ElasticQuery\Document(
 						$index,
-						new \Spameri\ElasticQuery\Document\Body\Plain($parameters)
+						new \Spameri\ElasticQuery\Document\Body\Plain($settings)
 					)
 				)->toArray()
 			);

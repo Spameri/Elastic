@@ -25,10 +25,10 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 
 
 	public function __construct(
-		\Psr\Log\LoggerInterface $logger = NULL
+		\Psr\Log\LoggerInterface $logger
 	)
 	{
-		$this->logger = $logger ?: new \Psr\Log\NullLogger;
+		$this->logger = $logger;
 	}
 
 

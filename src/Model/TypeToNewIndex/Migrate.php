@@ -22,9 +22,9 @@ class Migrate
 	private $clientProvider;
 
 	/**
-	 * @var \Kdyby\DateTimeProvider\Provider\ConstantProvider
+	 * @var \Spameri\Elastic\Provider\DateTimeProvider
 	 */
-	private $constantProvider;
+	private $dateTimeProvider;
 
 	/**
 	 * @var \Spameri\Elastic\Model\Delete
@@ -66,11 +66,21 @@ class Migrate
 	 */
 	private $create;
 
+	/**
+	 * @var \Spameri\Elastic\Model\Indices\Get
+	 */
+	private $indicesGet;
+
+	/**
+	 * @var \Spameri\Elastic\Model\Indices\PutSettings
+	 */
+	private $putSettings;
+
 
 	public function __construct(
 		DocumentMigrateStatus $documentMigrateStatus
 		, \Spameri\Elastic\ClientProvider $clientProvider
-		, \Kdyby\DateTimeProvider\Provider\ConstantProvider $constantProvider
+		, \Spameri\Elastic\Provider\DateTimeProvider $dateTimeProvider
 		, \Spameri\Elastic\Model\Delete $delete
 		, \Spameri\Elastic\Model\Get $get
 		, \Spameri\Elastic\Model\Indices\Close $close
@@ -79,11 +89,13 @@ class Migrate
 		, \Spameri\Elastic\Model\Search $search
 		, \Spameri\Elastic\Mapper\ElasticMapper $elasticMapper
 		, \Spameri\Elastic\Model\Indices\Create $create
+		, \Spameri\Elastic\Model\Indices\Get $indicesGet
+		, \Spameri\Elastic\Model\Indices\PutSettings $putSettings
 	)
 	{
 		$this->documentMigrateStatus = $documentMigrateStatus;
 		$this->clientProvider = $clientProvider;
-		$this->constantProvider = $constantProvider;
+		$this->dateTimeProvider = $dateTimeProvider;
 		$this->delete = $delete;
 		$this->get = $get;
 		$this->close = $close;
@@ -92,6 +104,8 @@ class Migrate
 		$this->search = $search;
 		$this->elasticMapper = $elasticMapper;
 		$this->create = $create;
+		$this->indicesGet = $indicesGet;
+		$this->putSettings = $putSettings;
 	}
 
 
@@ -115,18 +129,30 @@ class Migrate
 	) : void
 	{
 		// 1. Close index
-		$this->output->writeln('Closing index ' . $indexFrom);
-		$this->close->execute($indexFrom);
+		if ($allowClose) {
+			$this->output->writeln('Closing index ' . $indexFrom);
+			$this->close->execute($indexFrom);
+		}
 
 		// 2. Create new index
-		$indexTo .= $this->constantProvider->getDateTime()->format('Y-m-d_H-i-s');
+		$indexTo .= '_' . $this->dateTimeProvider->provide()->format(\Spameri\Elastic\Entity\Property\DateTime::INDEX_FORMAT);
 		$this->output->writeln('Creating index ' . $indexTo);
-		$this->create->execute($indexTo);
 
-		// 2a. Set mapping in new index
+		// 2a. Put settings to new index
+		$oldIndexSettings = $this->indicesGet->execute($indexFrom);
+		$settings = \reset($oldIndexSettings);
+		$this->create->execute($indexTo, [
+			'settings' => [
+				'index' => $settings['settings']['index']['analysis'],
+			]
+		]);
+		// TODO otestovat
+
+		// 2b. Set mapping in new index
 		$this->output->writeln('Transferring mapping from index: ' . $indexFrom . ' and type: ' . $typeFrom . ' to index: ' . $indexTo);
 		$oldMapping = $this->getMapping->execute($indexFrom, $typeFrom);
-		$this->putMapping->execute($indexTo, $oldMapping);
+		$firstMapping = \reset($oldMapping);
+		$this->putMapping->execute($indexTo, $firstMapping['mappings']);
 
 		// 3. Foreach index data
 		$this->output->writeln('Starting migration.');

@@ -12,18 +12,18 @@ class ElasticMapper
 	private $clientProvider;
 
 	/**
-	 * @var \Kdyby\DateTimeProvider\Provider\ConstantProvider
+	 * @var \Spameri\Elastic\Provider\DateTimeProvider
 	 */
-	private $constantProvider;
+	private $dateTimeProvider;
 
 
 	public function __construct(
 		\Spameri\Elastic\ClientProvider $clientProvider
-		, \Kdyby\DateTimeProvider\Provider\ConstantProvider $constantProvider
+		, \Spameri\Elastic\Provider\DateTimeProvider $dateTimeProvider
 	)
 	{
 		$this->clientProvider = $clientProvider;
-		$this->constantProvider = $constantProvider;
+		$this->dateTimeProvider = $dateTimeProvider;
 	}
 
 
@@ -74,7 +74,7 @@ class ElasticMapper
 				throw new \Spameri\Elastic\Exception\IndexAlreadyExists($entity['index']);
 
 			} catch (\Elasticsearch\Common\Exceptions\Missing404Exception $exception) {
-				$indexName = $entity['index'] . '-' . $this->constantProvider->getDateTime()->format('Y-m-d_H-i-s');
+				$indexName = $entity['index'] . '-' . $this->dateTimeProvider->provide()->format(\Spameri\Elastic\Entity\Property\DateTime::INDEX_FORMAT);
 				$this->clientProvider->client()->indices()->create(
 					(
 					new \Spameri\ElasticQuery\Document(

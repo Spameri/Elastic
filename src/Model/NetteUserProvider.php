@@ -3,7 +3,7 @@
 namespace Spameri\Elastic\Model;
 
 
-class UserProvider
+class NetteUserProvider implements UserProviderInterface
 {
 
 	/**
@@ -29,6 +29,18 @@ class UserProvider
 	public function getIdentity() : ?\Nette\Security\IIdentity
 	{
 		return $this->user->getIdentity();
+	}
+
+
+	public function getId(): string
+	{
+		$id = '';
+		if ($this->user->getIdentity()) {
+			/** @var mixed $id */
+			$id = $this->user->getIdentity()->getId() ?: '';
+		}
+
+		return (string) $id;
 	}
 
 }

@@ -22,7 +22,7 @@ class DumpIndex extends \Symfony\Component\Console\Command\Command
 
 
 	/**
-	 * @example spameri:elastic:move-type oldIndex productType newIndex newIndexAlias -c
+	 * @example spameri:elastic:dump-index index elasticDump.dump
 	 */
 	protected function configure() : void
 	{
