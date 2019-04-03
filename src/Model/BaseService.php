@@ -54,11 +54,12 @@ abstract class BaseService implements IService
 	/**
 	 * @var \Spameri\Elastic\Factory\ICollectionFactory
 	 */
-	private $collectionFactory;
+	protected $collectionFactory;
+
 	/**
 	 * @var \Spameri\Elastic\Model\Aggregate
 	 */
-	private $aggregate;
+	protected $aggregate;
 
 
 	public function __construct(

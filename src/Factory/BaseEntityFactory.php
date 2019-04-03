@@ -10,7 +10,6 @@ abstract class BaseEntityFactory implements IEntityFactory
 	 * @var \Spameri\Elastic\Factory\DependencyLoader
 	 */
 	private $dependencyLoader;
-
 	/**
 	 * @var \Spameri\Elastic\Factory\EntityClassResolver
 	 */
@@ -54,9 +53,28 @@ abstract class BaseEntityFactory implements IEntityFactory
 	}
 
 
+	public function mapDataToEntity(
+		\Spameri\ElasticQuery\Response\Result\Hit $hit
+		, array $map
+		, string $class
+	) : \Spameri\Elastic\Entity\BaseEntity
+	{
+		$properties = [];
+
+		foreach ($map as $property) {
+			$properties[] = new $property($source[$property]); // todo
+		}
+
+		return $class(
+			... $properties
+		);
+	}
 
 
+	public function iterateFields()
+	{
 
+	}
 
 
 

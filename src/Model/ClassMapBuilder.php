@@ -10,43 +10,42 @@ class ClassMapBuilder
 	 * @var \Spameri\Elastic\Model\EntityMappingProvider
 	 */
 	private $entityMappingProvider;
-
 	/**
-	 * @var array
+	 * @var \Spameri\Elastic\Model\ClassMapProvider
 	 */
-	private $map;
+	private $classMapProvider;
 
 
 	public function __construct(
 		EntityMappingProvider $entityMappingProvider
+		, ClassMapProvider $classMapProvider
 	)
 	{
 		$this->entityMappingProvider = $entityMappingProvider;
+		$this->classMapProvider = $classMapProvider;
 	}
 
 
 	public function getMapping() : array
 	{
-		return $this->map;
+		return $this->classMapProvider->all();
 	}
 
 
-	public function build(): void
+	public function build() : void
 	{
 		foreach ($this->entityMappingProvider->provide() as $entityMapping) {
 			$class = $entityMapping['class'];
 
 			$reflection = new \ReflectionClass($class);
-			$map = $this->processProperties($reflection);
-
-			$this->map[$class] = $map;
+			$this->classMapProvider->add($class, $this->processProperties($reflection));
 		}
 	}
 
 
 	public function processProperties(
 		\ReflectionClass $reflectionClass
-	): array
+	) : array
 	{
 		$map = [];
 
