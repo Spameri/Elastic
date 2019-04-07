@@ -27,6 +27,7 @@
 		"php": ">=7.1",
 		"nette/di": "^2.4.10",
 		"nette/security": "^2.4.3",
+		"nette/utils": "^2.5.3",
 		"spameri/elastic-query": "^0.3.0",
 		"elasticsearch/elasticsearch": "^6.0",
 		"kdyby/console": "^2.7.1",
