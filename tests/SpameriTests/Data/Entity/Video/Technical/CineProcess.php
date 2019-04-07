@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SpameriTests\Data\Entity\Video\Technical;
 
@@ -7,7 +7,7 @@ class CineProcess implements \Spameri\Elastic\Entity\IValue
 {
 
 	/**
-	 * @var string
+	 * @var string|NULL
 	 */
 	private $value;
 
@@ -16,7 +16,7 @@ class CineProcess implements \Spameri\Elastic\Entity\IValue
 		?string $value
 	)
 	{
-		if (\strlen($value) > 255) {
+		if ($value !== NULL && \strlen($value) > 255) {
 			throw new \InvalidArgumentException();
 		}
 

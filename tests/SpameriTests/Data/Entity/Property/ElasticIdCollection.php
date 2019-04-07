@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SpameriTests\Data\Entity\Property;
 
@@ -7,7 +7,7 @@ class ElasticIdCollection implements \Spameri\Elastic\Entity\IValueCollection
 {
 
 	/**
-	 * @var \Spameri\Elastic\Entity\Property\IElasticId[]
+	 * @var array<\Spameri\Elastic\Entity\Property\IElasticId>
 	 */
 	private $collection;
 

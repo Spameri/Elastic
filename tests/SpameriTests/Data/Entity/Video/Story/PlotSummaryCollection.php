@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SpameriTests\Data\Entity\Video\Story;
 
@@ -7,7 +7,7 @@ class PlotSummaryCollection implements \Spameri\Elastic\Entity\IValueCollection
 {
 
 	/**
-	 * @var PlotSummary[]
+	 * @var array<\SpameriTests\Data\Entity\Video\Story\PlotSummary>
 	 */
 	private $collection;
 
@@ -31,9 +31,9 @@ class PlotSummaryCollection implements \Spameri\Elastic\Entity\IValueCollection
 	}
 
 
-	public function first() :? PlotSummary
+	public function first() : ?PlotSummary
 	{
-		$first = reset($this->collection);
+		$first = \reset($this->collection);
 
 		return $first ?: NULL;
 	}

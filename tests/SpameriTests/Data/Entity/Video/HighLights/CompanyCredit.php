@@ -1,6 +1,9 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SpameriTests\Data\Entity\Video\HighLights;
+
+
+use SpameriTests\Data\Entity\Video\HighLights\CompanyCredit\CompanyCollection;
 
 
 class CompanyCredit implements \Spameri\Elastic\Entity\IEntity
@@ -12,7 +15,7 @@ class CompanyCredit implements \Spameri\Elastic\Entity\IEntity
 	private $group;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\HighLights\CompanyCollection
+	 * @var \SpameriTests\Data\Entity\Video\HighLights\CompanyCredit\CompanyCollection
 	 */
 	private $company;
 
@@ -29,7 +32,7 @@ class CompanyCredit implements \Spameri\Elastic\Entity\IEntity
 
 	public function entityVariables() : array
 	{
-		return get_object_vars($this);
+		return \get_object_vars($this);
 	}
 
 
@@ -45,7 +48,7 @@ class CompanyCredit implements \Spameri\Elastic\Entity\IEntity
 	}
 
 
-	public function company() : \SpameriTests\Data\Entity\Video\HighLights\CompanyCollection
+	public function company() : CompanyCredit\CompanyCollection
 	{
 		return $this->company;
 	}

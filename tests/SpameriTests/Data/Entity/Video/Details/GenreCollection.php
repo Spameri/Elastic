@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SpameriTests\Data\Entity\Video\Details;
 
@@ -7,7 +7,7 @@ class GenreCollection implements \Spameri\Elastic\Entity\IValueCollection
 {
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Details\Genre[]
+	 * @var array<\SpameriTests\Data\Entity\Video\Details\Genre>
 	 */
 	private $collection;
 

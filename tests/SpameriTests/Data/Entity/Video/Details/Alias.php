@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SpameriTests\Data\Entity\Video\Details;
 
@@ -28,7 +28,7 @@ class Alias implements \Spameri\Elastic\Entity\IEntity
 
 	public function entityVariables() : array
 	{
-		return get_object_vars($this);
+		return \get_object_vars($this);
 	}
 
 
@@ -38,13 +38,13 @@ class Alias implements \Spameri\Elastic\Entity\IEntity
 	}
 
 
-	public function country(): \SpameriTests\Data\Entity\Property\CountryShort
+	public function country() : \SpameriTests\Data\Entity\Property\CountryShort
 	{
 		return $this->country;
 	}
 
 
-	public function name(): \SpameriTests\Data\Entity\Property\Text
+	public function name() : \SpameriTests\Data\Entity\Property\Text
 	{
 		return $this->name;
 	}

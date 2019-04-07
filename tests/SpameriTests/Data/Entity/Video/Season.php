@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SpameriTests\Data\Entity\Video;
 
@@ -28,7 +28,7 @@ class Season implements \Spameri\Elastic\Entity\IEntity
 
 	public function entityVariables() : array
 	{
-		return get_object_vars($this);
+		return \get_object_vars($this);
 	}
 
 
@@ -38,13 +38,13 @@ class Season implements \Spameri\Elastic\Entity\IEntity
 	}
 	
 	
-	public function number(): \SpameriTests\Data\Entity\Property\ImdbId
+	public function number() : \SpameriTests\Data\Entity\Property\ImdbId
 	{
 		return $this->number;
 	}
 
 
-	public function episodes(): \SpameriTests\Data\Entity\Video\Season\EpisodeCollection
+	public function episodes() : \SpameriTests\Data\Entity\Video\Season\EpisodeCollection
 	{
 		return $this->episodes;
 	}

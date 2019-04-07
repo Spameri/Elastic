@@ -28,7 +28,7 @@ class Job implements \Spameri\Elastic\Entity\IEntity
 	private $description;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\ImdbId
+	 * @var \SpameriTests\Data\Entity\Property\ImdbId|NULL
 	 */
 	private $episode;
 
@@ -49,7 +49,7 @@ class Job implements \Spameri\Elastic\Entity\IEntity
 
 	public function entityVariables() : array
 	{
-		return get_object_vars($this);
+		return \get_object_vars($this);
 	}
 
 

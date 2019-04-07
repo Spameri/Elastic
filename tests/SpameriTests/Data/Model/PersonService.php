@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SpameriTests\Data\Model;
 
@@ -44,7 +44,7 @@ class PersonService extends \Spameri\Elastic\Model\BaseService
 
 	/**
 	 * @param \Spameri\ElasticQuery\ElasticQuery $elasticQuery
-	 * @return \Spameri\Elastic\Entity\IElasticEntityCollection|\SpameriTests\Data\Entity\Person[]
+	 * @return \Spameri\Elastic\Entity\IElasticEntityCollection|array<\SpameriTests\Data\Entity\Person>
 	 */
 	public function getAllBy(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery

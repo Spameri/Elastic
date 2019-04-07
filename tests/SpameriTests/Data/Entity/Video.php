@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SpameriTests\Data\Entity;
 
@@ -85,6 +85,10 @@ class Video implements \Spameri\Elastic\Entity\IElasticEntity
 		$this->details = $details;
 		$this->highLights = $highLights;
 		$this->connections = $connections;
+
+		if ($season === NULL) {
+			$season = new \SpameriTests\Data\Entity\Video\SeasonCollection();
+		}
 		$this->season = $season;
 		$this->people = $people;
 	}

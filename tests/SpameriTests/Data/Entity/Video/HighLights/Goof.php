@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SpameriTests\Data\Entity\Video\HighLights;
 
@@ -17,7 +17,7 @@ class Goof implements \Spameri\Elastic\Entity\IEntity
 	private $text;
 
 	/**
-	 * @var Relevancy
+	 * @var \SpameriTests\Data\Entity\Video\HighLights\Relevancy
 	 */
 	private $relevancy;
 
@@ -36,29 +36,29 @@ class Goof implements \Spameri\Elastic\Entity\IEntity
 
 	public function entityVariables() : array
 	{
-		return get_object_vars($this);
+		return \get_object_vars($this);
 	}
 
 
 	public function key() : string
 	{
-		return $this->id->value();
+		return (string) $this->id->value();
 	}
 
 
-	public function id(): \SpameriTests\Data\Entity\Property\ImdbId
+	public function id() : \SpameriTests\Data\Entity\Property\ImdbId
 	{
 		return $this->id;
 	}
 
 
-	public function text(): \SpameriTests\Data\Entity\Property\Text
+	public function text() : \SpameriTests\Data\Entity\Property\Text
 	{
 		return $this->text;
 	}
 
 
-	public function relevancy(): Relevancy
+	public function relevancy() : Relevancy
 	{
 		return $this->relevancy;
 	}

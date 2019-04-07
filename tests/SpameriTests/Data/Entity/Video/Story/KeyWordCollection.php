@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SpameriTests\Data\Entity\Video\Story;
 
@@ -7,7 +7,7 @@ class KeyWordCollection implements \Spameri\Elastic\Entity\IValueCollection
 {
 
 	/**
-	 * @var KeyWord[]
+	 * @var array<\SpameriTests\Data\Entity\Video\Story\KeyWord>
 	 */
 	private $collection;
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SpameriTests\Data\Entity\Person;
 
@@ -16,7 +16,7 @@ class JobCollectionElastic extends \Spameri\Elastic\Entity\Collection\EntityColl
 			if ($episode) {
 				if (
 					$job->id()->value() === $imdbId->value()
-					&& $job->episode()
+					&& $job->episode() instanceof \SpameriTests\Data\Entity\Property\ImdbId
 					&& $job->episode()->value() === $episode->value()
 				) {
 					return $job;

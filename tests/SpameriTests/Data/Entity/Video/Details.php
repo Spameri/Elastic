@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SpameriTests\Data\Entity\Video;
 
@@ -6,15 +6,15 @@ namespace SpameriTests\Data\Entity\Video;
 class Details implements \Spameri\Elastic\Entity\IEntity
 {
 	/**
-	 * @var Details\GenreCollection
+	 * @var \SpameriTests\Data\Entity\Video\Details\GenreCollection
 	 */
 	private $genres;
 	/**
-	 * @var Details\AliasCollectionElastic
+	 * @var \SpameriTests\Data\Entity\Video\Details\AliasCollectionElastic
 	 */
 	private $alias;
 	/**
-	 * @var Details\ReleaseCollectionElastic
+	 * @var \SpameriTests\Data\Entity\Video\Details\ReleaseCollectionElastic
 	 */
 	private $release;
 	/**
@@ -39,7 +39,7 @@ class Details implements \Spameri\Elastic\Entity\IEntity
 
 	public function entityVariables() : array
 	{
-		return get_object_vars($this);
+		return \get_object_vars($this);
 	}
 
 
@@ -49,19 +49,19 @@ class Details implements \Spameri\Elastic\Entity\IEntity
 	}
 
 
-	public function genres(): Details\GenreCollection
+	public function genres() : Details\GenreCollection
 	{
 		return $this->genres;
 	}
 
 
-	public function alias(): Details\AliasCollectionElastic
+	public function alias() : Details\AliasCollectionElastic
 	{
 		return $this->alias;
 	}
 
 
-	public function release(): Details\ReleaseCollectionElastic
+	public function release() : Details\ReleaseCollectionElastic
 	{
 		return $this->release;
 	}

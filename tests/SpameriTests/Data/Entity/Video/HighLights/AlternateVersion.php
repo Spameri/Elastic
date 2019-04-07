@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SpameriTests\Data\Entity\Video\HighLights;
 
@@ -22,7 +22,7 @@ class AlternateVersion implements \Spameri\Elastic\Entity\IEntity
 
 	public function entityVariables() : array
 	{
-		return get_object_vars($this);
+		return \get_object_vars($this);
 	}
 
 
@@ -32,7 +32,7 @@ class AlternateVersion implements \Spameri\Elastic\Entity\IEntity
 	}
 
 
-	public function text(): \SpameriTests\Data\Entity\Property\Text
+	public function text() : \SpameriTests\Data\Entity\Property\Text
 	{
 		return $this->text;
 	}

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SpameriTests\Data\Entity\Property;
 
@@ -7,7 +7,7 @@ class ImdbIdCollection implements \Spameri\Elastic\Entity\IValueCollection
 {
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\ImdbId[]
+	 * @var array<\SpameriTests\Data\Entity\Property\ImdbId>
 	 */
 	private $collection;
 
@@ -53,7 +53,13 @@ class ImdbIdCollection implements \Spameri\Elastic\Entity\IValueCollection
 
 	public function first() : ?ImdbId
 	{
-		return \reset($this->collection);
+		$first = \reset($this->collection);
+
+		if ($first === FALSE) {
+			throw new \Nette\InvalidStateException();
+		}
+
+		return $first;
 	}
 
 

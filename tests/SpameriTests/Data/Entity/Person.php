@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace SpameriTests\Data\Entity;
 
@@ -78,7 +78,7 @@ class Person implements \Spameri\Elastic\Entity\IElasticEntity
 
 	public function entityVariables() : array
 	{
-		return get_object_vars($this);
+		return \get_object_vars($this);
 	}
 
 

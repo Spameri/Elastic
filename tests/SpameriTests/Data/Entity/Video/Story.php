@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SpameriTests\Data\Entity\Video;
 
@@ -22,7 +22,7 @@ class Story implements \Spameri\Elastic\Entity\IEntity
 	private $plots;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Story\Synopsis
+	 * @var \SpameriTests\Data\Entity\Video\Story\Synopsis|NULL
 	 */
 	private $synopsis;
 
@@ -37,7 +37,7 @@ class Story implements \Spameri\Elastic\Entity\IEntity
 		, \SpameriTests\Data\Entity\Video\Story\TagLineCollection $tagLines
 		, \SpameriTests\Data\Entity\Video\Story\PlotSummaryCollection $plots
 		, \SpameriTests\Data\Entity\Video\Story\KeyWordCollection $keyWord
-		, \SpameriTests\Data\Entity\Video\Story\Synopsis $synopsis = NULL
+		, ?\SpameriTests\Data\Entity\Video\Story\Synopsis $synopsis = NULL
 	)
 	{
 		$this->description = $description;
@@ -50,7 +50,7 @@ class Story implements \Spameri\Elastic\Entity\IEntity
 
 	public function entityVariables() : array
 	{
-		return get_object_vars($this);
+		return \get_object_vars($this);
 	}
 
 
@@ -87,14 +87,14 @@ class Story implements \Spameri\Elastic\Entity\IEntity
 
 
 	public function setSynopsis(
-		\SpameriTests\Data\Entity\Video\Story\Synopsis $synopsis
+		?\SpameriTests\Data\Entity\Video\Story\Synopsis $synopsis
 	) : void
 	{
 		$this->synopsis = $synopsis;
 	}
 
 
-	public function synopsis() : \SpameriTests\Data\Entity\Video\Story\Synopsis
+	public function synopsis() : ?\SpameriTests\Data\Entity\Video\Story\Synopsis
 	{
 		return $this->synopsis;
 	}

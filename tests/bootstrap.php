@@ -1,6 +1,5 @@
 <?php declare(strict_types = 1);
 
-
 /**
  * This file is part of the Spameri (http://www.github.com/spameri)
  *
@@ -21,7 +20,7 @@ if ( ! $loader) {
 
 \define('TEMP_DIR', __DIR__ . '/tmp/' . (isset($_SERVER['argv']) ? \md5(\serialize($_SERVER['argv'])) : \getmypid()));
 
-Tester\Helpers::purge(TEMP_DIR);
-Tracy\Debugger::$logDirectory = TEMP_DIR;
+Tester\Helpers::purge(\TEMP_DIR);
+Tracy\Debugger::$logDirectory = \TEMP_DIR;
 
 return $loader;

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SpameriTests\Data\Entity\Video;
 
@@ -60,7 +60,7 @@ class HighLights implements \Spameri\Elastic\Entity\IEntity
 
 	public function entityVariables() : array
 	{
-		return get_object_vars($this);
+		return \get_object_vars($this);
 	}
 
 
@@ -70,25 +70,25 @@ class HighLights implements \Spameri\Elastic\Entity\IEntity
 	}
 
 
-	public function trivia(): \SpameriTests\Data\Entity\Video\HighLights\TriviaCollection
+	public function trivia() : \SpameriTests\Data\Entity\Video\HighLights\TriviaCollection
 	{
 		return $this->trivia;
 	}
 
 
-	public function goof(): \SpameriTests\Data\Entity\Video\HighLights\GoofCollection
+	public function goof() : \SpameriTests\Data\Entity\Video\HighLights\GoofCollection
 	{
 		return $this->goof;
 	}
 
 
-	public function crazyCredit(): \SpameriTests\Data\Entity\Video\HighLights\CrazyCreditCollection
+	public function crazyCredit() : \SpameriTests\Data\Entity\Video\HighLights\CrazyCreditCollection
 	{
 		return $this->crazyCredit;
 	}
 
 
-	public function quote(): \SpameriTests\Data\Entity\Video\HighLights\QuoteCollection
+	public function quote() : \SpameriTests\Data\Entity\Video\HighLights\QuoteCollection
 	{
 		return $this->quote;
 	}

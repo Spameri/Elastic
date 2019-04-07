@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SpameriTests\Data\Entity\Video;
 
@@ -6,35 +6,35 @@ namespace SpameriTests\Data\Entity\Video;
 class Connections implements \Spameri\Elastic\Entity\IEntity
 {
 	/**
-	 * @var Connections\FollowedCollection
+	 * @var \SpameriTests\Data\Entity\Video\Connections\FollowedCollection
 	 */
 	private $followed;
 	/**
-	 * @var Connections\RemadeCollection
+	 * @var \SpameriTests\Data\Entity\Video\Connections\RemadeCollection
 	 */
 	private $remade;
 	/**
-	 * @var Connections\SpinOffCollection
+	 * @var \SpameriTests\Data\Entity\Video\Connections\SpinOffCollection
 	 */
 	private $spinOff;
 	/**
-	 * @var Connections\EditedIntoCollection
+	 * @var \SpameriTests\Data\Entity\Video\Connections\EditedIntoCollection
 	 */
 	private $editedInto;
 	/**
-	 * @var Connections\ReferenceCollection
+	 * @var \SpameriTests\Data\Entity\Video\Connections\ReferenceCollection
 	 */
 	private $reference;
 	/**
-	 * @var Connections\ReferencedCollection
+	 * @var \SpameriTests\Data\Entity\Video\Connections\ReferencedCollection
 	 */
 	private $referenced;
 	/**
-	 * @var Connections\FeaturedCollection
+	 * @var \SpameriTests\Data\Entity\Video\Connections\FeaturedCollection
 	 */
 	private $featured;
 	/**
-	 * @var Connections\SpoofedCollection
+	 * @var \SpameriTests\Data\Entity\Video\Connections\SpoofedCollection
 	 */
 	private $spoofed;
 	/**
@@ -87,7 +87,7 @@ class Connections implements \Spameri\Elastic\Entity\IEntity
 
 	public function entityVariables() : array
 	{
-		return get_object_vars($this);
+		return \get_object_vars($this);
 	}
 
 
@@ -97,49 +97,49 @@ class Connections implements \Spameri\Elastic\Entity\IEntity
 	}
 
 
-	public function followed(): \SpameriTests\Data\Entity\Video\Connections\FollowedCollection
+	public function followed() : \SpameriTests\Data\Entity\Video\Connections\FollowedCollection
 	{
 		return $this->followed;
 	}
 
 
-	public function remade(): \SpameriTests\Data\Entity\Video\Connections\RemadeCollection
+	public function remade() : \SpameriTests\Data\Entity\Video\Connections\RemadeCollection
 	{
 		return $this->remade;
 	}
 
 
-	public function spinOff(): \SpameriTests\Data\Entity\Video\Connections\SpinOffCollection
+	public function spinOff() : \SpameriTests\Data\Entity\Video\Connections\SpinOffCollection
 	{
 		return $this->spinOff;
 	}
 
 
-	public function editedInto(): \SpameriTests\Data\Entity\Video\Connections\EditedIntoCollection
+	public function editedInto() : \SpameriTests\Data\Entity\Video\Connections\EditedIntoCollection
 	{
 		return $this->editedInto;
 	}
 
 
-	public function reference(): \SpameriTests\Data\Entity\Video\Connections\ReferenceCollection
+	public function reference() : \SpameriTests\Data\Entity\Video\Connections\ReferenceCollection
 	{
 		return $this->reference;
 	}
 
 
-	public function referenced(): \SpameriTests\Data\Entity\Video\Connections\ReferencedCollection
+	public function referenced() : \SpameriTests\Data\Entity\Video\Connections\ReferencedCollection
 	{
 		return $this->referenced;
 	}
 
 
-	public function featured(): \SpameriTests\Data\Entity\Video\Connections\FeaturedCollection
+	public function featured() : \SpameriTests\Data\Entity\Video\Connections\FeaturedCollection
 	{
 		return $this->featured;
 	}
 
 
-	public function spoofed(): \SpameriTests\Data\Entity\Video\Connections\SpoofedCollection
+	public function spoofed() : \SpameriTests\Data\Entity\Video\Connections\SpoofedCollection
 	{
 		return $this->spoofed;
 	}

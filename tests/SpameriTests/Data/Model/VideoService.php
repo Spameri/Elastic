@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace SpameriTests\Data\Model;
 
@@ -45,7 +45,7 @@ class VideoService extends \Spameri\Elastic\Model\BaseService
 
 	/**
 	 * @param \Spameri\ElasticQuery\ElasticQuery $elasticQuery
-	 * @return \Spameri\Elastic\Entity\IElasticEntityCollection|\SpameriTests\Data\Entity\Video[]
+	 * @return \Spameri\Elastic\Entity\IElasticEntityCollection|array<\SpameriTests\Data\Entity\Video>
 	 */
 	public function getAllBy(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
