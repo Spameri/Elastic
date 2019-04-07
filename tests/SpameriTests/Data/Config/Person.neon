@@ -1,0 +1,78 @@
+elasticSearch:
+	entities:
+		Person:
+			index: spameri_person
+			dynamic: strict
+
+			properties:
+				identification:
+					properties:
+						imdb:
+							type: text
+
+						trakt:
+							type: long
+
+						tmdb:
+							type: long
+
+						csfd:
+							type: long
+
+				name:
+				    type: text
+
+				description:
+					type: text
+
+				birth:
+					type: date
+					format: "yyyy-MM-dd HH:mm:ss"
+
+				death:
+					type: date
+					format: "yyyy-MM-dd HH:mm:ss"
+
+				alias:
+					type: text
+
+				characters:
+					properties:
+						id:
+							type: text
+
+						video:
+							type: long
+
+						episode:
+							type: long
+
+						name:
+							type: text
+
+						alias:
+							type: text
+
+						identification:
+							properties:
+								imdb:
+									type: long
+
+						biography:
+							type: text
+
+				jobs:
+					properties:
+						id:
+							type: long
+
+						episode:
+							type: long
+
+						name:
+							type: text
+
+						description:
+							type: text
+
+

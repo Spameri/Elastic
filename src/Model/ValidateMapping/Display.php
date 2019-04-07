@@ -16,32 +16,32 @@ class Display
 	/**
 	 * @var array
 	 */
-	private $blockNameIssue;
+	private $blockNameIssue = [];
 
 	/**
 	 * @var array
 	 */
-	private $tokenizerIssues;
+	private $tokenizerIssues = [];
 
 	/**
 	 * @var array
 	 */
-	private $analyzerIssue;
+	private $analyzerIssue = [];
 
 	/**
 	 * @var array
 	 */
-	private $conflictingNameIssue;
+	private $conflictingNameIssue = [];
 
 	/**
 	 * @var array
 	 */
-	private $uniqueFieldNames;
+	private $uniqueFieldNames = [];
 
 	/**
 	 * @var array
 	 */
-	private $typeIssue;
+	private $typeIssue = [];
 
 
 	public function store(
@@ -201,6 +201,42 @@ class Display
 		} else {
 			$output->writeln('<bg=green;options=bold>OK</>');
 		}
+	}
+
+
+	public function blockNameIssue() : array
+	{
+		return $this->blockNameIssue;
+	}
+
+
+	public function tokenizerIssues() : array
+	{
+		return $this->tokenizerIssues;
+	}
+
+
+	public function analyzerIssue() : array
+	{
+		return $this->analyzerIssue;
+	}
+
+
+	public function conflictingNameIssue() : array
+	{
+		return $this->conflictingNameIssue;
+	}
+
+
+	public function uniqueFieldNames() : array
+	{
+		return $this->uniqueFieldNames;
+	}
+
+
+	public function typeIssue() : array
+	{
+		return $this->typeIssue;
 	}
 
 }

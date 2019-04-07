@@ -56,7 +56,7 @@ class Insert
 		try {
 			$this->clientProvider->client()->indices()->refresh(
 				(
-				new \Spameri\ElasticQuery\Document($index)
+					new \Spameri\ElasticQuery\Document($index)
 				)
 					->toArray()
 			);

@@ -116,18 +116,6 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 	}
 
 
-	public static function register(
-		$config
-	) : void
-	{
-		$config->onCompile[] = static function (
-			\Nette\DI\Compiler $compiler
-		) {
-			$compiler->addExtension('elasticSearch', new ElasticSearchExtension());
-		};
-	}
-
-
 	public function toggleSynonymAnalyzer(
 		array $config
 	) : array
@@ -149,10 +137,6 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 		array $config
 	) : void
 	{
-		/** @var \Nette\DI\Statement $entitySettingsProvider */
-		$entitySettingsProvider = $services['services']['entitySettingsProvider']['class'];
-		$entitySettingsProvider->arguments[0] = $config['entities'];
-
 		$updateMapping = $services['services']['updateMapping']['class'];
 		$updateMapping->arguments[0] = $config['entities'];
 

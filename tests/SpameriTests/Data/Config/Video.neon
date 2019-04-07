@@ -1,0 +1,300 @@
+elasticSearch:
+	entities:
+		Video:
+			index: spameri_video
+			dynamic: strict
+
+			properties:
+				identification:
+					properties:
+						imdb:
+							type: text
+
+						trakt:
+							type: long
+
+						tmdb:
+							type: long
+
+						csfd:
+							type: long
+
+				name:
+					type: text
+
+				year:
+					type: long
+
+				technical:
+					properties:
+						camera:
+							type: text
+
+						runtime:
+							type: long
+
+						color:
+							type: text
+
+						ratio:
+							type: text
+
+						laboratory:
+							type: text
+
+						filmLength:
+							type: text
+
+						negativeFormat:
+							type: text
+
+						cineProcess:
+							type: text
+
+						printed:
+							type: text
+
+				story:
+					properties:
+						description:
+							type: text
+
+						tagLines:
+							type: text
+
+						plots:
+							type: text
+
+						synopsis:
+							type: text
+
+						keyWords:
+							type: text
+
+				details:
+					properties:
+						genres:
+							type: text
+
+						alias:
+							properties:
+								name:
+									type: text
+
+								country:
+									type: text
+
+						release:
+							properties:
+								country:
+									type: text
+
+								note:
+									type: text
+
+								date:
+									type: date
+									format: "yyyy-MM-dd HH:mm:ss"
+
+						ratings:
+							properties:
+								imdbRatings:
+									type: long
+
+								imdbAverage:
+									type: long
+
+				highLights:
+					properties:
+						trivia:
+							properties:
+								id:
+									type: text
+
+								text:
+									type: text
+
+								relevancy:
+									type: long
+
+						goof:
+							properties:
+								id:
+									type: text
+
+								text:
+									type: text
+
+								relevancy:
+									type: long
+
+						crazyCredit:
+							properties:
+								id:
+									type: text
+
+								text:
+									type: text
+
+								relevancy:
+									type: long
+
+						quote:
+							properties:
+								id:
+									type: text
+
+								text:
+									type: text
+
+								relevancy:
+									type: long
+
+						location:
+							properties:
+								name:
+									type: text
+
+								note:
+									type: text
+
+						alternateVersion:
+							properties:
+								text:
+									type: text
+
+						companyCredit:
+							properties:
+								group:
+									type: text
+
+								company:
+									properties:
+										id:
+											type: text
+
+										name:
+											type: text
+
+										note:
+											type: text
+
+				connections:
+					properties:
+						followed:
+							properties:
+								id:
+									type: text
+
+								note:
+									type: text
+
+						remade:
+							properties:
+								id:
+									type: text
+
+								note:
+									type: text
+
+						spinOff:
+							properties:
+								id:
+									type: text
+
+								note:
+									type: text
+
+						editedInto:
+							properties:
+								id:
+									type: text
+
+								note:
+									type: text
+
+						reference:
+							properties:
+								id:
+									type: text
+
+								note:
+									type: text
+
+						referenced:
+							properties:
+								id:
+									type: text
+
+								note:
+									type: text
+
+						featured:
+							properties:
+								id:
+									type: text
+
+								note:
+									type: text
+
+						spoofed:
+							properties:
+								id:
+									type: text
+
+								note:
+									type: text
+
+						follows:
+							properties:
+								id:
+									type: text
+
+								note:
+									type: text
+
+						editedFrom:
+							properties:
+								id:
+									type: text
+
+								note:
+									type: text
+
+						spunOff:
+							properties:
+								id:
+									type: text
+
+								note:
+									type: text
+
+						versionOf:
+							properties:
+								id:
+									type: text
+
+								note:
+									type: text
+
+				season:
+					properties:
+						number:
+							type: long
+
+						episodes:
+							properties:
+								id:
+									type: long
+
+								number:
+									type: long
+
+								name:
+									type: text
+
+								description:
+									type: text
+
+				people:
+					type: text

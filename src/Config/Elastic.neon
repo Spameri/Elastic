@@ -38,9 +38,6 @@ services:
 	mapping:
 		class: Spameri\Elastic\Model\Mapping
 
-	entitySettingsProvider:
-		class: Spameri\Elastic\Controls\EntityEdit\EntitySettingsProvider(%entities%)
-
 	userProvider:
 	 	class: Spameri\Elastic\Model\UserProvider
 
@@ -107,3 +104,6 @@ services:
 
 	dateTime:
 		class: \DateTimeImmutable
+
+	resultMapper:
+		class: Spameri\ElasticQuery\Response\ResultMapper

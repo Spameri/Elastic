@@ -1,0 +1,15 @@
+extensions:
+	elasticSearch: Spameri\Elastic\DI\ElasticSearchExtension
+
+elasticSearch:
+	host: 127.0.0.1
+	port: 9200
+
+php:
+	date.timezone: Europe/Prague
+
+services:
+
+includes:
+	- Video.neon
+	- Person.neon

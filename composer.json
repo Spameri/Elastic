@@ -1,47 +1,56 @@
 {
 	"name": "spameri/elastic",
-    "type": "library",
-    "description": "ElasticSearch for Nette Framework",
-    "keywords": [
-        "nette",
-        "spameri",
-        "elastic",
-        "elasticsearch"
-    ],
-    "homepage": "http://github.com/spameri",
-    "license": [
-        "BSD-3-Clause",
-        "GPL-2.0",
-        "GPL-3.0"
-    ],
-    "support": {
-        "issues": "https://github.com/spameri/elastic/issues"
-    },
+	"type": "library",
+	"description": "ElasticSearch for Nette Framework",
+	"keywords": [
+		"nette",
+		"spameri",
+		"elastic",
+		"elasticsearch"
+	],
+	"homepage": "http://github.com/spameri",
+	"license": [
+		"BSD-3-Clause",
+		"GPL-2.0",
+		"GPL-3.0"
+	],
+	"support": {
+		"issues": "https://github.com/spameri/elastic/issues"
+	},
 	"authors": [
 		{
 			"name": "VBoss",
 			"email": "vcevela@gmail.com"
 		}
 	],
+	"require": {
+		"php": ">=7.1",
+		"nette/di": "^2.4.10",
+		"nette/security": "^2.4.3",
+		"spameri/elastic-query": "^0.3.0",
+		"elasticsearch/elasticsearch": "^6.0",
+		"kdyby/console": "^2.7.1",
+		"kdyby/datetime-provider": "v1.0.0",
+		"kdyby/monolog": "^1.3.2",
+		"tracy/tracy": "^2.5.3"
+	},
+	"require-dev": {
+		"spameri/coding-standard": "dev-master",
+		"nette/tester": "^2.2.0",
+		"phpstan/phpstan-shim": "^0.11.5",
+		"php-coveralls/php-coveralls": "^2.1",
+		"nette/bootstrap": "2.4",
+		"nette/http": "^2.4",
+		"mockery/mockery": "^1.2"
+	},
 	"autoload": {
 		"psr-4": {
 			"Spameri\\Elastic\\": "src/"
 		}
 	},
-	"require": {
-	  	"php": ">=7.1",
-	  	"nette/di": "v2.4.14",
-	  	"nette/security": "v2.4.3",
-		"spameri/elastic-query": "v0.3.0",
-		"elasticsearch/elasticsearch": "^6.0",
-        "kdyby/console": "v2.7.1",
-        "kdyby/datetime-provider": "v1.0.0",
-        "kdyby/monolog": "v1.3.2",
-	  	"tracy/tracy": "v2.5.3"
-	},
-	"require-dev": {
-		"nette/tester": "2.1.0",
-		"phpstan/phpstan-shim": "0.11.2",
-        "spameri/coding-standard": "dev-master"
+	"autoload-dev": {
+		"psr-4": {
+			"SpameriTests\\": "tests/SpameriTests"
+		}
 	}
 }
