@@ -1,4 +1,5 @@
 # Define structure in neon file
+TODO convert to video example
 
 - Create neon file for example in `app/ProductModule/Config/Product.neon`
 - Import created file to your application config neon. Usually located in`app/config/config.neon`.  
