@@ -27,6 +27,27 @@ elasticSearch:
 
 For more config options see default values in `\Spameri\Elastic\DI\ElasticSearchExtension::$defaults`. [Here](../src/DI/ElasticSearchExtension.php#L9).
 
+#### Raw client usage
+- After this configuration you are ready to use ElasticSearch in your Nette application.
+- Where needed just inject `\Spameri\Elastic\ClientProvider` and then directly call what you need, like this:
+```php
+$result = $this->clientProvider->client()->search(
+	(
+		new \Spameri\ElasticQuery\Document(
+			$index,
+			new \Spameri\ElasticQuery\Document\Body\Plain(
+				$elasticQuery->toArray()
+			),
+			$index
+		)
+	)->toArray()
+);
+```
+- [Client](https://github.com/elastic/elasticsearch-php/blob/master/src/Elasticsearch/Client.php) is provided from **elasticsearch/elasticsearch** and you can see their [documentation](https://github.com/elastic/elasticsearch-php#quickstart) 
+what methods and arrays are supported.
+- When in doubt what how many arrays or how many arguments **match** supports use [Spameri/ElasticQuery](https://github.com/Spameri/ElasticQuery/blob/master/doc/02-query-objects.md)
+- This is library used in later examples. But direct approach is also possible.
+
 ---
 
 ### 2. First entity

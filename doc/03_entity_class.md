@@ -99,7 +99,13 @@ class KeyWord implements \Spameri\Elastic\Entity\IValue
 ```
 
 #### Value collection property - `Video.Story.KeyWordCollection`
-TODO Description
+- If you need array of scalar values lets create ValueCollection.
+- For easy setup you can use `\Spameri\Elastic\Entity\AbstractValueCollection` just create your collection and extend this abstract as you need.
+For more advanced and typed approach use interface, as described next.
+- Interface `\Spameri\Elastic\Entity\IValueCollection` is when you want typed and validated scalar value collection.
+- After implementing interface you need to implement **getIterator()** method.
+- Next to be type save you want to add methods **add**, **remove**, **get**, **__construct**
+- For **__construct** you best fill values to collection as here [\Spameri\Elastic\Entity\AbstractValueCollection#L20](../src/Entity/AbstractValueCollection.php#L20)
 ```php
 namespace SpameriTests\Data\Entity\Video\Story;
 
@@ -125,12 +131,27 @@ class KeyWordCollection implements \Spameri\Elastic\Entity\IValueCollection
 
 
 	public function add(
-		KeyWord $keyWord
+		\SpameriTests\Data\Entity\Video\Story\KeyWord $keyWord
 	) : void
 	{
 		$this->collection[$keyWord->value()] = $keyWord;
 	}
 
+
+	public function remove(string $key) : void
+	{
+		unset($this->collection[$key]);
+	}
+
+
+	public function get(string $key) : ?\SpameriTests\Data\Entity\Video\Story\KeyWord
+	{
+		if ( ! isset($this->collection[$key])) {
+			return NULL;
+		}
+
+		return $this->collection[$key];
+	}
 
 	public function getIterator() : \ArrayIterator
 	{
@@ -140,7 +161,11 @@ class KeyWordCollection implements \Spameri\Elastic\Entity\IValueCollection
 ```
 
 #### Single entity property - `Video.Story`
-TODO Description
+- If you need some nested structure `\Spameri\Elastic\Entity\IEntity` interface is here for you.
+- Also when feeling lazy there is `\Spameri\Elastic\Entity\AbstractEntity` for you to extend with methods implemented.
+- In our example we have entity **Story** to encapsulate keywords and other story related properties.
+- Library then can convert this entity to array and save it as array with no more help.
+ 
 ```php
 namespace SpameriTests\Data\Entity\Video;
 
@@ -170,13 +195,15 @@ class Story implements \Spameri\Elastic\Entity\IEntity
 
 	public function key() : string
 	{
-
+		return \md5(\implode('_', $this->entityVariables()));
 	}
 }
 ```
 
 #### Entity collection property - `Video.Connections.FollowsCollection`
-TODO Description
+- ElasticSearch is powerful tool and it allows you to nest objects and collection as you need, so you can make collection of nested objects.
+- This is simple you have Entity **Story** with implemented `IEntity` interface and all you need is create collection, extend `class FollowsCollection extends \Spameri\Elastic\Entity\Collection\EntityCollection`
+and you are done.
 ```php
 namespace SpameriTests\Data\Entity\Video\Connections;
 
@@ -188,7 +215,12 @@ class FollowsCollection extends \Spameri\Elastic\Entity\Collection\EntityCollect
 ```
 
 #### ElasticEntity collection property - `Video.People`
-TODO Description
+- `\Spameri\Elastic\Entity\Collection\ElasticEntityCollection` provides basic relations for entities in ElasticSearch.
+- It saves **_id** to current entity as reference in raw data but when loaded you have full entity with that id. 
+Any changes made to related entity/ies will be persisted when main entity is saved.
+- Entity can be manually related 1:1 with manual lazy load in Factory (example in [factory](11_entity_factory.md) documentation)
+- Or multiple entities can be in collection lazily loaded all at once, also in factory example.
+- All you need is extend `\Spameri\Elastic\Entity\Collection\ElasticEntityCollection` and fill with your entities, library will do saving and resolving for you.  
 ```php
 namespace SpameriTests\Data\Entity\Video;
 
@@ -212,3 +244,189 @@ class People extends \Spameri\Elastic\Entity\Collection\ElasticEntityCollection
 }
 ```
 
+## Final product [Example](../tests/SpameriTests/Data/Entity/Video.php)
+```php
+namespace SpameriTests\Data\Entity;
+
+
+class Video implements \Spameri\Elastic\Entity\IElasticEntity
+{
+
+	/**
+	 * @var \Spameri\Elastic\Entity\Property\IElasticId
+	 */
+	private $id;
+
+	/**
+	 * @var \SpameriTests\Data\Entity\Video\Identification
+	 */
+	private $identification;
+
+	/**
+	 * @var \SpameriTests\Data\Entity\Property\Name
+	 */
+	private $name;
+
+	/**
+	 * @var \SpameriTests\Data\Entity\Property\Year
+	 */
+	private $year;
+
+	/**
+	 * @var \SpameriTests\Data\Entity\Video\Technical
+	 */
+	private $technical;
+
+	/**
+	 * @var \SpameriTests\Data\Entity\Video\Story
+	 */
+	private $story;
+
+	/**
+	 * @var \SpameriTests\Data\Entity\Video\Details
+	 */
+	private $details;
+
+	/**
+	 * @var \SpameriTests\Data\Entity\Video\HighLights
+	 */
+	private $highLights;
+
+	/**
+	 * @var \SpameriTests\Data\Entity\Video\Connections
+	 */
+	private $connections;
+
+	/**
+	 * @var \SpameriTests\Data\Entity\Video\SeasonCollection
+	 */
+	private $season;
+
+	/**
+	 * @var \SpameriTests\Data\Entity\Video\People
+	 */
+	private $people;
+
+
+	public function __construct(
+		\Spameri\Elastic\Entity\Property\IElasticId $id
+		, \SpameriTests\Data\Entity\Video\Identification $identification
+		, \SpameriTests\Data\Entity\Property\Name $name
+		, \SpameriTests\Data\Entity\Property\Year $year
+		, \SpameriTests\Data\Entity\Video\Technical $technical
+		, \SpameriTests\Data\Entity\Video\Story $story
+		, \SpameriTests\Data\Entity\Video\Details $details
+		, \SpameriTests\Data\Entity\Video\HighLights $highLights
+		, \SpameriTests\Data\Entity\Video\Connections $connections
+		, \SpameriTests\Data\Entity\Video\People $people
+		, \SpameriTests\Data\Entity\Video\SeasonCollection $season = NULL
+	)
+	{
+		$this->id = $id;
+		$this->identification = $identification;
+		$this->name = $name;
+		$this->year = $year;
+		$this->technical = $technical;
+		$this->story = $story;
+		$this->details = $details;
+		$this->highLights = $highLights;
+		$this->connections = $connections;
+
+		if ($season === NULL) {
+			$season = new \SpameriTests\Data\Entity\Video\SeasonCollection();
+		}
+		$this->season = $season;
+		$this->people = $people;
+	}
+
+
+	public function entityVariables() : array
+	{
+		return \get_object_vars($this);
+	}
+
+
+	public function id() : \Spameri\Elastic\Entity\Property\IElasticId
+	{
+		return $this->id;
+	}
+
+
+	public function identification() : \SpameriTests\Data\Entity\Video\Identification
+	{
+		return $this->identification;
+	}
+
+
+	public function name() : \SpameriTests\Data\Entity\Property\Name
+	{
+		return $this->name;
+	}
+
+
+	public function rename(\SpameriTests\Data\Entity\Property\Name $name) : void
+	{
+		$this->name = $name;
+	}
+
+
+	public function year() : \SpameriTests\Data\Entity\Property\Year
+	{
+		return $this->year;
+	}
+
+
+	public function setYear(\SpameriTests\Data\Entity\Property\Year $year) : void
+	{
+		$this->year = $year;
+	}
+
+
+	public function technical() : \SpameriTests\Data\Entity\Video\Technical
+	{
+		return $this->technical;
+	}
+
+
+	public function setTechnicalFromImdb(\SpameriTests\Data\Entity\Video\Technical $technical) : void
+	{
+		$this->technical = $technical;
+	}
+
+
+	public function story() : \SpameriTests\Data\Entity\Video\Story
+	{
+		return $this->story;
+	}
+
+
+	public function details() : \SpameriTests\Data\Entity\Video\Details
+	{
+		return $this->details;
+	}
+
+
+	public function highLights() : \SpameriTests\Data\Entity\Video\HighLights
+	{
+		return $this->highLights;
+	}
+
+
+	public function connections() : \SpameriTests\Data\Entity\Video\Connections
+	{
+		return $this->connections;
+	}
+
+
+	public function season() : \SpameriTests\Data\Entity\Video\SeasonCollection
+	{
+		return $this->season;
+	}
+
+
+	public function people() : \SpameriTests\Data\Entity\Video\People
+	{
+		return $this->people;
+	}
+}
+```
