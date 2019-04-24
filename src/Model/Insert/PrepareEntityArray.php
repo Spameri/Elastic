@@ -76,7 +76,7 @@ class PrepareEntityArray
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\IValueCollection) {
 				$preparedArray[$key] = [];
-				/** @var $value \Spameri\Elastic\Entity\IValue */
+				/** @var \Spameri\Elastic\Entity\IValue $value */
 				/** @var \Spameri\Elastic\Entity\IValueCollection $property */
 				foreach ($property as $value) {
 					if ($value instanceof \Spameri\Elastic\Entity\IValue) {
