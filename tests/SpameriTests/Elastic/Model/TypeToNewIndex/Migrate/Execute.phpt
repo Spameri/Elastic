@@ -6,46 +6,121 @@ namespace SpameriTests\Elastic\Model\TypeToNewIndex\Migrate;
 require_once __DIR__ . '/../../../../bootstrap.php';
 
 
+/**
+ * @testCase
+ */
 class Execute extends \Tester\TestCase
 {
 
-	public function testProcess() : void
+	/**
+	 * @var \Spameri\Elastic\ClientProvider
+	 */
+	private $clientProvider;
+
+
+	protected function setUp()
 	{
-		$clientProvider = new \Spameri\Elastic\ClientProvider(
+		$this->clientProvider = new \Spameri\Elastic\ClientProvider(
 			new \Elasticsearch\ClientBuilder(),
 			new \Spameri\Elastic\Settings\NeonSettingsProvider(
-				'http://192.168.0.14',
+				\SpameriTests\Elastic\Config::HOST,
 				9200
 			)
 		);
+		$this->clientProvider->client()->indices()->create(
+			(
+			new \Spameri\ElasticQuery\Document(
+				\SpameriTests\Elastic\Config::INDEX_MIGRATE
+			)
+			)->toArray()
+		);
+
+		$restoreIndex = new \Spameri\Elastic\Model\RestoreIndex($this->clientProvider);
+		$restoreIndex->setOutput(new \Symfony\Component\Console\Output\ConsoleOutput());
+
+		$restoreIndex->execute(__DIR__ . '/migrateData.json', 500);
+	}
+
+
+	public function testProcess() : void
+	{
 		$dateTimeProvider = new \Spameri\Elastic\Provider\DateTimeProvider(new \DateTimeImmutable());
 		$resultMapper = new \Spameri\ElasticQuery\Response\ResultMapper();
 
 		$migrate = new \Spameri\Elastic\Model\TypeToNewIndex\Migrate(
 			new \Spameri\Elastic\Model\TypeToNewIndex\DocumentMigrateStatus(),
-			$clientProvider,
+			$this->clientProvider,
 			$dateTimeProvider,
-			new \Spameri\Elastic\Model\Delete($clientProvider),
-			new \Spameri\Elastic\Model\Get($clientProvider, $resultMapper),
-			new \Spameri\Elastic\Model\Indices\Close($clientProvider),
-			new \Spameri\Elastic\Model\Indices\GetMapping($clientProvider),
-			new \Spameri\Elastic\Model\Indices\PutMapping($clientProvider),
-			new \Spameri\Elastic\Model\Search($clientProvider, $resultMapper),
-			new \Spameri\Elastic\Mapper\ElasticMapper($clientProvider, $dateTimeProvider),
-			new \Spameri\Elastic\Model\Indices\Create($clientProvider),
-			new \Spameri\Elastic\Model\Indices\Get($clientProvider),
-			new \Spameri\Elastic\Model\Indices\PutSettings($clientProvider)
+			new \Spameri\Elastic\Model\Delete($this->clientProvider),
+			new \Spameri\Elastic\Model\Get($this->clientProvider, $resultMapper),
+			new \Spameri\Elastic\Model\Indices\Close($this->clientProvider),
+			new \Spameri\Elastic\Model\Indices\GetMapping($this->clientProvider),
+			new \Spameri\Elastic\Model\Indices\PutMapping($this->clientProvider),
+			new \Spameri\Elastic\Model\Search($this->clientProvider, $resultMapper),
+			new \Spameri\Elastic\Mapper\ElasticMapper($this->clientProvider, $dateTimeProvider),
+			new \Spameri\Elastic\Model\Indices\Create($this->clientProvider),
+			new \Spameri\Elastic\Model\Indices\Get($this->clientProvider),
+			new \Spameri\Elastic\Model\Indices\PutSettings($this->clientProvider)
 		);
+
+		$id = '17505';
+		$responseOldIndex = $this->clientProvider->client()->get(
+			(
+				new \Spameri\ElasticQuery\Document(
+					\SpameriTests\Elastic\Config::INDEX_MIGRATE,
+					NULL,
+					\SpameriTests\Elastic\Config::TYPE,
+					$id
+				)
+			)->toArray()
+		);
+
+		\Tester\Assert::same($id, $responseOldIndex['_id']);
 
 		$migrate->setOutput(new \Symfony\Component\Console\Output\ConsoleOutput());
 
 		$migrate->execute(
-			'nay2014_entity_1',
-			'product',
-			'nay2014_product_1',
-			'nay2014_product_1',
+			\SpameriTests\Elastic\Config::INDEX_MIGRATE,
+			\SpameriTests\Elastic\Config::TYPE,
+			\SpameriTests\Elastic\Config::INDEX_MIGRATE_NEW,
+			\SpameriTests\Elastic\Config::INDEX_MIGRATE_NEW,
+			\SpameriTests\Elastic\Config::TYPE,
 			FALSE
 		);
+
+		$responseNewIndex = $this->clientProvider->client()->get(
+			(
+			new \Spameri\ElasticQuery\Document(
+				\SpameriTests\Elastic\Config::INDEX_MIGRATE_NEW,
+				NULL,
+				\SpameriTests\Elastic\Config::TYPE,
+				$id
+			)
+			)->toArray()
+		);
+
+		\Tester\Assert::same($id, $responseNewIndex['_id']);
+	}
+
+
+	protected function tearDown() : void
+	{
+		$this->clientProvider->client()->indices()->delete(
+			(
+			new \Spameri\ElasticQuery\Document(
+				\SpameriTests\Elastic\Config::INDEX_MIGRATE
+			)
+			)->toArray()
+		)
+		;
+		$this->clientProvider->client()->indices()->delete(
+			(
+			new \Spameri\ElasticQuery\Document(
+				\SpameriTests\Elastic\Config::INDEX_MIGRATE_NEW
+			)
+			)->toArray()
+		)
+		;
 	}
 
 }

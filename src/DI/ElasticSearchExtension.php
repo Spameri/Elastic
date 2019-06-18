@@ -106,7 +106,7 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 
 		$services = $this->toggleDebugBar($config, $services);
 
-		if ( ! class_exists(\Symfony\Component\Console\Command\Command::class)) {
+		if ( ! \class_exists(\Symfony\Component\Console\Command\Command::class)) {
 			$services = $this->removeCommandDefinitions($services);
 		}
 

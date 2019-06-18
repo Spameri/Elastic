@@ -50,6 +50,9 @@ services:
 	indicePutMapping:
 		class: Spameri\Elastic\Model\Indices\PutMapping
 
+	indicePutSettings:
+		class: Spameri\Elastic\Model\Indices\PutSettings
+
 	indicesCreate:
 		class: Spameri\Elastic\Model\Indices\Create
 
@@ -92,7 +95,7 @@ services:
 	modelDumpIndex:
 		class: \Spameri\Elastic\Model\DumpIndex
 
-	modelRestoreIndex:
+	restoreIndex:
 		class: \Spameri\Elastic\Model\RestoreIndex
 
 #	###
@@ -147,8 +150,8 @@ services:
 			- kdyby.console.command
 			- console.command
 
-	restoreIndex:
-		class: Spameri\Elastic\Commands\RestoreIndex
+	loadDump:
+		class: Spameri\Elastic\Commands\LoadDump
 		tags:
 			- kdyby.console.command
 			- console.command
@@ -174,6 +177,3 @@ services:
 
 	dateTime:
 		class: \DateTimeImmutable
-
-	resultMapper:
-		class: Spameri\ElasticQuery\Response\ResultMapper

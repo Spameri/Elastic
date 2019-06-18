@@ -3,7 +3,7 @@
 namespace Spameri\Elastic\Commands;
 
 
-class RestoreIndex extends \Symfony\Component\Console\Command\Command
+class LoadDump extends \Symfony\Component\Console\Command\Command
 {
 
 	/**
@@ -22,13 +22,13 @@ class RestoreIndex extends \Symfony\Component\Console\Command\Command
 
 
 	/**
-	 * @example spameri:elastic:restore-index
+	 * @example spameri:elastic:load-dump
 	 */
 	protected function configure() : void
 	{
 		$this
-			->setName('spameri:elastic:restore-index')
-			->setDescription('Restores data from provided dump file.')
+			->setName('spameri:elastic:load-dump')
+			->setDescription('Loads data from provided dump file.')
 			->addArgument('filename', \Symfony\Component\Console\Input\InputArgument::REQUIRED)
 			->addArgument(
 				'step',

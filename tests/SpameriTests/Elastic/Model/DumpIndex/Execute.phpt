@@ -6,19 +6,38 @@ namespace SpameriTests\Elastic\Model\DumpIndex;
 require_once __DIR__ . '/../../../bootstrap.php';
 
 
+/**
+ * @testCase
+ */
 class Execute extends \Tester\TestCase
 {
+
+	/**
+	 * @var \Spameri\Elastic\ClientProvider
+	 */
+	private $clientProvider;
+
+
+	protected function setUp()
+	{
+		$this->clientProvider = new \Spameri\Elastic\ClientProvider(
+			new \Elasticsearch\ClientBuilder(),
+			new \Spameri\Elastic\Settings\NeonSettingsProvider(
+				\SpameriTests\Elastic\Config::HOST,
+				9200
+			)
+		);
+		$restoreIndex = new \Spameri\Elastic\Model\RestoreIndex($this->clientProvider);
+		$restoreIndex->setOutput(new \Symfony\Component\Console\Output\ConsoleOutput());
+
+		$restoreIndex->execute(__DIR__ . '/dumpData.json', 500);
+	}
+
 
 	public function testProcess() : void
 	{
 		$scroll = new \Spameri\Elastic\Model\Scroll(
-			new \Spameri\Elastic\ClientProvider(
-				new \Elasticsearch\ClientBuilder(),
-				new \Spameri\Elastic\Settings\NeonSettingsProvider(
-					'http://192.168.0.14',
-					9200
-				)
-			),
+			$this->clientProvider,
 			new \Spameri\ElasticQuery\Response\ResultMapper()
 		);
 
@@ -27,14 +46,29 @@ class Execute extends \Tester\TestCase
 		);
 		$dumpIndex->setOutput(new \Symfony\Component\Console\Output\ConsoleOutput());
 
-		$dumpIndex->execute('nay2014_entity_1', 'test.log', 'product');
+		$dumpIndex->execute(\SpameriTests\Elastic\Config::INDEX_DUMP, 'test.log', 'product');
+
+		\Tester\Assert::true(\file_exists('test.log'));
+
+		$dumpFile = \file_get_contents('test.log');
+		$exploded = explode("\r\n", $dumpFile);
+		$decoded = \Nette\Utils\Json::decode($exploded[10]);
+
+		\Tester\Assert::same('192437', $decoded->index->_id);
 	}
 
 
-	public function tearDown() : void
+	protected function tearDown()
 	{
-//		\Nette\Utils\FileSystem::delete('test.log');
-		parent::tearDown();
+		$this->clientProvider->client()->indices()->delete(
+			(
+			new \Spameri\ElasticQuery\Document(
+				\SpameriTests\Elastic\Config::INDEX_DUMP
+			)
+			)->toArray()
+		)
+		;
+		\Nette\Utils\FileSystem::delete('test.log');
 	}
 
 }

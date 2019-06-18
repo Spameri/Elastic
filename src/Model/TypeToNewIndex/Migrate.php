@@ -125,6 +125,7 @@ class Migrate
 		, string $typeFrom
 		, string $indexTo
 		, string $aliasTo
+		, ?string $typeTo
 		, bool $allowClose
 	) : void
 	{
@@ -143,10 +144,9 @@ class Migrate
 		$settings = \reset($oldIndexSettings);
 		$this->create->execute($indexTo, [
 			'settings' => [
-				'index' => $settings['settings']['index']['analysis'],
+				'index' => $settings['settings']['index']['analysis'] ?? [],
 			]
 		]);
-		// TODO otestovat
 
 		// 2b. Set mapping in new index
 		$this->output->writeln('Transferring mapping from index: ' . $indexFrom . ' and type: ' . $typeFrom . ' to index: ' . $indexTo);
@@ -169,17 +169,18 @@ class Migrate
 			// 4. Input data to new index
 			// 4a. if closed delete data
 			// 4b. if open store migrated version
-			/** @var \Spameri\ElasticQuery\Response\Result\Hit $hit */
-			foreach ($result as $hit) {
-				$this->processHit($indexTo, $indexFrom, $hit, $allowClose);
-
-				/** @noinspection DisconnectedForeachInstructionInspection */
-				$progressBar->advance();
+			/** @var \Spameri\ElasticQuery\Response\Result\Hit $response */
+			foreach ($result->hits() as $response) {
+				$this->processHit($indexTo, $typeTo, $indexFrom, $response, $allowClose);
 			}
-			$from += 5000;
-			$elasticQuery->options()->changeFrom($from);
-			if ($result->stats()->total() === 0) {
+
+			if (\count($result->hits()->getIterator()) === 0) {
 				$continue = FALSE;
+
+			} else {
+				$progressBar->advance(5000);
+				$from += 5000;
+				$elasticQuery->options()->changeFrom($from);
 			}
 		}
 		$progressBar->finish();
@@ -197,15 +198,15 @@ class Migrate
 			while ($canContinue) {
 				$changed = 0;
 				foreach ($this->documentMigrateStatus->storage() as $documentId => $documentVersion) {
-					$hit = $this->get->execute(
-						new \Spameri\Elastic\Entity\Property\ElasticId($documentId),
+					$response = $this->get->execute(
+						new \Spameri\Elastic\Entity\Property\ElasticId((string) $documentId),
 						$indexFrom,
 						$typeFrom
 					);
 
-					if ($this->documentMigrateStatus->isChanged($documentId, $hit->version())) {
+					if ($this->documentMigrateStatus->isChanged((string) $documentId, $response->hit()->version())) {
 						// Reindex this document
-						$this->processHit($indexTo, $indexFrom, $hit, $allowClose);
+						$this->processHit($indexTo, $typeTo, $indexFrom, $response, $allowClose);
 						$changed++;
 
 						/** @noinspection DisconnectedForeachInstructionInspection */
@@ -246,6 +247,7 @@ class Migrate
 	 */
 	public function processHit(
 		string $indexTo
+		, ?string $typeTo
 		, string $indexFrom
 		, \Spameri\ElasticQuery\Response\Result\Hit $hit
 		, bool $allowClose
@@ -254,7 +256,7 @@ class Migrate
 		$document = new \Spameri\ElasticQuery\Document(
 			$indexTo,
 			new \Spameri\ElasticQuery\Document\Body\Plain($hit->source()),
-			$indexTo,
+			$typeTo,
 			$hit->id()
 		);
 

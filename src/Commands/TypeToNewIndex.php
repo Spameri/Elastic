@@ -33,6 +33,7 @@ class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 			->addArgument('typeFrom', \Symfony\Component\Console\Input\InputArgument::REQUIRED)
 			->addArgument('indexTo', \Symfony\Component\Console\Input\InputArgument::REQUIRED)
 			->addArgument('aliasTo', \Symfony\Component\Console\Input\InputArgument::REQUIRED)
+			->addArgument('typeTo', \Symfony\Component\Console\Input\InputArgument::OPTIONAL, 'Use only on old ElasticSearch', NULL)
 			->addOption('allowClose', 'c', NULL,
 				'Allows command to close index for data transfer. After data is transferred index is opened and resumes normal operations. When open it needs to check changed files after move and sync remaining.',
 				TRUE
@@ -51,10 +52,11 @@ class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 		$typeFrom = $input->getArgument('typeFrom');
 		$indexTo = $input->getArgument('indexTo');
 		$aliasTo = $input->getArgument('aliasTo');
+		$typeTo = $input->getOption('typeTo');
 		$allowClose = $input->getOption('allowClose');
 
 		$this->migrate->setOutput($output);
-		$this->migrate->execute($indexFrom, $typeFrom, $indexTo, $aliasTo, $allowClose);
+		$this->migrate->execute($indexFrom, $typeFrom, $indexTo, $aliasTo, $typeTo, $allowClose);
 
 		$output->writeln('Done');
 	}

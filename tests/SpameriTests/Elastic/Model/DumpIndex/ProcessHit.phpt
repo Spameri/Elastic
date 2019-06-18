@@ -6,6 +6,9 @@ namespace SpameriTests\Elastic\Model\DumpIndex;
 require_once __DIR__ . '/../../../bootstrap.php';
 
 
+/**
+ * @testCase
+ */
 class ProcessHit extends \Tester\TestCase
 {
 
@@ -55,7 +58,7 @@ class ProcessHit extends \Tester\TestCase
 	}
 
 
-	public function tearDown() : void
+	protected function tearDown() : void
 	{
 		\Nette\Utils\FileSystem::delete('test.log');
 		parent::tearDown();
