@@ -34,15 +34,20 @@ class Insert
 	public function execute(
 		\Spameri\Elastic\Entity\IElasticEntity $entity
 		, string $index
+		, ?string $type = NULL
 	) : string
 	{
+		if ($type === NULL) {
+			$type = $index;
+		}
+
 		$entityArray = $this->prepareEntityArray->prepare($entity);
 		unset($entityArray['id']);
 
 		$document = new \Spameri\ElasticQuery\Document(
 			$index,
 			new \Spameri\ElasticQuery\Document\Body\Plain($entityArray),
-			$index,
+			$type,
 			$entity->id()->value()
 		);
 

@@ -106,6 +106,14 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 
 		$services = $this->toggleDebugBar($config, $services);
 
+		if ( ! \class_exists(\Symfony\Component\Console\Command\Command::class)) {
+			$services = $this->removeCommandDefinitions($services);
+		}
+
+		if ( ! \class_exists(\Nette\Security\User::class)) {
+			unset($services['services']['userProvider']);
+		}
+
 		$this->setConfigOptions($services, $config);
 
 		$this->compiler->parseServices(
@@ -170,6 +178,25 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 				->getDefinition('tracy.bar')
 				->addSetup('addPanel', ['@' . $this->prefix('elasticPanel')])
 			;
+		}
+
+		return $services;
+	}
+
+
+	public function removeCommandDefinitions(
+		array $services
+	): array
+	{
+		$iterableServices = $services['services'];
+		foreach ($iterableServices as $serviceKey => $serviceArray) {
+			if (isset($serviceArray['tags'])) {
+				foreach ($serviceArray['tags'] as $tag) {
+					if ($tag === 'kdyby.console.command') {
+						unset($services[$serviceKey]);
+					}
+				}
+			}
 		}
 
 		return $services;

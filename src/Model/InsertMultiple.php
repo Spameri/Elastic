@@ -16,14 +16,21 @@ class InsertMultiple
 	 */
 	private $clientProvider;
 
+	/**
+	 * @var \Spameri\ElasticQuery\Response\ResultMapper
+	 */
+	private $resultMapper;
+
 
 	public function __construct(
 		\Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray
 		, \Spameri\Elastic\ClientProvider $clientProvider
+		, \Spameri\ElasticQuery\Response\ResultMapper $resultMapper
 	)
 	{
 		$this->prepareEntityArray = $prepareEntityArray;
 		$this->clientProvider = $clientProvider;
+		$this->resultMapper = $resultMapper;
 	}
 
 
@@ -34,8 +41,13 @@ class InsertMultiple
 	public function execute(
 		\Spameri\Elastic\Entity\IElasticEntityCollection $entityCollection
 		, string $index
-	) : array
+		, ?string $type = NULL
+	) : \Spameri\ElasticQuery\Response\ResultBulk
 	{
+		if ($type === NULL) {
+			$type = $index;
+		}
+
 		$documentsArray = [];
 
 		foreach ($entityCollection as $entity) {
@@ -45,7 +57,7 @@ class InsertMultiple
 			$documentsArray[] = [
 				'index' => [
 					'_index' => $index,
-					'_type'  => $index,
+					'_type'  => $type,
 				],
 			];
 			$documentsArray[] = $entityArray;
@@ -63,7 +75,7 @@ class InsertMultiple
 		try {
 			$this->clientProvider->client()->indices()->refresh(
 				(
-				new \Spameri\ElasticQuery\Document($index)
+					new \Spameri\ElasticQuery\Document($index)
 				)
 					->toArray()
 			);
@@ -71,10 +83,7 @@ class InsertMultiple
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}
 
-		if ( ! $response['errors']) {
-			return $response['items'];
-		}
-
-		throw new \Spameri\Elastic\Exception\DocumentInsertFailed();
+		return $this->resultMapper->mapBulkResult($response);
 	}
+
 }

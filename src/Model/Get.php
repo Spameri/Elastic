@@ -27,20 +27,27 @@ class Get
 
 
 	/**
+	 * $type parameter is here only for backward compatibility do not use it for new index
+	 *
 	 * @throws \Spameri\Elastic\Exception\ElasticSearch
 	 */
 	public function execute(
 		\Spameri\Elastic\Entity\Property\ElasticId $id
 		, string $index
+		, ?string $type = NULL
 	) : \Spameri\ElasticQuery\Response\ResultSingle
 	{
+		if ($type === NULL) {
+			$type = $index;
+		}
+
 		try {
 			$response = $this->clientProvider->client()->get(
 				(
 					new \Spameri\ElasticQuery\Document(
 						$index,
 						NULL,
-						$index,
+						$type,
 						$id->value()
 					)
 				)

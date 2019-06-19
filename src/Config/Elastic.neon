@@ -26,11 +26,35 @@ services:
 	search:
 		class: Spameri\Elastic\Model\Search
 
+	scroll:
+		class: Spameri\Elastic\Model\Scroll
+
 	delete:
 		class: Spameri\Elastic\Model\Delete
 
 	deleteMultiple:
 		class: Spameri\Elastic\Model\DeleteMultiple
+
+	indiceClose:
+		class: Spameri\Elastic\Model\Indices\Close
+
+	indiceOpen:
+		class: Spameri\Elastic\Model\Indices\Open
+
+	indiceGet:
+		class: Spameri\Elastic\Model\Indices\Get
+
+	indiceGetMapping:
+		class: Spameri\Elastic\Model\Indices\GetMapping
+
+	indicePutMapping:
+		class: Spameri\Elastic\Model\Indices\PutMapping
+
+	indicePutSettings:
+		class: Spameri\Elastic\Model\Indices\PutSettings
+
+	indicesCreate:
+		class: Spameri\Elastic\Model\Indices\Create
 
 	serviceLocator:
 		class: Spameri\Elastic\Model\ServiceLocator
@@ -39,7 +63,7 @@ services:
 		class: Spameri\Elastic\Model\Mapping
 
 	userProvider:
-	 	class: Spameri\Elastic\Model\UserProvider
+	 	class: Spameri\Elastic\Model\NetteUserProvider
 
 	neonSettingsProvider:
 		class: Spameri\Elastic\Settings\NeonSettingsProvider(%host%, %port%)
@@ -62,33 +86,82 @@ services:
 	display:
 		class: Spameri\Elastic\Model\ValidateMapping\Display
 
+	documentMigrateStatus:
+		class: Spameri\Elastic\Model\TypeToNewIndex\DocumentMigrateStatus
+
+	migrate:
+		class: Spameri\Elastic\Model\TypeToNewIndex\Migrate
+
+	modelDumpIndex:
+		class: \Spameri\Elastic\Model\DumpIndex
+
+	restoreIndex:
+		class: \Spameri\Elastic\Model\RestoreIndex
+
 #	###
 #	Commands
 #	###
 
 	createIndex:
 		class: Spameri\Elastic\Commands\CreateIndex(%entities%)
-		tags: [kdyby.console.command]
+		tags:
+			- kdyby.console.command
+			- console.command
 
 	updateMapping:
 		class: Spameri\Elastic\Commands\UpdateMapping(%entities%)
-		tags: [kdyby.console.command]
+		tags:
+			- kdyby.console.command
+			- console.command
 
 	deleteIndex:
 		class: Spameri\Elastic\Commands\DeleteIndex
-		tags: [kdyby.console.command]
+		tags:
+			- kdyby.console.command
+			- console.command
 
 	addAlias:
 		class: Spameri\Elastic\Commands\AddAlias
-		tags: [kdyby.console.command]
+		tags:
+			- kdyby.console.command
+			- console.command
 
 	removeAlias:
 		class: Spameri\Elastic\Commands\RemoveAlias
-		tags: [kdyby.console.command]
+		tags:
+			- kdyby.console.command
+			- console.command
 
 	validateMappingCommand:
 		class: Spameri\Elastic\Commands\ValidateMapping
-		tags: [kdyby.console.command]
+		tags:
+			- kdyby.console.command
+			- console.command
+
+	typeToNewIndex:
+		class: Spameri\Elastic\Commands\TypeToNewIndex
+		tags:
+			- kdyby.console.command
+			- console.command
+
+	dumpIndex:
+		class: Spameri\Elastic\Commands\DumpIndex
+		tags:
+			- kdyby.console.command
+			- console.command
+
+	loadDump:
+		class: Spameri\Elastic\Commands\LoadDump
+		tags:
+			- kdyby.console.command
+			- console.command
+
+#	###
+#	Spameri/ElasticQuery
+#	###
+
+	resultMapper:
+		class: Spameri\ElasticQuery\Response\ResultMapper
 
 #	###
 #	Elastic/Elastic
@@ -99,11 +172,8 @@ services:
 	 	setup:
 	 		- setLogger(@elasticSearch.elasticPanelLogger)
 
-	constantProvider:
-		class: Kdyby\DateTimeProvider\Provider\ConstantProvider(@elasticSearch.dateTime)
+	dateTimeProvider:
+		class: Spameri\Elastic\Provider\DateTimeProvider(@elasticSearch.dateTime)
 
 	dateTime:
 		class: \DateTimeImmutable
-
-	resultMapper:
-		class: Spameri\ElasticQuery\Response\ResultMapper

@@ -32,15 +32,20 @@ class GetBy
 	public function execute(
 		\Spameri\ElasticQuery\ElasticQuery $options
 		, string $index
+		, ?string $type = NULL
 	) : \Spameri\ElasticQuery\Response\ResultSearch
 	{
+		if ($type === NULL) {
+			$type = $index;
+		}
+
 		try {
 			$response = $this->clientProvider->client()->search(
 				(
 					new \Spameri\ElasticQuery\Document(
 						$index,
 						new \Spameri\ElasticQuery\Document\Body\Plain($options->toArray()),
-						$index
+						$type
 					)
 				)
 					->toArray()

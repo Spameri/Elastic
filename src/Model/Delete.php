@@ -26,15 +26,20 @@ class Delete
 	public function execute(
 		\Spameri\Elastic\Entity\Property\IElasticId $id
 		, string $index
+		, ?string $type = NULL
 	) : bool
 	{
+		if ($type === NULL) {
+			$type = $index;
+		}
+
 		try {
 			$response = $this->clientProvider->client()->delete(
 				(
 				new \Spameri\ElasticQuery\Document(
 					$index,
 					NULL,
-					$index,
+					$type,
 					$id->value()
 				)
 				)
