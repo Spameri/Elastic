@@ -47,11 +47,11 @@ class LoadDump extends \Symfony\Component\Console\Command\Command
 	{
 		$output->writeln('Starting');
 
-		$index = $input->getArgument('index');
+		$filename = $input->getArgument('filename');
 		$step = (int) $input->getArgument('step');
 
 		$this->restoreIndex->setOutput($output);
-		$this->restoreIndex->execute($index, $step);
+		$this->restoreIndex->execute($filename, $step);
 
 		$output->writeln('Done');
 	}
