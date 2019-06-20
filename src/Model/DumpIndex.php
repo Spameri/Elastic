@@ -62,7 +62,7 @@ class DumpIndex
 			$this->bulkData = '';
 			$result = $this->scroll->execute($elasticQuery, $index, $type);
 			if ($progressBar->getMaxSteps() === 0) {
-				$progressBar->setMaxSteps($result->stats()->total());
+				$progressBar->start($result->stats()->total());
 			}
 
 			/** @var \Spameri\ElasticQuery\Response\Result\Hit $hit */
