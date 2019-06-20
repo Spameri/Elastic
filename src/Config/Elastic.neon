@@ -32,6 +32,9 @@ services:
 	delete:
 		class: Spameri\Elastic\Model\Delete
 
+	aggregate:
+		class: Spameri\Elastic\Model\Aggregate
+
 	deleteMultiple:
 		class: Spameri\Elastic\Model\DeleteMultiple
 

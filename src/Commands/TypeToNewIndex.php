@@ -34,7 +34,7 @@ class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 			->addArgument('indexTo', \Symfony\Component\Console\Input\InputArgument::REQUIRED)
 			->addArgument('aliasTo', \Symfony\Component\Console\Input\InputArgument::REQUIRED)
 			->addArgument('typeTo', \Symfony\Component\Console\Input\InputArgument::OPTIONAL, 'Use only on old ElasticSearch', NULL)
-			->addOption('allowClose', 'c', NULL,
+			->addOption('allowClose', 'c', \Symfony\Component\Console\Input\InputOption::VALUE_OPTIONAL,
 				'Allows command to close index for data transfer. After data is transferred index is opened and resumes normal operations. When open it needs to check changed files after move and sync remaining.',
 				TRUE
 			)
