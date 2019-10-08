@@ -59,6 +59,9 @@ services:
 	indicesCreate:
 		class: Spameri\Elastic\Model\Indices\Create
 
+	indicesDelete:
+		class: Spameri\Elastic\Model\Indices\Delete
+
 	serviceLocator:
 		class: Spameri\Elastic\Model\ServiceLocator
 
@@ -75,7 +78,7 @@ services:
 	 	class: Spameri\Elastic\ClientProvider
 
 	elasticPanelLogger:
-		class: Spameri\Elastic\Diagnostics\PanelLogger(@elasticSearch.nullLogger)
+		class: Spameri\Elastic\Diagnostics\PanelLogger(@spameriElasticSearch.nullLogger)
 
 	nullLogger:
 		class: Psr\Log\NullLogger
@@ -173,10 +176,28 @@ services:
 	clientBuilder:
 	 	class: Elasticsearch\ClientBuilder
 	 	setup:
-	 		- setLogger(@elasticSearch.elasticPanelLogger)
+	 		- setLogger(@spameriElasticSearch.elasticPanelLogger)
 
 	dateTimeProvider:
-		class: Spameri\Elastic\Provider\DateTimeProvider(@elasticSearch.dateTime)
+		class: Spameri\Elastic\Provider\DateTimeProvider(@spameriElasticSearch.dateTime)
 
 	dateTime:
 		class: \DateTimeImmutable
+
+	nullOutput:
+		class: Symfony\Component\Console\Output\NullOutput
+
+	consoleOutput:
+		class: Symfony\Component\Console\Output\ConsoleOutput
+
+	nullLoggerHandler:
+		class: Spameri\Elastic\Import\Run\NullLoggerHandler
+
+	nullLock:
+		class: Spameri\Elastic\Import\Lock\NullLock
+
+	nullHandler:
+		class: Spameri\Elastic\Import\RunHandler\NullHandler
+
+	nullAfterImport:
+		class: Spameri\Elastic\Import\AfterImport\NullAfterImport

@@ -8,6 +8,8 @@ class Identification implements \Spameri\Elastic\Entity\IEntity
 
 	/**
 	 * @var \SpameriTests\Data\Entity\Property\ImdbId
+	 * @type(keyword)
+	 * @analyzer(keyword)
 	 */
 	private $imdb;
 

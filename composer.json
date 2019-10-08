@@ -54,6 +54,9 @@
 	"autoload-dev": {
 		"psr-4": {
 			"SpameriTests\\": "tests/SpameriTests"
-		}
+		},
+		"classmap": [
+		  	"tests/SpameriTests/Elastic/Migration/migrations"
+		]
 	}
 }

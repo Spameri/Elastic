@@ -91,9 +91,13 @@ class PrepareEntityArray
 				\is_string($property)
 				|| \is_int($property)
 				|| \is_bool($property)
+				|| \is_float($property)
 				|| $property === NULL
 			) {
 				$preparedArray[$key] = $property;
+
+			} elseif (\is_array($property)) {
+				$preparedArray[$key] = $this->iterateVariables($property);
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\DateTimeInterface) {
 				$preparedArray[$key] = $property->format();

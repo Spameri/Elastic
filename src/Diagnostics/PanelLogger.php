@@ -148,6 +148,8 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	) : void
 	{
 		if (isset($context['method'], $context['uri'])) {
+			$path = \explode('9200', $context['uri']);
+			$context['uri'] = $path[1] ?? $context['uri'];
 			$this->queries[] = $context;
 		}
 	}
