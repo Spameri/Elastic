@@ -34,7 +34,7 @@
 		"kdyby/console": "^2.7.1",
 		"kdyby/datetime-provider": "v1.0.0",
 		"kdyby/monolog": "^1.3.2",
-		"tracy/tracy": "^2.6.0"
+		"tracy/tracy": "^2.4.18"
 	},
 	"require-dev": {
 		"spameri/coding-standard": "dev-master",
