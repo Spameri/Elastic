@@ -34,10 +34,28 @@ spameriElasticSearch:
 	port: 9200
 ```
 
-### III. 
+### III. Configure Entity
 
+Next step is to configure your first entity. This entity is for e-shop product.
 
+```yaml
+1.|	spameriElasticSearch:
+2.|		entities:
+3.|			SimpleProduct:
+4.|				index: spameri_simple_product
+5.|				dynamic: strict
+6.|				config: @simpleProductConfig
+7.|				properties: 
+```
+- First line is extensionName
+- Second line is entities config array
+- Third line is EntityName
+- Fourth line is index name for this entity
+- Fifth line is for specifying whether index should accept new not specified fields
+- Sixth line is reference to where is object with entity configuration
+- Seventh line is where you can configure your entity within this neon
 
+## 3. 
 
 
 
