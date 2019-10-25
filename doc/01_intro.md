@@ -13,19 +13,19 @@ Monolog is required by elasticsearch/elasticsearch and we can use existing exten
 
 ```neon
 extensions:
-	elasticSearch: \Spameri\Elastic\DI\ElasticSearchExtension
+	spameriElasticSearch: \Spameri\Elastic\DI\SpameriElasticSearchExtension
 	console: Kdyby\Console\DI\ConsoleExtension
 	monolog: Kdyby\Monolog\DI\MonologExtension
 ```
 
 Then configure where is your ElasticSearch.
 ```neon
-elasticSearch:
+spameriElasticSearch:
 	host: 127.0.0.1
 	port: 9200
 ```
 
-For more config options see default values in `\Spameri\Elastic\DI\ElasticSearchExtension::$defaults`. [Here](../src/DI/ElasticSearchExtension.php#L9).
+For more config options see default values in `\Spameri\Elastic\DI\SpameriElasticSearchExtension::$defaults`. [Here](../src/DI/ElasticSearchExtension.php#L9).
 
 #### Raw client usage
 - After this configuration you are ready to use ElasticSearch in your Nette application.

@@ -1,4 +1,4 @@
-elasticSearch:
+spameriElasticSearch:
 	entities:
 		Video:
 			index: spameri_video

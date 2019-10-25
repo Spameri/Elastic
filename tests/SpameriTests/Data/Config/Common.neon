@@ -1,7 +1,7 @@
 extensions:
-	elasticSearch: Spameri\Elastic\DI\ElasticSearchExtension
+	spameriElasticSearch: Spameri\Elastic\DI\SpameriElasticSearchExtension
 
-elasticSearch:
+spameriElasticSearch:
 	host: 127.0.0.1
 	port: 9200
 

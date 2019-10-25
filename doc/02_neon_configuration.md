@@ -13,7 +13,7 @@ have to worry about it because of type deprecation. More details here https://ww
 - Entity definition is in neon under namespace `elasticSearch.entities.EntityName` 
 continuing our example in file `app/ProductModule/Config/Product.neon`:
 ```neon
-elasticSearch:
+spameriElasticSearch:
 	entities:
 		Product:
 			index: shop_product
@@ -25,7 +25,7 @@ This means newly introduced fields not specified in mapping will throw error whe
 all fields introduced and specify their type. But if your application can add fields as needed you need to remember this
 strict limitation or just do not enable it.
 ```neon
-elasticSearch:
+spameriElasticSearch:
 	entities:
 		Product:
 			dynamic: strict
@@ -33,7 +33,7 @@ elasticSearch:
 - Now to specify entity mapping. Each object or encapsulation of sub fields stars with `properties:` then property name
 and under it you can specify type and analyzer. 
 ```neon
-elasticSearch:
+spameriElasticSearch:
 	entities:
 		Product:
 			properties: 
@@ -46,7 +46,7 @@ elasticSearch:
 - ElasticSearch default analyzers: https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-analyzers.html
 - Subfields example:
 ```neon
-elasticSearch:
+spameriElasticSearch:
 	entities:
 		Product:
 			properties: 

@@ -1,4 +1,4 @@
-elasticSearch:
+spameriElasticSearch:
 	entities:
 		Person:
 			index: spameri_person
