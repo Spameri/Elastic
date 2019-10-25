@@ -22,9 +22,19 @@ extensions:
 	monolog: Kdyby\Monolog\DI\MonologExtension
 ```
 
+### II. Configure
 
+Now you need to tell library where is ElasticSearch running. Default values are **localhost**
+and port **9200**. That means if you are running ElasticSearch locally with default port, no
+need to configure anything. 
 
+```yaml
+spameriElasticSearch:
+	host: 192.168.0.14
+	port: 9200
+```
 
+### III. 
 
 
 
