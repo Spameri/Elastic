@@ -42,11 +42,6 @@ abstract class BaseService implements IService
 	protected $getAllBy;
 
 	/**
-	 * @var array
-	 */
-	protected $entityProperties;
-
-	/**
 	 * @var \Spameri\Elastic\Factory\IEntityFactory
 	 */
 	protected $entityFactory;
@@ -63,16 +58,15 @@ abstract class BaseService implements IService
 
 	public function __construct(
 		string $index
-		, array $entityProperties
 		, \Spameri\Elastic\Factory\IEntityFactory $entityFactory
 		, \Spameri\Elastic\Factory\ICollectionFactory $collectionFactory
 		, \Spameri\Elastic\ClientProvider $client
-		, Insert $insert
-		, Get $get
-		, GetBy $getBy
-		, GetAllBy $getAllBy
-		, Delete $delete
-		, Aggregate $aggregate
+		, \Spameri\Elastic\Model\Insert $insert
+		, \Spameri\Elastic\Model\Get $get
+		, \Spameri\Elastic\Model\GetBy $getBy
+		, \Spameri\Elastic\Model\GetAllBy $getAllBy
+		, \Spameri\Elastic\Model\Delete $delete
+		, \Spameri\Elastic\Model\Aggregate $aggregate
 	)
 	{
 		$this->client = $client->client();
@@ -82,7 +76,6 @@ abstract class BaseService implements IService
 		$this->delete = $delete;
 		$this->getBy = $getBy;
 		$this->getAllBy = $getAllBy;
-		$this->entityProperties = $entityProperties;
 		$this->entityFactory = $entityFactory;
 		$this->collectionFactory = $collectionFactory;
 		$this->aggregate = $aggregate;

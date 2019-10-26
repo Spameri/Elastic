@@ -8,7 +8,8 @@ elasticSearch:
 				identification:
 					properties:
 						imdb:
-							type: text
+							type: keyword
+							analyzer: keyword
 
 						trakt:
 							type: long

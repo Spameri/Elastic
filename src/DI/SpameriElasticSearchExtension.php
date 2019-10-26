@@ -3,7 +3,7 @@
 namespace Spameri\Elastic\DI;
 
 
-class ElasticSearchExtension extends \Nette\DI\CompilerExtension
+class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 {
 
 	public $defaults = [
@@ -100,7 +100,7 @@ class ElasticSearchExtension extends \Nette\DI\CompilerExtension
 		$config = \Nette\DI\Config\Helpers::merge($this->getConfig(), $this->defaults);
 
 		$config = $this->toggleSynonymAnalyzer($config);
-		$this->compiler->getContainerBuilder()->parameters['elasticSearch'] = $config;
+		$this->compiler->getContainerBuilder()->parameters['spameriElasticSearch'] = $config;
 
 		$services = $this->loadFromFile(__DIR__ . '/../Config/Elastic.neon');
 
