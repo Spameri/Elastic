@@ -7,6 +7,8 @@ Use composer to install this library.
 composer require spameri/elastic
 ```
 
+---
+
 ## 2. Configure
 
 You need to set up few things first, before you can dive into ElasticSearch.
@@ -54,6 +56,8 @@ Next step is to configure your first entity. This entity is for e-shop product.
 - Fifth line is for specifying whether index should accept new not specified fields
 - Sixth line is reference to where is object with entity configuration
 - Seventh line is where you can configure your entity within this neon
+
+---
 
 ## 3. 
 
