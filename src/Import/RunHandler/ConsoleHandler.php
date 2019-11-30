@@ -12,7 +12,7 @@ class ConsoleHandler implements \Spameri\Elastic\Import\RunHandlerInterface
 	): void
 	{
 		$progressBar->advance();
-		if ($progressBar->getProgress() % 100) {
+		if ($progressBar->getProgress() % 100 === 0) {
 			$progressBar->display();
 		}
 	}

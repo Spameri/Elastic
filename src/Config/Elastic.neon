@@ -199,5 +199,8 @@ services:
 	nullHandler:
 		class: Spameri\Elastic\Import\RunHandler\NullHandler
 
+	consoleHandler:
+		class: Spameri\Elastic\Import\RunHandler\ConsoleHandler
+
 	nullAfterImport:
 		class: Spameri\Elastic\Import\AfterImport\NullAfterImport
