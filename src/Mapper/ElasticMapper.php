@@ -43,8 +43,7 @@ class ElasticMapper
 						new \Spameri\ElasticQuery\Document\Body\Plain([
 							'dynamic' => $entity['dynamic'],
 							'properties' => $entity['properties'],
-						]),
-						$entity['index']
+						])
 					)
 				)->toArray()
 			);
@@ -161,7 +160,6 @@ class ElasticMapper
 								],
 							]),
 							NULL,
-							NULL,
 							[
 								'name' => $index,
 							]
@@ -197,7 +195,6 @@ class ElasticMapper
 								],
 							],
 						]),
-						NULL,
 						NULL,
 						[
 							'name' => $index,

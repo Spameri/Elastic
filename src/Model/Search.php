@@ -33,20 +33,14 @@ class Search
 	public function execute(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
 		, string $index
-		, ?string $type = NULL
 	) : \Spameri\ElasticQuery\Response\ResultSearch
 	{
-		if ($type === NULL) {
-			$type = $index;
-		}
-
 		try {
 			$result = $this->clientProvider->client()->search(
 				(
 					new \Spameri\ElasticQuery\Document(
 						$index,
-						new \Spameri\ElasticQuery\Document\Body\Plain($elasticQuery->toArray()),
-						$type
+						new \Spameri\ElasticQuery\Document\Body\Plain($elasticQuery->toArray())
 					)
 				)
 					->toArray()

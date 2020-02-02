@@ -122,7 +122,6 @@ class Migrate
 	 */
 	public function execute(
 		string $indexFrom
-		, string $typeFrom
 		, string $indexTo
 		, string $aliasTo
 		, ?string $typeTo
@@ -149,8 +148,8 @@ class Migrate
 		]);
 
 		// 2b. Set mapping in new index
-		$this->output->writeln('Transferring mapping from index: ' . $indexFrom . ' and type: ' . $typeFrom . ' to index: ' . $indexTo);
-		$oldMapping = $this->getMapping->execute($indexFrom, $typeFrom);
+		$this->output->writeln('Transferring mapping from index: ' . $indexFrom . ' to index: ' . $indexTo);
+		$oldMapping = $this->getMapping->execute($indexFrom);
 		$firstMapping = \reset($oldMapping);
 		$this->putMapping->execute($indexTo, $firstMapping['mappings']);
 
@@ -164,14 +163,14 @@ class Migrate
 		$elasticQuery = new \Spameri\ElasticQuery\ElasticQuery();
 		$elasticQuery->options()->changeSize(5000);
 		while ($continue) {
-			$result = $this->search->execute($elasticQuery, $indexFrom, $typeFrom);
+			$result = $this->search->execute($elasticQuery, $indexFrom);
 
 			// 4. Input data to new index
 			// 4a. if closed delete data
 			// 4b. if open store migrated version
 			/** @var \Spameri\ElasticQuery\Response\Result\Hit $response */
 			foreach ($result->hits() as $response) {
-				$this->processHit($indexTo, $typeTo, $indexFrom, $response, $allowClose);
+				$this->processHit($indexTo, $indexFrom, $response, $allowClose);
 			}
 
 			if (\count($result->hits()->getIterator()) === 0) {
@@ -206,7 +205,7 @@ class Migrate
 
 					if ($this->documentMigrateStatus->isChanged((string) $documentId, $response->hit()->version())) {
 						// Reindex this document
-						$this->processHit($indexTo, $typeTo, $indexFrom, $response, $allowClose);
+						$this->processHit($indexTo, $indexFrom, $response, $allowClose);
 						$changed++;
 
 						/** @noinspection DisconnectedForeachInstructionInspection */
@@ -247,7 +246,6 @@ class Migrate
 	 */
 	public function processHit(
 		string $indexTo
-		, ?string $typeTo
 		, string $indexFrom
 		, \Spameri\ElasticQuery\Response\Result\Hit $hit
 		, bool $allowClose
@@ -256,7 +254,6 @@ class Migrate
 		$document = new \Spameri\ElasticQuery\Document(
 			$indexTo,
 			new \Spameri\ElasticQuery\Document\Body\Plain($hit->source()),
-			$typeTo,
 			$hit->id()
 		);
 

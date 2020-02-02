@@ -22,21 +22,15 @@ class GetMapping
 
 	public function execute(
 		string $index
-		, ?string $type = NULL
 	) : array
 	{
-		if ($type === NULL) {
-			$type = $index;
-		}
-
 		try {
 			/** @var array $result */
 			$result = $this->clientProvider->client()->indices()->getMapping(
 				(
 					new \Spameri\ElasticQuery\Document(
 						$index,
-						NULL,
-						$type
+						NULL
 					)
 				)->toArray()
 			);

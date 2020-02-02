@@ -34,20 +34,14 @@ class Get
 	public function execute(
 		\Spameri\Elastic\Entity\Property\ElasticId $id
 		, string $index
-		, ?string $type = NULL
 	) : \Spameri\ElasticQuery\Response\ResultSingle
 	{
-		if ($type === NULL) {
-			$type = $index;
-		}
-
 		try {
 			$response = $this->clientProvider->client()->get(
 				(
 					new \Spameri\ElasticQuery\Document(
 						$index,
 						NULL,
-						$type,
 						$id->value()
 					)
 				)

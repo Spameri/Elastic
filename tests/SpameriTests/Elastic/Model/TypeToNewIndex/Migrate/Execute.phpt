@@ -69,7 +69,6 @@ class Execute extends \Tester\TestCase
 				new \Spameri\ElasticQuery\Document(
 					\SpameriTests\Elastic\Config::INDEX_MIGRATE,
 					NULL,
-					\SpameriTests\Elastic\Config::TYPE,
 					$id
 				)
 			)->toArray()
@@ -84,7 +83,6 @@ class Execute extends \Tester\TestCase
 			\SpameriTests\Elastic\Config::TYPE,
 			\SpameriTests\Elastic\Config::INDEX_MIGRATE_NEW,
 			\SpameriTests\Elastic\Config::INDEX_MIGRATE_NEW,
-			\SpameriTests\Elastic\Config::TYPE,
 			FALSE
 		);
 
@@ -93,7 +91,6 @@ class Execute extends \Tester\TestCase
 			new \Spameri\ElasticQuery\Document(
 				\SpameriTests\Elastic\Config::INDEX_MIGRATE_NEW,
 				NULL,
-				\SpameriTests\Elastic\Config::TYPE,
 				$id
 			)
 			)->toArray()
