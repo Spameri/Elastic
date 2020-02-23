@@ -168,11 +168,14 @@ abstract class BaseService implements IService
 			$entities[] = $this->entityFactory->create($hit)->current();
 		}
 
-		return $this->collectionFactory->create(
+		$collection = $this->collectionFactory->create(
 			$this,
 			[],
 			... $entities
 		);
+		$collection->setAggregation($resultSearch->aggregations());
+
+		return $collection;
 	}
 
 

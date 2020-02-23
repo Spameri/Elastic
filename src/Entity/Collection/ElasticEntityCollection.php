@@ -26,6 +26,11 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 	 */
 	protected $initialized;
 
+	/**
+	 * @var \Spameri\ElasticQuery\Response\Result\AggregationCollection
+	 */
+	protected $aggregations;
+
 
 	public function __construct(
 		\Spameri\Elastic\Model\IService $service
@@ -218,6 +223,20 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 		}
 
 		throw new \Nette\NotImplementedException();
+	}
+
+
+	public function setAggregation(
+		\Spameri\ElasticQuery\Response\Result\AggregationCollection $aggregation
+	): void
+	{
+		$this->aggregations = $aggregation;
+	}
+
+
+	public function aggregations(): \Spameri\ElasticQuery\Response\Result\AggregationCollection
+	{
+		return $this->aggregations;
 	}
 
 }

@@ -46,4 +46,12 @@ interface IElasticEntityCollection extends \IteratorAggregate
 		, string $type
 	) : void;
 
+
+	public function setAggregation(
+		\Spameri\ElasticQuery\Response\Result\AggregationCollection $aggregation
+	): void;
+
+
+	public function aggregations(): \Spameri\ElasticQuery\Response\Result\AggregationCollection;
+
 }
