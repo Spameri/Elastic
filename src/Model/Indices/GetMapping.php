@@ -29,8 +29,7 @@ class GetMapping
 			$result = $this->clientProvider->client()->indices()->getMapping(
 				(
 					new \Spameri\ElasticQuery\Document(
-						$index,
-						NULL
+						$index
 					)
 				)->toArray()
 			);
