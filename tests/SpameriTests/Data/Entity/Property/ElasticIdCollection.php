@@ -3,24 +3,24 @@
 namespace SpameriTests\Data\Entity\Property;
 
 
-class ElasticIdCollection implements \Spameri\Elastic\Entity\IValueCollection
+class ElasticIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
 	/**
-	 * @var array<\Spameri\Elastic\Entity\Property\IElasticId>
+	 * @var array<\Spameri\Elastic\Entity\Property\ElasticIdInterface>
 	 */
 	private $collection;
 
 
 	public function __construct(
-		\Spameri\Elastic\Entity\Property\IElasticId ... $collection
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface ... $collection
 	)
 	{
 		$this->collection = $collection;
 	}
 
 
-	public function add(\Spameri\Elastic\Entity\Property\IElasticId $featured)
+	public function add(\Spameri\Elastic\Entity\Property\ElasticIdInterface $featured)
 	{
 		$this->collection[] = $featured;
 	}

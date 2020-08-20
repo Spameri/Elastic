@@ -3,7 +3,7 @@
 namespace Spameri\Elastic\Entity\Property;
 
 
-class ElasticId implements \Spameri\Elastic\Entity\IValue, \Spameri\Elastic\Entity\Property\IElasticId
+class ElasticId implements \Spameri\Elastic\Entity\ValueInterface, \Spameri\Elastic\Entity\Property\ElasticIdInterface
 {
 
 	/**

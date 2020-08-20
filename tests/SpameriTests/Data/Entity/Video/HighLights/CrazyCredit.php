@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video\HighLights;
 
 
-class CrazyCredit implements \Spameri\Elastic\Entity\IEntity
+class CrazyCredit implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**

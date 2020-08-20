@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Person;
 
 
-class Character implements \Spameri\Elastic\Entity\IEntity
+class Character implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**

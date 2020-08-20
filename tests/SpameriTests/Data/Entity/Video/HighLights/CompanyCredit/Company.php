@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video\HighLights\CompanyCredit;
 
 
-class Company implements \Spameri\Elastic\Entity\IEntity
+class Company implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 

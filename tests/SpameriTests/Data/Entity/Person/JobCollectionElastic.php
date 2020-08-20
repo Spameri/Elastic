@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Person;
 
 
-class JobCollectionElastic extends \Spameri\Elastic\Entity\Collection\EntityCollection
+class JobCollectionElastic extends \Spameri\Elastic\Entity\Collection\AbstractEntityCollection
 {
 
 	public function job(

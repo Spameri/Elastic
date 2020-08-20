@@ -3,7 +3,7 @@
 namespace Spameri\Elastic\Entity\Value;
 
 
-class StringValue implements \Spameri\Elastic\Entity\IValue
+class StringValue implements \Spameri\Elastic\Entity\ValueInterface
 {
 
 	/**

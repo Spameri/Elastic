@@ -28,10 +28,10 @@ class ApplyTimestamp
 
 
 	public function apply(
-		\Spameri\Elastic\Entity\IElasticEntity $entity
+		\Spameri\Elastic\Entity\ElasticEntityInterface $entity
 	) : void
 	{
-		if ( ! $entity instanceof \Spameri\Elastic\Entity\ITrackedEntity) {
+		if ( ! $entity instanceof \Spameri\Elastic\Entity\TrackedEntityInterface) {
 			return;
 		}
 

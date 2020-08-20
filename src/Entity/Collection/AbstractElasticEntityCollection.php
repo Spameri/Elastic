@@ -3,16 +3,16 @@
 namespace Spameri\Elastic\Entity\Collection;
 
 
-abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElasticEntityCollection
+abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
 {
 
 	/**
-	 * @var array<\Spameri\Elastic\Entity\IElasticEntity>
+	 * @var array<\Spameri\Elastic\Entity\ElasticEntityInterface>
 	 */
 	protected $collection;
 
 	/**
-	 * @var \Spameri\Elastic\Model\IService
+	 * @var \Spameri\Elastic\Model\ServiceInterface
 	 */
 	protected $service;
 
@@ -28,9 +28,9 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 
 
 	public function __construct(
-		\Spameri\Elastic\Model\IService $service
+		\Spameri\Elastic\Model\ServiceInterface $service
 		, array $elasticIds = []
-		, \Spameri\Elastic\Entity\IElasticEntity ... $entityCollection
+		, \Spameri\Elastic\Entity\ElasticEntityInterface ... $entityCollection
 	)
 	{
 		$this->collection = [];
@@ -52,7 +52,7 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 
 
 	public function add(
-		\Spameri\Elastic\Entity\IElasticEntity $elasticEntity
+		\Spameri\Elastic\Entity\ElasticEntityInterface $elasticEntity
 	) : void
 	{
 		if ( ! $this->initialized) {
@@ -123,8 +123,8 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 
 
 	public function entity(
-		\Spameri\Elastic\Entity\Property\IElasticId $id
-	) : ?\Spameri\Elastic\Entity\IElasticEntity
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
+	) : ?\Spameri\Elastic\Entity\ElasticEntityInterface
 	{
 		if ( ! $this->initialized) {
 			$this->initialize();
@@ -143,7 +143,7 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 
 
 	public function remove(
-		\Spameri\Elastic\Entity\Property\IElasticId $id
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
 	) : void
 	{
 		if ( ! $this->initialized) {
@@ -155,7 +155,7 @@ abstract class ElasticEntityCollection implements \Spameri\Elastic\Entity\IElast
 
 
 	public function isValue(
-		\Spameri\Elastic\Entity\Property\IElasticId $id
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
 	) : bool
 	{
 		if ( ! $this->initialized) {

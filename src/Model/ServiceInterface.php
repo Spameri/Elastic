@@ -3,31 +3,31 @@
 namespace Spameri\Elastic\Model;
 
 
-interface IService
+interface ServiceInterface
 {
 
 	public function insert(
-		\Spameri\Elastic\Entity\IElasticEntity $entity
+		\Spameri\Elastic\Entity\ElasticEntityInterface $entity
 	) : string;
 
 
 	public function get(
 		\Spameri\Elastic\Entity\Property\ElasticId $id
-	) : \Spameri\Elastic\Entity\IElasticEntity;
+	) : \Spameri\Elastic\Entity\ElasticEntityInterface;
 
 
 	public function getBy(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
-	) : \Spameri\Elastic\Entity\IElasticEntity;
+	) : \Spameri\Elastic\Entity\ElasticEntityInterface;
 
 
 	public function getAllBy(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
-	) : \Spameri\Elastic\Entity\IElasticEntityCollection;
+	) : \Spameri\Elastic\Entity\ElasticEntityCollectionInterface;
 
 
 	public function delete(
-		\Spameri\Elastic\Entity\Property\IElasticId $id
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
 	) : bool;
 
 

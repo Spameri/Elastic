@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video\Technical;
 
 
-class Camera implements \Spameri\Elastic\Entity\IValue
+class Camera implements \Spameri\Elastic\Entity\ValueInterface
 {
 
 	/**

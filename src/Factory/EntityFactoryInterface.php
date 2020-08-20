@@ -3,7 +3,7 @@
 namespace Spameri\Elastic\Factory;
 
 
-interface IEntityFactory
+interface EntityFactoryInterface
 {
 
 	public function create(

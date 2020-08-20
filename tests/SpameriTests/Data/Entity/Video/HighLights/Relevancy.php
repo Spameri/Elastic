@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video\HighLights;
 
 
-class Relevancy implements \Spameri\Elastic\Entity\IValue
+class Relevancy implements \Spameri\Elastic\Entity\ValueInterface
 {
 	/**
 	 * @var int
