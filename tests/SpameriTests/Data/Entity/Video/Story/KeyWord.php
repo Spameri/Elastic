@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video\Story;
 
 
-class KeyWord implements \Spameri\Elastic\Entity\IValue
+class KeyWord implements \Spameri\Elastic\Entity\ValueInterface
 {
 
 	/**

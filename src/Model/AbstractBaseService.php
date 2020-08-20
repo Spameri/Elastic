@@ -3,7 +3,7 @@
 namespace Spameri\Elastic\Model;
 
 
-abstract class BaseService implements IService
+abstract class AbstractBaseService implements ServiceInterface
 {
 
 	/**
@@ -42,12 +42,12 @@ abstract class BaseService implements IService
 	protected $getAllBy;
 
 	/**
-	 * @var \Spameri\Elastic\Factory\IEntityFactory
+	 * @var \Spameri\Elastic\Factory\EntityFactoryInterface
 	 */
 	protected $entityFactory;
 
 	/**
-	 * @var \Spameri\Elastic\Factory\ICollectionFactory
+	 * @var \Spameri\Elastic\Factory\CollectionFactoryInterface
 	 */
 	private $collectionFactory;
 	/**
@@ -58,8 +58,8 @@ abstract class BaseService implements IService
 
 	public function __construct(
 		string $index
-		, \Spameri\Elastic\Factory\IEntityFactory $entityFactory
-		, \Spameri\Elastic\Factory\ICollectionFactory $collectionFactory
+		, \Spameri\Elastic\Factory\EntityFactoryInterface $entityFactory
+		, \Spameri\Elastic\Factory\CollectionFactoryInterface $collectionFactory
 		, \Spameri\Elastic\ClientProvider $client
 		, \Spameri\Elastic\Model\Insert $insert
 		, \Spameri\Elastic\Model\Get $get
@@ -87,7 +87,7 @@ abstract class BaseService implements IService
 	 * @throws \Spameri\Elastic\Exception\DocumentInsertFailed
 	 */
 	public function insert(
-		\Spameri\Elastic\Entity\IElasticEntity $entity
+		\Spameri\Elastic\Entity\ElasticEntityInterface $entity
 	) : string
 	{
 		return $this->insert->execute($entity, $this->index);
@@ -99,7 +99,7 @@ abstract class BaseService implements IService
 	 */
 	public function get(
 		\Spameri\Elastic\Entity\Property\ElasticId $id
-	) : \Spameri\Elastic\Entity\IElasticEntity
+	) : \Spameri\Elastic\Entity\ElasticEntityInterface
 	{
 		try {
 			$singleResult = $this->get->execute($id, $this->index);
@@ -124,7 +124,7 @@ abstract class BaseService implements IService
 	 */
 	public function getBy(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
-	) : \Spameri\Elastic\Entity\IElasticEntity
+	) : \Spameri\Elastic\Entity\ElasticEntityInterface
 	{
 		try {
 			$resultSearch = $this->getBy->execute($elasticQuery, $this->index);
@@ -148,7 +148,7 @@ abstract class BaseService implements IService
 	 */
 	public function getAllBy(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
-	) : \Spameri\Elastic\Entity\IElasticEntityCollection
+	) : \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
 	{
 		try {
 			$resultSearch = $this->getAllBy->execute($elasticQuery, $this->index);
@@ -177,7 +177,7 @@ abstract class BaseService implements IService
 
 
 	public function delete(
-		\Spameri\Elastic\Entity\Property\IElasticId $id
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
 	) : bool
 	{
 		try {

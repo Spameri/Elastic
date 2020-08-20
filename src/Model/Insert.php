@@ -32,7 +32,7 @@ class Insert
 	 * @throws \Spameri\Elastic\Exception\DocumentInsertFailed
 	 */
 	public function execute(
-		\Spameri\Elastic\Entity\IElasticEntity $entity
+		\Spameri\Elastic\Entity\ElasticEntityInterface $entity
 		, string $index
 		, ?string $type = NULL
 	) : string
@@ -70,7 +70,7 @@ class Insert
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}
 
-		if (\in_array($response['result'], ['created', 'updated'], TRUE)) {
+		if (isset($response['created']) || isset($response['updated'])) {
 			return $response['_id'];
 		}
 

@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video;
 
 
-class HighLights implements \Spameri\Elastic\Entity\IEntity
+class HighLights implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**

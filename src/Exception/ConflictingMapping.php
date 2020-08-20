@@ -3,7 +3,7 @@
 namespace Spameri\Elastic\Exception;
 
 
-class ConflictingMapping extends \Spameri\Elastic\Exception\ElasticSearchException
+class ConflictingMapping extends \Spameri\Elastic\Exception\AbstractElasticSearchException
 {
 
 	public function __construct(

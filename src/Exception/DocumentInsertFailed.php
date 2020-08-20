@@ -3,7 +3,7 @@
 namespace Spameri\Elastic\Exception;
 
 
-class DocumentInsertFailed extends \Spameri\Elastic\Exception\ElasticSearchException
+class DocumentInsertFailed extends \Spameri\Elastic\Exception\AbstractElasticSearchException
 {
 
 }

@@ -3,11 +3,11 @@
 namespace SpameriTests\Data\Entity;
 
 
-class Video implements \Spameri\Elastic\Entity\IElasticEntity
+class Video implements \Spameri\Elastic\Entity\ElasticEntityInterface
 {
 
 	/**
-	 * @var \Spameri\Elastic\Entity\Property\IElasticId
+	 * @var \Spameri\Elastic\Entity\Property\ElasticIdInterface
 	 */
 	private $id;
 
@@ -63,7 +63,7 @@ class Video implements \Spameri\Elastic\Entity\IElasticEntity
 
 
 	public function __construct(
-		\Spameri\Elastic\Entity\Property\IElasticId $id
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
 		, \SpameriTests\Data\Entity\Video\Identification $identification
 		, \SpameriTests\Data\Entity\Property\Name $name
 		, \SpameriTests\Data\Entity\Property\Year $year
@@ -100,7 +100,7 @@ class Video implements \Spameri\Elastic\Entity\IElasticEntity
 	}
 
 
-	public function id() : \Spameri\Elastic\Entity\Property\IElasticId
+	public function id() : \Spameri\Elastic\Entity\Property\ElasticIdInterface
 	{
 		return $this->id;
 	}

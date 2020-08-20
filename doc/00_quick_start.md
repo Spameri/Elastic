@@ -64,11 +64,11 @@ Next step is to configure your first entity. This entity is for e-shop product.
 ```php
 <?php declare(strict_types = 1);
 
-class SimpleProduct implements \Spameri\Elastic\Entity\IElasticEntity
+class SimpleProduct implements \Spameri\Elastic\Entity\ElasticEntityInterface
 {
 	
 	public function __construct(
-		\Spameri\Elastic\Entity\Property\IElasticId $id,
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
 		int $databaseId,
 		string $name,
 		?string $content,
@@ -87,7 +87,7 @@ class SimpleProduct implements \Spameri\Elastic\Entity\IElasticEntity
 ```
 
 ```php
-public function id(): \Spameri\Elastic\Entity\Property\IElasticId
+public function id(): \Spameri\Elastic\Entity\Property\ElasticIdInterface
 {
 	return $this->id;
 }
@@ -101,7 +101,7 @@ public function entityVariables(): array
 
 ### Factory
 ````php
-class SimpleProductFactory implements \Spameri\Elastic\Factory\IEntityFactory
+class SimpleProductFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 {
 
 	public function create(\Spameri\ElasticQuery\Response\Result\Hit $hit) : \Generator
@@ -125,14 +125,14 @@ class SimpleProductFactory implements \Spameri\Elastic\Factory\IEntityFactory
 
 ### CollectionFactory
 ````php
-class SimpleProductCollectionFactory implements \Spameri\Elastic\Factory\ICollectionFactory
+class SimpleProductCollectionFactory implements \Spameri\Elastic\Factory\CollectionFactoryInterface
 {
 
 	public function create(
-		\Spameri\Elastic\Model\IService $service
+		\Spameri\Elastic\Model\ServiceInterface $service
 		, array $elasticIds = []
-		, \Spameri\Elastic\Entity\IElasticEntity ... $entityCollection
-	) : \Spameri\Elastic\Entity\IElasticEntityCollection
+		, \Spameri\Elastic\Entity\ElasticEntityInterface ... $entityCollection
+	) : \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
 	{
 		return new \App\ProductModule\Entity\ProductCollection($service, $elasticIds, ... $entityCollection);
 	}
@@ -306,7 +306,7 @@ $options = new \Spameri\Elastic\Import\Run\Options(600);
 // Clear index
 try {
 	$this->delete->execute($this->simpleProductConfig->provide()->indexName());
-} catch (\Spameri\Elastic\Exception\ElasticSearchException $exception) {}
+} catch (\Spameri\Elastic\Exception\AbstractElasticSearchException $exception) {}
 
 // Create index
 $this->create->execute(
@@ -330,7 +330,7 @@ class SimpleProductListPresenter extends \App\Presenter\BasePresenter
 		try {
 			$products = $this->productService->getAllBy($query);
 
-		} catch (\Spameri\Elastic\Exception\ElasticSearchException $exception) {
+		} catch (\Spameri\Elastic\Exception\AbstractElasticSearchException $exception) {
 			$products = [];
 		}
 

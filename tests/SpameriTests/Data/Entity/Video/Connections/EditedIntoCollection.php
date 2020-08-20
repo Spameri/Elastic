@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video\Connections;
 
 
-class EditedIntoCollection extends \Spameri\Elastic\Entity\Collection\EntityCollection
+class EditedIntoCollection extends \Spameri\Elastic\Entity\Collection\AbstractEntityCollection
 {
 
 }

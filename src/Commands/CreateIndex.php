@@ -43,7 +43,7 @@ class CreateIndex extends \Symfony\Component\Console\Command\Command
 
 
 	/**
-	 * @throws \Spameri\Elastic\Exception\ElasticSearch
+	 * @throws \Spameri\Elastic\Exception\AbstractElasticSearchException
 	 */
 	protected function execute(
 		\Symfony\Component\Console\Input\InputInterface $input
@@ -67,7 +67,7 @@ class CreateIndex extends \Symfony\Component\Console\Command\Command
 					$this->elasticMapper->createIndex($this->entities[$entityName]);
 					$output->writeln('Index ' . $this->entities[$entityName]['index'] . ' created.');
 
-				} catch (\Spameri\Elastic\Exception\ElasticSearchException $exception) {
+				} catch (\Spameri\Elastic\Exception\AbstractElasticSearchException $exception) {
 					$output->writeln($exception->getMessage());
 				}
 			}
@@ -82,7 +82,7 @@ class CreateIndex extends \Symfony\Component\Console\Command\Command
 					$this->elasticMapper->createIndex($entity);
 					$output->writeln('Index ' . $this->entities[$entityName]['index'] . ' created.');
 
-				} catch (\Spameri\Elastic\Exception\ElasticSearchException $exception) {
+				} catch (\Spameri\Elastic\Exception\AbstractElasticSearchException $exception) {
 					$output->writeln($exception->getMessage());
 				}
 			}

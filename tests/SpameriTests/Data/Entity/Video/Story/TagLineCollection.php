@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video\Story;
 
 
-class TagLineCollection implements \Spameri\Elastic\Entity\IValueCollection
+class TagLineCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
 	/**

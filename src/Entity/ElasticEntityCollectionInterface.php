@@ -3,26 +3,26 @@
 namespace Spameri\Elastic\Entity;
 
 
-interface IElasticEntityCollection extends \IteratorAggregate
+interface ElasticEntityCollectionInterface extends \IteratorAggregate
 {
 
 	public function add(
-		\Spameri\Elastic\Entity\IElasticEntity $entity
+		\Spameri\Elastic\Entity\ElasticEntityInterface $entity
 	) : void;
 
 
 	public function entity(
-		\Spameri\Elastic\Entity\Property\IElasticId $id
-	) : ?\Spameri\Elastic\Entity\IElasticEntity;
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
+	) : ?\Spameri\Elastic\Entity\ElasticEntityInterface;
 
 
 	public function remove(
-		\Spameri\Elastic\Entity\Property\IElasticId $id
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
 	) : void;
 
 
 	public function isValue(
-		\Spameri\Elastic\Entity\Property\IElasticId $id
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
 	) : bool;
 
 
