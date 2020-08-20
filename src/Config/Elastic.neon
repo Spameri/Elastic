@@ -178,6 +178,10 @@ services:
 	 	setup:
 	 		- setLogger(@spameriElasticSearch.elasticPanelLogger)
 
+	client:
+		class: Elasticsearch\Client
+		factory: @spameriElasticSearch.clientBuilder::build
+
 	dateTimeProvider:
 		class: Spameri\Elastic\Provider\DateTimeProvider(@spameriElasticSearch.dateTime)
 
