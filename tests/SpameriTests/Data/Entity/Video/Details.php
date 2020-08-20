@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video;
 
 
-class Details implements \Spameri\Elastic\Entity\IEntity
+class Details implements \Spameri\Elastic\Entity\EntityInterface
 {
 	/**
 	 * @var \SpameriTests\Data\Entity\Video\Details\GenreCollection

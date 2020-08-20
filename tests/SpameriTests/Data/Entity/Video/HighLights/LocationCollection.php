@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video\HighLights;
 
 
-class LocationCollection extends \Spameri\Elastic\Entity\Collection\EntityCollection
+class LocationCollection extends \Spameri\Elastic\Entity\Collection\AbstractEntityCollection
 {
 
 }

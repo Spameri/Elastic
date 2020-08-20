@@ -3,7 +3,7 @@
 namespace Spameri\Elastic\Exception;
 
 
-class AliasAlreadyExists extends \Spameri\Elastic\Exception\ElasticSearchException
+class AliasAlreadyExists extends \Spameri\Elastic\Exception\AbstractElasticSearchException
 {
 
 	public function __construct(

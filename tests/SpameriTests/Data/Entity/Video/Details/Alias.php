@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video\Details;
 
 
-class Alias implements \Spameri\Elastic\Entity\IEntity
+class Alias implements \Spameri\Elastic\Entity\EntityInterface
 {
 	/**
 	 * @var \SpameriTests\Data\Entity\Property\CountryShort

@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Property;
 
 
-class CountryShort implements \Spameri\Elastic\Entity\IValue
+class CountryShort implements \Spameri\Elastic\Entity\ValueInterface
 {
 
 	/**

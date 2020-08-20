@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video;
 
 
-class Story implements \Spameri\Elastic\Entity\IEntity
+class Story implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**

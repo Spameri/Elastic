@@ -9,7 +9,7 @@ Creates entity from result hit.
 namespace SpameriTests\Elastic\Factory;
 
 
-class VideoFactory implements \Spameri\Elastic\Factory\IEntityFactory
+class VideoFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 {
 	
 	public function create(\Spameri\ElasticQuery\Response\Result\Hit $hit)

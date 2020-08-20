@@ -5,24 +5,24 @@ Lets create entity class, continuing our example, in folder `tests/SpameriTests/
 namespace SpameriTests\Data\Entity;
 
 
-class Video implements \Spameri\Elastic\Entity\IElasticEntity
+class Video implements \Spameri\Elastic\Entity\ElasticEntityInterface
 {
 
 	/**
-	 * @var \Spameri\Elastic\Entity\Property\IElasticId
+	 * @var \Spameri\Elastic\Entity\Property\ElasticIdInterface
 	 */
 	private $id;
 
 
 	public function __construct(
-		\Spameri\Elastic\Entity\Property\IElasticId $id
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
 	)
 	{
 		$this->id = $id;
 	}
 
 
-	public function id() : \Spameri\Elastic\Entity\Property\IElasticId
+	public function id() : \Spameri\Elastic\Entity\Property\ElasticIdInterface
 	{
 		return $this->id;
 	}
@@ -66,7 +66,7 @@ describe keyword.
 namespace SpameriTests\Data\Entity\Video\Story;
 
 
-class KeyWord implements \Spameri\Elastic\Entity\IValue
+class KeyWord implements \Spameri\Elastic\Entity\ValueInterface
 {
 
 	/**
@@ -110,7 +110,7 @@ For more advanced and typed approach use interface, as described next.
 namespace SpameriTests\Data\Entity\Video\Story;
 
 
-class KeyWordCollection implements \Spameri\Elastic\Entity\IValueCollection
+class KeyWordCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
 	/**
@@ -170,7 +170,7 @@ class KeyWordCollection implements \Spameri\Elastic\Entity\IValueCollection
 namespace SpameriTests\Data\Entity\Video;
 
 
-class Story implements \Spameri\Elastic\Entity\IEntity
+class Story implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**
@@ -208,7 +208,7 @@ and you are done.
 namespace SpameriTests\Data\Entity\Video\Connections;
 
 
-class FollowsCollection extends \Spameri\Elastic\Entity\Collection\EntityCollection
+class FollowsCollection extends \Spameri\Elastic\Entity\Collection\AbstractEntityCollection
 {
 
 }
@@ -225,7 +225,7 @@ Any changes made to related entity/ies will be persisted when main entity is sav
 namespace SpameriTests\Data\Entity\Video;
 
 
-class People extends \Spameri\Elastic\Entity\Collection\ElasticEntityCollection
+class People extends \Spameri\Elastic\Entity\Collection\AbstractElasticEntityCollection
 {
 
 	public function personByImdb(
@@ -249,11 +249,11 @@ class People extends \Spameri\Elastic\Entity\Collection\ElasticEntityCollection
 namespace SpameriTests\Data\Entity;
 
 
-class Video implements \Spameri\Elastic\Entity\IElasticEntity
+class Video implements \Spameri\Elastic\Entity\ElasticEntityInterface
 {
 
 	/**
-	 * @var \Spameri\Elastic\Entity\Property\IElasticId
+	 * @var \Spameri\Elastic\Entity\Property\ElasticIdInterface
 	 */
 	private $id;
 
@@ -309,7 +309,7 @@ class Video implements \Spameri\Elastic\Entity\IElasticEntity
 
 
 	public function __construct(
-		\Spameri\Elastic\Entity\Property\IElasticId $id
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
 		, \SpameriTests\Data\Entity\Video\Identification $identification
 		, \SpameriTests\Data\Entity\Property\Name $name
 		, \SpameriTests\Data\Entity\Property\Year $year
@@ -346,7 +346,7 @@ class Video implements \Spameri\Elastic\Entity\IElasticEntity
 	}
 
 
-	public function id() : \Spameri\Elastic\Entity\Property\IElasticId
+	public function id() : \Spameri\Elastic\Entity\Property\ElasticIdInterface
 	{
 		return $this->id;
 	}

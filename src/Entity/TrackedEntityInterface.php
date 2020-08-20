@@ -3,7 +3,7 @@
 namespace Spameri\Elastic\Entity;
 
 
-interface ITrackedEntity
+interface TrackedEntityInterface
 {
 
 	public function tracking() : \Spameri\Elastic\Entity\Tracking\Tracker;

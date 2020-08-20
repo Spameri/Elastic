@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video\Connections;
 
 
-class SpunOff implements \Spameri\Elastic\Entity\IEntity
+class SpunOff implements \Spameri\Elastic\Entity\EntityInterface
 {
 	/**
 	 * @var \SpameriTests\Data\Entity\Property\ImdbId
