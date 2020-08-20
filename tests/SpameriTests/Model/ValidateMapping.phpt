@@ -33,7 +33,7 @@ class ValidateMapping extends \Tester\TestCase
 		$display = new \Spameri\Elastic\Model\ValidateMapping\Display();
 		$entities = \Nette\Neon\Neon::decode(\file_get_contents(__DIR__ . '/../Data/Config/Video.neon'));
 		$validateMapping = new \Spameri\Elastic\Model\ValidateMapping(
-			$entities['elasticSearch']['entities'],
+			$entities['spameriElasticSearch']['entities'],
 			[],
 			$display
 		);
@@ -52,15 +52,15 @@ class ValidateMapping extends \Tester\TestCase
 	{
 		$display = new \Spameri\Elastic\Model\ValidateMapping\Display();
 		$entities = \Nette\Neon\Neon::decode(\file_get_contents(__DIR__ . '/../Data/Config/Video.neon'));
-		$entities['elasticSearch']['entities']['Video']['properties']['extraField']['properties']['name']['type'] = 'string';
-		$entities['elasticSearch']['entities']['Video']['properties']['name']['typ'] = 'string';
-		$entities['elasticSearch']['entities']['Video']['properties']['year']['tokenizer'] = 'floatWell';
-		$entities['elasticSearch']['entities']['Video']['properties']['month']['tokenizer'] = 'number';
-		$entities['elasticSearch']['entities']['Video']['properties']['year']['analyzer'] = 'floatWell';
+		$entities['spameriElasticSearch']['entities']['Video']['properties']['extraField']['properties']['name']['type'] = 'string';
+		$entities['spameriElasticSearch']['entities']['Video']['properties']['name']['typ'] = 'string';
+		$entities['spameriElasticSearch']['entities']['Video']['properties']['year']['tokenizer'] = 'floatWell';
+		$entities['spameriElasticSearch']['entities']['Video']['properties']['month']['tokenizer'] = 'number';
+		$entities['spameriElasticSearch']['entities']['Video']['properties']['year']['analyzer'] = 'floatWell';
 
 
 		$validateMapping = new \Spameri\Elastic\Model\ValidateMapping(
-			$entities['elasticSearch']['entities'],
+			$entities['spameriElasticSearch']['entities'],
 			[],
 			$display
 		);
