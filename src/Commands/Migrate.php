@@ -22,7 +22,7 @@ class Migrate extends \Symfony\Component\Console\Command\Command
 	protected function execute(
 		\Symfony\Component\Console\Input\InputInterface $input
 		, \Symfony\Component\Console\Output\OutputInterface $output
-	)
+	): int
 	{
 		$output->writeln('Starting');
 
@@ -34,5 +34,6 @@ class Migrate extends \Symfony\Component\Console\Command\Command
 		// 4. Save executed files to ES
 		// 5. Done
 
+		return 0;
 	}
 }

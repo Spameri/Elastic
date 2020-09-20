@@ -19,6 +19,9 @@ class LoggerHandler implements \Spameri\Elastic\Import\LoggerHandlerInterface
 	}
 
 
+	/**
+	 * @param mixed $item
+	 */
 	public function logItemStart($item): void
 	{
 		$this->logger->debug('Processing item ' . \Tracy\Dumper::toText($item));

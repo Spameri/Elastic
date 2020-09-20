@@ -76,15 +76,21 @@ class Technical implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	public function entityVariables() : array
 	{
 		return \get_object_vars($this);
 	}
 
 
+	/**
+	 * @throws \Exception
+	 */
 	public function key() : string
 	{
-
+		return (string) \spl_object_id($this);
 	}
 
 

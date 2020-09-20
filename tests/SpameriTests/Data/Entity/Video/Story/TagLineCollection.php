@@ -31,7 +31,10 @@ class TagLineCollection implements \Spameri\Elastic\Entity\ValueCollectionInterf
 	}
 
 
-	public function getIterator()
+	/**
+	 * @return \ArrayIterator<\SpameriTests\Data\Entity\Video\Story\TagLine>
+	 */
+	public function getIterator() : \ArrayIterator
 	{
 		return new \ArrayIterator($this->collection);
 	}
