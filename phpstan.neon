@@ -3,3 +3,6 @@ parameters:
 		- '#PHPDoc tag \@throws with type Elasticsearch\\Common\\Exceptions\\ElasticsearchException is not subtype of Throwable#'
 		- '#Call to function array_key_exists\(\) with string and array<int, mixed> will always evaluate to false.#'
 
+	checkGenericClassInNonGenericObjectType: false
+	checkMissingIterableValueType: false
+

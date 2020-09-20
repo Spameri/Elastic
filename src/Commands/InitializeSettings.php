@@ -31,24 +31,15 @@ class InitializeSettings extends \Symfony\Component\Console\Command\Command
 	public function execute(
 		\Symfony\Component\Console\Input\InputInterface $input,
 		\Symfony\Component\Console\Output\OutputInterface $output
-	)
+	): int
 	{
-		$output->writeln();
+		$output->writeln('Starting');
 		foreach ($this->indexConfig as $indexConfig) {
-			$output->writeln();
-			$this->settinsCreator->create($indexConfig->provide());
-			$output->writeln();
+			$output->writeln('For index ' . $indexConfig->provide()->indexName());
+//			$this->settinsCreator->create($indexConfig->provide());
 		}
 
-
-		$output->writeln();
-		// foreach neon configs
-		$output->writeln();
-
-
-		$output->writeln();
-		// foreach annotation configs
-		$output->writeln();
+		return 0;
 	}
 
 }

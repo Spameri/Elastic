@@ -50,7 +50,7 @@ class Alias implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
-	public function rename(\SpameriTests\Data\Entity\Property\Text $name)
+	public function rename(\SpameriTests\Data\Entity\Property\Text $name): void
 	{
 		$this->name = $name;
 	}

@@ -7,7 +7,7 @@ class DocumentMigrateStatus
 {
 
 	/**
-	 * @var array<string=>int>
+	 * @var array<string, int>
 	 */
 	private $storage = [];
 

@@ -56,7 +56,6 @@ class PrepareEntityArray
 			} elseif ($property instanceof \Spameri\Elastic\Entity\EntityCollectionInterface) {
 				$preparedArray[$key] = [];
 				/** @var \Spameri\Elastic\Entity\EntityInterface $item */
-				/** @var \Spameri\Elastic\Entity\EntityCollectionInterface $property */
 				foreach ($property as $item) {
 					$preparedArray[$key][] = $this->iterateVariables($item->entityVariables());
 				}
@@ -68,7 +67,6 @@ class PrepareEntityArray
 
 				} else {
 					/** @var \Spameri\Elastic\Entity\ElasticEntityInterface $item */
-					/** @var \Spameri\Elastic\Entity\ElasticEntityCollectionInterface $property */
 					foreach ($property as $item) {
 						$preparedArray[$key][] = $this->serviceLocator->locate($item)->insert($item);
 					}
@@ -77,7 +75,6 @@ class PrepareEntityArray
 			} elseif ($property instanceof \Spameri\Elastic\Entity\ValueCollectionInterface) {
 				$preparedArray[$key] = [];
 				/** @var \Spameri\Elastic\Entity\ValueInterface $value */
-				/** @var \Spameri\Elastic\Entity\ValueCollectionInterface $property */
 				foreach ($property as $value) {
 					if ($value instanceof \Spameri\Elastic\Entity\ValueInterface) {
 						$preparedArray[$key][] = $value->value();

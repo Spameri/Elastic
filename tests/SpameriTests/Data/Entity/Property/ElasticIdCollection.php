@@ -20,7 +20,7 @@ class ElasticIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInte
 	}
 
 
-	public function add(\Spameri\Elastic\Entity\Property\ElasticIdInterface $featured)
+	public function add(\Spameri\Elastic\Entity\Property\ElasticIdInterface $featured): void
 	{
 		$this->collection[] = $featured;
 	}

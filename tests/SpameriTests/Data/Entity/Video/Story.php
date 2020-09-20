@@ -56,7 +56,7 @@ class Story implements \Spameri\Elastic\Entity\EntityInterface
 
 	public function key() : string
 	{
-
+		return (string) \spl_object_id($this);
 	}
 
 
