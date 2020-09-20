@@ -6,89 +6,14 @@ namespace Spameri\Elastic\DI;
 class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 {
 
+	/**
+	 * @var array<mixed>
+	 */
 	public $defaults = [
 		'host' 		=> 'localhost',
 		'port' 		=> 9200,
 		'debug'		=> FALSE,
-		'synonymPath' => NULL,
 		'entities' 	=> [],
-		'settings' 	=> [
-			'analysis' => [
-				'analyzer' => [
-					'defaultAnalyzer' => [
-						'tokenizer' => 'standard',
-						'filter' => [
-							'lowercase',
-							'removeDuplicities',
-							'asciifolding',
-						],
-					],
-					'czechStemmer' => [
-						'tokenizer' => 'standard',
-						'filter' 	=> [
-							'lowercase',
-							'stopWords_CZ',
-							'stemmer_CZ',
-							'removeDuplicities',
-							'asciifolding',
-						],
-					],
-					'czechDictionary' => [
-						'tokenizer' => 'standard',
-						'filter' => [
-							'lowercase',
-							'stopWords_CZ',
-							'dictionary_CZ',
-							'lowercase',
-							'stopWords_CZ',
-							'removeDuplicities',
-							'asciifolding',
-						],
-					],
-					'czechSynonym' => [
-						'tokenizer' => 'standard',
-						'filter' => [
-							'lowercase',
-							'synonym',
-							'lowercase',
-							'stopWords_CZ',
-							'removeDuplicities',
-							'asciifolding',
-						],
-					],
-				],
-			],
-			'tokenizer' => [],
-			'filter' => [
-				'stopWords_CZ' => [
-					'type' => 'stop',
-					'stopwords' => [
-						'právě',
-						'že',
-						'_czech_',
-					],
-					'ignore_case' => TRUE,
-				],
-				'dictionary_CZ' => [
-					'type' => 'hunspell',
-					'locale' => 'cs_CZ',
-					'dedup' => TRUE,
-					'recursion_level' => 0,
-				],
-				'removeDuplicities' => [
-					'type' => 'unique',
-					'only_on_same_position' => TRUE,
-				],
-				'synonym' => [
-					'type' => 'synonym',
-					'synonyms_path' => '',
-				],
-				'stemmer_CZ' => [
-					'type' => 'stemmer',
-					'name' => 'Czech',
-				],
-			],
-		],
 	];
 
 
@@ -99,7 +24,6 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 		/** @var array $config */
 		$config = \Nette\DI\Config\Helpers::merge($this->getConfig(), $this->defaults);
 
-		$config = $this->toggleSynonymAnalyzer($config);
 		$this->compiler->getContainerBuilder()->parameters['spameriElasticSearch'] = $config;
 
 		$services = $this->loadFromFile(__DIR__ . '/../Config/Elastic.neon');
@@ -116,27 +40,11 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 
 		$this->setConfigOptions($services, $config);
 
-		$this->compiler->parseServices(
+		$this->compiler::loadDefinitions(
 			$this->getContainerBuilder(),
-			$services,
+			$services['services'],
 			$this->name
 		);
-	}
-
-
-	public function toggleSynonymAnalyzer(
-		array $config
-	) : array
-	{
-		if ( ! $config['synonymPath']) {
-			unset($config['settings']['analysis']['analyzer']['czechSynonym']);
-			unset($config['settings']['filter']['synonym']);
-
-		} else {
-			$config['settings']['filter']['synonym']['synonyms_path'] = $config['synonymPath'];
-		}
-
-		return $config;
 	}
 
 
@@ -167,11 +75,13 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 	) : array
 	{
 		if ( ! $config['debug']) {
-			unset($services['tracy']);
-			unset($services['services']['elasticPanelLogger']);
-			unset($services['services']['nullLogger']);
-			unset($services['services']['elasticPanel']);
-			unset($services['services']['clientBuilder']['setup']);
+			unset(
+				$services['tracy'],
+				$services['services']['elasticPanelLogger'],
+				$services['services']['nullLogger'],
+				$services['services']['elasticPanel'],
+				$services['services']['clientBuilder']['setup']
+			);
 
 		} else {
 			$this->getContainerBuilder()

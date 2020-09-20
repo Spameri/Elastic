@@ -35,4 +35,5 @@ class GenreCollection implements \Spameri\Elastic\Entity\ValueCollectionInterfac
 	{
 		$this->collection[$genre->value()] = $genre;
 	}
+
 }

@@ -73,13 +73,13 @@ class Character implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
-	public function episode()
+	public function episode(): ?\SpameriTests\Data\Entity\Property\ImdbId
 	{
 		return $this->episode;
 	}
 
 
-	public function setEpisode($episode) : void
+	public function setEpisode(?\SpameriTests\Data\Entity\Property\ImdbId $episode) : void
 	{
 		$this->episode = $episode;
 	}
@@ -103,7 +103,7 @@ class Character implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
-	public function setAlias(\SpameriTests\Data\Entity\Property\Name $alias)
+	public function setAlias(\SpameriTests\Data\Entity\Property\Name $alias): void
 	{
 		$this->alias = $alias;
 	}

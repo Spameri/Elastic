@@ -28,7 +28,7 @@ class Ratings implements \Spameri\Elastic\Entity\EntityInterface
 
 	public function key() : string
 	{
-
+		return (string) \spl_object_id($this);
 	}
 
 
@@ -38,7 +38,7 @@ class Ratings implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
-	public function setImdbRatings(\SpameriTests\Data\Entity\Video\Details\RatingsCount $imdbRatings)
+	public function setImdbRatings(\SpameriTests\Data\Entity\Video\Details\RatingsCount $imdbRatings): void
 	{
 		$this->imdbRatings = $imdbRatings;
 	}

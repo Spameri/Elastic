@@ -7,7 +7,7 @@ class PersonService extends \Spameri\Elastic\Model\AbstractBaseService
 {
 
 	/**
-	 * @param \Spameri\Elastic\Entity\ElasticEntityInterface|\SpameriTests\Data\Entity\Person $entity
+	 * @param \SpameriTests\Data\Entity\Person $entity
 	 * @return string
 	 */
 	public function insert(
@@ -44,7 +44,7 @@ class PersonService extends \Spameri\Elastic\Model\AbstractBaseService
 
 	/**
 	 * @param \Spameri\ElasticQuery\ElasticQuery $elasticQuery
-	 * @return \Spameri\Elastic\Entity\ElasticEntityCollectionInterface|array<\SpameriTests\Data\Entity\Person>
+	 * @return \Spameri\Elastic\Entity\ElasticEntityCollectionInterface<\SpameriTests\Data\Entity\Person>
 	 */
 	public function getAllBy(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery

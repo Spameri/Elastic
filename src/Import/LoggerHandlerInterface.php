@@ -5,6 +5,9 @@ namespace Spameri\Elastic\Import;
 interface LoggerHandlerInterface
 {
 
+	/**
+	 * @param mixed $item
+	 */
 	public function logItemStart(
 		$item
 	): void;

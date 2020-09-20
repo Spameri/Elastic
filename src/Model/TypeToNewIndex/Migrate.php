@@ -206,7 +206,7 @@ class Migrate
 
 					if ($this->documentMigrateStatus->isChanged((string) $documentId, $response->hit()->version())) {
 						// Reindex this document
-						$this->processHit($indexTo, $typeTo, $indexFrom, $response, $allowClose);
+						$this->processHit($indexTo, $typeTo, $indexFrom, $response->hit(), $allowClose);
 						$changed++;
 
 						/** @noinspection DisconnectedForeachInstructionInspection */

@@ -34,7 +34,7 @@ class LoadDump extends \Symfony\Component\Console\Command\Command
 				'step',
 				\Symfony\Component\Console\Input\InputArgument::OPTIONAL,
 				'Number of documents per one bulk index',
-				500
+				'500'
 			)
 		;
 	}
@@ -43,7 +43,7 @@ class LoadDump extends \Symfony\Component\Console\Command\Command
 	protected function execute(
 		\Symfony\Component\Console\Input\InputInterface $input
 		, \Symfony\Component\Console\Output\OutputInterface $output
-	)
+	): int
 	{
 		$output->writeln('Starting');
 
@@ -54,6 +54,8 @@ class LoadDump extends \Symfony\Component\Console\Command\Command
 		$this->restoreIndex->execute($filename, $step);
 
 		$output->writeln('Done');
+
+		return 0;
 	}
 
 }

@@ -13,15 +13,13 @@ class EntitySettingsLocator
 
 	public function __construct(
 		\Spameri\Elastic\Settings\IndexConfigInterface ... $indexConfig
-		// TODO Annotation
-		// TODO Neon
 	)
 	{
 		$this->indexConfig = $indexConfig;
 	}
 
 
-	public function locate($indexName) : \Spameri\ElasticQuery\Mapping\Settings
+	public function locate(string $indexName) : \Spameri\ElasticQuery\Mapping\Settings
 	{
 		foreach ($this->indexConfig as $indexConfig) {
 			if ($indexConfig->provide()->indexName() === $indexName) {
