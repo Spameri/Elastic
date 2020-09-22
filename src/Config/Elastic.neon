@@ -86,12 +86,6 @@ services:
 	elasticPanel:
 		class: Spameri\Elastic\Diagnostics\Panel
 
-	validateMapping:
-		class: Spameri\Elastic\Model\ValidateMapping(%entities%, %settings%, ...)
-
-	display:
-		class: Spameri\Elastic\Model\ValidateMapping\Display
-
 	documentMigrateStatus:
 		class: Spameri\Elastic\Model\TypeToNewIndex\DocumentMigrateStatus
 
@@ -134,12 +128,6 @@ services:
 
 	removeAlias:
 		class: Spameri\Elastic\Commands\RemoveAlias
-		tags:
-			- kdyby.console.command
-			- console.command
-
-	validateMappingCommand:
-		class: Spameri\Elastic\Commands\ValidateMapping
 		tags:
 			- kdyby.console.command
 			- console.command
