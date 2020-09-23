@@ -64,7 +64,9 @@ class Insert
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}
 
-		if (isset($response['created']) || isset($response['updated'])) {
+		if (isset($response['created']) || isset($response['updated'])
+			|| (isset($response['result']) && $response['result'] === 'created')
+		) {
 			return $response['_id'];
 		}
 
