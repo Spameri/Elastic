@@ -8,14 +8,17 @@ class Date extends \Nette\Utils\DateTime implements \Spameri\Elastic\Entity\Date
 
 	public const FORMAT = 'Y-m-d';
 
-
+	/**
+	 * @param string|null $format
+	 * @return string
+	 */
 	public function format($format = NULL)
 	{
 		if ( ! $format) {
 			$format = self::FORMAT;
 		}
 
-		parent::format($format);
+		return parent::format($format);
 	}
 
 }

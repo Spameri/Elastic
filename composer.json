@@ -39,7 +39,7 @@
 		"spameri/coding-standard": "dev-master",
 	  	"spameri/dependency-mocker": "^1.3",
 		"nette/tester": "^2.2.0",
-		"phpstan/phpstan": "0.12.38",
+		"phpstan/phpstan": "^0.12.53",
 		"php-coveralls/php-coveralls": "^2.1",
 		"nette/bootstrap": "2.4",
 		"nette/http": "^2.4.7",
@@ -52,7 +52,7 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"SpameriTests\\": "tests/SpameriTests"
+			"SpameriTests\\Elastic\\": "tests/SpameriTests"
 		},
 		"classmap": [
 		  	"tests/SpameriTests/Elastic/Migration/migrations"

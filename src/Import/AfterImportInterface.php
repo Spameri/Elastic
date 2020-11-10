@@ -6,10 +6,10 @@ interface AfterImportInterface
 {
 
 	/**
-	 * @param mixed $entityData
+	 * @param array<mixed> $entityData
 	 */
 	public function process(
-		$entityData,
+		array $entityData,
 		\Spameri\Elastic\Import\ResponseInterface $result
 	): void;
 

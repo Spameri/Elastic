@@ -142,11 +142,15 @@ class Migrate
 		// 2a. Put settings to new index
 		$oldIndexSettings = $this->indicesGet->execute($indexFrom);
 		$settings = \reset($oldIndexSettings);
-		$this->create->execute($indexTo, [
-			'settings' => [
-				'index' => $settings['settings']['index']['analysis'] ?? [],
-			]
-		]);
+		$indexToParameters = [];
+		if (isset($settings['settings']['index']['analysis'])) {
+			$indexToParameters = [
+				'settings' => [
+					'index' => $settings['settings']['index']['analysis'] ?? [],
+				]
+			];
+		}
+		$this->create->execute($indexTo, $indexToParameters);
 
 		// 2b. Set mapping in new index
 		$this->output->writeln('Transferring mapping from index: ' . $indexFrom . ' and type: ' . $typeFrom . ' to index: ' . $indexTo);

@@ -49,12 +49,18 @@ class Panel implements \Tracy\IBarPanel
 	}
 
 
+	/**
+	 * @return array<mixed>
+	 */
 	private function getQueries() : array
 	{
 		return $this->logger->getQueries();
 	}
 
 
+	/**
+	 * @return array<string>
+	 */
 	private function getQueriesHeader() : array
 	{
 		return [

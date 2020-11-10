@@ -7,12 +7,12 @@ interface ResponseInterface
 
 	/**
 	 * @param mixed $response
-	 * @param \Spameri\Elastic\Entity\AbstractImport $entity
 	 */
 	public function __construct(
 		$response,
 		\Spameri\Elastic\Entity\AbstractImport $entity
 	);
+
 
 	public function isSuccessful(): bool;
 
@@ -21,6 +21,7 @@ interface ResponseInterface
 	 * @return mixed
 	 */
 	public function getResponse();
+
 
 	public function getEntity(\Spameri\Elastic\Entity\AbstractImport $entity): \Spameri\Elastic\Entity\AbstractImport;
 

@@ -6,6 +6,9 @@ namespace Spameri\Elastic\Entity;
 abstract class AbstractEntity implements EntityInterface
 {
 
+	/**
+	 * @return array<mixed>
+	 */
 	public function entityVariables() : array
 	{
 		return \get_object_vars($this);

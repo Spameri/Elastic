@@ -6,7 +6,7 @@ class ArrayValue implements ValidationPropertyInterface
 {
 
 	/**
-	 * @var array
+	 * @var array<mixed>
 	 */
 	private $array;
 
@@ -16,6 +16,9 @@ class ArrayValue implements ValidationPropertyInterface
 	private $key;
 
 
+	/**
+	 * @param array<mixed> $array
+	 */
 	public function __construct(
 		array $array,
 		string $key
@@ -32,6 +35,9 @@ class ArrayValue implements ValidationPropertyInterface
 	}
 
 
+	/**
+	 * @return array<mixed>
+	 */
 	public function getValue(): array
 	{
 		return $this->array;

@@ -20,6 +20,9 @@ class PrepareEntityArray
 	}
 
 
+	/**
+	 * @return array<mixed>
+	 */
 	public function prepare(
 		\Spameri\Elastic\Entity\ElasticEntityInterface $entity
 	) : array
@@ -28,6 +31,10 @@ class PrepareEntityArray
 	}
 
 
+	/**
+	 * @param array<mixed> $variables
+	 * @return array<mixed>
+	 */
 	public function iterateVariables(
 		array $variables
 	) : array
@@ -65,7 +72,7 @@ class PrepareEntityArray
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\ValueCollectionInterface) {
 				$preparedArray[$key] = [];
-				/** @var \Spameri\Elastic\Entity\ValueInterface $value */
+				/** @var \Spameri\Elastic\Entity\ValueInterface|mixed $value */
 				foreach ($property as $value) {
 					if ($value instanceof \Spameri\Elastic\Entity\ValueInterface) {
 						$preparedArray[$key][] = $value->value();

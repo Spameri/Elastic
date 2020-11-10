@@ -63,7 +63,7 @@ class Execute extends \Tester\TestCase
 			new \Spameri\Elastic\Model\Indices\PutSettings($this->clientProvider)
 		);
 
-		$id = '17505';
+		$id = '192489';
 		$responseOldIndex = $this->clientProvider->client()->get(
 			(
 				new \Spameri\ElasticQuery\Document(
@@ -108,15 +108,7 @@ class Execute extends \Tester\TestCase
 		$this->clientProvider->client()->indices()->delete(
 			(
 			new \Spameri\ElasticQuery\Document(
-				\SpameriTests\Elastic\Config::INDEX_MIGRATE
-			)
-			)->toArray()
-		)
-		;
-		$this->clientProvider->client()->indices()->delete(
-			(
-			new \Spameri\ElasticQuery\Document(
-				\SpameriTests\Elastic\Config::INDEX_MIGRATE_NEW
+				\SpameriTests\Elastic\Config::INDEX_MIGRATE . '*'
 			)
 			)->toArray()
 		)

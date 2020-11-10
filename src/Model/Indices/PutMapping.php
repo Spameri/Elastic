@@ -20,6 +20,10 @@ class PutMapping
 	}
 
 
+	/**
+	 * @param array<mixed> $mapping
+	 * @return array<mixed>
+	 */
 	public function execute(
 		string $index
 		, array $mapping

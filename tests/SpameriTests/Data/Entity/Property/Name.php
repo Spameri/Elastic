@@ -16,7 +16,7 @@ class Name implements \Spameri\Elastic\Entity\ValueInterface
 		string $value
 	)
 	{
-		if (\strlen($value) < 0) {
+		if (\strlen($value) <= 0) {
 			throw new \InvalidArgumentException();
 		}
 		if (\strlen($value) > 255) {
