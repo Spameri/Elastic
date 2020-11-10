@@ -13,6 +13,8 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 		'host' 		=> 'localhost',
 		'port' 		=> 9200,
 		'debug'		=> FALSE,
+		'version'	=> \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7,
+		'synonymPath' => NULL,
 		'entities' 	=> [],
 	];
 
@@ -52,6 +54,9 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 		$neonSettingsProvider = $services['services']['neonSettingsProvider']['factory'];
 		$neonSettingsProvider->arguments[0] = $config['host'];
 		$neonSettingsProvider->arguments[1] = $config['port'];
+
+		$versionProvider = $services['services']['versionProvider']['factory'];
+		$versionProvider->arguments[0] = $config['version'];
 	}
 
 

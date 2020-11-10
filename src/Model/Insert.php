@@ -52,7 +52,12 @@ class Insert
 		);
 
 		try {
-			$response = $this->clientProvider->client()->index($document->toArray());
+			$documentArray = $document->toArray();
+			if (\Spameri\Elastic\Model\VersionProvider::provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+				$documentArray['type'] = '_doc';
+			}
+
+			$response = $this->clientProvider->client()->index($documentArray);
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

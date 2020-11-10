@@ -11,8 +11,8 @@ services:
 	prepareEntityArray:
 		class: Spameri\Elastic\Model\Insert\PrepareEntityArray
 
-	applyTimestamp:
-		class: Spameri\Elastic\Model\Insert\ApplyTimestamp
+	versionProvider:
+		factory: Spameri\Elastic\Model\VersionProvider(%version%)
 
 	get:
 		class: Spameri\Elastic\Model\Get
