@@ -33,7 +33,7 @@ class GetBy
 		\Spameri\ElasticQuery\ElasticQuery $options
 		, string $index
 		, ?string $type = NULL
-	) : \Spameri\ElasticQuery\Response\ResultSearch
+	): \Spameri\ElasticQuery\Response\ResultSearch
 	{
 		if ($type === NULL) {
 			$type = $index;

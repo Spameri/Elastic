@@ -24,19 +24,19 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 
 	public function add(
 		\Spameri\Elastic\Entity\EntityInterface $entity
-	) : void
+	): void
 	{
 		$this->collection[$entity->key()] = $entity;
 	}
 
 
-	protected function collection() : array
+	protected function collection(): array
 	{
 		return $this->collection;
 	}
 
 
-	public function getIterator() : \ArrayIterator
+	public function getIterator(): \ArrayIterator
 	{
 		return new \ArrayIterator($this->collection);
 	}
@@ -44,7 +44,7 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 
 	public function entity(
 		string $key
-	) : ?\Spameri\Elastic\Entity\EntityInterface
+	): ?\Spameri\Elastic\Entity\EntityInterface
 	{
 		if (\array_key_exists($key, $this->collection)) {
 			return $this->collection[$key];
@@ -56,7 +56,7 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 
 	public function remove(
 		string $key
-	) : void
+	): void
 	{
 		unset($this->collection[$key]);
 	}
@@ -64,19 +64,19 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 
 	public function isValue(
 		string $key
-	) : bool
+	): bool
 	{
 		return \array_key_exists($key, $this->collection);
 	}
 
 
-	public function count() : int
+	public function count(): int
 	{
 		return \count($this->collection);
 	}
 
 
-	public function keys() : array
+	public function keys(): array
 	{
 		return \array_map('\strval', \array_keys($this->collection));
 	}
@@ -84,13 +84,13 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 
 	public function isKey(
 		string $key
-	) : bool
+	): bool
 	{
 		return \array_key_exists($key, \array_map('\strval', \array_keys($this->collection)));
 	}
 
 
-	public function clear() : void
+	public function clear(): void
 	{
 		$this->collection = [];
 	}
@@ -99,7 +99,7 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 	public function sort(
 		\Spameri\Elastic\Entity\Collection\SortField $sortField // phpcs:ignore
 		, string $type
-	) : void
+	): void
 	{
 		if ( ! \in_array($type, ['asc', 'desc'], TRUE)) {
 			throw new \Nette\InvalidArgumentException('Not supported sorting method.');

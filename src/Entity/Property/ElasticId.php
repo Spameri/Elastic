@@ -23,7 +23,7 @@ class ElasticId implements \Spameri\Elastic\Entity\ValueInterface, \Spameri\Elas
 	}
 
 
-	public function value() : string
+	public function value(): string
 	{
 		return $this->value;
 	}

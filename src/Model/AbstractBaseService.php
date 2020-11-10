@@ -88,7 +88,7 @@ abstract class AbstractBaseService implements ServiceInterface
 	 */
 	public function insert(
 		\Spameri\Elastic\Entity\ElasticEntityInterface $entity
-	) : string
+	): string
 	{
 		return $this->insert->execute($entity, $this->index);
 	}
@@ -99,7 +99,7 @@ abstract class AbstractBaseService implements ServiceInterface
 	 */
 	public function get(
 		\Spameri\Elastic\Entity\Property\ElasticId $id
-	) : \Spameri\Elastic\Entity\ElasticEntityInterface
+	): \Spameri\Elastic\Entity\ElasticEntityInterface
 	{
 		try {
 			$singleResult = $this->get->execute($id, $this->index);
@@ -124,7 +124,7 @@ abstract class AbstractBaseService implements ServiceInterface
 	 */
 	public function getBy(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
-	) : \Spameri\Elastic\Entity\ElasticEntityInterface
+	): \Spameri\Elastic\Entity\ElasticEntityInterface
 	{
 		try {
 			$resultSearch = $this->getBy->execute($elasticQuery, $this->index);
@@ -148,7 +148,7 @@ abstract class AbstractBaseService implements ServiceInterface
 	 */
 	public function getAllBy(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
-	) : \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
+	): \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
 	{
 		try {
 			$resultSearch = $this->getAllBy->execute($elasticQuery, $this->index);
@@ -178,7 +178,7 @@ abstract class AbstractBaseService implements ServiceInterface
 
 	public function delete(
 		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
-	) : bool
+	): bool
 	{
 		try {
 			return $this->delete->execute($id, $this->index);
@@ -193,7 +193,7 @@ abstract class AbstractBaseService implements ServiceInterface
 
 	public function aggregate(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
-	) : \Spameri\ElasticQuery\Response\ResultSearch
+	): \Spameri\ElasticQuery\Response\ResultSearch
 	{
 		return $this->aggregate->execute($elasticQuery, $this->index);
 	}

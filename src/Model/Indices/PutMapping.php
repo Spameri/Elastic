@@ -29,7 +29,7 @@ class PutMapping
 		, array $mapping
 		, string $dynamic = 'false'
 		, ?string $type = NULL
-	) : array
+	): array
 	{
 		if ($type === NULL) {
 			$type = $index;

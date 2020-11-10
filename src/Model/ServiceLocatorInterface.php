@@ -8,11 +8,11 @@ interface ServiceLocatorInterface
 
 	public function locate(
 		\Spameri\Elastic\Entity\ElasticEntityInterface $entity
-	) : \Spameri\Elastic\Model\ServiceInterface;
+	): \Spameri\Elastic\Model\ServiceInterface;
 
 
 	public function locateByEntityClass(
 		string $entityClass
-	) : \Spameri\Elastic\Model\ServiceInterface;
+	): \Spameri\Elastic\Model\ServiceInterface;
 
 }

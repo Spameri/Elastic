@@ -52,10 +52,7 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"SpameriTests\\Elastic\\": "tests/SpameriTests"
-		},
-		"classmap": [
-		  	"tests/SpameriTests/Elastic/Migration/migrations"
-		]
+			"SpameriTests\\": "tests/SpameriTests"
+		}
 	}
 }

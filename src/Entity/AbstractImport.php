@@ -38,6 +38,7 @@ abstract class AbstractImport implements \Spameri\Elastic\Entity\Import\Validati
 	{
 		$vars = \get_object_vars($this);
 		unset($vars['key']);
+
 		return $vars;
 	}
 

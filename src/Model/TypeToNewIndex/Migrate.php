@@ -71,11 +71,6 @@ class Migrate
 	 */
 	private $indicesGet;
 
-	/**
-	 * @var \Spameri\Elastic\Model\Indices\PutSettings
-	 */
-	private $putSettings;
-
 
 	public function __construct(
 		DocumentMigrateStatus $documentMigrateStatus
@@ -90,7 +85,6 @@ class Migrate
 		, \Spameri\Elastic\Mapper\ElasticMapper $elasticMapper
 		, \Spameri\Elastic\Model\Indices\Create $create
 		, \Spameri\Elastic\Model\Indices\Get $indicesGet
-		, \Spameri\Elastic\Model\Indices\PutSettings $putSettings
 	)
 	{
 		$this->documentMigrateStatus = $documentMigrateStatus;
@@ -105,13 +99,12 @@ class Migrate
 		$this->elasticMapper = $elasticMapper;
 		$this->create = $create;
 		$this->indicesGet = $indicesGet;
-		$this->putSettings = $putSettings;
 	}
 
 
 	public function setOutput(
 		\Symfony\Component\Console\Output\OutputInterface $output
-	) : void
+	): void
 	{
 		$this->output = $output;
 	}
@@ -127,7 +120,7 @@ class Migrate
 		, string $aliasTo
 		, ?string $typeTo
 		, bool $allowClose
-	) : void
+	): void
 	{
 		// 1. Close index
 		if ($allowClose) {
@@ -147,7 +140,7 @@ class Migrate
 			$indexToParameters = [
 				'settings' => [
 					'index' => $settings['settings']['index']['analysis'] ?? [],
-				]
+				],
 			];
 		}
 		$this->create->execute($indexTo, $indexToParameters);
@@ -201,6 +194,7 @@ class Migrate
 			$loops = 0;
 			while ($canContinue) {
 				$changed = 0;
+				// phpcs:ignore
 				foreach ($this->documentMigrateStatus->storage() as $documentId => $documentVersion) {
 					$response = $this->get->execute(
 						new \Spameri\Elastic\Entity\Property\ElasticId((string) $documentId),
@@ -213,7 +207,6 @@ class Migrate
 						$this->processHit($indexTo, $typeTo, $indexFrom, $response->hit(), $allowClose);
 						$changed++;
 
-						/** @noinspection DisconnectedForeachInstructionInspection */
 						$updateBar->advance();
 					}
 				}
@@ -255,7 +248,7 @@ class Migrate
 		, string $indexFrom
 		, \Spameri\ElasticQuery\Response\Result\Hit $hit
 		, bool $allowClose
-	) : void
+	): void
 	{
 		$document = new \Spameri\ElasticQuery\Document(
 			$indexTo,

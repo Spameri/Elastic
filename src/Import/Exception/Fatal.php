@@ -5,7 +5,7 @@ namespace Spameri\Elastic\Import\Exception;
 /**
  * Runner is not able to continue.
  */
-class Fatal extends ImportException
+class Fatal extends \Spameri\Elastic\Import\Exception\ImportException
 {
 
 }

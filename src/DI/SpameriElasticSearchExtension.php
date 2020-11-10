@@ -19,7 +19,7 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 	];
 
 
-	public function loadConfiguration() : void
+	public function loadConfiguration(): void
 	{
 		parent::loadConfiguration();
 
@@ -49,7 +49,7 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 	public function setConfigOptions(
 		array $services,
 		array $config
-	) : void
+	): void
 	{
 		$neonSettingsProvider = $services['services']['neonSettingsProvider']['factory'];
 		$neonSettingsProvider->arguments[0] = $config['host'];
@@ -68,7 +68,7 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 	public function toggleDebugBar(
 		array $config,
 		array $services
-	) : array
+	): array
 	{
 		if ( ! $config['debug']) {
 			unset(

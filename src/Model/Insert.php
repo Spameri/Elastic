@@ -35,7 +35,7 @@ class Insert
 		\Spameri\Elastic\Entity\ElasticEntityInterface $entity
 		, string $index
 		, ?string $type = NULL
-	) : string
+	): string
 	{
 		if ($type === NULL) {
 			$type = $index;

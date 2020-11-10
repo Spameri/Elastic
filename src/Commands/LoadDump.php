@@ -24,7 +24,7 @@ class LoadDump extends \Symfony\Component\Console\Command\Command
 	/**
 	 * @example spameri:elastic:load-dump
 	 */
-	protected function configure() : void
+	protected function configure(): void
 	{
 		$this
 			->setName('spameri:elastic:load-dump')

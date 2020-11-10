@@ -10,6 +10,6 @@ interface CollectionFactoryInterface
 		\Spameri\Elastic\Model\ServiceInterface $service
 		, array $elasticIds = []
 		, \Spameri\Elastic\Entity\ElasticEntityInterface ... $entityCollection
-	) : \Spameri\Elastic\Entity\ElasticEntityCollectionInterface;
+	): \Spameri\Elastic\Entity\ElasticEntityCollectionInterface;
 
 }

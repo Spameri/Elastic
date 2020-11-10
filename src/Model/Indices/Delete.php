@@ -25,7 +25,7 @@ class Delete
 	 */
 	public function execute(
 		string $index
-	) : array
+	): array
 	{
 		try {
 			return $this->clientProvider->client()->indices()->delete(

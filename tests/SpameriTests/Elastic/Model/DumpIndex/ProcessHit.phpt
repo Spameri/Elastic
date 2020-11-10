@@ -3,7 +3,7 @@
 namespace SpameriTests\Elastic\Model\DumpIndex;
 
 
-require_once __DIR__ . '/../../../bootstrap.php';
+require_once __DIR__ . '/../../../../bootstrap.php';
 
 
 /**

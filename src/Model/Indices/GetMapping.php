@@ -26,7 +26,7 @@ class GetMapping
 	public function execute(
 		string $index
 		, ?string $type = NULL
-	) : array
+	): array
 	{
 		if ($type === NULL) {
 			$type = $index;

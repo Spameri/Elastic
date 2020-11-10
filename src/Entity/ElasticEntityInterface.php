@@ -6,9 +6,9 @@ namespace Spameri\Elastic\Entity;
 interface ElasticEntityInterface
 {
 
-	public function id() : \Spameri\Elastic\Entity\Property\ElasticIdInterface;
+	public function id(): \Spameri\Elastic\Entity\Property\ElasticIdInterface;
 
 
-	public function entityVariables() : array;
+	public function entityVariables(): array;
 
 }

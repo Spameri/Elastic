@@ -8,31 +8,31 @@ interface ServiceInterface
 
 	public function insert(
 		\Spameri\Elastic\Entity\ElasticEntityInterface $entity
-	) : string;
+	): string;
 
 
 	public function get(
 		\Spameri\Elastic\Entity\Property\ElasticId $id
-	) : \Spameri\Elastic\Entity\ElasticEntityInterface;
+	): \Spameri\Elastic\Entity\ElasticEntityInterface;
 
 
 	public function getBy(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
-	) : \Spameri\Elastic\Entity\ElasticEntityInterface;
+	): \Spameri\Elastic\Entity\ElasticEntityInterface;
 
 
 	public function getAllBy(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
-	) : \Spameri\Elastic\Entity\ElasticEntityCollectionInterface;
+	): \Spameri\Elastic\Entity\ElasticEntityCollectionInterface;
 
 
 	public function delete(
 		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
-	) : bool;
+	): bool;
 
 
 	public function aggregate(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
-	) : \Spameri\ElasticQuery\Response\ResultSearch;
+	): \Spameri\ElasticQuery\Response\ResultSearch;
 
 }

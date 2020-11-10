@@ -15,7 +15,7 @@ class DocumentMigrateStatus
 	public function add(
 		string $documentId,
 		int $version
-	) : void
+	): void
 	{
 		$this->storage[$documentId] = $version;
 	}
@@ -24,7 +24,7 @@ class DocumentMigrateStatus
 	public function isChanged(
 		string $documentId,
 		int $version
-	) : bool
+	): bool
 	{
 		if ( ! isset($this->storage[$documentId])) {
 			return TRUE;
@@ -37,7 +37,7 @@ class DocumentMigrateStatus
 	/**
 	 * @return array<string, int>
 	 */
-	public function storage() : array
+	public function storage(): array
 	{
 		return $this->storage;
 	}
