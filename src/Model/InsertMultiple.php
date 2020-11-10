@@ -54,12 +54,18 @@ class InsertMultiple
 			$entityArray = $this->prepareEntityArray->prepare($entity);
 			unset($entityArray['id']);
 
-			$documentsArray[] = [
+			$documentArray = [
 				'index' => [
 					'_index' => $index,
-					'_type'  => $type,
+					'_type' => $type,
 				],
 			];
+
+			if (\Spameri\Elastic\Model\VersionProvider::provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+				unset($documentArray['index']['_type']);
+			}
+
+			$documentsArray[] = $documentArray;
 			$documentsArray[] = $entityArray;
 		}
 

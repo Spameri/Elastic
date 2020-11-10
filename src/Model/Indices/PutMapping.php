@@ -32,21 +32,22 @@ class PutMapping
 		}
 
 		try {
-			/** @var array $result */
-			$result = $this->clientProvider->client()->indices()->putMapping(
-				(
-					new \Spameri\ElasticQuery\Document(
-						$index,
-						new \Spameri\ElasticQuery\Document\Body\Plain([
-							'properties' => $mapping,
-							'dynamic' => $dynamic,
-						]),
-						$type
-					)
-				)->toArray()
-			);
+			$documentArray = (
+				new \Spameri\ElasticQuery\Document(
+					$index,
+					new \Spameri\ElasticQuery\Document\Body\Plain([
+						'properties' => $mapping['properties'],
+						'dynamic' => $dynamic,
+					]),
+					$type
+				)
+			)->toArray();
 
-			return $result;
+			if (\Spameri\Elastic\Model\VersionProvider::provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+				unset($documentArray['type']);
+			}
+
+			return $this->clientProvider->client()->indices()->putMapping($documentArray);
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
