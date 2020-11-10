@@ -84,13 +84,7 @@ services:
 		class: Psr\Log\NullLogger
 
 	elasticPanel:
-		class: Spameri\Elastic\Diagnostics\Panel
-
-	validateMapping:
-		class: Spameri\Elastic\Model\ValidateMapping(%entities%, %settings%, ...)
-
-	display:
-		class: Spameri\Elastic\Model\ValidateMapping\Display
+		factory: Spameri\Elastic\Diagnostics\Panel
 
 	documentMigrateStatus:
 		class: Spameri\Elastic\Model\TypeToNewIndex\DocumentMigrateStatus
@@ -109,13 +103,7 @@ services:
 #	###
 
 	createIndex:
-		class: Spameri\Elastic\Commands\CreateIndex(%entities%)
-		tags:
-			- kdyby.console.command
-			- console.command
-
-	updateMapping:
-		class: Spameri\Elastic\Commands\UpdateMapping(%entities%)
+		factory: Spameri\Elastic\Commands\CreateIndex
 		tags:
 			- kdyby.console.command
 			- console.command
@@ -133,13 +121,7 @@ services:
 			- console.command
 
 	removeAlias:
-		class: Spameri\Elastic\Commands\RemoveAlias
-		tags:
-			- kdyby.console.command
-			- console.command
-
-	validateMappingCommand:
-		class: Spameri\Elastic\Commands\ValidateMapping
+		factory: Spameri\Elastic\Commands\RemoveAlias
 		tags:
 			- kdyby.console.command
 			- console.command
