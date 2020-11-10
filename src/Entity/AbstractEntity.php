@@ -9,13 +9,13 @@ abstract class AbstractEntity implements EntityInterface
 	/**
 	 * @return array<mixed>
 	 */
-	public function entityVariables() : array
+	public function entityVariables(): array
 	{
 		return \get_object_vars($this);
 	}
 
 
-	public function key() : string
+	public function key(): string
 	{
 		return \md5(\implode('_', $this->entityVariables()));
 	}

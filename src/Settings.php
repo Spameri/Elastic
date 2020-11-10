@@ -37,13 +37,13 @@ class Settings
 	}
 
 
-	public function host() : string
+	public function host(): string
 	{
 		return $this->host;
 	}
 
 
-	public function port() : int
+	public function port(): int
 	{
 		return $this->port;
 	}
@@ -52,7 +52,7 @@ class Settings
 	/**
 	 * @return array<mixed>
 	 */
-	public function headers() : array
+	public function headers(): array
 	{
 		return $this->headers;
 	}

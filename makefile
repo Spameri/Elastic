@@ -15,3 +15,6 @@ phpstan:
 
 cs:
 	vendor/bin/phpcs --standard=vendor/spameri/coding-standard/src/ruleset.xml src tests/SpameriTests
+
+cbf:
+	vendor/bin/phpcbf --standard=vendor/spameri/coding-standard/src/ruleset.xml src tests/SpameriTests

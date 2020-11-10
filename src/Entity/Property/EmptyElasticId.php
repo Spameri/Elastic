@@ -23,7 +23,7 @@ class EmptyElasticId implements \Spameri\Elastic\Entity\ValueInterface, \Spameri
 	}
 
 
-	public function value() : string
+	public function value(): string
 	{
 		return $this->value;
 	}

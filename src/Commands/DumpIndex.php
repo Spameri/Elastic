@@ -24,7 +24,7 @@ class DumpIndex extends \Symfony\Component\Console\Command\Command
 	/**
 	 * @example spameri:elastic:dump-index index elasticDump.dump
 	 */
-	protected function configure() : void
+	protected function configure(): void
 	{
 		$this
 			->setName('spameri:elastic:dump-index')

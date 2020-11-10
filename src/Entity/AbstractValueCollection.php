@@ -25,7 +25,7 @@ abstract class AbstractValueCollection implements ValueCollectionInterface
 
 	public function add(
 		\Spameri\Elastic\Entity\ValueInterface $value
-	) : void
+	): void
 	{
 		$this->collection[$value->value()] = $value;
 	}
@@ -34,7 +34,7 @@ abstract class AbstractValueCollection implements ValueCollectionInterface
 	/**
 	 * @param mixed $key
 	 */
-	public function remove($key) : void
+	public function remove($key): void
 	{
 		unset($this->collection[$key]);
 	}
@@ -43,7 +43,7 @@ abstract class AbstractValueCollection implements ValueCollectionInterface
 	/**
 	 * @param mixed $key
 	 */
-	public function get($key) : ?\Spameri\Elastic\Entity\ValueInterface
+	public function get($key): ?\Spameri\Elastic\Entity\ValueInterface
 	{
 		if ( ! isset($this->collection[$key])) {
 			return NULL;
@@ -56,7 +56,7 @@ abstract class AbstractValueCollection implements ValueCollectionInterface
 	/**
 	 * @return \ArrayIterator<\Spameri\Elastic\Entity\ValueInterface>
 	 */
-	public function getIterator() : \ArrayIterator
+	public function getIterator(): \ArrayIterator
 	{
 		return new \ArrayIterator($this->collection);
 	}

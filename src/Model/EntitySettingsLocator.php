@@ -6,7 +6,7 @@ class EntitySettingsLocator
 {
 
 	/**
-	 * @var \Spameri\Elastic\Settings\IndexConfigInterface[]
+	 * @var array<\Spameri\Elastic\Settings\IndexConfigInterface>
 	 */
 	private $indexConfig;
 
@@ -19,7 +19,7 @@ class EntitySettingsLocator
 	}
 
 
-	public function locate(string $indexName) : \Spameri\ElasticQuery\Mapping\Settings
+	public function locate(string $indexName): \Spameri\ElasticQuery\Mapping\Settings
 	{
 		foreach ($this->indexConfig as $indexConfig) {
 			if ($indexConfig->provide()->indexName() === $indexName) {

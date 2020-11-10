@@ -22,7 +22,7 @@ class Open
 
 	public function execute(
 		string $index
-	) : bool
+	): bool
 	{
 		try {
 			$result = $this->clientProvider->client()->indices()->open(

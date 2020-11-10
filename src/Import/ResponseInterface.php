@@ -23,6 +23,6 @@ interface ResponseInterface
 	public function getResponse();
 
 
-	public function getEntity(\Spameri\Elastic\Entity\AbstractImport $entity): \Spameri\Elastic\Entity\AbstractImport;
+	public function getEntity(): \Spameri\Elastic\Entity\AbstractImport;
 
 }

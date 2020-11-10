@@ -24,7 +24,7 @@ class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 	/**
 	 * @example spameri:elastic:move-type oldIndex productType newIndex newIndexAlias -c
 	 */
-	protected function configure() : void
+	protected function configure(): void
 	{
 		$this
 			->setName('spameri:elastic:move-type')

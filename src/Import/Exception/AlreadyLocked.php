@@ -2,7 +2,7 @@
 
 namespace Spameri\Elastic\Import\Exception;
 
-class AlreadyLocked extends ImportException
+class AlreadyLocked extends \Spameri\Elastic\Import\Exception\ImportException
 {
 
 }

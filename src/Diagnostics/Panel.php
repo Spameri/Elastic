@@ -20,7 +20,7 @@ class Panel implements \Tracy\IBarPanel
 	}
 
 
-	public function getTab() : string
+	public function getTab(): string
 	{
 		// phpcs:disable
 		$queries = $this->getQueries();
@@ -33,7 +33,7 @@ class Panel implements \Tracy\IBarPanel
 	}
 
 
-	public function getPanel() : string
+	public function getPanel(): string
 	{
 		// phpcs:disable
 		$queries = $this->getQueries();
@@ -52,7 +52,7 @@ class Panel implements \Tracy\IBarPanel
 	/**
 	 * @return array<mixed>
 	 */
-	private function getQueries() : array
+	private function getQueries(): array
 	{
 		return $this->logger->getQueries();
 	}
@@ -61,7 +61,7 @@ class Panel implements \Tracy\IBarPanel
 	/**
 	 * @return array<string>
 	 */
-	private function getQueriesHeader() : array
+	private function getQueriesHeader(): array
 	{
 		return [
 			'uri',
@@ -70,7 +70,7 @@ class Panel implements \Tracy\IBarPanel
 	}
 
 
-	private function getQueriesDuration() : float
+	private function getQueriesDuration(): float
 	{
 		return \array_sum(\array_column($this->getQueries(), 'duration'));
 	}

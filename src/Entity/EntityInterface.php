@@ -6,9 +6,9 @@ namespace Spameri\Elastic\Entity;
 interface EntityInterface
 {
 
-	public function key() : string;
+	public function key(): string;
 
 
-	public function entityVariables() : array;
+	public function entityVariables(): array;
 
 }

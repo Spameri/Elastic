@@ -35,7 +35,7 @@ class Get
 		\Spameri\Elastic\Entity\Property\ElasticId $id
 		, string $index
 		, ?string $type = NULL
-	) : \Spameri\ElasticQuery\Response\ResultSingle
+	): \Spameri\ElasticQuery\Response\ResultSingle
 	{
 		if ($type === NULL) {
 			$type = $index;

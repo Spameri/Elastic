@@ -21,7 +21,7 @@ class CreateIndex extends \Symfony\Component\Console\Command\Command
 	}
 
 
-	protected function configure() : void
+	protected function configure(): void
 	{
 		$this
 			->setName('spameri:elastic:create-index')

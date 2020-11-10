@@ -35,7 +35,7 @@ class DeleteMultiple
 		\Spameri\Elastic\Entity\ElasticEntityCollectionInterface $entityCollection
 		, string $index
 		, ?string $type = NULL
-	) : \Spameri\ElasticQuery\Response\ResultBulk
+	): \Spameri\ElasticQuery\Response\ResultBulk
 	{
 		if ($type === NULL) {
 			$type = $index;

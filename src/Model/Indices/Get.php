@@ -25,7 +25,7 @@ class Get
 	 */
 	public function execute(
 		string $index
-	) : array
+	): array
 	{
 		try {
 			return $this->clientProvider->client()->indices()->get(

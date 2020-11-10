@@ -37,7 +37,7 @@ class NeonSettingsProvider implements \Spameri\Elastic\SettingsProviderInterface
 	}
 
 
-	public function provide() : \Spameri\Elastic\Settings
+	public function provide(): \Spameri\Elastic\Settings
 	{
 		return new \Spameri\Elastic\Settings(
 			$this->host,

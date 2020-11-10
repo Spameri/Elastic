@@ -25,7 +25,7 @@ class PrepareEntityArray
 	 */
 	public function prepare(
 		\Spameri\Elastic\Entity\ElasticEntityInterface $entity
-	) : array
+	): array
 	{
 		return $this->iterateVariables($entity->entityVariables());
 	}
@@ -37,7 +37,7 @@ class PrepareEntityArray
 	 */
 	public function iterateVariables(
 		array $variables
-	) : array
+	): array
 	{
 		$preparedArray = [];
 

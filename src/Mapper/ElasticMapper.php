@@ -34,7 +34,7 @@ class ElasticMapper
 	public function createMapping(
 		array $entity,
 		string $indexName
-	) : void
+	): void
 	{
 		try {
 			$this->clientProvider->client()->indices()->putMapping(
@@ -61,7 +61,7 @@ class ElasticMapper
 	 * @throws \Spameri\Elastic\Exception\ElasticSearch
 	 * @throws \Spameri\Elastic\Exception\IndexAlreadyExists
 	 */
-	public function createIndex(array $entity) : void
+	public function createIndex(array $entity): void
 	{
 		try {
 			try {
@@ -96,7 +96,7 @@ class ElasticMapper
 
 	public function deleteIndex(
 		string $indexName
-	) : void
+	): void
 	{
 		try {
 			try {
@@ -134,7 +134,7 @@ class ElasticMapper
 	public function addAlias(
 		string $index,
 		string $alias
-	) : void
+	): void
 	{
 		try {
 			try {
@@ -183,7 +183,7 @@ class ElasticMapper
 	public function removeAlias(
 		string $index,
 		string $alias
-	) : void
+	): void
 	{
 		try {
 			$this->clientProvider->client()->indices()->putAlias(

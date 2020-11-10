@@ -27,7 +27,7 @@ class Delete
 		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
 		, string $index
 		, ?string $type = NULL
-	) : bool
+	): bool
 	{
 		if ($type === NULL) {
 			$type = $index;

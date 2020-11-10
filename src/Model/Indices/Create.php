@@ -27,7 +27,7 @@ class Create
 	public function execute(
 		string $index
 		, array $parameters
-	) : array
+	): array
 	{
 		try {
 			return $this->clientProvider->client()->indices()->create(

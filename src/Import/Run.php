@@ -43,12 +43,12 @@ class Run
 	/**
 	 * @var string
 	 */
-	private $runName;
+	protected $runName;
 
 	/**
 	 * @var string
 	 */
-	private $fileName;
+	protected $fileName;
 
 	/**
 	 * @var \Symfony\Component\Console\Helper\ProgressBar

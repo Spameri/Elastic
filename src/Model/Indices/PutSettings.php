@@ -27,7 +27,7 @@ class PutSettings
 	public function execute(
 		string $index
 		, array $settings
-	) : array
+	): array
 	{
 		try {
 			return $this->clientProvider->client()->indices()->putSettings(

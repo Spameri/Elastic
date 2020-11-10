@@ -34,7 +34,7 @@ class Scroll
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
 		, string $index
 		, ?string $type = NULL
-	) : \Spameri\ElasticQuery\Response\ResultSearch
+	): \Spameri\ElasticQuery\Response\ResultSearch
 	{
 		if ($type === NULL) {
 			$type = $index;
@@ -94,7 +94,7 @@ class Scroll
 
 	public function closeScroll(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
-	) : void
+	): void
 	{
 		try {
 			$this->clientProvider->client()->clearScroll(

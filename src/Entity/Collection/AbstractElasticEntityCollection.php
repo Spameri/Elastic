@@ -53,7 +53,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 
 	public function add(
 		\Spameri\Elastic\Entity\ElasticEntityInterface $elasticEntity
-	) : void
+	): void
 	{
 		if ( ! $this->initialized) {
 			$this->initialize();
@@ -67,7 +67,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	}
 
 
-	public function initialize() : void
+	public function initialize(): void
 	{
 		if ($this->elasticIds) {
 			$entities = $this->service->getAllBy(
@@ -94,25 +94,25 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	}
 
 
-	public function initialized() : bool
+	public function initialized(): bool
 	{
 		return $this->initialized;
 	}
 
 
-	public function elasticIds() : array
+	public function elasticIds(): array
 	{
 		return $this->elasticIds;
 	}
 
 
-	protected function collection() : array
+	protected function collection(): array
 	{
 		return $this->collection;
 	}
 
 
-	public function getIterator() : \ArrayIterator
+	public function getIterator(): \ArrayIterator
 	{
 		if ( ! $this->initialized) {
 			$this->initialize();
@@ -124,7 +124,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 
 	public function entity(
 		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
-	) : ?\Spameri\Elastic\Entity\ElasticEntityInterface
+	): ?\Spameri\Elastic\Entity\ElasticEntityInterface
 	{
 		if ( ! $this->initialized) {
 			$this->initialize();
@@ -144,7 +144,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 
 	public function remove(
 		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
-	) : void
+	): void
 	{
 		if ( ! $this->initialized) {
 			$this->initialize();
@@ -156,7 +156,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 
 	public function isValue(
 		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
-	) : bool
+	): bool
 	{
 		if ( ! $this->initialized) {
 			$this->initialize();
@@ -166,7 +166,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	}
 
 
-	public function count() : int
+	public function count(): int
 	{
 		if ( ! $this->initialized) {
 			$this->initialize();
@@ -176,7 +176,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	}
 
 
-	public function keys() : array
+	public function keys(): array
 	{
 		if ( ! $this->initialized) {
 			$this->initialize();
@@ -188,7 +188,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 
 	public function isKey(
 		string $key
-	) : bool
+	): bool
 	{
 		if ( ! $this->initialized) {
 			$this->initialize();
@@ -198,7 +198,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	}
 
 
-	public function clear() : void
+	public function clear(): void
 	{
 		$this->collection = [];
 	}
@@ -207,7 +207,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	public function sort(
 		\Spameri\Elastic\Entity\Collection\SortField $sortField // phpcs:ignore
 		, string $type
-	) : void
+	): void
 	{
 		if ( ! $this->initialized) {
 			$this->initialize();
