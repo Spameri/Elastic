@@ -53,17 +53,7 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 		array $config
 	) : void
 	{
-		$updateMapping = $services['services']['updateMapping']['class'];
-		$updateMapping->arguments[0] = $config['entities'];
-
-		$createIndex = $services['services']['createIndex']['class'];
-		$createIndex->arguments[0] = $config['entities'];
-
-		$validateMapping = $services['services']['validateMapping']['class'];
-		$validateMapping->arguments[0] = $config['entities'];
-		$validateMapping->arguments[1] = $config['settings'];
-
-		$neonSettingsProvider = $services['services']['neonSettingsProvider']['class'];
+		$neonSettingsProvider = $services['services']['neonSettingsProvider']['factory'];
 		$neonSettingsProvider->arguments[0] = $config['host'];
 		$neonSettingsProvider->arguments[1] = $config['port'];
 	}
