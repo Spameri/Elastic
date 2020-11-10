@@ -1,73 +1,73 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Video;
+namespace SpameriTests\Elastic\Data\Entity\Video;
 
 
 class Connections implements \Spameri\Elastic\Entity\EntityInterface
 {
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Connections\FollowedCollection
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Connections\FollowedCollection
 	 */
 	private $followed;
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Connections\RemadeCollection
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Connections\RemadeCollection
 	 */
 	private $remade;
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Connections\SpinOffCollection
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Connections\SpinOffCollection
 	 */
 	private $spinOff;
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Connections\EditedIntoCollection
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Connections\EditedIntoCollection
 	 */
 	private $editedInto;
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Connections\ReferenceCollection
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Connections\ReferenceCollection
 	 */
 	private $reference;
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Connections\ReferencedCollection
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Connections\ReferencedCollection
 	 */
 	private $referenced;
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Connections\FeaturedCollection
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Connections\FeaturedCollection
 	 */
 	private $featured;
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Connections\SpoofedCollection
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Connections\SpoofedCollection
 	 */
 	private $spoofed;
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Connections\FollowsCollection
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Connections\FollowsCollection
 	 */
 	private $follows;
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Connections\SpunOffCollection
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Connections\SpunOffCollection
 	 */
 	private $spunOff;
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Connections\VersionOfCollection
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Connections\VersionOfCollection
 	 */
 	private $versionOf;
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Connections\EditedFromCollection
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Connections\EditedFromCollection
 	 */
 	private $editedFrom;
 
 
 	public function __construct(
-		\SpameriTests\Data\Entity\Video\Connections\FollowedCollection $followed
-		, \SpameriTests\Data\Entity\Video\Connections\RemadeCollection $remade
-		, \SpameriTests\Data\Entity\Video\Connections\SpinOffCollection $spinOff
-		, \SpameriTests\Data\Entity\Video\Connections\EditedIntoCollection $editedInto
-		, \SpameriTests\Data\Entity\Video\Connections\ReferenceCollection $reference
-		, \SpameriTests\Data\Entity\Video\Connections\ReferencedCollection $referenced
-		, \SpameriTests\Data\Entity\Video\Connections\FeaturedCollection $featured
-		, \SpameriTests\Data\Entity\Video\Connections\SpoofedCollection $spoofed
-		, \SpameriTests\Data\Entity\Video\Connections\FollowsCollection $follows
-		, \SpameriTests\Data\Entity\Video\Connections\SpunOffCollection $spunOff
-		, \SpameriTests\Data\Entity\Video\Connections\VersionOfCollection $versionOf
-		, \SpameriTests\Data\Entity\Video\Connections\EditedFromCollection $editedFrom
+		\SpameriTests\Elastic\Data\Entity\Video\Connections\FollowedCollection $followed
+		, \SpameriTests\Elastic\Data\Entity\Video\Connections\RemadeCollection $remade
+		, \SpameriTests\Elastic\Data\Entity\Video\Connections\SpinOffCollection $spinOff
+		, \SpameriTests\Elastic\Data\Entity\Video\Connections\EditedIntoCollection $editedInto
+		, \SpameriTests\Elastic\Data\Entity\Video\Connections\ReferenceCollection $reference
+		, \SpameriTests\Elastic\Data\Entity\Video\Connections\ReferencedCollection $referenced
+		, \SpameriTests\Elastic\Data\Entity\Video\Connections\FeaturedCollection $featured
+		, \SpameriTests\Elastic\Data\Entity\Video\Connections\SpoofedCollection $spoofed
+		, \SpameriTests\Elastic\Data\Entity\Video\Connections\FollowsCollection $follows
+		, \SpameriTests\Elastic\Data\Entity\Video\Connections\SpunOffCollection $spunOff
+		, \SpameriTests\Elastic\Data\Entity\Video\Connections\VersionOfCollection $versionOf
+		, \SpameriTests\Elastic\Data\Entity\Video\Connections\EditedFromCollection $editedFrom
 	)
 	{
 		$this->followed = $followed;
@@ -97,73 +97,73 @@ class Connections implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
-	public function followed() : \SpameriTests\Data\Entity\Video\Connections\FollowedCollection
+	public function followed() : \SpameriTests\Elastic\Data\Entity\Video\Connections\FollowedCollection
 	{
 		return $this->followed;
 	}
 
 
-	public function remade() : \SpameriTests\Data\Entity\Video\Connections\RemadeCollection
+	public function remade() : \SpameriTests\Elastic\Data\Entity\Video\Connections\RemadeCollection
 	{
 		return $this->remade;
 	}
 
 
-	public function spinOff() : \SpameriTests\Data\Entity\Video\Connections\SpinOffCollection
+	public function spinOff() : \SpameriTests\Elastic\Data\Entity\Video\Connections\SpinOffCollection
 	{
 		return $this->spinOff;
 	}
 
 
-	public function editedInto() : \SpameriTests\Data\Entity\Video\Connections\EditedIntoCollection
+	public function editedInto() : \SpameriTests\Elastic\Data\Entity\Video\Connections\EditedIntoCollection
 	{
 		return $this->editedInto;
 	}
 
 
-	public function reference() : \SpameriTests\Data\Entity\Video\Connections\ReferenceCollection
+	public function reference() : \SpameriTests\Elastic\Data\Entity\Video\Connections\ReferenceCollection
 	{
 		return $this->reference;
 	}
 
 
-	public function referenced() : \SpameriTests\Data\Entity\Video\Connections\ReferencedCollection
+	public function referenced() : \SpameriTests\Elastic\Data\Entity\Video\Connections\ReferencedCollection
 	{
 		return $this->referenced;
 	}
 
 
-	public function featured() : \SpameriTests\Data\Entity\Video\Connections\FeaturedCollection
+	public function featured() : \SpameriTests\Elastic\Data\Entity\Video\Connections\FeaturedCollection
 	{
 		return $this->featured;
 	}
 
 
-	public function spoofed() : \SpameriTests\Data\Entity\Video\Connections\SpoofedCollection
+	public function spoofed() : \SpameriTests\Elastic\Data\Entity\Video\Connections\SpoofedCollection
 	{
 		return $this->spoofed;
 	}
 
 
-	public function follows() : \SpameriTests\Data\Entity\Video\Connections\FollowsCollection
+	public function follows() : \SpameriTests\Elastic\Data\Entity\Video\Connections\FollowsCollection
 	{
 		return $this->follows;
 	}
 
 
-	public function spunOff() : \SpameriTests\Data\Entity\Video\Connections\SpunOffCollection
+	public function spunOff() : \SpameriTests\Elastic\Data\Entity\Video\Connections\SpunOffCollection
 	{
 		return $this->spunOff;
 	}
 
 
-	public function versionOf() : \SpameriTests\Data\Entity\Video\Connections\VersionOfCollection
+	public function versionOf() : \SpameriTests\Elastic\Data\Entity\Video\Connections\VersionOfCollection
 	{
 		return $this->versionOf;
 	}
 
 
-	public function editedFrom() : \SpameriTests\Data\Entity\Video\Connections\EditedFromCollection
+	public function editedFrom() : \SpameriTests\Elastic\Data\Entity\Video\Connections\EditedFromCollection
 	{
 		return $this->editedFrom;
 	}

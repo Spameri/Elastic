@@ -1,25 +1,25 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Video;
+namespace SpameriTests\Elastic\Data\Entity\Video;
 
 
 class Alias
 {
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Name
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Name
 	 */
 	private $name;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\CountryShort
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\CountryShort
 	 */
 	private $country;
 
 
 	public function __construct(
-		\SpameriTests\Data\Entity\Property\Name $name
-		, \SpameriTests\Data\Entity\Property\CountryShort $country
+		\SpameriTests\Elastic\Data\Entity\Property\Name $name
+		, \SpameriTests\Elastic\Data\Entity\Property\CountryShort $country
 	)
 	{
 		$this->name = $name;
@@ -27,13 +27,13 @@ class Alias
 	}
 
 
-	public function name() : \SpameriTests\Data\Entity\Property\Name
+	public function name() : \SpameriTests\Elastic\Data\Entity\Property\Name
 	{
 		return $this->name;
 	}
 
 
-	public function country() : \SpameriTests\Data\Entity\Property\CountryShort
+	public function country() : \SpameriTests\Elastic\Data\Entity\Property\CountryShort
 	{
 		return $this->country;
 	}

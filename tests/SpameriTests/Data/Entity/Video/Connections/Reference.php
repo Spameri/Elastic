@@ -1,24 +1,24 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Video\Connections;
+namespace SpameriTests\Elastic\Data\Entity\Video\Connections;
 
 
 class Reference implements \Spameri\Elastic\Entity\EntityInterface
 {
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\ImdbId
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\ImdbId
 	 */
 	private $id;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Text
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Text
 	 */
 	private $note;
 
 
 	public function __construct(
-		\SpameriTests\Data\Entity\Property\ImdbId $id
-		, \SpameriTests\Data\Entity\Property\Text $note
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id
+		, \SpameriTests\Elastic\Data\Entity\Property\Text $note
 	)
 	{
 		$this->id = $id;
@@ -38,13 +38,13 @@ class Reference implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
-	public function id() : \SpameriTests\Data\Entity\Property\ImdbId
+	public function id() : \SpameriTests\Elastic\Data\Entity\Property\ImdbId
 	{
 		return $this->id;
 	}
 
 
-	public function note() : \SpameriTests\Data\Entity\Property\Text
+	public function note() : \SpameriTests\Elastic\Data\Entity\Property\Text
 	{
 		return $this->note;
 	}

@@ -2,7 +2,7 @@
 
 Lets create entity class, continuing our example, in folder `tests/SpameriTests/Data/Entity/Video.php` given file contents:
 ```php
-namespace SpameriTests\Data\Entity;
+namespace SpameriTests\Elastic\Data\Entity;
 
 
 class Video implements \Spameri\Elastic\Entity\ElasticEntityInterface
@@ -54,16 +54,16 @@ It has to have `id` provided by ElasticSearch, library takes care of handling th
 - Lets say our Video has limited keyword length to maximum of 55 characters and also 0 characters is not enough to 
 describe keyword.
 - We do not have reliable data input so lets validate this with help of interface `\Spameri\Elastic\Entity\IValue`.
-- First create value object for keyword `\SpameriTests\Data\Entity\Video\Story\KeyWord`. 
+- First create value object for keyword `\SpameriTests\Elastic\Data\Entity\Video\Story\KeyWord`. 
 - Class should implement interface `\Spameri\Elastic\Entity\IValue`.
 - `__construct` should have one parameter **string $value**.
 - In construct do our validation for keyword.
 - Implement `value()` method.
-- Add property to `\SpameriTests\Data\Entity\Video` constructor.
-- Generate getter in `\SpameriTests\Data\Entity\Video` entity for KeyWord. 
+- Add property to `\SpameriTests\Elastic\Data\Entity\Video` constructor.
+- Generate getter in `\SpameriTests\Elastic\Data\Entity\Video` entity for KeyWord. 
 - Result:
 ```php
-namespace SpameriTests\Data\Entity\Video\Story;
+namespace SpameriTests\Elastic\Data\Entity\Video\Story;
 
 
 class KeyWord implements \Spameri\Elastic\Entity\ValueInterface
@@ -107,14 +107,14 @@ For more advanced and typed approach use interface, as described next.
 - Next to be type save you want to add methods **add**, **remove**, **get**, **__construct**
 - For **__construct** you best fill values to collection as here [\Spameri\Elastic\Entity\AbstractValueCollection#L20](../src/Entity/AbstractValueCollection.php#L20)
 ```php
-namespace SpameriTests\Data\Entity\Video\Story;
+namespace SpameriTests\Elastic\Data\Entity\Video\Story;
 
 
 class KeyWordCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
 	/**
-	 * @var array<\SpameriTests\Data\Entity\Video\Story\KeyWord>
+	 * @var array<\SpameriTests\Elastic\Data\Entity\Video\Story\KeyWord>
 	 */
 	private $collection;
 
@@ -131,7 +131,7 @@ class KeyWordCollection implements \Spameri\Elastic\Entity\ValueCollectionInterf
 
 
 	public function add(
-		\SpameriTests\Data\Entity\Video\Story\KeyWord $keyWord
+		\SpameriTests\Elastic\Data\Entity\Video\Story\KeyWord $keyWord
 	) : void
 	{
 		$this->collection[$keyWord->value()] = $keyWord;
@@ -144,7 +144,7 @@ class KeyWordCollection implements \Spameri\Elastic\Entity\ValueCollectionInterf
 	}
 
 
-	public function get(string $key) : ?\SpameriTests\Data\Entity\Video\Story\KeyWord
+	public function get(string $key) : ?\SpameriTests\Elastic\Data\Entity\Video\Story\KeyWord
 	{
 		if ( ! isset($this->collection[$key])) {
 			return NULL;
@@ -167,20 +167,20 @@ class KeyWordCollection implements \Spameri\Elastic\Entity\ValueCollectionInterf
 - Library then can convert this entity to array and save it as array with no more help.
  
 ```php
-namespace SpameriTests\Data\Entity\Video;
+namespace SpameriTests\Elastic\Data\Entity\Video;
 
 
 class Story implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Story\KeyWordCollection
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Story\KeyWordCollection
 	 */
 	private $keyWords;
 
 
 	public function __construct(
-		\SpameriTests\Data\Entity\Video\Story\KeyWordCollection $keyWord
+		\SpameriTests\Elastic\Data\Entity\Video\Story\KeyWordCollection $keyWord
 	)
 	{
 		$this->keyWords = $keyWord;
@@ -205,7 +205,7 @@ class Story implements \Spameri\Elastic\Entity\EntityInterface
 - This is simple you have Entity **Story** with implemented `IEntity` interface and all you need is create collection, extend `class FollowsCollection extends \Spameri\Elastic\Entity\Collection\EntityCollection`
 and you are done.
 ```php
-namespace SpameriTests\Data\Entity\Video\Connections;
+namespace SpameriTests\Elastic\Data\Entity\Video\Connections;
 
 
 class FollowsCollection extends \Spameri\Elastic\Entity\Collection\AbstractEntityCollection
@@ -222,17 +222,17 @@ Any changes made to related entity/ies will be persisted when main entity is sav
 - Or multiple entities can be in collection lazily loaded all at once, also in factory example.
 - All you need is extend `\Spameri\Elastic\Entity\Collection\ElasticEntityCollection` and fill with your entities, library will do saving and resolving for you.  
 ```php
-namespace SpameriTests\Data\Entity\Video;
+namespace SpameriTests\Elastic\Data\Entity\Video;
 
 
 class People extends \Spameri\Elastic\Entity\Collection\AbstractElasticEntityCollection
 {
 
 	public function personByImdb(
-		\SpameriTests\Data\Entity\Property\ImdbId $imdb
-	) : ?\SpameriTests\Data\Entity\Person
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $imdb
+	) : ?\SpameriTests\Elastic\Data\Entity\Person
 	{
-		/** @var \SpameriTests\Data\Entity\Person $entity */
+		/** @var \SpameriTests\Elastic\Data\Entity\Person $entity */
 		foreach ($this->collection() as $entity) {
 			if ($imdb->value() === $entity->identification()->imdb()->value()) {
 				return $entity;
@@ -246,7 +246,7 @@ class People extends \Spameri\Elastic\Entity\Collection\AbstractElasticEntityCol
 
 ## Final product [Example](../tests/SpameriTests/Data/Entity/Video.php)
 ```php
-namespace SpameriTests\Data\Entity;
+namespace SpameriTests\Elastic\Data\Entity;
 
 
 class Video implements \Spameri\Elastic\Entity\ElasticEntityInterface
@@ -258,68 +258,68 @@ class Video implements \Spameri\Elastic\Entity\ElasticEntityInterface
 	private $id;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Identification
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Identification
 	 */
 	private $identification;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Name
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Name
 	 */
 	private $name;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Year
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Year
 	 */
 	private $year;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Technical
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Technical
 	 */
 	private $technical;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Story
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Story
 	 */
 	private $story;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Details
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Details
 	 */
 	private $details;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\HighLights
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\HighLights
 	 */
 	private $highLights;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Connections
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Connections
 	 */
 	private $connections;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\SeasonCollection
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\SeasonCollection
 	 */
 	private $season;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\People
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\People
 	 */
 	private $people;
 
 
 	public function __construct(
 		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
-		, \SpameriTests\Data\Entity\Video\Identification $identification
-		, \SpameriTests\Data\Entity\Property\Name $name
-		, \SpameriTests\Data\Entity\Property\Year $year
-		, \SpameriTests\Data\Entity\Video\Technical $technical
-		, \SpameriTests\Data\Entity\Video\Story $story
-		, \SpameriTests\Data\Entity\Video\Details $details
-		, \SpameriTests\Data\Entity\Video\HighLights $highLights
-		, \SpameriTests\Data\Entity\Video\Connections $connections
-		, \SpameriTests\Data\Entity\Video\People $people
-		, \SpameriTests\Data\Entity\Video\SeasonCollection $season = NULL
+		, \SpameriTests\Elastic\Data\Entity\Video\Identification $identification
+		, \SpameriTests\Elastic\Data\Entity\Property\Name $name
+		, \SpameriTests\Elastic\Data\Entity\Property\Year $year
+		, \SpameriTests\Elastic\Data\Entity\Video\Technical $technical
+		, \SpameriTests\Elastic\Data\Entity\Video\Story $story
+		, \SpameriTests\Elastic\Data\Entity\Video\Details $details
+		, \SpameriTests\Elastic\Data\Entity\Video\HighLights $highLights
+		, \SpameriTests\Elastic\Data\Entity\Video\Connections $connections
+		, \SpameriTests\Elastic\Data\Entity\Video\People $people
+		, \SpameriTests\Elastic\Data\Entity\Video\SeasonCollection $season = NULL
 	)
 	{
 		$this->id = $id;
@@ -333,7 +333,7 @@ class Video implements \Spameri\Elastic\Entity\ElasticEntityInterface
 		$this->connections = $connections;
 
 		if ($season === NULL) {
-			$season = new \SpameriTests\Data\Entity\Video\SeasonCollection();
+			$season = new \SpameriTests\Elastic\Data\Entity\Video\SeasonCollection();
 		}
 		$this->season = $season;
 		$this->people = $people;
@@ -352,79 +352,79 @@ class Video implements \Spameri\Elastic\Entity\ElasticEntityInterface
 	}
 
 
-	public function identification() : \SpameriTests\Data\Entity\Video\Identification
+	public function identification() : \SpameriTests\Elastic\Data\Entity\Video\Identification
 	{
 		return $this->identification;
 	}
 
 
-	public function name() : \SpameriTests\Data\Entity\Property\Name
+	public function name() : \SpameriTests\Elastic\Data\Entity\Property\Name
 	{
 		return $this->name;
 	}
 
 
-	public function rename(\SpameriTests\Data\Entity\Property\Name $name) : void
+	public function rename(\SpameriTests\Elastic\Data\Entity\Property\Name $name) : void
 	{
 		$this->name = $name;
 	}
 
 
-	public function year() : \SpameriTests\Data\Entity\Property\Year
+	public function year() : \SpameriTests\Elastic\Data\Entity\Property\Year
 	{
 		return $this->year;
 	}
 
 
-	public function setYear(\SpameriTests\Data\Entity\Property\Year $year) : void
+	public function setYear(\SpameriTests\Elastic\Data\Entity\Property\Year $year) : void
 	{
 		$this->year = $year;
 	}
 
 
-	public function technical() : \SpameriTests\Data\Entity\Video\Technical
+	public function technical() : \SpameriTests\Elastic\Data\Entity\Video\Technical
 	{
 		return $this->technical;
 	}
 
 
-	public function setTechnicalFromImdb(\SpameriTests\Data\Entity\Video\Technical $technical) : void
+	public function setTechnicalFromImdb(\SpameriTests\Elastic\Data\Entity\Video\Technical $technical) : void
 	{
 		$this->technical = $technical;
 	}
 
 
-	public function story() : \SpameriTests\Data\Entity\Video\Story
+	public function story() : \SpameriTests\Elastic\Data\Entity\Video\Story
 	{
 		return $this->story;
 	}
 
 
-	public function details() : \SpameriTests\Data\Entity\Video\Details
+	public function details() : \SpameriTests\Elastic\Data\Entity\Video\Details
 	{
 		return $this->details;
 	}
 
 
-	public function highLights() : \SpameriTests\Data\Entity\Video\HighLights
+	public function highLights() : \SpameriTests\Elastic\Data\Entity\Video\HighLights
 	{
 		return $this->highLights;
 	}
 
 
-	public function connections() : \SpameriTests\Data\Entity\Video\Connections
+	public function connections() : \SpameriTests\Elastic\Data\Entity\Video\Connections
 	{
 		return $this->connections;
 	}
 
 
-	public function season() : \SpameriTests\Data\Entity\Video\SeasonCollection
+	public function season() : \SpameriTests\Elastic\Data\Entity\Video\SeasonCollection
 	{
 		return $this->season;
 	}
 
 
-	public function people() : \SpameriTests\Data\Entity\Video\People
+	public function people() : \SpameriTests\Elastic\Data\Entity\Video\People
 	{
 		return $this->people;
 	}

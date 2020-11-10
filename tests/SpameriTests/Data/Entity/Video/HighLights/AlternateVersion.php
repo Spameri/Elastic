@@ -1,19 +1,19 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Video\HighLights;
+namespace SpameriTests\Elastic\Data\Entity\Video\HighLights;
 
 
 class AlternateVersion implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Text
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Text
 	 */
 	private $text;
 
 
 	public function __construct(
-		\SpameriTests\Data\Entity\Property\Text $text
+		\SpameriTests\Elastic\Data\Entity\Property\Text $text
 	)
 	{
 		$this->text = $text;
@@ -32,7 +32,7 @@ class AlternateVersion implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
-	public function text() : \SpameriTests\Data\Entity\Property\Text
+	public function text() : \SpameriTests\Elastic\Data\Entity\Property\Text
 	{
 		return $this->text;
 	}

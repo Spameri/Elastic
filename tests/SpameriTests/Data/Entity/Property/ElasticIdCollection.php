@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Property;
+namespace SpameriTests\Elastic\Data\Entity\Property;
 
 
 class ElasticIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface

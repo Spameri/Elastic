@@ -1,30 +1,30 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Video\HighLights;
+namespace SpameriTests\Elastic\Data\Entity\Video\HighLights;
 
 
 class Quote implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\ImdbId
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\ImdbId
 	 */
 	private $id;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Text
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Text
 	 */
 	private $text;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\HighLights\Relevancy
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\HighLights\Relevancy
 	 */
 	private $relevancy;
 
 
 	public function __construct(
-		\SpameriTests\Data\Entity\Property\ImdbId $id
-		, \SpameriTests\Data\Entity\Property\Text $text
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id
+		, \SpameriTests\Elastic\Data\Entity\Property\Text $text
 		, Relevancy $relevancy
 	)
 	{
@@ -46,13 +46,13 @@ class Quote implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
-	public function id() : \SpameriTests\Data\Entity\Property\ImdbId
+	public function id() : \SpameriTests\Elastic\Data\Entity\Property\ImdbId
 	{
 		return $this->id;
 	}
 
 
-	public function text() : \SpameriTests\Data\Entity\Property\Text
+	public function text() : \SpameriTests\Elastic\Data\Entity\Property\Text
 	{
 		return $this->text;
 	}

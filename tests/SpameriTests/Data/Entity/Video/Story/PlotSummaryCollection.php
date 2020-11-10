@@ -1,13 +1,13 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Video\Story;
+namespace SpameriTests\Elastic\Data\Entity\Video\Story;
 
 
 class PlotSummaryCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
 	/**
-	 * @var array<\SpameriTests\Data\Entity\Video\Story\PlotSummary>
+	 * @var array<\SpameriTests\Elastic\Data\Entity\Video\Story\PlotSummary>
 	 */
 	private $collection;
 

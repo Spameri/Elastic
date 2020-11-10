@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity;
+namespace SpameriTests\Elastic\Data\Entity;
 
 
 class Video implements \Spameri\Elastic\Entity\ElasticEntityInterface
@@ -12,68 +12,68 @@ class Video implements \Spameri\Elastic\Entity\ElasticEntityInterface
 	private $id;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Identification
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Identification
 	 */
 	private $identification;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Name
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Name
 	 */
 	private $name;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Year
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Year
 	 */
 	private $year;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Technical
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Technical
 	 */
 	private $technical;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Story
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Story
 	 */
 	private $story;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Details
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Details
 	 */
 	private $details;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\HighLights
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\HighLights
 	 */
 	private $highLights;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Connections
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Connections
 	 */
 	private $connections;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\SeasonCollection
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\SeasonCollection
 	 */
 	private $season;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\People
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\People
 	 */
 	private $people;
 
 
 	public function __construct(
 		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
-		, \SpameriTests\Data\Entity\Video\Identification $identification
-		, \SpameriTests\Data\Entity\Property\Name $name
-		, \SpameriTests\Data\Entity\Property\Year $year
-		, \SpameriTests\Data\Entity\Video\Technical $technical
-		, \SpameriTests\Data\Entity\Video\Story $story
-		, \SpameriTests\Data\Entity\Video\Details $details
-		, \SpameriTests\Data\Entity\Video\HighLights $highLights
-		, \SpameriTests\Data\Entity\Video\Connections $connections
-		, \SpameriTests\Data\Entity\Video\People $people
-		, \SpameriTests\Data\Entity\Video\SeasonCollection $season = NULL
+		, \SpameriTests\Elastic\Data\Entity\Video\Identification $identification
+		, \SpameriTests\Elastic\Data\Entity\Property\Name $name
+		, \SpameriTests\Elastic\Data\Entity\Property\Year $year
+		, \SpameriTests\Elastic\Data\Entity\Video\Technical $technical
+		, \SpameriTests\Elastic\Data\Entity\Video\Story $story
+		, \SpameriTests\Elastic\Data\Entity\Video\Details $details
+		, \SpameriTests\Elastic\Data\Entity\Video\HighLights $highLights
+		, \SpameriTests\Elastic\Data\Entity\Video\Connections $connections
+		, \SpameriTests\Elastic\Data\Entity\Video\People $people
+		, \SpameriTests\Elastic\Data\Entity\Video\SeasonCollection $season = NULL
 	)
 	{
 		$this->id = $id;
@@ -87,7 +87,7 @@ class Video implements \Spameri\Elastic\Entity\ElasticEntityInterface
 		$this->connections = $connections;
 
 		if ($season === NULL) {
-			$season = new \SpameriTests\Data\Entity\Video\SeasonCollection();
+			$season = new \SpameriTests\Elastic\Data\Entity\Video\SeasonCollection();
 		}
 		$this->season = $season;
 		$this->people = $people;
@@ -106,79 +106,79 @@ class Video implements \Spameri\Elastic\Entity\ElasticEntityInterface
 	}
 
 
-	public function identification() : \SpameriTests\Data\Entity\Video\Identification
+	public function identification() : \SpameriTests\Elastic\Data\Entity\Video\Identification
 	{
 		return $this->identification;
 	}
 
 
-	public function name() : \SpameriTests\Data\Entity\Property\Name
+	public function name() : \SpameriTests\Elastic\Data\Entity\Property\Name
 	{
 		return $this->name;
 	}
 
 
-	public function rename(\SpameriTests\Data\Entity\Property\Name $name) : void
+	public function rename(\SpameriTests\Elastic\Data\Entity\Property\Name $name) : void
 	{
 		$this->name = $name;
 	}
 
 
-	public function year() : \SpameriTests\Data\Entity\Property\Year
+	public function year() : \SpameriTests\Elastic\Data\Entity\Property\Year
 	{
 		return $this->year;
 	}
 
 
-	public function setYear(\SpameriTests\Data\Entity\Property\Year $year) : void
+	public function setYear(\SpameriTests\Elastic\Data\Entity\Property\Year $year) : void
 	{
 		$this->year = $year;
 	}
 
 
-	public function technical() : \SpameriTests\Data\Entity\Video\Technical
+	public function technical() : \SpameriTests\Elastic\Data\Entity\Video\Technical
 	{
 		return $this->technical;
 	}
 
 
-	public function setTechnicalFromImdb(\SpameriTests\Data\Entity\Video\Technical $technical) : void
+	public function setTechnicalFromImdb(\SpameriTests\Elastic\Data\Entity\Video\Technical $technical) : void
 	{
 		$this->technical = $technical;
 	}
 
 
-	public function story() : \SpameriTests\Data\Entity\Video\Story
+	public function story() : \SpameriTests\Elastic\Data\Entity\Video\Story
 	{
 		return $this->story;
 	}
 
 
-	public function details() : \SpameriTests\Data\Entity\Video\Details
+	public function details() : \SpameriTests\Elastic\Data\Entity\Video\Details
 	{
 		return $this->details;
 	}
 
 
-	public function highLights() : \SpameriTests\Data\Entity\Video\HighLights
+	public function highLights() : \SpameriTests\Elastic\Data\Entity\Video\HighLights
 	{
 		return $this->highLights;
 	}
 
 
-	public function connections() : \SpameriTests\Data\Entity\Video\Connections
+	public function connections() : \SpameriTests\Elastic\Data\Entity\Video\Connections
 	{
 		return $this->connections;
 	}
 
 
-	public function season() : \SpameriTests\Data\Entity\Video\SeasonCollection
+	public function season() : \SpameriTests\Elastic\Data\Entity\Video\SeasonCollection
 	{
 		return $this->season;
 	}
 
 
-	public function people() : \SpameriTests\Data\Entity\Video\People
+	public function people() : \SpameriTests\Elastic\Data\Entity\Video\People
 	{
 		return $this->people;
 	}

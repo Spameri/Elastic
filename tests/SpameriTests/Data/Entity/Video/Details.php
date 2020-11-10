@@ -1,33 +1,33 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Video;
+namespace SpameriTests\Elastic\Data\Entity\Video;
 
 
 class Details implements \Spameri\Elastic\Entity\EntityInterface
 {
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Details\GenreCollection
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Details\GenreCollection
 	 */
 	private $genres;
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Details\AliasCollectionElastic
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Details\AliasCollectionElastic
 	 */
 	private $alias;
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Details\ReleaseCollectionElastic
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Details\ReleaseCollectionElastic
 	 */
 	private $release;
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Details\Ratings
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Details\Ratings
 	 */
 	private $ratings;
 
 
 	public function __construct(
-		\SpameriTests\Data\Entity\Video\Details\GenreCollection $genres
-		, \SpameriTests\Data\Entity\Video\Details\AliasCollectionElastic $aliases
-		, \SpameriTests\Data\Entity\Video\Details\ReleaseCollectionElastic $releases
-		, \SpameriTests\Data\Entity\Video\Details\Ratings $ratings
+		\SpameriTests\Elastic\Data\Entity\Video\Details\GenreCollection $genres
+		, \SpameriTests\Elastic\Data\Entity\Video\Details\AliasCollectionElastic $aliases
+		, \SpameriTests\Elastic\Data\Entity\Video\Details\ReleaseCollectionElastic $releases
+		, \SpameriTests\Elastic\Data\Entity\Video\Details\Ratings $ratings
 	)
 	{
 		$this->genres = $genres;
@@ -67,7 +67,7 @@ class Details implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
-	public function ratings() : \SpameriTests\Data\Entity\Video\Details\Ratings
+	public function ratings() : \SpameriTests\Elastic\Data\Entity\Video\Details\Ratings
 	{
 		return $this->ratings;
 	}

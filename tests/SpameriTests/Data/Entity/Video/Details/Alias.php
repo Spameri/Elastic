@@ -1,24 +1,24 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Video\Details;
+namespace SpameriTests\Elastic\Data\Entity\Video\Details;
 
 
 class Alias implements \Spameri\Elastic\Entity\EntityInterface
 {
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\CountryShort
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\CountryShort
 	 */
 	private $country;
 	
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Text
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Text
 	 */
 	private $name;
 
 
 	public function __construct(
-		\SpameriTests\Data\Entity\Property\CountryShort $country
-		, \SpameriTests\Data\Entity\Property\Text $name
+		\SpameriTests\Elastic\Data\Entity\Property\CountryShort $country
+		, \SpameriTests\Elastic\Data\Entity\Property\Text $name
 	)
 	{
 		$this->country = $country;
@@ -38,19 +38,19 @@ class Alias implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
-	public function country() : \SpameriTests\Data\Entity\Property\CountryShort
+	public function country() : \SpameriTests\Elastic\Data\Entity\Property\CountryShort
 	{
 		return $this->country;
 	}
 
 
-	public function name() : \SpameriTests\Data\Entity\Property\Text
+	public function name() : \SpameriTests\Elastic\Data\Entity\Property\Text
 	{
 		return $this->name;
 	}
 
 
-	public function rename(\SpameriTests\Data\Entity\Property\Text $name): void
+	public function rename(\SpameriTests\Elastic\Data\Entity\Property\Text $name): void
 	{
 		$this->name = $name;
 	}

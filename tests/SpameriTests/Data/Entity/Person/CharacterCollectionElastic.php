@@ -1,17 +1,17 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Person;
+namespace SpameriTests\Elastic\Data\Entity\Person;
 
 
 class CharacterCollectionElastic extends \Spameri\Elastic\Entity\Collection\AbstractEntityCollection
 {
 
 	public function character(
-		\SpameriTests\Data\Entity\Property\ImdbId $id,
-		?\SpameriTests\Data\Entity\Property\ImdbId $episode = NULL
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id,
+		?\SpameriTests\Elastic\Data\Entity\Property\ImdbId $episode = NULL
 	) : Character
 	{
-		/** @var \SpameriTests\Data\Entity\Person\Character $character */
+		/** @var \SpameriTests\Elastic\Data\Entity\Person\Character $character */
 		foreach ($this->collection() as $character) {
 			if ($episode) {
 				if (

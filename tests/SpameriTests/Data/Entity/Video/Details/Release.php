@@ -1,18 +1,18 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Video\Details;
+namespace SpameriTests\Elastic\Data\Entity\Video\Details;
 
 
 class Release implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\CountryShort
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\CountryShort
 	 */
 	private $country;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Text
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Text
 	 */
 	private $note;
 
@@ -23,9 +23,9 @@ class Release implements \Spameri\Elastic\Entity\EntityInterface
 
 
 	public function __construct(
-		\SpameriTests\Data\Entity\Property\CountryShort $country
+		\SpameriTests\Elastic\Data\Entity\Property\CountryShort $country
 		, \Spameri\Elastic\Entity\Property\Date $date
-		, \SpameriTests\Data\Entity\Property\Text $note
+		, \SpameriTests\Elastic\Data\Entity\Property\Text $note
 	)
 	{
 		$this->country = $country;
@@ -46,19 +46,19 @@ class Release implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
-	public function country() : \SpameriTests\Data\Entity\Property\CountryShort
+	public function country() : \SpameriTests\Elastic\Data\Entity\Property\CountryShort
 	{
 		return $this->country;
 	}
 
 
-	public function note() : \SpameriTests\Data\Entity\Property\Text
+	public function note() : \SpameriTests\Elastic\Data\Entity\Property\Text
 	{
 		return $this->note;
 	}
 
 
-	public function setNote(\SpameriTests\Data\Entity\Property\Text $note) : void
+	public function setNote(\SpameriTests\Elastic\Data\Entity\Property\Text $note) : void
 	{
 		$this->note = $note;
 	}

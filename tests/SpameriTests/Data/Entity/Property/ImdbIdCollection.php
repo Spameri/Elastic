@@ -1,13 +1,13 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Property;
+namespace SpameriTests\Elastic\Data\Entity\Property;
 
 
 class ImdbIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
 	/**
-	 * @var array<\SpameriTests\Data\Entity\Property\ImdbId>
+	 * @var array<\SpameriTests\Elastic\Data\Entity\Property\ImdbId>
 	 */
 	private $collection;
 

@@ -1,27 +1,27 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Video\HighLights;
+namespace SpameriTests\Elastic\Data\Entity\Video\HighLights;
 
 
-use SpameriTests\Data\Entity\Video\HighLights\CompanyCredit\CompanyCollection;
+use SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCredit\CompanyCollection;
 
 
 class CompanyCredit implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Text
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Text
 	 */
 	private $group;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\HighLights\CompanyCredit\CompanyCollection
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCredit\CompanyCollection
 	 */
 	private $company;
 
 
 	public function __construct(
-		\SpameriTests\Data\Entity\Property\Text $group
+		\SpameriTests\Elastic\Data\Entity\Property\Text $group
 		, CompanyCollection $company
 	)
 	{
@@ -42,7 +42,7 @@ class CompanyCredit implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
-	public function group() : \SpameriTests\Data\Entity\Property\Text
+	public function group() : \SpameriTests\Elastic\Data\Entity\Property\Text
 	{
 		return $this->group;
 	}

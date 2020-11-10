@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity;
+namespace SpameriTests\Elastic\Data\Entity;
 
 
 class Person implements \Spameri\Elastic\Entity\ElasticEntityInterface
@@ -12,17 +12,17 @@ class Person implements \Spameri\Elastic\Entity\ElasticEntityInterface
 	private $id;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Identification
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Identification
 	 */
 	private $identification;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Name
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Name
 	 */
 	private $name;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Description
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Description
 	 */
 	private $description;
 
@@ -37,31 +37,31 @@ class Person implements \Spameri\Elastic\Entity\ElasticEntityInterface
 	private $death;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Name
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Name
 	 */
 	private $alias;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Person\CharacterCollectionElastic
+	 * @var \SpameriTests\Elastic\Data\Entity\Person\CharacterCollectionElastic
 	 */
 	private $characters;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Person\JobCollectionElastic
+	 * @var \SpameriTests\Elastic\Data\Entity\Person\JobCollectionElastic
 	 */
 	private $jobs;
 
 
 	public function __construct(
 		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
-		, \SpameriTests\Data\Entity\Video\Identification $identification
-		, \SpameriTests\Data\Entity\Property\Name $name
-		, \SpameriTests\Data\Entity\Property\Description $description
+		, \SpameriTests\Elastic\Data\Entity\Video\Identification $identification
+		, \SpameriTests\Elastic\Data\Entity\Property\Name $name
+		, \SpameriTests\Elastic\Data\Entity\Property\Description $description
 		, ?\Spameri\Elastic\Entity\Property\Date $birth
 		, ?\Spameri\Elastic\Entity\Property\Date $death
-		, \SpameriTests\Data\Entity\Property\Name $alias
-		, \SpameriTests\Data\Entity\Person\CharacterCollectionElastic $characters
-		, \SpameriTests\Data\Entity\Person\JobCollectionElastic $jobs
+		, \SpameriTests\Elastic\Data\Entity\Property\Name $alias
+		, \SpameriTests\Elastic\Data\Entity\Person\CharacterCollectionElastic $characters
+		, \SpameriTests\Elastic\Data\Entity\Person\JobCollectionElastic $jobs
 	)
 	{
 		$this->id = $id;
@@ -88,30 +88,30 @@ class Person implements \Spameri\Elastic\Entity\ElasticEntityInterface
 	}
 
 
-	public function identification() : \SpameriTests\Data\Entity\Video\Identification
+	public function identification() : \SpameriTests\Elastic\Data\Entity\Video\Identification
 	{
 		return $this->identification;
 	}
 
 
-	public function name() : \SpameriTests\Data\Entity\Property\Name
+	public function name() : \SpameriTests\Elastic\Data\Entity\Property\Name
 	{
 		return $this->name;
 	}
 
 
-	public function rename(\SpameriTests\Data\Entity\Property\Name $name) : void
+	public function rename(\SpameriTests\Elastic\Data\Entity\Property\Name $name) : void
 	{
 		$this->name = $name;
 	}
 
 
-	public function description() : \SpameriTests\Data\Entity\Property\Description
+	public function description() : \SpameriTests\Elastic\Data\Entity\Property\Description
 	{
 		return $this->description;
 	}
 
-	public function changeDescription(\SpameriTests\Data\Entity\Property\Description $description) : void
+	public function changeDescription(\SpameriTests\Elastic\Data\Entity\Property\Description $description) : void
 	{
 		$this->description = $description;
 	}
@@ -140,25 +140,25 @@ class Person implements \Spameri\Elastic\Entity\ElasticEntityInterface
 	}
 
 
-	public function alias() : \SpameriTests\Data\Entity\Property\Name
+	public function alias() : \SpameriTests\Elastic\Data\Entity\Property\Name
 	{
 		return $this->alias;
 	}
 
 
-	public function setAlias(\SpameriTests\Data\Entity\Property\Name $alias) : void
+	public function setAlias(\SpameriTests\Elastic\Data\Entity\Property\Name $alias) : void
 	{
 		$this->alias = $alias;
 	}
 
 
-	public function characters() : \SpameriTests\Data\Entity\Person\CharacterCollectionElastic
+	public function characters() : \SpameriTests\Elastic\Data\Entity\Person\CharacterCollectionElastic
 	{
 		return $this->characters;
 	}
 
 
-	public function jobs() : \SpameriTests\Data\Entity\Person\JobCollectionElastic
+	public function jobs() : \SpameriTests\Elastic\Data\Entity\Person\JobCollectionElastic
 	{
 		return $this->jobs;
 	}

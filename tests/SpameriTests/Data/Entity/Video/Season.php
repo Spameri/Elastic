@@ -1,24 +1,24 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Video;
+namespace SpameriTests\Elastic\Data\Entity\Video;
 
 
 class Season implements \Spameri\Elastic\Entity\EntityInterface
 {
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\ImdbId
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\ImdbId
 	 */
 	private $number;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Season\EpisodeCollection
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Season\EpisodeCollection
 	 */
 	private $episodes;
 
 
 	public function __construct(
-		\SpameriTests\Data\Entity\Property\ImdbId $number
-		, \SpameriTests\Data\Entity\Video\Season\EpisodeCollection $episodes
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $number
+		, \SpameriTests\Elastic\Data\Entity\Video\Season\EpisodeCollection $episodes
 	)
 	{
 		$this->number = $number;
@@ -38,13 +38,13 @@ class Season implements \Spameri\Elastic\Entity\EntityInterface
 	}
 	
 	
-	public function number() : \SpameriTests\Data\Entity\Property\ImdbId
+	public function number() : \SpameriTests\Elastic\Data\Entity\Property\ImdbId
 	{
 		return $this->number;
 	}
 
 
-	public function episodes() : \SpameriTests\Data\Entity\Video\Season\EpisodeCollection
+	public function episodes() : \SpameriTests\Elastic\Data\Entity\Video\Season\EpisodeCollection
 	{
 		return $this->episodes;
 	}

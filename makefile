@@ -14,4 +14,4 @@ phpstan:
 	vendor/bin/phpstan analyse -l 6 -c phpstan.neon src tests
 
 cs:
-	vendor/bin/phpcs --standard=vendor/spameri/coding-standard/src/ruleset.xml src tests
+	vendor/bin/phpcs --standard=vendor/spameri/coding-standard/src/ruleset.xml src tests/SpameriTests
