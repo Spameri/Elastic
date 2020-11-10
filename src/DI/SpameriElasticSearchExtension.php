@@ -34,10 +34,6 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 			$services = $this->removeCommandDefinitions($services);
 		}
 
-		if ( ! \class_exists(\Nette\Security\User::class)) {
-			unset($services['services']['userProvider']);
-		}
-
 		$this->setConfigOptions($services, $config);
 
 		$this->compiler::loadDefinitions(

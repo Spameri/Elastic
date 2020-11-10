@@ -7,22 +7,15 @@ class PrepareEntityArray
 {
 
 	/**
-	 * @var \Spameri\Elastic\Model\Insert\ApplyTimestamp
-	 */
-	protected $applyTimestamp;
-
-	/**
 	 * @var \Spameri\Elastic\Model\ServiceLocatorInterface
 	 */
 	private $serviceLocator;
 
 
 	public function __construct(
-		ApplyTimestamp $applyTimestamp
-		, \Spameri\Elastic\Model\ServiceLocatorInterface $serviceLocator
+		\Spameri\Elastic\Model\ServiceLocatorInterface $serviceLocator
 	)
 	{
-		$this->applyTimestamp = $applyTimestamp;
 		$this->serviceLocator = $serviceLocator;
 	}
 
@@ -31,8 +24,6 @@ class PrepareEntityArray
 		\Spameri\Elastic\Entity\ElasticEntityInterface $entity
 	) : array
 	{
-		$this->applyTimestamp->apply($entity);
-
 		return $this->iterateVariables($entity->entityVariables());
 	}
 
