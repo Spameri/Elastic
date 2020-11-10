@@ -1,13 +1,13 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Video;
+namespace SpameriTests\Elastic\Data\Entity\Video;
 
 
 class Identification implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\ImdbId
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\ImdbId
 	 * @type(keyword)
 	 * @analyzer(keyword)
 	 */
@@ -15,7 +15,7 @@ class Identification implements \Spameri\Elastic\Entity\EntityInterface
 
 
 	public function __construct(
-		\SpameriTests\Data\Entity\Property\ImdbId $imdb
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $imdb
 	)
 	{
 		$this->imdb = $imdb;
@@ -34,7 +34,7 @@ class Identification implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
-	public function imdb() : \SpameriTests\Data\Entity\Property\ImdbId
+	public function imdb() : \SpameriTests\Elastic\Data\Entity\Property\ImdbId
 	{
 		return $this->imdb;
 	}

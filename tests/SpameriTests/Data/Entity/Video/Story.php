@@ -1,43 +1,43 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Video;
+namespace SpameriTests\Elastic\Data\Entity\Video;
 
 
 class Story implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Description
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Description
 	 */
 	private $description;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Story\TagLineCollection
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Story\TagLineCollection
 	 */
 	private $tagLines;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Story\PlotSummaryCollection
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Story\PlotSummaryCollection
 	 */
 	private $plots;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Story\Synopsis|NULL
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Story\Synopsis|NULL
 	 */
 	private $synopsis;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Story\KeyWordCollection
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Story\KeyWordCollection
 	 */
 	private $keyWords;
 
 
 	public function __construct(
-		\SpameriTests\Data\Entity\Property\Description $description
-		, \SpameriTests\Data\Entity\Video\Story\TagLineCollection $tagLines
-		, \SpameriTests\Data\Entity\Video\Story\PlotSummaryCollection $plots
-		, \SpameriTests\Data\Entity\Video\Story\KeyWordCollection $keyWord
-		, ?\SpameriTests\Data\Entity\Video\Story\Synopsis $synopsis = NULL
+		\SpameriTests\Elastic\Data\Entity\Property\Description $description
+		, \SpameriTests\Elastic\Data\Entity\Video\Story\TagLineCollection $tagLines
+		, \SpameriTests\Elastic\Data\Entity\Video\Story\PlotSummaryCollection $plots
+		, \SpameriTests\Elastic\Data\Entity\Video\Story\KeyWordCollection $keyWord
+		, ?\SpameriTests\Elastic\Data\Entity\Video\Story\Synopsis $synopsis = NULL
 	)
 	{
 		$this->description = $description;
@@ -60,47 +60,47 @@ class Story implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
-	public function description() : \SpameriTests\Data\Entity\Property\Description
+	public function description() : \SpameriTests\Elastic\Data\Entity\Property\Description
 	{
 		return $this->description;
 	}
 
 
 	public function changeDescription(
-		\SpameriTests\Data\Entity\Property\Description $description
+		\SpameriTests\Elastic\Data\Entity\Property\Description $description
 	) : void
 	{
 		$this->description = $description;
 	}
 
 
-	public function tagLines() : \SpameriTests\Data\Entity\Video\Story\TagLineCollection
+	public function tagLines() : \SpameriTests\Elastic\Data\Entity\Video\Story\TagLineCollection
 	{
 		return $this->tagLines;
 	}
 
 
-	public function plots() : \SpameriTests\Data\Entity\Video\Story\PlotSummaryCollection
+	public function plots() : \SpameriTests\Elastic\Data\Entity\Video\Story\PlotSummaryCollection
 	{
 		return $this->plots;
 	}
 
 
 	public function setSynopsis(
-		?\SpameriTests\Data\Entity\Video\Story\Synopsis $synopsis
+		?\SpameriTests\Elastic\Data\Entity\Video\Story\Synopsis $synopsis
 	) : void
 	{
 		$this->synopsis = $synopsis;
 	}
 
 
-	public function synopsis() : ?\SpameriTests\Data\Entity\Video\Story\Synopsis
+	public function synopsis() : ?\SpameriTests\Elastic\Data\Entity\Video\Story\Synopsis
 	{
 		return $this->synopsis;
 	}
 
 
-	public function keyWords() : \SpameriTests\Data\Entity\Video\Story\KeyWordCollection
+	public function keyWords() : \SpameriTests\Elastic\Data\Entity\Video\Story\KeyWordCollection
 	{
 		return $this->keyWords;
 	}

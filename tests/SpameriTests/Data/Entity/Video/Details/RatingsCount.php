@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Video\Details;
+namespace SpameriTests\Elastic\Data\Entity\Video\Details;
 
 
 class RatingsCount implements \Spameri\Elastic\Entity\ValueInterface

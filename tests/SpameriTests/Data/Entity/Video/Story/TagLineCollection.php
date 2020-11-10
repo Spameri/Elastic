@@ -1,19 +1,19 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Video\Story;
+namespace SpameriTests\Elastic\Data\Entity\Video\Story;
 
 
 class TagLineCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
 	/**
-	 * @var array<\SpameriTests\Data\Entity\Video\Story\TagLine>
+	 * @var array<\SpameriTests\Elastic\Data\Entity\Video\Story\TagLine>
 	 */
 	private $collection;
 
 
 	public function __construct(
-		\SpameriTests\Data\Entity\Video\Story\TagLine ... $collection
+		\SpameriTests\Elastic\Data\Entity\Video\Story\TagLine ... $collection
 	)
 	{
 		$this->collection = [];
@@ -24,7 +24,7 @@ class TagLineCollection implements \Spameri\Elastic\Entity\ValueCollectionInterf
 
 
 	public function add(
-		\SpameriTests\Data\Entity\Video\Story\TagLine $tagLine
+		\SpameriTests\Elastic\Data\Entity\Video\Story\TagLine $tagLine
 	) : void
 	{
 		$this->collection[\md5($tagLine->value())] = $tagLine;
@@ -32,7 +32,7 @@ class TagLineCollection implements \Spameri\Elastic\Entity\ValueCollectionInterf
 
 
 	/**
-	 * @return \ArrayIterator<\SpameriTests\Data\Entity\Video\Story\TagLine>
+	 * @return \ArrayIterator<\SpameriTests\Elastic\Data\Entity\Video\Story\TagLine>
 	 */
 	public function getIterator() : \ArrayIterator
 	{

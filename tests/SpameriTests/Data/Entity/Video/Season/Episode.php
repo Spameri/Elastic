@@ -1,36 +1,36 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Video\Season;
+namespace SpameriTests\Elastic\Data\Entity\Video\Season;
 
 
 class Episode implements \Spameri\Elastic\Entity\EntityInterface
 {
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\ImdbId
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\ImdbId
 	 */
 	private $id;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\ImdbId
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\ImdbId
 	 */
 	private $number;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Name
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Name
 	 */
 	private $name;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Description
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Description
 	 */
 	private $description;
 
 
 	public function __construct(
-		\SpameriTests\Data\Entity\Property\ImdbId $id
-		, \SpameriTests\Data\Entity\Property\ImdbId $number
-		, \SpameriTests\Data\Entity\Property\Name $name
-		, \SpameriTests\Data\Entity\Property\Description $description
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id
+		, \SpameriTests\Elastic\Data\Entity\Property\ImdbId $number
+		, \SpameriTests\Elastic\Data\Entity\Property\Name $name
+		, \SpameriTests\Elastic\Data\Entity\Property\Description $description
 	)
 	{
 		$this->id = $id;
@@ -52,25 +52,25 @@ class Episode implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
-	public function id() : \SpameriTests\Data\Entity\Property\ImdbId
+	public function id() : \SpameriTests\Elastic\Data\Entity\Property\ImdbId
 	{
 		return $this->id;
 	}
 
 
-	public function number() : \SpameriTests\Data\Entity\Property\ImdbId
+	public function number() : \SpameriTests\Elastic\Data\Entity\Property\ImdbId
 	{
 		return $this->number;
 	}
 
 
-	public function name() : \SpameriTests\Data\Entity\Property\Name
+	public function name() : \SpameriTests\Elastic\Data\Entity\Property\Name
 	{
 		return $this->name;
 	}
 
 
-	public function description() : \SpameriTests\Data\Entity\Property\Description
+	public function description() : \SpameriTests\Elastic\Data\Entity\Property\Description
 	{
 		return $this->description;
 	}

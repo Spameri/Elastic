@@ -1,49 +1,49 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Person;
+namespace SpameriTests\Elastic\Data\Entity\Person;
 
 
 class Character implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\ImdbId
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\ImdbId
 	 */
 	private $id;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\ImdbId|null
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\ImdbId|null
 	 */
 	private $episode;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Name
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Name
 	 */
 	private $name;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Identification
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Identification
 	 */
 	private $identification;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Description
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Description
 	 */
 	private $biography;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Name
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Name
 	 */
 	private $alias;
 
 
 	public function __construct(
-		\SpameriTests\Data\Entity\Property\ImdbId $id
-		, ?\SpameriTests\Data\Entity\Property\ImdbId $episode
-		, \SpameriTests\Data\Entity\Property\Name $name
-		, \SpameriTests\Data\Entity\Property\Name $alias
-		, \SpameriTests\Data\Entity\Video\Identification $identification
-		, \SpameriTests\Data\Entity\Property\Description $biography
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id
+		, ?\SpameriTests\Elastic\Data\Entity\Property\ImdbId $episode
+		, \SpameriTests\Elastic\Data\Entity\Property\Name $name
+		, \SpameriTests\Elastic\Data\Entity\Property\Name $alias
+		, \SpameriTests\Elastic\Data\Entity\Video\Identification $identification
+		, \SpameriTests\Elastic\Data\Entity\Property\Description $biography
 	)
 	{
 		$this->id = $id;
@@ -67,55 +67,55 @@ class Character implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
-	public function id() : \SpameriTests\Data\Entity\Property\ImdbId
+	public function id() : \SpameriTests\Elastic\Data\Entity\Property\ImdbId
 	{
 		return $this->id;
 	}
 
 
-	public function episode(): ?\SpameriTests\Data\Entity\Property\ImdbId
+	public function episode(): ?\SpameriTests\Elastic\Data\Entity\Property\ImdbId
 	{
 		return $this->episode;
 	}
 
 
-	public function setEpisode(?\SpameriTests\Data\Entity\Property\ImdbId $episode) : void
+	public function setEpisode(?\SpameriTests\Elastic\Data\Entity\Property\ImdbId $episode) : void
 	{
 		$this->episode = $episode;
 	}
 
 
-	public function name() : \SpameriTests\Data\Entity\Property\Name
+	public function name() : \SpameriTests\Elastic\Data\Entity\Property\Name
 	{
 		return $this->name;
 	}
 
 
-	public function setName(\SpameriTests\Data\Entity\Property\Name $name) : void
+	public function setName(\SpameriTests\Elastic\Data\Entity\Property\Name $name) : void
 	{
 		$this->name = $name;
 	}
 
 
-	public function alias() : \SpameriTests\Data\Entity\Property\Name
+	public function alias() : \SpameriTests\Elastic\Data\Entity\Property\Name
 	{
 		return $this->alias;
 	}
 
 
-	public function setAlias(\SpameriTests\Data\Entity\Property\Name $alias): void
+	public function setAlias(\SpameriTests\Elastic\Data\Entity\Property\Name $alias): void
 	{
 		$this->alias = $alias;
 	}
 
 
-	public function identification() : \SpameriTests\Data\Entity\Video\Identification
+	public function identification() : \SpameriTests\Elastic\Data\Entity\Video\Identification
 	{
 		return $this->identification;
 	}
 
 
-	public function biography() : \SpameriTests\Data\Entity\Property\Description
+	public function biography() : \SpameriTests\Elastic\Data\Entity\Property\Description
 	{
 		return $this->biography;
 	}

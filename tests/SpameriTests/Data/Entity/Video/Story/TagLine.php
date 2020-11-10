@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Video\Story;
+namespace SpameriTests\Elastic\Data\Entity\Video\Story;
 
 
 class TagLine implements \Spameri\Elastic\Entity\ValueInterface

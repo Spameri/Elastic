@@ -1,24 +1,24 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Video\HighLights;
+namespace SpameriTests\Elastic\Data\Entity\Video\HighLights;
 
 
 class Location implements \Spameri\Elastic\Entity\EntityInterface
 {
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Text
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Text
 	 */
 	private $name;
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Property\Text
+	 * @var \SpameriTests\Elastic\Data\Entity\Property\Text
 	 */
 	private $note;
 
 
 	public function __construct(
-		\SpameriTests\Data\Entity\Property\Text $name
-		, \SpameriTests\Data\Entity\Property\Text $note
+		\SpameriTests\Elastic\Data\Entity\Property\Text $name
+		, \SpameriTests\Elastic\Data\Entity\Property\Text $note
 	)
 	{
 		$this->name = $name;
@@ -38,13 +38,13 @@ class Location implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
-	public function getName() : \SpameriTests\Data\Entity\Property\Text
+	public function getName() : \SpameriTests\Elastic\Data\Entity\Property\Text
 	{
 		return $this->name;
 	}
 
 
-	public function getNote() : \SpameriTests\Data\Entity\Property\Text
+	public function getNote() : \SpameriTests\Elastic\Data\Entity\Property\Text
 	{
 		return $this->note;
 	}

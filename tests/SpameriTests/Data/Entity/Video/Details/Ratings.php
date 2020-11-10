@@ -1,13 +1,13 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Data\Entity\Video\Details;
+namespace SpameriTests\Elastic\Data\Entity\Video\Details;
 
 
 class Ratings implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**
-	 * @var \SpameriTests\Data\Entity\Video\Details\RatingsCount
+	 * @var \SpameriTests\Elastic\Data\Entity\Video\Details\RatingsCount
 	 */
 	private $imdbRatings;
 
@@ -32,13 +32,13 @@ class Ratings implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
-	public function imdbRatings() : \SpameriTests\Data\Entity\Video\Details\RatingsCount
+	public function imdbRatings() : \SpameriTests\Elastic\Data\Entity\Video\Details\RatingsCount
 	{
 		return $this->imdbRatings;
 	}
 
 
-	public function setImdbRatings(\SpameriTests\Data\Entity\Video\Details\RatingsCount $imdbRatings): void
+	public function setImdbRatings(\SpameriTests\Elastic\Data\Entity\Video\Details\RatingsCount $imdbRatings): void
 	{
 		$this->imdbRatings = $imdbRatings;
 	}
