@@ -17,11 +17,14 @@ class NeonSettingsProvider implements \Spameri\Elastic\SettingsProviderInterface
 	private $port;
 
 	/**
-	 * @var array
+	 * @var array<mixed>
 	 */
 	private $headers;
 
 
+	/**
+	 * @param array<mixed> $headers
+	 */
 	public function __construct(
 		string $host,
 		int $port,

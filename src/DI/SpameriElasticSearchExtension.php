@@ -23,7 +23,7 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 	{
 		parent::loadConfiguration();
 
-		/** @var array $config */
+		/** @var array<mixed> $config */
 		$config = \Nette\DI\Config\Helpers::merge($this->getConfig(), $this->defaults);
 
 		$this->compiler->getContainerBuilder()->parameters['spameriElasticSearch'] = $config;
@@ -60,6 +60,11 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 	}
 
 
+	/**
+	 * @param array<mixed> $config
+	 * @param array<mixed> $services
+	 * @return array<mixed>
+	 */
 	public function toggleDebugBar(
 		array $config,
 		array $services
@@ -85,6 +90,10 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 	}
 
 
+	/**
+	 * @param array<mixed> $services
+	 * @return array<mixed>
+	 */
 	public function removeCommandDefinitions(
 		array $services
 	): array

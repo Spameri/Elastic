@@ -28,6 +28,7 @@ class ElasticMapper
 
 
 	/**
+	 * @param array<mixed> $entity
 	 * @throws \Spameri\Elastic\Exception\ElasticSearch
 	 */
 	public function createMapping(
@@ -56,6 +57,7 @@ class ElasticMapper
 
 
 	/**
+	 * @param array<mixed> $entity
 	 * @throws \Spameri\Elastic\Exception\ElasticSearch
 	 * @throws \Spameri\Elastic\Exception\IndexAlreadyExists
 	 */
@@ -98,7 +100,6 @@ class ElasticMapper
 	{
 		try {
 			try {
-				/** @var array $indexes */
 				$indexes = $this->clientProvider->client()->indices()->get(
 					(
 						new \Spameri\ElasticQuery\Document(

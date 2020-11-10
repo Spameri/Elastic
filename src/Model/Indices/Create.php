@@ -20,14 +20,17 @@ class Create
 	}
 
 
+	/**
+	 * @param array<mixed> $parameters
+	 * @return array<mixed>
+	 */
 	public function execute(
 		string $index
 		, array $parameters
 	) : array
 	{
 		try {
-			/** @var array $result */
-			$result = $this->clientProvider->client()->indices()->create(
+			return $this->clientProvider->client()->indices()->create(
 				(
 					new \Spameri\ElasticQuery\Document(
 						$index,
@@ -35,8 +38,6 @@ class Create
 					)
 				)->toArray()
 			);
-
-			return $result;
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

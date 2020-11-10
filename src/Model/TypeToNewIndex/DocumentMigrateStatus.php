@@ -34,6 +34,9 @@ class DocumentMigrateStatus
 	}
 
 
+	/**
+	 * @return array<string, int>
+	 */
 	public function storage() : array
 	{
 		return $this->storage;

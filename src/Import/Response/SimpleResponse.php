@@ -32,6 +32,9 @@ class SimpleResponse implements \Spameri\Elastic\Import\ResponseInterface
 	}
 
 
+	/**
+	 * @return mixed
+	 */
 	public function getResponse()
 	{
 		return $this->response;

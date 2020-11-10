@@ -79,6 +79,10 @@ class Insert
 			return $response['_id'];
 		}
 
+		if (isset($response['result']) && $response['result'] === 'created') {
+			return $response['_id'];
+		}
+
 		throw new \Spameri\Elastic\Exception\DocumentInsertFailed();
 	}
 

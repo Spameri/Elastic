@@ -6,7 +6,7 @@ class Config
 {
 
 	public const INDEX = 'spameri_product';
-	public const TYPE  = 'product';
+	public const TYPE  = '_doc';
 	public const HOST  = 'http://127.0.0.1';
 
 	public const INDEX_DUMP = 'spameri_product_dump';

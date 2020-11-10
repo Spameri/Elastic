@@ -20,6 +20,9 @@ class GetMapping
 	}
 
 
+	/**
+	 * @return array<mixed>
+	 */
 	public function execute(
 		string $index
 		, ?string $type = NULL

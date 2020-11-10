@@ -11,15 +11,15 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	 */
 	private $logger;
 	/**
-	 * @var array
+	 * @var array<mixed>
 	 */
 	private $queries = [];
 	/**
-	 * @var array
+	 * @var array<mixed>
 	 */
 	private $requestBodies = [];
 	/**
-	 * @var array
+	 * @var array<mixed>
 	 */
 	private $responseBodies = [];
 
@@ -32,6 +32,10 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	}
 
 
+	/**
+	 * @param string $message
+	 * @param array<mixed> $context
+	 */
 	public function emergency(
 		$message,
 		array $context = []
@@ -42,6 +46,10 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	}
 
 
+	/**
+	 * @param string $message
+	 * @param array<mixed> $context
+	 */
 	public function alert(
 		$message,
 		array $context = []
@@ -52,6 +60,10 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	}
 
 
+	/**
+	 * @param string $message
+	 * @param array<mixed> $context
+	 */
 	public function critical(
 		$message,
 		array $context = []
@@ -62,6 +74,10 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	}
 
 
+	/**
+	 * @param string $message
+	 * @param array<mixed> $context
+	 */
 	public function error(
 		$message,
 		array $context = []
@@ -72,6 +88,10 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	}
 
 
+	/**
+	 * @param string $message
+	 * @param array<mixed> $context
+	 */
 	public function warning(
 		$message,
 		array $context = []
@@ -82,6 +102,10 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	}
 
 
+	/**
+	 * @param string $message
+	 * @param array<mixed> $context
+	 */
 	public function notice(
 		$message,
 		array $context = []
@@ -91,7 +115,10 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 		$this->logQuery($context);
 	}
 
-
+	/**
+	 * @param string $message
+	 * @param array<mixed> $context
+	 */
 	public function info(
 		$message,
 		array $context = []
@@ -102,6 +129,10 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	}
 
 
+	/**
+	 * @param string $message
+	 * @param array<mixed> $context
+	 */
 	public function debug(
 		$message,
 		array $context = []
@@ -114,6 +145,11 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	}
 
 
+	/**
+	 * @param mixed $level
+	 * @param string $message
+	 * @param array<mixed> $context
+	 */
 	public function log(
 		$level,
 		$message,
@@ -125,24 +161,36 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	}
 
 
+	/**
+	 * @return array<mixed>
+	 */
 	public function getQueries() : array
 	{
 		return $this->queries;
 	}
 
 
+	/**
+	 * @return array<mixed>
+	 */
 	public function getRequestBodies() : array
 	{
 		return $this->requestBodies;
 	}
 
 
+	/**
+	 * @return array<mixed>
+	 */
 	public function getResponseBodies() : array
 	{
 		return $this->responseBodies;
 	}
 
 
+	/**
+	 * @param array<mixed> $context
+	 */
 	private function logQuery(
 		array $context = []
 	) : void
@@ -155,8 +203,11 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	}
 
 
+	/**
+	 * @param mixed $context
+	 */
 	private function logRequestBody(
-		$message,
+		string $message,
 		$context
 	) : void
 	{
@@ -169,8 +220,11 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	}
 
 
+	/**
+	 * @param mixed $context
+	 */
 	private function logResponseBody(
-		$message,
+		string $message,
 		$context
 	) : void
 	{

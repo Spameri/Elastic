@@ -12,6 +12,7 @@ class DateTime extends \Nette\Utils\DateTime implements \Spameri\Elastic\Entity\
 
 	/**
 	 * @param string|null $format
+	 * @return string
 	 */
 	public function format($format = NULL)
 	{
@@ -19,7 +20,7 @@ class DateTime extends \Nette\Utils\DateTime implements \Spameri\Elastic\Entity\
 			$format = self::FORMAT;
 		}
 
-		parent::format($format);
+		return parent::format($format);
 	}
 
 }

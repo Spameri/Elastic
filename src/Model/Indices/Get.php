@@ -20,21 +20,21 @@ class Get
 	}
 
 
+	/**
+	 * @return array<mixed>
+	 */
 	public function execute(
 		string $index
 	) : array
 	{
 		try {
-			/** @var array $result */
-			$result = $this->clientProvider->client()->indices()->get(
+			return $this->clientProvider->client()->indices()->get(
 				(
 					new \Spameri\ElasticQuery\Document(
 						$index
 					)
 				)->toArray()
 			);
-
-			return $result;
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

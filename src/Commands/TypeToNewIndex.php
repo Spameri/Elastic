@@ -41,6 +41,10 @@ class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 		;
 	}
 
+
+	/**
+	 * @throws \Elasticsearch\Common\Exceptions\ElasticsearchException
+	 */
 	protected function execute(
 		\Symfony\Component\Console\Input\InputInterface $input
 		, \Symfony\Component\Console\Output\OutputInterface $output
@@ -56,7 +60,7 @@ class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 		$allowClose = $input->getOption('allowClose');
 
 		$this->migrate->setOutput($output);
-		$this->migrate->execute($indexFrom, $typeFrom, $indexTo, $aliasTo, $typeTo, $allowClose);
+		$this->migrate->execute((string) $indexFrom, (string) $typeFrom, (string) $indexTo, (string) $aliasTo, (string) $typeTo, (bool) $allowClose);
 
 		$output->writeln('Done');
 
