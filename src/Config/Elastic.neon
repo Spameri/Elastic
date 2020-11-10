@@ -63,13 +63,7 @@ services:
 		class: Spameri\Elastic\Model\Indices\Delete
 
 	serviceLocator:
-		class: Spameri\Elastic\Model\ServiceLocator
-
-	mapping:
-		class: Spameri\Elastic\Model\Mapping
-
-	userProvider:
-	 	class: Spameri\Elastic\Model\NetteUserProvider
+		factory: Spameri\Elastic\Model\ServiceLocator
 
 	neonSettingsProvider:
 		class: Spameri\Elastic\Settings\NeonSettingsProvider(%host%, %port%)

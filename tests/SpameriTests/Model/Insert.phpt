@@ -65,16 +65,10 @@ class Insert extends \Tester\TestCase
 			new \SpameriTests\Data\Entity\Video\SeasonCollection()
 		);
 
-		/** @var \Spameri\Elastic\Model\UserProviderInterface $userProvider */
-		$userProvider = \Mockery::mock(\Spameri\Elastic\Model\UserProviderInterface::class);
 		/** @var \Spameri\Elastic\Model\ServiceLocator $serviceLocator */
 		$serviceLocator = \Mockery::mock(\Spameri\Elastic\Model\ServiceLocator::class);
 		$insert = new \Spameri\Elastic\Model\Insert(
 			new \Spameri\Elastic\Model\Insert\PrepareEntityArray(
-				new \Spameri\Elastic\Model\Insert\ApplyTimestamp(
-					$userProvider,
-					new \Spameri\Elastic\Provider\DateTimeProvider(new \DateTimeImmutable())
-				),
 				$serviceLocator
 			),
 			new \Spameri\Elastic\ClientProvider(
