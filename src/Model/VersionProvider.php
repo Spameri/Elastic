@@ -8,7 +8,7 @@ class VersionProvider
 	/**
 	 * @var int
 	 */
-	private static $versionNumber = \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7;
+	private static $versionNumber = \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_24;
 
 
 	public function __construct(
