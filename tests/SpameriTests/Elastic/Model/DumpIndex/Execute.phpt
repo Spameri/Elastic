@@ -46,7 +46,11 @@ class Execute extends \Tester\TestCase
 		);
 		$dumpIndex->setOutput(new \Symfony\Component\Console\Output\ConsoleOutput());
 
-		$dumpIndex->execute(\SpameriTests\Elastic\Config::INDEX_DUMP, 'test.log', 'product');
+		$dumpIndex->execute(
+			\SpameriTests\Elastic\Config::INDEX_DUMP,
+			'test.log',
+			\SpameriTests\Elastic\Config::INDEX_DUMP
+		);
 
 		\Tester\Assert::true(\file_exists('test.log'));
 

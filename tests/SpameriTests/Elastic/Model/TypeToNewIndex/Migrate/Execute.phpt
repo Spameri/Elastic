@@ -59,8 +59,7 @@ class Execute extends \Tester\TestCase
 			new \Spameri\Elastic\Model\Search($this->clientProvider, $resultMapper),
 			new \Spameri\Elastic\Mapper\ElasticMapper($this->clientProvider, $dateTimeProvider),
 			new \Spameri\Elastic\Model\Indices\Create($this->clientProvider),
-			new \Spameri\Elastic\Model\Indices\Get($this->clientProvider),
-			new \Spameri\Elastic\Model\Indices\PutSettings($this->clientProvider)
+			new \Spameri\Elastic\Model\Indices\Get($this->clientProvider)
 		);
 
 		$id = '192489';
@@ -69,7 +68,7 @@ class Execute extends \Tester\TestCase
 				new \Spameri\ElasticQuery\Document(
 					\SpameriTests\Elastic\Config::INDEX_MIGRATE,
 					NULL,
-					\SpameriTests\Elastic\Config::TYPE,
+					\SpameriTests\Elastic\Config::INDEX_MIGRATE,
 					$id
 				)
 			)->toArray()
@@ -81,10 +80,10 @@ class Execute extends \Tester\TestCase
 
 		$migrate->execute(
 			\SpameriTests\Elastic\Config::INDEX_MIGRATE,
-			\SpameriTests\Elastic\Config::TYPE,
+			\SpameriTests\Elastic\Config::INDEX_MIGRATE,
 			\SpameriTests\Elastic\Config::INDEX_MIGRATE_NEW,
 			\SpameriTests\Elastic\Config::INDEX_MIGRATE_NEW,
-			\SpameriTests\Elastic\Config::TYPE,
+			\SpameriTests\Elastic\Config::INDEX_MIGRATE_NEW,
 			FALSE
 		);
 
@@ -93,7 +92,7 @@ class Execute extends \Tester\TestCase
 			new \Spameri\ElasticQuery\Document(
 				\SpameriTests\Elastic\Config::INDEX_MIGRATE_NEW,
 				NULL,
-				\SpameriTests\Elastic\Config::TYPE,
+				\SpameriTests\Elastic\Config::INDEX_MIGRATE_NEW,
 				$id
 			)
 			)->toArray()
