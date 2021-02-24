@@ -40,7 +40,7 @@ class PutMapping
 				new \Spameri\ElasticQuery\Document(
 					$index,
 					new \Spameri\ElasticQuery\Document\Body\Plain([
-						'properties' => $mapping['properties'],
+						'properties' => reset($mapping)['properties'],
 						'dynamic' => $dynamic,
 					]),
 					$type

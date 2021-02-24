@@ -100,6 +100,7 @@ class ElasticMapper
 	{
 		try {
 			try {
+				/** @var array $indexes */
 				$indexes = $this->clientProvider->client()->indices()->get(
 					(
 						new \Spameri\ElasticQuery\Document(

@@ -28,13 +28,16 @@ class Get
 	): array
 	{
 		try {
-			return $this->clientProvider->client()->indices()->get(
+			/** @var array $result */
+			$result = $this->clientProvider->client()->indices()->get(
 				(
 					new \Spameri\ElasticQuery\Document(
 						$index
 					)
 				)->toArray()
 			);
+
+			return $result;
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
