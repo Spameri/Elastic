@@ -73,12 +73,14 @@ services:
 
 	elasticPanelLogger:
 		factory: Spameri\Elastic\Diagnostics\PanelLogger(@spameriElasticSearch.nullLogger)
+		autowired: false
 
 	nullLogger:
 		factory: Psr\Log\NullLogger
+		autowired: false
 
 	elasticPanel:
-		factory: Spameri\Elastic\Diagnostics\Panel
+		factory: Spameri\Elastic\Diagnostics\Panel(@spameriElasticSearch.elasticPanelLogger)
 
 	documentMigrateStatus:
 		factory: Spameri\Elastic\Model\TypeToNewIndex\DocumentMigrateStatus

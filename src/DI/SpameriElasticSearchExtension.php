@@ -36,7 +36,7 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 			$services = $this->removeCommandDefinitions($services);
 		}
 
-		$this->setConfigOptions($services, $config);
+		$services = $this->setConfigOptions($services, $config);
 
 		$this->compiler::loadDefinitions(
 			$this->getContainerBuilder(),
@@ -49,7 +49,7 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 	public function setConfigOptions(
 		array $services,
 		array $config
-	): void
+	): array
 	{
 		$neonSettingsProvider = $services['services']['neonSettingsProvider']['factory'];
 		$neonSettingsProvider->arguments[0] = $config['host'];
@@ -57,6 +57,15 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 
 		$versionProvider = $services['services']['versionProvider']['factory'];
 		$versionProvider->arguments[0] = $config['version'];
+
+		$services['services']['clientBuilder']['setup'][] = new \Nette\DI\Statement(
+			'setHosts',
+			[
+				[$config['host'] . ':' . $config['port']],
+			]
+		);
+
+		return $services;
 	}
 
 
