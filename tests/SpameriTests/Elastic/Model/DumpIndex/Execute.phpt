@@ -55,7 +55,7 @@ class Execute extends \Tester\TestCase
 		\Tester\Assert::true(\file_exists('test.log'));
 
 		$dumpFile = \file_get_contents('test.log');
-		$exploded = explode("\r\n", $dumpFile);
+		$exploded = explode(\PHP_EOL, $dumpFile);
 		$decoded = \Nette\Utils\Json::decode($exploded[10]);
 
 		\Tester\Assert::same('192437', $decoded->index->_id);
