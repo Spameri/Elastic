@@ -5,7 +5,15 @@
 .PHONY: cbf
 .PHONY: cs-local
 .PHONY: coverage
+.PHONY: composer
+.PHONY: composer-lowest
 
+
+composer:
+	composer update --no-interaction --no-suggest --no-progress --prefer-dist --prefer-stable
+
+composer-lowest:
+	composer update --no-interaction --no-suggest --no-progress --prefer-dist --prefer-stable --prefer-lowest
 
 tests:
 	vendor/bin/tester -s -c ./tests/php.ini-unix ./tests
@@ -17,7 +25,7 @@ phpstan:
 	vendor/bin/phpstan analyse -l 6 -c phpstan.neon src tests
 
 cs:
-	vendor/bin/phpcs --standard=vendor/spameri/coding-standard/src/ruleset.xml --cache=phpcs-cache/.phpcs-cache src tests
+	vendor/bin/phpcs --standard=vendor/spameri/coding-standard/src/ruleset.xml --cache=.phpcs-cache src tests
 
 cs-local:
 	vendor/bin/phpcs --standard=vendor/spameri/coding-standard/src/ruleset.xml src tests/SpameriTests
