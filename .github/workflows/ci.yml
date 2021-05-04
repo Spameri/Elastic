@@ -1,0 +1,40 @@
+name: Package CI
+
+on:
+  pull_request:
+
+jobs:
+  checks:
+    name: Checks
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [ 7.4 ]
+        version: [ lowest, standard ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+
+      - if: matrix.version == 'lowest'
+        name: Composer
+        run: make composer-lowest
+
+      - if: matrix.version == 'standard'
+        name: Composer
+        run: make composer
+
+      - if: matrix.php == '7.4'
+        name: Coding standard
+        run: make cs
+
+      - if: matrix.php == '7.4'
+        name: PHPStan
+        run: make phpstan
+
+      - if: matrix.php == '7.4'
+        name: Tests
+        run: make tests
+
