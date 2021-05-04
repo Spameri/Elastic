@@ -38,11 +38,23 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 
 		$services = $this->setConfigOptions($services, $config);
 
-		$this->compiler::loadDefinitions(
-			$this->getContainerBuilder(),
-			$services['services'],
-			$this->name
-		);
+		if (\method_exists($this->compiler, 'loadDefinitionsFromConfig')) {
+			$aliasedServices = [];
+			foreach ($services['services'] as $key => $service) {
+				$aliasedServices['spameriElasticSearch.' . $key] = $service;
+			}
+
+			$this->compiler->loadDefinitionsFromConfig(
+				$aliasedServices
+			);
+
+		} else {
+			$this->compiler::loadDefinitions(
+				$this->getContainerBuilder(),
+				$services['services'],
+				$this->name
+			);
+		}
 	}
 
 
@@ -89,8 +101,11 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 			);
 
 		} else {
-			$this->getContainerBuilder()
+			/** @var \Nette\DI\Definitions\ServiceDefinition $definition */
+			$definition = $this->getContainerBuilder()
 				->getDefinition('tracy.bar')
+			;
+			$definition
 				->addSetup('addPanel', ['@' . $this->prefix('elasticPanel')])
 			;
 		}
