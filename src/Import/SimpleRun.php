@@ -7,7 +7,6 @@ class SimpleRun extends \Spameri\Elastic\Import\Run
 
 	public function __construct(
 		string $logDir,
-		\Symfony\Component\Console\Output\NullOutput $output,
 		\Spameri\Elastic\Import\Run\NullLoggerHandler $loggerHandler,
 		\Spameri\Elastic\Import\Lock\NullLock $lock,
 		\Spameri\Elastic\Import\RunHandler\NullHandler $runHandler,
@@ -17,7 +16,7 @@ class SimpleRun extends \Spameri\Elastic\Import\Run
 		\Spameri\Elastic\Import\AfterImport\NullAfterImport $afterImport
 	)
 	{
-		parent::__construct($logDir, $output, $loggerHandler, $lock, $runHandler, $dataProvider, $prepareImportData, $dataImport, $afterImport);
+		parent::__construct($logDir, $loggerHandler, $lock, $runHandler, $dataProvider, $prepareImportData, $dataImport, $afterImport);
 	}
 
 }
