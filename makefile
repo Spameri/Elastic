@@ -24,8 +24,11 @@ tests-local:
 phpstan:
 	vendor/bin/phpstan analyse -l 6 -c phpstan.neon src tests
 
+phpstan-lowest:
+	vendor/bin/phpstan analyse -l 6 -c phpstan-low.neon src tests
+
 cs:
-	vendor/bin/phpcs --standard=vendor/spameri/coding-standard/src/ruleset.xml --cache=.phpcs-cache src tests
+	vendor/bin/phpcs --standard=vendor/spameri/coding-standard/src/ruleset.xml --cache=.phpcs-cache src tests/SpameriTests
 
 cs-local:
 	vendor/bin/phpcs --standard=vendor/spameri/coding-standard/src/ruleset.xml src tests/SpameriTests

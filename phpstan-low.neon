@@ -1,0 +1,66 @@
+parameters:
+	excludes_analyse:
+		- %rootDir%/../../../tests/tmp/*
+
+	checkGenericClassInNonGenericObjectType: false
+	checkMissingIterableValueType: false
+
+	ignoreErrors:
+		- '#PHPDoc tag \@throws with type Elasticsearch\\Common\\Exceptions\\ElasticsearchException is not subtype of Throwable#'
+		- '#Call to function array_key_exists\(\) with string and array<int, mixed> will always evaluate to false.#'
+		-
+			message: "#^Call to method addSetup\\(\\) on an unknown class Nette\\\\DI\\\\Definitions\\\\ServiceDefinition\\.$#"
+			count: 1
+			path: src/DI/SpameriElasticSearchExtension.php
+
+		-
+			message: "#^PHPDoc tag @var for variable \\$definition contains unknown class Nette\\\\DI\\\\Definitions\\\\ServiceDefinition\\.$#"
+			count: 1
+			path: src/DI/SpameriElasticSearchExtension.php
+
+		-
+			message: "#^Method Spameri\\\\Elastic\\\\Diagnostics\\\\PanelLogger\\:\\:emergency\\(\\) should return null but return statement is missing\\.$#"
+			count: 1
+			path: src/Diagnostics/PanelLogger.php
+
+		-
+			message: "#^Return type \\(void\\) of method Spameri\\\\Elastic\\\\Diagnostics\\\\PanelLogger\\:\\:alert\\(\\) should be compatible with return type \\(null\\) of method Psr\\\\Log\\\\LoggerInterface\\:\\:alert\\(\\)$#"
+			count: 1
+			path: src/Diagnostics/PanelLogger.php
+
+		-
+			message: "#^Return type \\(void\\) of method Spameri\\\\Elastic\\\\Diagnostics\\\\PanelLogger\\:\\:critical\\(\\) should be compatible with return type \\(null\\) of method Psr\\\\Log\\\\LoggerInterface\\:\\:critical\\(\\)$#"
+			count: 1
+			path: src/Diagnostics/PanelLogger.php
+
+		-
+			message: "#^Return type \\(void\\) of method Spameri\\\\Elastic\\\\Diagnostics\\\\PanelLogger\\:\\:debug\\(\\) should be compatible with return type \\(null\\) of method Psr\\\\Log\\\\LoggerInterface\\:\\:debug\\(\\)$#"
+			count: 1
+			path: src/Diagnostics/PanelLogger.php
+
+		-
+			message: "#^Return type \\(void\\) of method Spameri\\\\Elastic\\\\Diagnostics\\\\PanelLogger\\:\\:error\\(\\) should be compatible with return type \\(null\\) of method Psr\\\\Log\\\\LoggerInterface\\:\\:error\\(\\)$#"
+			count: 1
+			path: src/Diagnostics/PanelLogger.php
+
+		-
+			message: "#^Return type \\(void\\) of method Spameri\\\\Elastic\\\\Diagnostics\\\\PanelLogger\\:\\:info\\(\\) should be compatible with return type \\(null\\) of method Psr\\\\Log\\\\LoggerInterface\\:\\:info\\(\\)$#"
+			count: 1
+			path: src/Diagnostics/PanelLogger.php
+
+		-
+			message: "#^Return type \\(void\\) of method Spameri\\\\Elastic\\\\Diagnostics\\\\PanelLogger\\:\\:log\\(\\) should be compatible with return type \\(null\\) of method Psr\\\\Log\\\\LoggerInterface\\:\\:log\\(\\)$#"
+			count: 1
+			path: src/Diagnostics/PanelLogger.php
+
+		-
+			message: "#^Return type \\(void\\) of method Spameri\\\\Elastic\\\\Diagnostics\\\\PanelLogger\\:\\:notice\\(\\) should be compatible with return type \\(null\\) of method Psr\\\\Log\\\\LoggerInterface\\:\\:notice\\(\\)$#"
+			count: 1
+			path: src/Diagnostics/PanelLogger.php
+
+		-
+			message: "#^Return type \\(void\\) of method Spameri\\\\Elastic\\\\Diagnostics\\\\PanelLogger\\:\\:warning\\(\\) should be compatible with return type \\(null\\) of method Psr\\\\Log\\\\LoggerInterface\\:\\:warning\\(\\)$#"
+			count: 1
+			path: src/Diagnostics/PanelLogger.php
+
+

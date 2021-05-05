@@ -39,7 +39,7 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	public function emergency(
 		$message,
 		array $context = []
-	): void
+	)
 	{
 		$this->logger->emergency($message, $context);
 		$this->logQuery($context);
