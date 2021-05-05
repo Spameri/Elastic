@@ -166,12 +166,6 @@ services:
 	dateTime:
 		factory: \DateTimeImmutable
 
-	nullOutput:
-		factory: Symfony\Component\Console\Output\NullOutput
-
-	consoleOutput:
-		factory: Symfony\Component\Console\Output\ConsoleOutput
-
 	nullLoggerHandler:
 		factory: Spameri\Elastic\Import\Run\NullLoggerHandler
 

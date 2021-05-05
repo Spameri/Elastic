@@ -66,7 +66,6 @@ class Run
 	 */
 	public function __construct(
 		string $logDir,
-		\Symfony\Component\Console\Output\OutputInterface $output,
 		\Spameri\Elastic\Import\LoggerHandlerInterface $loggerHandler,
 		\Spameri\Elastic\Import\LockInterface $lock,
 		\Spameri\Elastic\Import\RunHandlerInterface $runHandler,
@@ -76,7 +75,6 @@ class Run
 		\Spameri\Elastic\Import\AfterImportInterface $afterImport
 	)
 	{
-		$this->output = $output;
 		$this->lock = $lock;
 		$this->loggerHandler = $loggerHandler;
 		$this->runHandler = $runHandler;
@@ -88,6 +86,12 @@ class Run
 		$this->runName = (new \ReflectionClass($this))->getShortName();
 		$this->lock->setRunName($this->runName);
 		$this->setUpLogger($logDir);
+	}
+
+
+	public function setOutput(\Symfony\Component\Console\Output\OutputInterface $output): void
+	{
+		$this->output = $output;
 	}
 
 
