@@ -19,18 +19,22 @@ jobs:
           php-version: ${{ matrix.php }}
 
       - if: matrix.version == 'lowest'
-        name: Composer
+        name: Composer lowest
         run: make composer-lowest
 
       - if: matrix.version == 'standard'
-        name: Composer
+        name: Composer standard
         run: make composer
 
       - if: matrix.php == '7.4'
         name: Coding standard
         run: make cs
 
-      - if: matrix.php == '7.4'
+      - if: matrix.php == '7.4' && matrix.version == 'lowest'
+        name: PHPStan
+        run: make phpstan-lowest
+
+      - if: matrix.php == '7.4' && matrix.version == 'standard'
         name: PHPStan
         run: make phpstan
 
