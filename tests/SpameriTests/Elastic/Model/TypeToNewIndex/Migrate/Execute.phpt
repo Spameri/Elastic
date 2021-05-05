@@ -107,6 +107,14 @@ class Execute extends \Tester\TestCase
 		$this->clientProvider->client()->indices()->delete(
 			(
 			new \Spameri\ElasticQuery\Document(
+				\SpameriTests\Elastic\Config::INDEX_MIGRATE
+			)
+			)->toArray()
+		)
+		;
+		$this->clientProvider->client()->indices()->delete(
+			(
+			new \Spameri\ElasticQuery\Document(
 				\SpameriTests\Elastic\Config::INDEX_MIGRATE . '*'
 			)
 			)->toArray()
