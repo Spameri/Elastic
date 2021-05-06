@@ -24,13 +24,8 @@ class PutMapping
 		string $index
 		, array $mapping
 		, string $dynamic = 'false'
-		, ?string $type = NULL
 	) : array
 	{
-		if ($type === NULL) {
-			$type = $index;
-		}
-
 		try {
 			/** @var array $result */
 			$result = $this->clientProvider->client()->indices()->putMapping(
@@ -40,8 +35,7 @@ class PutMapping
 						new \Spameri\ElasticQuery\Document\Body\Plain([
 							'properties' => $mapping,
 							'dynamic' => $dynamic,
-						]),
-						$type
+						])
 					)
 				)->toArray()
 			);

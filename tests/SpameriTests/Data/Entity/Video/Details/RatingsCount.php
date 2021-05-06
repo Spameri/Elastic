@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video\Details;
 
 
-class RatingsCount implements \Spameri\Elastic\Entity\IValue
+class RatingsCount implements \Spameri\Elastic\Entity\ValueInterface
 {
 	/**
 	 * @var int

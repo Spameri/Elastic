@@ -86,12 +86,6 @@ services:
 	elasticPanel:
 		class: Spameri\Elastic\Diagnostics\Panel
 
-	validateMapping:
-		class: Spameri\Elastic\Model\ValidateMapping(%entities%, %settings%, ...)
-
-	display:
-		class: Spameri\Elastic\Model\ValidateMapping\Display
-
 	documentMigrateStatus:
 		class: Spameri\Elastic\Model\TypeToNewIndex\DocumentMigrateStatus
 
@@ -138,12 +132,6 @@ services:
 			- kdyby.console.command
 			- console.command
 
-	validateMappingCommand:
-		class: Spameri\Elastic\Commands\ValidateMapping
-		tags:
-			- kdyby.console.command
-			- console.command
-
 	typeToNewIndex:
 		class: Spameri\Elastic\Commands\TypeToNewIndex
 		tags:
@@ -177,6 +165,10 @@ services:
 	 	class: Elasticsearch\ClientBuilder
 	 	setup:
 	 		- setLogger(@spameriElasticSearch.elasticPanelLogger)
+
+	client:
+		class: Elasticsearch\Client
+		factory: @spameriElasticSearch.clientBuilder::build
 
 	dateTimeProvider:
 		class: Spameri\Elastic\Provider\DateTimeProvider(@spameriElasticSearch.dateTime)

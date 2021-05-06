@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video\HighLights;
 
 
-class Location implements \Spameri\Elastic\Entity\IEntity
+class Location implements \Spameri\Elastic\Entity\EntityInterface
 {
 	/**
 	 * @var \SpameriTests\Data\Entity\Property\Text

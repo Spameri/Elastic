@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video\Connections;
 
 
-class Referenced implements \Spameri\Elastic\Entity\IEntity
+class Referenced implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**

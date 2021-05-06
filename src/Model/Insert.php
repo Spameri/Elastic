@@ -32,22 +32,16 @@ class Insert
 	 * @throws \Spameri\Elastic\Exception\DocumentInsertFailed
 	 */
 	public function execute(
-		\Spameri\Elastic\Entity\IElasticEntity $entity
+		\Spameri\Elastic\Entity\ElasticEntityInterface $entity
 		, string $index
-		, ?string $type = NULL
 	) : string
 	{
-		if ($type === NULL) {
-			$type = $index;
-		}
-
 		$entityArray = $this->prepareEntityArray->prepare($entity);
 		unset($entityArray['id']);
 
 		$document = new \Spameri\ElasticQuery\Document(
 			$index,
 			new \Spameri\ElasticQuery\Document\Body\Plain($entityArray),
-			$type,
 			$entity->id()->value()
 		);
 
@@ -70,7 +64,9 @@ class Insert
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}
 
-		if (\in_array($response['result'], ['created', 'updated'], TRUE)) {
+		if (isset($response['created']) || isset($response['updated'])
+			|| (isset($response['result']) && $response['result'] === 'created')
+		) {
 			return $response['_id'];
 		}
 

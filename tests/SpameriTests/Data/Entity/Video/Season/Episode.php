@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video\Season;
 
 
-class Episode implements \Spameri\Elastic\Entity\IEntity
+class Episode implements \Spameri\Elastic\Entity\EntityInterface
 {
 	/**
 	 * @var \SpameriTests\Data\Entity\Property\ImdbId

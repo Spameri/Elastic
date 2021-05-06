@@ -7,6 +7,10 @@ class MigrationRunner
 
 	public function iterate(): void
 	{
+		$files = [
+			'Bů'
+		];
+
 		/** @var \Spameri\Elastic\Migration\MigrationFileInterface $file */
 		foreach ($files as $file) {
 			$this->run($file);

@@ -41,7 +41,7 @@ class UpdateMapping extends \Symfony\Component\Console\Command\Command
 	protected function execute(
 		\Symfony\Component\Console\Input\InputInterface $input
 		, \Symfony\Component\Console\Output\OutputInterface $output
-	)
+	): int
 	{
 		/** @var string $entityName */
 		$entityName = $input->getArgument('entityName');
@@ -52,6 +52,8 @@ class UpdateMapping extends \Symfony\Component\Console\Command\Command
 		}
 
 		$output->writeln('Done');
+
+		return 0;
 	}
 
 }

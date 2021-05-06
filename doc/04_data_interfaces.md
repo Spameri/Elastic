@@ -2,15 +2,15 @@
 
 ## Entity
 
-### \Spameri\Elastic\Entity\IElasticEntity
+### \Spameri\Elastic\Entity\ElasticEntityInterface
 
 - Base ElasticSearch entity encapsulation. This represents document in ElasticSearch index.
 
-### \Spameri\Elastic\Entity\IEntity
+### \Spameri\Elastic\Entity\EntityInterface
 
 - Basic building block for tree structure of ElasticSearch documents.
 
-### \Spameri\Elastic\Entity\IValue
+### \Spameri\Elastic\Entity\ValueInterface
 
 - If you need extra layer for single field data, this is what to use. And need should be always :). Can contain validation
 logic if you need to fill entities from external source for indexing to ElasticSearch. 
@@ -21,17 +21,17 @@ logic if you need to fill entities from external source for indexing to ElasticS
 
 Multiple values of same type :)
 
-### \Spameri\Elastic\Entity\IElasticEntityCollection
+### \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
 
-- Collection for `\Spameri\Elastic\Entity\IElasticEntity` when you need reference to other entities. Lazily loads 
+- Collection for `\Spameri\Elastic\Entity\ElasticEntityInterface` when you need reference to other entities. Lazily loads 
 your collection and when saving modified data it saves to their own ElasticSearch index.
 - When making collection you should extend abstract collection with prepared methods `\Spameri\Elastic\Entity\Collection\ElasticEntityCollection`.
 
 ### \Spameri\Elastic\Entity\IEntityCollection
 
-- Collection for `\Spameri\Elastic\Entity\IEntity`.
+- Collection for `\Spameri\Elastic\Entity\EntityInterface`.
 - When making collection you should extend abstract collection with prepared methods `\Spameri\Elastic\Entity\Collection\EntityCollection`.
 
-### \Spameri\Elastic\Entity\IValueCollection
+### \Spameri\Elastic\Entity\ValueCollectionInterface
 
-- Collection for `\Spameri\Elastic\Entity\IValue`.
+- Collection for `\Spameri\Elastic\Entity\ValueInterface`.

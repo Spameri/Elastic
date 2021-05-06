@@ -47,7 +47,6 @@ class Scroll
 						new \Spameri\ElasticQuery\Document(
 							$index,
 							new \Spameri\ElasticQuery\Document\Body\Plain($elasticQuery->toArray()),
-							$type,
 							NULL,
 							[
 								'scroll' => $elasticQuery->options()->scroll(),
@@ -70,7 +69,6 @@ class Scroll
 				$result = $this->clientProvider->client()->scroll(
 					(
 						new \Spameri\ElasticQuery\Document(
-							NULL,
 							NULL,
 							NULL,
 							NULL,
@@ -100,7 +98,6 @@ class Scroll
 			$this->clientProvider->client()->clearScroll(
 				(
 					new \Spameri\ElasticQuery\Document(
-						NULL,
 						NULL,
 						NULL,
 						NULL,

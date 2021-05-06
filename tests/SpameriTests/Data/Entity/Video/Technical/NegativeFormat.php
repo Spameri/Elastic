@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video\Technical;
 
 
-class NegativeFormat implements \Spameri\Elastic\Entity\IValue
+class NegativeFormat implements \Spameri\Elastic\Entity\ValueInterface
 {
 
 	/**

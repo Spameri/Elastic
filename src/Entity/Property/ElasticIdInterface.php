@@ -3,7 +3,7 @@
 namespace Spameri\Elastic\Entity\Property;
 
 
-interface IElasticId
+interface ElasticIdInterface
 {
 
 	public function value() : string;

@@ -3,16 +3,16 @@
 namespace Spameri\Elastic\Entity\Collection;
 
 
-abstract class EntityCollection implements \Spameri\Elastic\Entity\IEntityCollection
+abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\EntityCollectionInterface
 {
 	/**
-	 * @var array<\Spameri\Elastic\Entity\IEntity>
+	 * @var array<\Spameri\Elastic\Entity\EntityInterface>
 	 */
 	private $collection;
 
 
 	public function __construct(
-		\Spameri\Elastic\Entity\IEntity ... $entityCollection
+		\Spameri\Elastic\Entity\EntityInterface ... $entityCollection
 	)
 	{
 		$this->collection = [];
@@ -23,7 +23,7 @@ abstract class EntityCollection implements \Spameri\Elastic\Entity\IEntityCollec
 
 
 	public function add(
-		\Spameri\Elastic\Entity\IEntity $entity
+		\Spameri\Elastic\Entity\EntityInterface $entity
 	) : void
 	{
 		$this->collection[$entity->key()] = $entity;
@@ -44,7 +44,7 @@ abstract class EntityCollection implements \Spameri\Elastic\Entity\IEntityCollec
 
 	public function entity(
 		string $key
-	) : ?\Spameri\Elastic\Entity\IEntity
+	) : ?\Spameri\Elastic\Entity\EntityInterface
 	{
 		if (\array_key_exists($key, $this->collection)) {
 			return $this->collection[$key];

@@ -5,6 +5,9 @@ namespace Spameri\Elastic\Import;
 interface PrepareImportDataInterface
 {
 
+	/**
+	 * @param mixed $entityData
+	 */
 	public function prepare(
 		$entityData
 	): \Spameri\Elastic\Entity\AbstractImport;

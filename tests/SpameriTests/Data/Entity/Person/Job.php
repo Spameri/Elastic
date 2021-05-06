@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Person;
 
 
-class Job implements \Spameri\Elastic\Entity\IEntity
+class Job implements \Spameri\Elastic\Entity\EntityInterface
 {
 	public const VIDEO_DIRECTOR = 'Directed by ';
 	public const SERIES_DIRECTOR = 'Series Directed by ';

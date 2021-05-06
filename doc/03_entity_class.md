@@ -5,24 +5,24 @@ Lets create entity class, continuing our example, in folder `tests/SpameriTests/
 namespace SpameriTests\Data\Entity;
 
 
-class Video implements \Spameri\Elastic\Entity\IElasticEntity
+class Video implements \Spameri\Elastic\Entity\ElasticEntityInterface
 {
 
 	/**
-	 * @var \Spameri\Elastic\Entity\Property\IElasticId
+	 * @var \Spameri\Elastic\Entity\Property\ElasticIdInterface
 	 */
 	private $id;
 
 
 	public function __construct(
-		\Spameri\Elastic\Entity\Property\IElasticId $id
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
 	)
 	{
 		$this->id = $id;
 	}
 
 
-	public function id() : \Spameri\Elastic\Entity\Property\IElasticId
+	public function id() : \Spameri\Elastic\Entity\Property\ElasticIdInterface
 	{
 		return $this->id;
 	}
@@ -39,7 +39,7 @@ class Video implements \Spameri\Elastic\Entity\IElasticEntity
 ### Lets look at class part by part.
 
 - Entity is in our defined namespace in own folder `Entity` which is shared for multiple entities.
-- Class extends interface `\Spameri\Elastic\Entity\IElasticEntity`, this is core interface for ElasticSearch document.
+- Class extends interface `\Spameri\Elastic\Entity\ElasticEntityInterface`, this is core interface for ElasticSearch document.
 It has to have `id` provided by ElasticSearch, library takes care of handling this field, no need to add in mapping.
 - Based on this interface, library figures out how to save this class. 
 - `__construct` accepts all data from ElasticSearch or EntityFactory, this is where you need to specify all class parameters.
@@ -53,9 +53,9 @@ It has to have `id` provided by ElasticSearch, library takes care of handling th
 
 - Lets say our Video has limited keyword length to maximum of 55 characters and also 0 characters is not enough to 
 describe keyword.
-- We do not have reliable data input so lets validate this with help of interface `\Spameri\Elastic\Entity\IValue`.
+- We do not have reliable data input so lets validate this with help of interface `\Spameri\Elastic\Entity\ValueInterface`.
 - First create value object for keyword `\SpameriTests\Data\Entity\Video\Story\KeyWord`. 
-- Class should implement interface `\Spameri\Elastic\Entity\IValue`.
+- Class should implement interface `\Spameri\Elastic\Entity\ValueInterface`.
 - `__construct` should have one parameter **string $value**.
 - In construct do our validation for keyword.
 - Implement `value()` method.
@@ -66,7 +66,7 @@ describe keyword.
 namespace SpameriTests\Data\Entity\Video\Story;
 
 
-class KeyWord implements \Spameri\Elastic\Entity\IValue
+class KeyWord implements \Spameri\Elastic\Entity\ValueInterface
 {
 
 	/**
@@ -102,7 +102,7 @@ class KeyWord implements \Spameri\Elastic\Entity\IValue
 - If you need array of scalar values lets create ValueCollection.
 - For easy setup you can use `\Spameri\Elastic\Entity\AbstractValueCollection` just create your collection and extend this abstract as you need.
 For more advanced and typed approach use interface, as described next.
-- Interface `\Spameri\Elastic\Entity\IValueCollection` is when you want typed and validated scalar value collection.
+- Interface `\Spameri\Elastic\Entity\ValueCollectionInterface` is when you want typed and validated scalar value collection.
 - After implementing interface you need to implement **getIterator()** method.
 - Next to be type save you want to add methods **add**, **remove**, **get**, **__construct**
 - For **__construct** you best fill values to collection as here [\Spameri\Elastic\Entity\AbstractValueCollection#L20](../src/Entity/AbstractValueCollection.php#L20)
@@ -110,7 +110,7 @@ For more advanced and typed approach use interface, as described next.
 namespace SpameriTests\Data\Entity\Video\Story;
 
 
-class KeyWordCollection implements \Spameri\Elastic\Entity\IValueCollection
+class KeyWordCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
 	/**
@@ -161,7 +161,7 @@ class KeyWordCollection implements \Spameri\Elastic\Entity\IValueCollection
 ```
 
 #### Single entity property - `Video.Story`
-- If you need some nested structure `\Spameri\Elastic\Entity\IEntity` interface is here for you.
+- If you need some nested structure `\Spameri\Elastic\Entity\EntityInterface` interface is here for you.
 - Also when feeling lazy there is `\Spameri\Elastic\Entity\AbstractEntity` for you to extend with methods implemented.
 - In our example we have entity **Story** to encapsulate keywords and other story related properties.
 - Library then can convert this entity to array and save it as array with no more help.
@@ -170,7 +170,7 @@ class KeyWordCollection implements \Spameri\Elastic\Entity\IValueCollection
 namespace SpameriTests\Data\Entity\Video;
 
 
-class Story implements \Spameri\Elastic\Entity\IEntity
+class Story implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**
@@ -202,13 +202,13 @@ class Story implements \Spameri\Elastic\Entity\IEntity
 
 #### Entity collection property - `Video.Connections.FollowsCollection`
 - ElasticSearch is powerful tool and it allows you to nest objects and collection as you need, so you can make collection of nested objects.
-- This is simple you have Entity **Story** with implemented `IEntity` interface and all you need is create collection, extend `class FollowsCollection extends \Spameri\Elastic\Entity\Collection\EntityCollection`
+- This is simple you have Entity **Story** with implemented `EntityInterface` interface and all you need is create collection, extend `class FollowsCollection extends \Spameri\Elastic\Entity\Collection\EntityCollection`
 and you are done.
 ```php
 namespace SpameriTests\Data\Entity\Video\Connections;
 
 
-class FollowsCollection extends \Spameri\Elastic\Entity\Collection\EntityCollection
+class FollowsCollection extends \Spameri\Elastic\Entity\Collection\AbstractEntityCollection
 {
 
 }
@@ -225,7 +225,7 @@ Any changes made to related entity/ies will be persisted when main entity is sav
 namespace SpameriTests\Data\Entity\Video;
 
 
-class People extends \Spameri\Elastic\Entity\Collection\ElasticEntityCollection
+class People extends \Spameri\Elastic\Entity\Collection\AbstractElasticEntityCollection
 {
 
 	public function personByImdb(
@@ -249,11 +249,11 @@ class People extends \Spameri\Elastic\Entity\Collection\ElasticEntityCollection
 namespace SpameriTests\Data\Entity;
 
 
-class Video implements \Spameri\Elastic\Entity\IElasticEntity
+class Video implements \Spameri\Elastic\Entity\ElasticEntityInterface
 {
 
 	/**
-	 * @var \Spameri\Elastic\Entity\Property\IElasticId
+	 * @var \Spameri\Elastic\Entity\Property\ElasticIdInterface
 	 */
 	private $id;
 
@@ -309,7 +309,7 @@ class Video implements \Spameri\Elastic\Entity\IElasticEntity
 
 
 	public function __construct(
-		\Spameri\Elastic\Entity\Property\IElasticId $id
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
 		, \SpameriTests\Data\Entity\Video\Identification $identification
 		, \SpameriTests\Data\Entity\Property\Name $name
 		, \SpameriTests\Data\Entity\Property\Year $year
@@ -346,7 +346,7 @@ class Video implements \Spameri\Elastic\Entity\IElasticEntity
 	}
 
 
-	public function id() : \Spameri\Elastic\Entity\Property\IElasticId
+	public function id() : \Spameri\Elastic\Entity\Property\ElasticIdInterface
 	{
 		return $this->id;
 	}

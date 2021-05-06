@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Person;
 
 
-class CharacterCollectionElastic extends \Spameri\Elastic\Entity\Collection\EntityCollection
+class CharacterCollectionElastic extends \Spameri\Elastic\Entity\Collection\AbstractEntityCollection
 {
 
 	public function character(

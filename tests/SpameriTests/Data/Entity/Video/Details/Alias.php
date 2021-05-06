@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video\Details;
 
 
-class Alias implements \Spameri\Elastic\Entity\IEntity
+class Alias implements \Spameri\Elastic\Entity\EntityInterface
 {
 	/**
 	 * @var \SpameriTests\Data\Entity\Property\CountryShort
@@ -50,7 +50,7 @@ class Alias implements \Spameri\Elastic\Entity\IEntity
 	}
 
 
-	public function rename(\SpameriTests\Data\Entity\Property\Text $name)
+	public function rename(\SpameriTests\Data\Entity\Property\Text $name): void
 	{
 		$this->name = $name;
 	}

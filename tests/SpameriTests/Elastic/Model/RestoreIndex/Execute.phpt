@@ -50,7 +50,6 @@ class Execute extends \Tester\TestCase
 				new \Spameri\ElasticQuery\Document(
 					\SpameriTests\Elastic\Config::INDEX_RESTORE,
 					NULL,
-					\SpameriTests\Elastic\Config::TYPE,
 					(string) $id
 				)
 			)->toArray()

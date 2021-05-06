@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video;
 
 
-class SeasonCollection extends \Spameri\Elastic\Entity\Collection\EntityCollection
+class SeasonCollection extends \Spameri\Elastic\Entity\Collection\AbstractEntityCollection
 {
 
 	public function season(\SpameriTests\Data\Entity\Property\ImdbId $id) : ?Season

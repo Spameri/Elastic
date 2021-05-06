@@ -32,7 +32,7 @@ class DeleteMultiple
 	 * @throws \Spameri\Elastic\Exception\DocumentInsertFailed
 	 */
 	public function execute(
-		\Spameri\Elastic\Entity\IElasticEntityCollection $entityCollection
+		\Spameri\Elastic\Entity\ElasticEntityCollectionInterface $entityCollection
 		, string $index
 		, ?string $type = NULL
 	) : \Spameri\ElasticQuery\Response\ResultBulk
@@ -42,7 +42,7 @@ class DeleteMultiple
 		}
 
 		$documentsArray = [];
-		/** @var \Spameri\Elastic\Entity\IElasticEntity $entity */
+		/** @var \Spameri\Elastic\Entity\ElasticEntityInterface $entity */
 		foreach ($entityCollection as $entity) {
 			$documentsArray[] = [
 				'delete' => [

@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video\Technical;
 
 
-class Runtime implements \Spameri\Elastic\Entity\IValue
+class Runtime implements \Spameri\Elastic\Entity\ValueInterface
 {
 
 	/**

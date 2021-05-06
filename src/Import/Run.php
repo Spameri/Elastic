@@ -91,7 +91,7 @@ class Run
 	}
 
 
-	protected function setUpLogger($logDir): void
+	protected function setUpLogger(string $logDir): void
 	{
 		$directory = $logDir;
 		\Nette\Utils\FileSystem::createDir($directory);

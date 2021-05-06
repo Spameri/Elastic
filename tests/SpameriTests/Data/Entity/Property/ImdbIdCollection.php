@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Property;
 
 
-class ImdbIdCollection implements \Spameri\Elastic\Entity\IValueCollection
+class ImdbIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
 	/**

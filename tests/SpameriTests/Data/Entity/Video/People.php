@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video;
 
 
-class People extends \Spameri\Elastic\Entity\Collection\ElasticEntityCollection
+class People extends \Spameri\Elastic\Entity\Collection\AbstractElasticEntityCollection
 {
 
 	public function personByImdb(

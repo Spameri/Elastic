@@ -44,7 +44,7 @@ class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 	protected function execute(
 		\Symfony\Component\Console\Input\InputInterface $input
 		, \Symfony\Component\Console\Output\OutputInterface $output
-	)
+	): int
 	{
 		$output->writeln('Starting');
 
@@ -59,6 +59,8 @@ class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 		$this->migrate->execute($indexFrom, $typeFrom, $indexTo, $aliasTo, $typeTo, $allowClose);
 
 		$output->writeln('Done');
+
+		return 0;
 	}
 
 }

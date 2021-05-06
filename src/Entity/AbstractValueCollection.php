@@ -3,17 +3,17 @@
 namespace Spameri\Elastic\Entity;
 
 
-abstract class AbstractValueCollection implements IValueCollection
+abstract class AbstractValueCollection implements ValueCollectionInterface
 {
 
 	/**
-	 * @var array<\Spameri\Elastic\Entity\IValue>
+	 * @var array<\Spameri\Elastic\Entity\ValueInterface>
 	 */
 	protected $collection;
 
 
 	public function __construct(
-		\Spameri\Elastic\Entity\IValue ... $collection
+		\Spameri\Elastic\Entity\ValueInterface ... $collection
 	)
 	{
 		$this->collection = [];
@@ -24,7 +24,7 @@ abstract class AbstractValueCollection implements IValueCollection
 
 
 	public function add(
-		\Spameri\Elastic\Entity\IValue $value
+		\Spameri\Elastic\Entity\ValueInterface $value
 	) : void
 	{
 		$this->collection[$value->value()] = $value;
@@ -37,7 +37,7 @@ abstract class AbstractValueCollection implements IValueCollection
 	}
 
 
-	public function get($key) : ?\Spameri\Elastic\Entity\IValue
+	public function get($key) : ?\Spameri\Elastic\Entity\ValueInterface
 	{
 		if ( ! isset($this->collection[$key])) {
 			return NULL;

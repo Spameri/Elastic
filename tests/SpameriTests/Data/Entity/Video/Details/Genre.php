@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video\Details;
 
 
-class Genre implements \Spameri\Elastic\Entity\IValue
+class Genre implements \Spameri\Elastic\Entity\ValueInterface
 {
 	/**
 	 * @var string

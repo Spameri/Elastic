@@ -3,7 +3,7 @@
 namespace Spameri\Elastic\Entity;
 
 
-interface IValue
+interface ValueCollectionInterface extends \IteratorAggregate
 {
-	public function value();
+
 }

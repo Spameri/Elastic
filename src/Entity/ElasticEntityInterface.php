@@ -3,10 +3,10 @@
 namespace Spameri\Elastic\Entity;
 
 
-interface IEntity
+interface ElasticEntityInterface
 {
 
-	public function key() : string;
+	public function id() : \Spameri\Elastic\Entity\Property\ElasticIdInterface;
 
 
 	public function entityVariables() : array;

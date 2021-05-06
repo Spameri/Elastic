@@ -12,7 +12,7 @@ class Tracker
 	private $created;
 
 	/**
-	 * @var \Spameri\Elastic\Entity\Property\IElasticId
+	 * @var \Spameri\Elastic\Entity\Property\ElasticIdInterface
 	 */
 	private $createdBy;
 
@@ -22,16 +22,16 @@ class Tracker
 	private $edited;
 
 	/**
-	 * @var \Spameri\Elastic\Entity\Property\IElasticId
+	 * @var \Spameri\Elastic\Entity\Property\ElasticIdInterface
 	 */
 	private $editedBy;
 
 
 	public function __construct(
 		string $created
-		, \Spameri\Elastic\Entity\Property\IElasticId $createdBy
+		, \Spameri\Elastic\Entity\Property\ElasticIdInterface $createdBy
 		, string $edited
-		, \Spameri\Elastic\Entity\Property\IElasticId $editedBy
+		, \Spameri\Elastic\Entity\Property\ElasticIdInterface $editedBy
 	)
 	{
 		$this->created = $created;
@@ -65,7 +65,7 @@ class Tracker
 	}
 
 
-	public function createdBy() : \Spameri\Elastic\Entity\Property\IElasticId
+	public function createdBy() : \Spameri\Elastic\Entity\Property\ElasticIdInterface
 	{
 		return $this->createdBy;
 	}
@@ -77,7 +77,7 @@ class Tracker
 	}
 
 
-	public function editedBy() : \Spameri\Elastic\Entity\Property\IElasticId
+	public function editedBy() : \Spameri\Elastic\Entity\Property\ElasticIdInterface
 	{
 		return $this->editedBy;
 	}

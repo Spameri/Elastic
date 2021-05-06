@@ -6,7 +6,7 @@ namespace SpameriTests\Data\Entity\Video\HighLights;
 use SpameriTests\Data\Entity\Video\HighLights\CompanyCredit\CompanyCollection;
 
 
-class CompanyCredit implements \Spameri\Elastic\Entity\IEntity
+class CompanyCredit implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**

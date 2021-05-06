@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video;
 
 
-class Technical implements \Spameri\Elastic\Entity\IEntity
+class Technical implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**
@@ -76,15 +76,21 @@ class Technical implements \Spameri\Elastic\Entity\IEntity
 	}
 
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	public function entityVariables() : array
 	{
 		return \get_object_vars($this);
 	}
 
 
+	/**
+	 * @throws \Exception
+	 */
 	public function key() : string
 	{
-
+		return (string) \spl_object_id($this);
 	}
 
 

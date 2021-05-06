@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video;
 
 
-class Connections implements \Spameri\Elastic\Entity\IEntity
+class Connections implements \Spameri\Elastic\Entity\EntityInterface
 {
 	/**
 	 * @var \SpameriTests\Data\Entity\Video\Connections\FollowedCollection
@@ -93,7 +93,7 @@ class Connections implements \Spameri\Elastic\Entity\IEntity
 
 	public function key() : string
 	{
-
+		return (string) \spl_object_id($this);
 	}
 
 

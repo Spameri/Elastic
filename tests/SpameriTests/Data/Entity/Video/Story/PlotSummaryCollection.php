@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video\Story;
 
 
-class PlotSummaryCollection implements \Spameri\Elastic\Entity\IValueCollection
+class PlotSummaryCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
 	/**

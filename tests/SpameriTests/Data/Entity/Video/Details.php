@@ -3,7 +3,7 @@
 namespace SpameriTests\Data\Entity\Video;
 
 
-class Details implements \Spameri\Elastic\Entity\IEntity
+class Details implements \Spameri\Elastic\Entity\EntityInterface
 {
 	/**
 	 * @var \SpameriTests\Data\Entity\Video\Details\GenreCollection
@@ -45,7 +45,7 @@ class Details implements \Spameri\Elastic\Entity\IEntity
 
 	public function key() : string
 	{
-
+		return (string) \spl_object_id($this);
 	}
 
 

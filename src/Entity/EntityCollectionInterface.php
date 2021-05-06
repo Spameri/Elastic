@@ -3,17 +3,17 @@
 namespace Spameri\Elastic\Entity;
 
 
-interface IEntityCollection extends \IteratorAggregate
+interface EntityCollectionInterface extends \IteratorAggregate
 {
 
 	public function add(
-		\Spameri\Elastic\Entity\IEntity $entity
+		\Spameri\Elastic\Entity\EntityInterface $entity
 	) : void;
 
 
 	public function entity(
 		string $key
-	) : ?\Spameri\Elastic\Entity\IEntity;
+	) : ?\Spameri\Elastic\Entity\EntityInterface;
 
 
 	public function remove(
