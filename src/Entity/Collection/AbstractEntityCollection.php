@@ -97,7 +97,7 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 
 
 	public function sort(
-		\Spameri\Elastic\Entity\Collection\SortField $sortField, // phpcs:ignore,
+		\Spameri\Elastic\Entity\Collection\SortField $sortField, // phpcs:ignore
 		string $type
 	): void
 	{
