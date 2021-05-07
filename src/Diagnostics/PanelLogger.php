@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Diagnostics;
 
-
 class PanelLogger implements \Psr\Log\LoggerInterface
 {
 
@@ -10,14 +9,17 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	 * @var \Psr\Log\LoggerInterface
 	 */
 	private $logger;
+
 	/**
 	 * @var array<mixed>
 	 */
 	private $queries = [];
+
 	/**
 	 * @var array<mixed>
 	 */
 	private $requestBodies = [];
+
 	/**
 	 * @var array<mixed>
 	 */
@@ -114,6 +116,7 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 		$this->logger->notice($message, $context);
 		$this->logQuery($context);
 	}
+
 
 	/**
 	 * @param string $message

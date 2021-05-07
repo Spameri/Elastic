@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Entity\Property;
 
-
 interface ElasticIdInterface
 {
 

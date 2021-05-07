@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Model;
 
-
 class VideoService extends \Spameri\Elastic\Model\AbstractBaseService
 {
 

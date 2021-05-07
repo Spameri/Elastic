@@ -10,6 +10,7 @@ interface ValidationPropertyInterface
 	 */
 	public function key();
 
+
 	/**
 	 * @return mixed
 	 */

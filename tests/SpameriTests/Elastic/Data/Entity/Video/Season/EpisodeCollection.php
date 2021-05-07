@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Season;
 
-
 class EpisodeCollection extends \Spameri\Elastic\Entity\Collection\AbstractEntityCollection
 {
 
@@ -17,4 +16,5 @@ class EpisodeCollection extends \Spameri\Elastic\Entity\Collection\AbstractEntit
 
 		return NULL;
 	}
+
 }

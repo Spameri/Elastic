@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\HighLights;
 
-
 class Goof implements \Spameri\Elastic\Entity\EntityInterface
 {
 
@@ -23,9 +22,9 @@ class Goof implements \Spameri\Elastic\Entity\EntityInterface
 
 
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id
-		, \SpameriTests\Elastic\Data\Entity\Property\Text $text
-		, Relevancy $relevancy
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id,
+		\SpameriTests\Elastic\Data\Entity\Property\Text $text,
+		Relevancy $relevancy
 	)
 	{
 		$this->id = $id;
@@ -62,4 +61,5 @@ class Goof implements \Spameri\Elastic\Entity\EntityInterface
 	{
 		return $this->relevancy;
 	}
+
 }

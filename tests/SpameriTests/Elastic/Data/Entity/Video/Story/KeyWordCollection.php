@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Story;
 
-
 class KeyWordCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
@@ -13,7 +12,7 @@ class KeyWordCollection implements \Spameri\Elastic\Entity\ValueCollectionInterf
 
 
 	public function __construct(
-		KeyWord ... $entities
+		KeyWord ...$entities
 	)
 	{
 		$this->collection = [];
@@ -35,4 +34,5 @@ class KeyWordCollection implements \Spameri\Elastic\Entity\ValueCollectionInterf
 	{
 		return new \ArrayIterator($this->collection);
 	}
+
 }

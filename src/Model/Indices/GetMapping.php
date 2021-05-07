@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model\Indices;
 
-
 class GetMapping
 {
 
@@ -28,8 +27,8 @@ class GetMapping
 	 * @return array<mixed>
 	 */
 	public function execute(
-		string $index
-		, ?string $type = NULL
+		string $index,
+		?string $type = NULL
 	): array
 	{
 		if ($type === NULL) {

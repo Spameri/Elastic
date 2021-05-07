@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model\Indices;
 
-
 class Create
 {
 
@@ -25,8 +24,8 @@ class Create
 	 * @return array<mixed>
 	 */
 	public function execute(
-		string $index
-		, array $parameters
+		string $index,
+		array $parameters
 	): array
 	{
 		try {
@@ -37,7 +36,8 @@ class Create
 						new \Spameri\ElasticQuery\Document\Body\Plain($parameters)
 					)
 				)->toArray()
-			);
+			)
+				;
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

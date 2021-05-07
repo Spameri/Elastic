@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model\Indices;
 
-
 class Get
 {
 
@@ -35,7 +34,8 @@ class Get
 						$index
 					)
 				)->toArray()
-			);
+			)
+			;
 
 			return $result;
 

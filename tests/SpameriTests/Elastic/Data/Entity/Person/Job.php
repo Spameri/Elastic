@@ -2,9 +2,9 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Person;
 
-
 class Job implements \Spameri\Elastic\Entity\EntityInterface
 {
+
 	public const VIDEO_DIRECTOR = 'Directed by ';
 	public const SERIES_DIRECTOR = 'Series Directed by ';
 	public const VIDEO_PRODUCER = 'Produced by ';
@@ -34,10 +34,10 @@ class Job implements \Spameri\Elastic\Entity\EntityInterface
 
 
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id
-		, \SpameriTests\Elastic\Data\Entity\Property\Name $name
-		, \SpameriTests\Elastic\Data\Entity\Property\Description $description
-		, ?\SpameriTests\Elastic\Data\Entity\Property\ImdbId $episode
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id,
+		\SpameriTests\Elastic\Data\Entity\Property\Name $name,
+		\SpameriTests\Elastic\Data\Entity\Property\Description $description,
+		?\SpameriTests\Elastic\Data\Entity\Property\ImdbId $episode
 	)
 	{
 		$this->id = $id;

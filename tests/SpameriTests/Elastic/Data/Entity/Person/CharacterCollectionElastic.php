@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Person;
 
-
 class CharacterCollectionElastic extends \Spameri\Elastic\Entity\Collection\AbstractEntityCollection
 {
 
@@ -33,4 +32,5 @@ class CharacterCollectionElastic extends \Spameri\Elastic\Entity\Collection\Abst
 			'Character in video: ' . $id->value() . ' not found.'
 		);
 	}
+
 }

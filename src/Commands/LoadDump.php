@@ -2,14 +2,10 @@
 
 namespace Spameri\Elastic\Commands;
 
-
 class LoadDump extends \Symfony\Component\Console\Command\Command
 {
 
-	/**
-	 * @var \Spameri\Elastic\Model\RestoreIndex
-	 */
-	private $restoreIndex;
+	private \Spameri\Elastic\Model\RestoreIndex $restoreIndex;
 
 
 	public function __construct(
@@ -41,8 +37,8 @@ class LoadDump extends \Symfony\Component\Console\Command\Command
 
 
 	protected function execute(
-		\Symfony\Component\Console\Input\InputInterface $input
-		, \Symfony\Component\Console\Output\OutputInterface $output
+		\Symfony\Component\Console\Input\InputInterface $input,
+		\Symfony\Component\Console\Output\OutputInterface $output
 	): int
 	{
 		$output->writeln('Starting');

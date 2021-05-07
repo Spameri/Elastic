@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model\Insert;
 
-
 class PrepareEntityArray
 {
 
@@ -115,4 +114,5 @@ class PrepareEntityArray
 
 		return $preparedArray;
 	}
+
 }

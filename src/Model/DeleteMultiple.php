@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model;
 
-
 class DeleteMultiple
 {
 
@@ -20,9 +19,9 @@ class DeleteMultiple
 
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
-		, \Spameri\ElasticQuery\Response\ResultMapper $resultMapper
-		, VersionProvider $versionProvider
+		\Spameri\Elastic\ClientProvider $clientProvider,
+		\Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
+		VersionProvider $versionProvider
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -36,9 +35,9 @@ class DeleteMultiple
 	 * @throws \Spameri\Elastic\Exception\DocumentInsertFailed
 	 */
 	public function execute(
-		\Spameri\Elastic\Entity\ElasticEntityCollectionInterface $entityCollection
-		, string $index
-		, ?string $type = NULL
+		\Spameri\Elastic\Entity\ElasticEntityCollectionInterface $entityCollection,
+		string $index,
+		?string $type = NULL
 	): \Spameri\ElasticQuery\Response\ResultBulk
 	{
 		if ($type === NULL) {
@@ -55,8 +54,8 @@ class DeleteMultiple
 			$documentsArray[] = [
 				'delete' => [
 					'_index' => $index,
-					'_type'  => $type,
-					'_id' 	 => $entity->id()->value(),
+					'_type' => $type,
+					'_id' => $entity->id()->value(),
 				],
 			];
 		}
@@ -77,7 +76,8 @@ class DeleteMultiple
 						new \Spameri\ElasticQuery\Document($index)
 					)
 						->toArray()
-				);
+				)
+				;
 
 			} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 				throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

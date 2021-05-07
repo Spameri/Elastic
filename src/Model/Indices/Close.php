@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model\Indices;
 
-
 class Close
 {
 
@@ -29,7 +28,8 @@ class Close
 				(
 					new \Spameri\ElasticQuery\Document($index)
 				)->toArray()
-			);
+			)
+			;
 
 			if ($result['acknowledged'] === TRUE) {
 				return TRUE;

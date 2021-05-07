@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Entity\Property;
 
-
 class EmptyElasticId implements \Spameri\Elastic\Entity\ValueInterface, \Spameri\Elastic\Entity\Property\ElasticIdInterface
 {
 

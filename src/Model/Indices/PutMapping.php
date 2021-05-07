@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model\Indices;
 
-
 class PutMapping
 {
 
@@ -29,10 +28,10 @@ class PutMapping
 	 * @return array<mixed>
 	 */
 	public function execute(
-		string $index
-		, array $mapping
-		, string $dynamic = 'false'
-		, ?string $type = NULL
+		string $index,
+		array $mapping,
+		string $dynamic = 'false',
+		?string $type = NULL
 	): array
 	{
 		if ($type === NULL) {
@@ -49,16 +48,19 @@ class PutMapping
 		try {
 			return $this->clientProvider->client()->indices()->putMapping(
 				(
-					new \Spameri\ElasticQuery\Document(
-						$index,
-						new \Spameri\ElasticQuery\Document\Body\Plain([
+				new \Spameri\ElasticQuery\Document(
+					$index,
+					new \Spameri\ElasticQuery\Document\Body\Plain(
+						[
 							'properties' => $properties,
 							'dynamic' => $dynamic,
-						]),
-						$type
-					)
+						]
+					),
+					$type
+				)
 				)->toArray()
-			);
+			)
+				;
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

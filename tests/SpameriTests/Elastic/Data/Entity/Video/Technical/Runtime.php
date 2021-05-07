@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Technical;
 
-
 class Runtime implements \Spameri\Elastic\Entity\ValueInterface
 {
 
@@ -31,4 +30,5 @@ class Runtime implements \Spameri\Elastic\Entity\ValueInterface
 	{
 		return $this->value;
 	}
+
 }

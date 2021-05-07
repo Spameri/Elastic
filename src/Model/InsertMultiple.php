@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model;
 
-
 class InsertMultiple
 {
 
@@ -25,9 +24,9 @@ class InsertMultiple
 
 
 	public function __construct(
-		\Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray
-		, \Spameri\Elastic\ClientProvider $clientProvider
-		, \Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
+		\Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray,
+		\Spameri\Elastic\ClientProvider $clientProvider,
+		\Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
 		\Spameri\Elastic\Model\VersionProvider $versionProvider
 	)
 	{
@@ -43,9 +42,9 @@ class InsertMultiple
 	 * @throws \Spameri\Elastic\Exception\DocumentInsertFailed
 	 */
 	public function execute(
-		\Spameri\Elastic\Entity\ElasticEntityCollectionInterface $entityCollection
-		, string $index
-		, ?string $type = NULL
+		\Spameri\Elastic\Entity\ElasticEntityCollectionInterface $entityCollection,
+		string $index,
+		?string $type = NULL
 	): \Spameri\ElasticQuery\Response\ResultBulk
 	{
 		if ($type === NULL) {
@@ -85,7 +84,8 @@ class InsertMultiple
 					new \Spameri\ElasticQuery\Document($index)
 				)
 					->toArray()
-			);
+			)
+			;
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}

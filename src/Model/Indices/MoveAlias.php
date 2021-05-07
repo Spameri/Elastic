@@ -21,9 +21,10 @@ class MoveAlias
 		try {
 			return $this->clientProvider->client()->indices()->putAlias(
 				(
-					new \Spameri\ElasticQuery\Document(
-						$indexFrom,
-						new \Spameri\ElasticQuery\Document\Body\Plain([
+				new \Spameri\ElasticQuery\Document(
+					$indexFrom,
+					new \Spameri\ElasticQuery\Document\Body\Plain(
+						[
 							'actions' => [
 								'remove' => [
 									'index' => $indexFrom,
@@ -34,15 +35,17 @@ class MoveAlias
 									'alias' => $alias,
 								],
 							],
-						]),
-						NULL,
-						NULL,
-						[
-							'name' => $indexTo,
 						]
-					)
+					),
+					NULL,
+					NULL,
+					[
+						'name' => $indexTo,
+					]
+				)
 				)->toArray()
-			);
+			)
+				;
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

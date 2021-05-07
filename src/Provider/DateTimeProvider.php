@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Provider;
 
-
 class DateTimeProvider
 {
 

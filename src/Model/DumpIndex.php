@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model;
 
-
 class DumpIndex
 {
 
@@ -38,10 +37,11 @@ class DumpIndex
 		$this->output = $output;
 	}
 
+
 	public function execute(
-		string $index
-		, string $filename
-		, ?string $type = NULL
+		string $index,
+		string $filename,
+		?string $type = NULL
 	): void
 	{
 		if ( ! $type) {
@@ -89,9 +89,9 @@ class DumpIndex
 	{
 		$bulkData = [
 			'index' => [
-				'_index'	=> $hit->index(),
-				'_type'  	=> $hit->type(),
-				'_id'  		=> $hit->id(),
+				'_index' => $hit->index(),
+				'_type' => $hit->type(),
+				'_id' => $hit->id(),
 			],
 		];
 

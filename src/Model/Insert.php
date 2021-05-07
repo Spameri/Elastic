@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model;
 
-
 class Insert
 {
 
@@ -20,8 +19,8 @@ class Insert
 
 
 	public function __construct(
-		\Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray
-		, \Spameri\Elastic\ClientProvider $clientProvider,
+		\Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray,
+		\Spameri\Elastic\ClientProvider $clientProvider,
 		\Spameri\Elastic\Model\VersionProvider $versionProvider
 	)
 	{
@@ -36,9 +35,9 @@ class Insert
 	 * @throws \Spameri\Elastic\Exception\DocumentInsertFailed
 	 */
 	public function execute(
-		\Spameri\Elastic\Entity\ElasticEntityInterface $entity
-		, string $index
-		, ?string $type = NULL
+		\Spameri\Elastic\Entity\ElasticEntityInterface $entity,
+		string $index,
+		?string $type = NULL
 	): string
 	{
 		if ($type === NULL) {
@@ -62,7 +61,8 @@ class Insert
 						$entity->id()->value()
 					)
 				)->toArray()
-			);
+			)
+			;
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
@@ -71,10 +71,11 @@ class Insert
 		try {
 			$this->clientProvider->client()->indices()->refresh(
 				(
-					new \Spameri\ElasticQuery\Document($index)
+				new \Spameri\ElasticQuery\Document($index)
 				)
 					->toArray()
-			);
+			)
+			;
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

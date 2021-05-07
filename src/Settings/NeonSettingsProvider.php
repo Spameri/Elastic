@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Settings;
 
-
 class NeonSettingsProvider implements \Spameri\Elastic\SettingsProviderInterface
 {
 

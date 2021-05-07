@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Entity\Value;
 
-
 class StringValue implements \Spameri\Elastic\Entity\ValueInterface
 {
 

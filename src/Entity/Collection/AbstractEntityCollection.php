@@ -2,9 +2,9 @@
 
 namespace Spameri\Elastic\Entity\Collection;
 
-
 abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\EntityCollectionInterface
 {
+
 	/**
 	 * @var array<\Spameri\Elastic\Entity\EntityInterface>
 	 */
@@ -12,7 +12,7 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 
 
 	public function __construct(
-		\Spameri\Elastic\Entity\EntityInterface ... $entityCollection
+		\Spameri\Elastic\Entity\EntityInterface ...$entityCollection
 	)
 	{
 		$this->collection = [];
@@ -97,8 +97,8 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 
 
 	public function sort(
-		\Spameri\Elastic\Entity\Collection\SortField $sortField // phpcs:ignore
-		, string $type
+		\Spameri\Elastic\Entity\Collection\SortField $sortField, // phpcs:ignore,
+		string $type
 	): void
 	{
 		if ( ! \in_array($type, ['asc', 'desc'], TRUE)) {
@@ -107,4 +107,5 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 
 		throw new \Nette\NotImplementedException();
 	}
+
 }

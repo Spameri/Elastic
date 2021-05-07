@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\HighLights;
 
-
 class AlternateVersion implements \Spameri\Elastic\Entity\EntityInterface
 {
 

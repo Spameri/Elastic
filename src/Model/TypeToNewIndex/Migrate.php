@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model\TypeToNewIndex;
 
-
 class Migrate
 {
 
@@ -72,19 +71,19 @@ class Migrate
 
 
 	public function __construct(
-		DocumentMigrateStatus $documentMigrateStatus
-		, \Spameri\Elastic\ClientProvider $clientProvider
-		, \Spameri\Elastic\Provider\DateTimeProvider $dateTimeProvider
-		, \Spameri\Elastic\Model\Delete $delete
-		, \Spameri\Elastic\Model\Get $get
-		, \Spameri\Elastic\Model\Indices\Close $close
-		, \Spameri\Elastic\Model\Indices\GetMapping $getMapping
-		, \Spameri\Elastic\Model\Indices\PutMapping $putMapping
-		, \Spameri\Elastic\Model\Search $search
-		, \Spameri\Elastic\Model\Indices\Create $create
-		, \Spameri\Elastic\Model\Indices\Get $indicesGet
-		, \Spameri\Elastic\Model\Indices\AddAlias $addAlias
-		, \Spameri\Elastic\Model\VersionProvider $versionProvider
+		DocumentMigrateStatus $documentMigrateStatus,
+		\Spameri\Elastic\ClientProvider $clientProvider,
+		\Spameri\Elastic\Provider\DateTimeProvider $dateTimeProvider,
+		\Spameri\Elastic\Model\Delete $delete,
+		\Spameri\Elastic\Model\Get $get,
+		\Spameri\Elastic\Model\Indices\Close $close,
+		\Spameri\Elastic\Model\Indices\GetMapping $getMapping,
+		\Spameri\Elastic\Model\Indices\PutMapping $putMapping,
+		\Spameri\Elastic\Model\Search $search,
+		\Spameri\Elastic\Model\Indices\Create $create,
+		\Spameri\Elastic\Model\Indices\Get $indicesGet,
+		\Spameri\Elastic\Model\Indices\AddAlias $addAlias,
+		\Spameri\Elastic\Model\VersionProvider $versionProvider
 	)
 	{
 		$this->documentMigrateStatus = $documentMigrateStatus;
@@ -115,12 +114,12 @@ class Migrate
 	 * @throws \Elasticsearch\Common\Exceptions\ElasticsearchException
 	 */
 	public function execute(
-		string $indexFrom
-		, string $typeFrom
-		, string $indexTo
-		, string $aliasTo
-		, ?string $typeTo
-		, bool $allowClose
+		string $indexFrom,
+		string $typeFrom,
+		string $indexTo,
+		string $aliasTo,
+		?string $typeTo,
+		bool $allowClose
 	): void
 	{
 		// 1. Close index
@@ -232,7 +231,7 @@ class Migrate
 
 		// 9. Write info
 		$this->output->writeln(
-			'Migration done. All old data remains in old index: '. $indexFrom . ' with type: ' . $typeFrom
+			'Migration done. All old data remains in old index: ' . $indexFrom . ' with type: ' . $typeFrom
 			. ' it is recommended to manually delete data after this command'
 		);
 
@@ -244,11 +243,11 @@ class Migrate
 	 * @throws \Elasticsearch\Common\Exceptions\ElasticsearchException
 	 */
 	public function processHit(
-		string $indexTo
-		, ?string $typeTo
-		, string $indexFrom
-		, \Spameri\ElasticQuery\Response\Result\Hit $hit
-		, bool $allowClose
+		string $indexTo,
+		?string $typeTo,
+		string $indexFrom,
+		\Spameri\ElasticQuery\Response\Result\Hit $hit,
+		bool $allowClose
 	): void
 	{
 		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
@@ -264,7 +263,8 @@ class Migrate
 					$hit->id()
 				)
 			)->toArray()
-		);
+		)
+		;
 
 		if ($allowClose === FALSE) {
 			$this->documentMigrateStatus->add($hit->id(), $hit->version());

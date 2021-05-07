@@ -45,8 +45,8 @@ class InitializeIndexes extends \Symfony\Component\Console\Command\Command
 	 * @throws \Spameri\Elastic\Exception\AbstractElasticSearchException
 	 */
 	protected function execute(
-		\Symfony\Component\Console\Input\InputInterface $input
-		, \Symfony\Component\Console\Output\OutputInterface $output
+		\Symfony\Component\Console\Input\InputInterface $input,
+		\Symfony\Component\Console\Output\OutputInterface $output
 	): int
 	{
 		/** @var array<string> $entityNames */
@@ -68,7 +68,6 @@ class InitializeIndexes extends \Symfony\Component\Console\Command\Command
 				$this->delete->execute($settings->indexName());
 				$output->writeln('Index ' . $settings->indexName() . ' deleted.');
 			}
-
 
 			try {
 				// initialize

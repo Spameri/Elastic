@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Entity\Collection;
 
-
 abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
 {
 
@@ -28,9 +27,9 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 
 
 	public function __construct(
-		\Spameri\Elastic\Model\ServiceInterface $service
-		, array $elasticIds = []
-		, \Spameri\Elastic\Entity\ElasticEntityInterface ... $entityCollection
+		\Spameri\Elastic\Model\ServiceInterface $service,
+		array $elasticIds = [],
+		\Spameri\Elastic\Entity\ElasticEntityInterface ...$entityCollection
 	)
 	{
 		$this->collection = [];
@@ -205,8 +204,8 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 
 
 	public function sort(
-		\Spameri\Elastic\Entity\Collection\SortField $sortField // phpcs:ignore
-		, string $type
+		\Spameri\Elastic\Entity\Collection\SortField $sortField, // phpcs:ignore
+		string $type
 	): void
 	{
 		if ( ! $this->initialized) {

@@ -2,9 +2,7 @@
 
 namespace SpameriTests\Elastic\DI;
 
-
 require_once __DIR__ . '/../../../bootstrap.php';
-
 
 class Extension extends \Tester\TestCase
 {
@@ -53,4 +51,5 @@ class Extension extends \Tester\TestCase
 	}
 
 }
+
 (new Extension())->run();

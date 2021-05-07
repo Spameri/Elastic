@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Connections;
 
-
 class Referenced implements \Spameri\Elastic\Entity\EntityInterface
 {
 
@@ -18,8 +17,8 @@ class Referenced implements \Spameri\Elastic\Entity\EntityInterface
 
 
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id
-		, \SpameriTests\Elastic\Data\Entity\Property\Text $note
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id,
+		\SpameriTests\Elastic\Data\Entity\Property\Text $note
 	)
 	{
 		$this->id = $id;
@@ -49,4 +48,5 @@ class Referenced implements \Spameri\Elastic\Entity\EntityInterface
 	{
 		return $this->note;
 	}
+
 }

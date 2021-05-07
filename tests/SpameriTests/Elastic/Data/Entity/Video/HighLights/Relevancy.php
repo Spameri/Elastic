@@ -2,9 +2,9 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\HighLights;
 
-
 class Relevancy implements \Spameri\Elastic\Entity\ValueInterface
 {
+
 	/**
 	 * @var int
 	 */
@@ -22,8 +22,10 @@ class Relevancy implements \Spameri\Elastic\Entity\ValueInterface
 		$this->value = $value;
 	}
 
+
 	public function value(): int
 	{
 		return $this->value;
 	}
+
 }

@@ -23,14 +23,16 @@ class RemoveAlias
 				(
 				new \Spameri\ElasticQuery\Document(
 					$index,
-					new \Spameri\ElasticQuery\Document\Body\Plain([
-						'actions' => [
-							'remove' => [
-								'index' => $index,
-								'alias' => $alias,
+					new \Spameri\ElasticQuery\Document\Body\Plain(
+						[
+							'actions' => [
+								'remove' => [
+									'index' => $index,
+									'alias' => $alias,
+								],
 							],
-						],
-					]),
+						]
+					),
 					NULL,
 					NULL,
 					[
@@ -38,7 +40,8 @@ class RemoveAlias
 					]
 				)
 				)->toArray()
-			);
+			)
+				;
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

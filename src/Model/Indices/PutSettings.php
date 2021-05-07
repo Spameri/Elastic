@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model\Indices;
 
-
 class PutSettings
 {
 
@@ -25,8 +24,8 @@ class PutSettings
 	 * @return array<mixed>
 	 */
 	public function execute(
-		string $index
-		, array $settings
+		string $index,
+		array $settings
 	): array
 	{
 		try {
@@ -37,7 +36,8 @@ class PutSettings
 						new \Spameri\ElasticQuery\Document\Body\Plain($settings)
 					)
 				)->toArray()
-			);
+			)
+				;
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

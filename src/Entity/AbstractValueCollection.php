@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Entity;
 
-
 abstract class AbstractValueCollection implements ValueCollectionInterface
 {
 
@@ -13,7 +12,7 @@ abstract class AbstractValueCollection implements ValueCollectionInterface
 
 
 	public function __construct(
-		\Spameri\Elastic\Entity\ValueInterface ... $collection
+		\Spameri\Elastic\Entity\ValueInterface ...$collection
 	)
 	{
 		$this->collection = [];

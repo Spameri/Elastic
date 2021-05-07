@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Entity\Value;
 
-
 class NullValue implements \Spameri\Elastic\Entity\ValueInterface
 {
 

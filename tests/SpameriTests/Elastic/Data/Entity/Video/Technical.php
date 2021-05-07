@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video;
 
-
 class Technical implements \Spameri\Elastic\Entity\EntityInterface
 {
 
@@ -53,15 +52,15 @@ class Technical implements \Spameri\Elastic\Entity\EntityInterface
 
 
 	public function __construct(
-		?\SpameriTests\Elastic\Data\Entity\Video\Technical\Camera $camera = NULL
-		, ?\SpameriTests\Elastic\Data\Entity\Video\Technical\Runtime $runtime = NULL
-		, ?\SpameriTests\Elastic\Data\Entity\Video\Technical\Color $color = NULL
-		, ?\SpameriTests\Elastic\Data\Entity\Video\Technical\Ratio $ratio = NULL
-		, ?\SpameriTests\Elastic\Data\Entity\Video\Technical\Laboratory $laboratory = NULL
-		, ?\SpameriTests\Elastic\Data\Entity\Video\Technical\FilmLength $filmLength = NULL
-		, ?\SpameriTests\Elastic\Data\Entity\Video\Technical\NegativeFormat $negativeFormat = NULL
-		, ?\SpameriTests\Elastic\Data\Entity\Video\Technical\CineProcess $cineProcess = NULL
-		, ?\SpameriTests\Elastic\Data\Entity\Video\Technical\Printed $printed = NULL
+		?\SpameriTests\Elastic\Data\Entity\Video\Technical\Camera $camera = NULL,
+		?\SpameriTests\Elastic\Data\Entity\Video\Technical\Runtime $runtime = NULL,
+		?\SpameriTests\Elastic\Data\Entity\Video\Technical\Color $color = NULL,
+		?\SpameriTests\Elastic\Data\Entity\Video\Technical\Ratio $ratio = NULL,
+		?\SpameriTests\Elastic\Data\Entity\Video\Technical\Laboratory $laboratory = NULL,
+		?\SpameriTests\Elastic\Data\Entity\Video\Technical\FilmLength $filmLength = NULL,
+		?\SpameriTests\Elastic\Data\Entity\Video\Technical\NegativeFormat $negativeFormat = NULL,
+		?\SpameriTests\Elastic\Data\Entity\Video\Technical\CineProcess $cineProcess = NULL,
+		?\SpameriTests\Elastic\Data\Entity\Video\Technical\Printed $printed = NULL
 	)
 	{
 		$this->camera = $camera;
@@ -146,4 +145,5 @@ class Technical implements \Spameri\Elastic\Entity\EntityInterface
 	{
 		return $this->printed;
 	}
+
 }

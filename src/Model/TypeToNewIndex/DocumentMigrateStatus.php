@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model\TypeToNewIndex;
 
-
 class DocumentMigrateStatus
 {
 

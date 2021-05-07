@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Technical;
 
-
 class Laboratory implements \Spameri\Elastic\Entity\ValueInterface
 {
 
@@ -28,4 +27,5 @@ class Laboratory implements \Spameri\Elastic\Entity\ValueInterface
 	{
 		return $this->value;
 	}
+
 }

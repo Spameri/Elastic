@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity;
 
-
 class Video implements \Spameri\Elastic\Entity\ElasticEntityInterface
 {
 
@@ -63,17 +62,17 @@ class Video implements \Spameri\Elastic\Entity\ElasticEntityInterface
 
 
 	public function __construct(
-		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
-		, \SpameriTests\Elastic\Data\Entity\Video\Identification $identification
-		, \SpameriTests\Elastic\Data\Entity\Property\Name $name
-		, \SpameriTests\Elastic\Data\Entity\Property\Year $year
-		, \SpameriTests\Elastic\Data\Entity\Video\Technical $technical
-		, \SpameriTests\Elastic\Data\Entity\Video\Story $story
-		, \SpameriTests\Elastic\Data\Entity\Video\Details $details
-		, \SpameriTests\Elastic\Data\Entity\Video\HighLights $highLights
-		, \SpameriTests\Elastic\Data\Entity\Video\Connections $connections
-		, \SpameriTests\Elastic\Data\Entity\Video\People $people
-		, \SpameriTests\Elastic\Data\Entity\Video\SeasonCollection $season = NULL
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
+		\SpameriTests\Elastic\Data\Entity\Video\Identification $identification,
+		\SpameriTests\Elastic\Data\Entity\Property\Name $name,
+		\SpameriTests\Elastic\Data\Entity\Property\Year $year,
+		\SpameriTests\Elastic\Data\Entity\Video\Technical $technical,
+		\SpameriTests\Elastic\Data\Entity\Video\Story $story,
+		\SpameriTests\Elastic\Data\Entity\Video\Details $details,
+		\SpameriTests\Elastic\Data\Entity\Video\HighLights $highLights,
+		\SpameriTests\Elastic\Data\Entity\Video\Connections $connections,
+		\SpameriTests\Elastic\Data\Entity\Video\People $people,
+		\SpameriTests\Elastic\Data\Entity\Video\SeasonCollection $season = NULL
 	)
 	{
 		$this->id = $id;
@@ -182,4 +181,5 @@ class Video implements \Spameri\Elastic\Entity\ElasticEntityInterface
 	{
 		return $this->people;
 	}
+
 }

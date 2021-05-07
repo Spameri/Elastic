@@ -2,9 +2,7 @@
 
 namespace SpameriTests\Elastic\Model;
 
-
 require_once __DIR__ . '/../../../bootstrap.php';
-
 
 class Insert extends \SpameriTests\Elastic\AbstractTestCase
 {
@@ -67,12 +65,15 @@ class Insert extends \SpameriTests\Elastic\AbstractTestCase
 
 		$insert = $this->container->getByType(\Spameri\Elastic\Model\Insert::class);
 
-		\Tester\Assert::noError(static function () use ($insert, $video) {
-			$id = $insert->execute($video, 'spameri_video');
+		\Tester\Assert::noError(
+			static function() use ($insert, $video) {
+				$id = $insert->execute($video, 'spameri_video');
 
-			\Tester\Assert::same(20, \strlen($id));
-		});
+				\Tester\Assert::same(20, \strlen($id));
+			}
+		);
 	}
 
 }
+
 (new Insert())->run();

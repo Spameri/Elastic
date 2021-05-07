@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\DI;
 
-
 class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 {
 
@@ -10,12 +9,12 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 	 * @var array<mixed>
 	 */
 	public $defaults = [
-		'host' 		=> 'localhost',
-		'port' 		=> 9200,
-		'debug'		=> FALSE,
-		'version'	=> \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7,
+		'host' => 'localhost',
+		'port' => 9200,
+		'debug' => FALSE,
+		'version' => \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7,
 		'synonymPath' => NULL,
-		'entities' 	=> [],
+		'entities' => [],
 	];
 
 
@@ -99,8 +98,7 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 				->getDefinition('tracy.bar')
 			;
 			$definition
-				->addSetup('addPanel', ['@' . $this->prefix('elasticPanel')])
-			;
+				->addSetup('addPanel', ['@' . $this->prefix('elasticPanel')]);
 		}
 
 		return $services;

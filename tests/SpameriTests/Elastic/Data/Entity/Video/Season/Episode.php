@@ -2,9 +2,9 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Season;
 
-
 class Episode implements \Spameri\Elastic\Entity\EntityInterface
 {
+
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Property\ImdbId
 	 */
@@ -27,10 +27,10 @@ class Episode implements \Spameri\Elastic\Entity\EntityInterface
 
 
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id
-		, \SpameriTests\Elastic\Data\Entity\Property\ImdbId $number
-		, \SpameriTests\Elastic\Data\Entity\Property\Name $name
-		, \SpameriTests\Elastic\Data\Entity\Property\Description $description
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id,
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $number,
+		\SpameriTests\Elastic\Data\Entity\Property\Name $name,
+		\SpameriTests\Elastic\Data\Entity\Property\Description $description
 	)
 	{
 		$this->id = $id;
@@ -74,4 +74,5 @@ class Episode implements \Spameri\Elastic\Entity\EntityInterface
 	{
 		return $this->description;
 	}
+
 }

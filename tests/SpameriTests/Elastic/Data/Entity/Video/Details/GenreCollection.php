@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Details;
 
-
 class GenreCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
@@ -13,7 +12,7 @@ class GenreCollection implements \Spameri\Elastic\Entity\ValueCollectionInterfac
 
 
 	public function __construct(
-		Genre ... $collection
+		Genre ...$collection
 	)
 	{
 		$this->collection = [];

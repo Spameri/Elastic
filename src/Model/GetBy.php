@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model;
 
-
 class GetBy
 {
 
@@ -10,6 +9,7 @@ class GetBy
 	 * @var \Spameri\Elastic\ClientProvider
 	 */
 	private $clientProvider;
+
 	/**
 	 * @var \Spameri\ElasticQuery\Response\ResultMapper
 	 */
@@ -19,9 +19,9 @@ class GetBy
 
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
-		, \Spameri\ElasticQuery\Response\ResultMapper $resultMapper
-		, VersionProvider $versionProvider
+		\Spameri\Elastic\ClientProvider $clientProvider,
+		\Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
+		VersionProvider $versionProvider
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -34,9 +34,9 @@ class GetBy
 	 * @throws \Spameri\Elastic\Exception\ElasticSearch
 	 */
 	public function execute(
-		\Spameri\ElasticQuery\ElasticQuery $options
-		, string $index
-		, ?string $type = NULL
+		\Spameri\ElasticQuery\ElasticQuery $options,
+		string $index,
+		?string $type = NULL
 	): \Spameri\ElasticQuery\Response\ResultSearch
 	{
 		if ($type === NULL) {
@@ -57,7 +57,8 @@ class GetBy
 					)
 				)
 					->toArray()
-			);
+			)
+			;
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
@@ -65,4 +66,5 @@ class GetBy
 
 		return $this->resultMapper->mapSearchResults($response);
 	}
+
 }

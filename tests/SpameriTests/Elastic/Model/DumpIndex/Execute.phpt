@@ -2,9 +2,7 @@
 
 namespace SpameriTests\Elastic\Model\DumpIndex;
 
-
 require_once __DIR__ . '/../../../../bootstrap.php';
-
 
 /**
  * @testCase
@@ -24,7 +22,7 @@ class Execute extends \SpameriTests\Elastic\AbstractTestCase
 	}
 
 
-	public function testProcess() : void
+	public function testProcess(): void
 	{
 		/** @var \Spameri\Elastic\Model\DumpIndex $dumpIndex */
 		$dumpIndex = $this->container->getByType(\Spameri\Elastic\Model\DumpIndex::class);

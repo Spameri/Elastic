@@ -2,9 +2,9 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Details;
 
-
 class RatingsCount implements \Spameri\Elastic\Entity\ValueInterface
 {
+
 	/**
 	 * @var int
 	 */
@@ -31,4 +31,5 @@ class RatingsCount implements \Spameri\Elastic\Entity\ValueInterface
 	{
 		return $this->value;
 	}
+
 }

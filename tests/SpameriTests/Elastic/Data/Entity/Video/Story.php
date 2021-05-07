@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video;
 
-
 class Story implements \Spameri\Elastic\Entity\EntityInterface
 {
 
@@ -33,11 +32,11 @@ class Story implements \Spameri\Elastic\Entity\EntityInterface
 
 
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Property\Description $description
-		, \SpameriTests\Elastic\Data\Entity\Video\Story\TagLineCollection $tagLines
-		, \SpameriTests\Elastic\Data\Entity\Video\Story\PlotSummaryCollection $plots
-		, \SpameriTests\Elastic\Data\Entity\Video\Story\KeyWordCollection $keyWord
-		, ?\SpameriTests\Elastic\Data\Entity\Video\Story\Synopsis $synopsis = NULL
+		\SpameriTests\Elastic\Data\Entity\Property\Description $description,
+		\SpameriTests\Elastic\Data\Entity\Video\Story\TagLineCollection $tagLines,
+		\SpameriTests\Elastic\Data\Entity\Video\Story\PlotSummaryCollection $plots,
+		\SpameriTests\Elastic\Data\Entity\Video\Story\KeyWordCollection $keyWord,
+		?\SpameriTests\Elastic\Data\Entity\Video\Story\Synopsis $synopsis = NULL
 	)
 	{
 		$this->description = $description;
@@ -104,4 +103,5 @@ class Story implements \Spameri\Elastic\Entity\EntityInterface
 	{
 		return $this->keyWords;
 	}
+
 }

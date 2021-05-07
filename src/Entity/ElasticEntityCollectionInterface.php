@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Entity;
 
-
 interface ElasticEntityCollectionInterface extends \IteratorAggregate
 {
 
@@ -42,8 +41,8 @@ interface ElasticEntityCollectionInterface extends \IteratorAggregate
 
 
 	public function sort(
-		\Spameri\Elastic\Entity\Collection\SortField $sortField
-		, string $type
+		\Spameri\Elastic\Entity\Collection\SortField $sortField,
+		string $type
 	): void;
 
 }
