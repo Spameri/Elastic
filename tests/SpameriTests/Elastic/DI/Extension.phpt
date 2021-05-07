@@ -30,10 +30,15 @@ class Extension extends \Tester\TestCase
 		$container = $this->config->createContainer();
 
 		$search = $container->getByType(\Spameri\Elastic\Model\Search::class);
-		$resultMapper = $container->getByType(\Spameri\ElasticQuery\Response\ResultMapper::class);
-
 		\Tester\Assert::true($search instanceof \Spameri\Elastic\Model\Search);
+
+		$resultMapper = $container->getByType(\Spameri\ElasticQuery\Response\ResultMapper::class);
 		\Tester\Assert::true($resultMapper instanceof \Spameri\ElasticQuery\Response\ResultMapper);
+
+		/** @var \Spameri\Elastic\ClientProvider $clientProvider */
+		$clientProvider = $container->getByType(\Spameri\Elastic\ClientProvider::class);
+		$connection = $clientProvider->client()->transport->connectionPool->nextConnection();
+		\Tester\Assert::same(\SpameriTests\Elastic\Config::CONNECTION, $connection->getHost());
 	}
 
 }
