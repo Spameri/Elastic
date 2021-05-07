@@ -1,7 +1,4 @@
 services:
-	elasticMapper:
-	 	factory: Spameri\Elastic\Mapper\ElasticMapper
-
 	insert:
 		factory: Spameri\Elastic\Model\Insert
 
@@ -38,6 +35,34 @@ services:
 	deleteMultiple:
 		factory: Spameri\Elastic\Model\DeleteMultiple
 
+	serviceLocator:
+		factory: Spameri\Elastic\Model\ServiceLocator
+
+	documentMigrateStatus:
+		factory: Spameri\Elastic\Model\TypeToNewIndex\DocumentMigrateStatus
+
+	migrate:
+		factory: Spameri\Elastic\Model\TypeToNewIndex\Migrate
+
+	modelDumpIndex:
+		factory: \Spameri\Elastic\Model\DumpIndex
+
+	restoreIndex:
+		factory: \Spameri\Elastic\Model\RestoreIndex
+
+	createIndex:
+		factory: Spameri\Elastic\Model\CreateIndex
+
+	deleteIndex:
+		factory: Spameri\Elastic\Model\DeleteIndex
+
+	initializeIndex:
+		factory: Spameri\Elastic\Model\InitializeIndex
+
+#	###
+#	Indices
+#	###
+
 	indiceClose:
 		factory: Spameri\Elastic\Model\Indices\Close
 
@@ -62,8 +87,14 @@ services:
 	indicesDelete:
 		factory: Spameri\Elastic\Model\Indices\Delete
 
-	serviceLocator:
-		factory: Spameri\Elastic\Model\ServiceLocator
+	indicesAddAlias:
+		factory: Spameri\Elastic\Model\Indices\AddAlias
+
+	indicesMoveAlias:
+		factory: Spameri\Elastic\Model\Indices\MoveAlias
+
+	indicesRemoveAlias:
+		factory: Spameri\Elastic\Model\Indices\RemoveAlias
 
 	neonSettingsProvider:
 		factory: Spameri\Elastic\Settings\NeonSettingsProvider(%host%, %port%)
@@ -82,60 +113,54 @@ services:
 	elasticPanel:
 		factory: Spameri\Elastic\Diagnostics\Panel(@spameriElasticSearch.elasticPanelLogger)
 
-	documentMigrateStatus:
-		factory: Spameri\Elastic\Model\TypeToNewIndex\DocumentMigrateStatus
-
-	migrate:
-		factory: Spameri\Elastic\Model\TypeToNewIndex\Migrate
-
-	modelDumpIndex:
-		factory: \Spameri\Elastic\Model\DumpIndex
-
-	restoreIndex:
-		factory: \Spameri\Elastic\Model\RestoreIndex
-
 #	###
 #	Commands
 #	###
 
-	createIndex:
+	createIndexCommand:
 		factory: Spameri\Elastic\Commands\CreateIndex
 		tags:
 			- kdyby.console.command
 			- console.command
 
-	deleteIndex:
+	deleteIndexCommand:
 		factory: Spameri\Elastic\Commands\DeleteIndex
 		tags:
 			- kdyby.console.command
 			- console.command
 
-	addAlias:
+	addAliasCommand:
 		factory: Spameri\Elastic\Commands\AddAlias
 		tags:
 			- kdyby.console.command
 			- console.command
 
-	removeAlias:
+	removeAliasCommand:
 		factory: Spameri\Elastic\Commands\RemoveAlias
 		tags:
 			- kdyby.console.command
 			- console.command
 
-	typeToNewIndex:
+	typeToNewIndexCommand:
 		factory: Spameri\Elastic\Commands\TypeToNewIndex
 		tags:
 			- kdyby.console.command
 			- console.command
 
-	dumpIndex:
+	dumpIndexCommand:
 		factory: Spameri\Elastic\Commands\DumpIndex
 		tags:
 			- kdyby.console.command
 			- console.command
 
-	loadDump:
+	loadDumpCommand:
 		factory: Spameri\Elastic\Commands\LoadDump
+		tags:
+			- kdyby.console.command
+			- console.command
+
+	initializeIndexesCommand:
+		factory: Spameri\Elastic\Commands\InitializeIndexes
 		tags:
 			- kdyby.console.command
 			- console.command

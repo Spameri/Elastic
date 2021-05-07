@@ -6,18 +6,15 @@ namespace Spameri\Elastic\Commands;
 class DeleteIndex extends \Symfony\Component\Console\Command\Command
 {
 
-	/**
-	 * @var \Spameri\Elastic\Mapper\ElasticMapper
-	 */
-	private $elasticMapper;
+	private \Spameri\Elastic\Model\Indices\Delete $delete;
 
 
 	public function __construct(
-		\Spameri\Elastic\Mapper\ElasticMapper $elasticMapper
+		\Spameri\Elastic\Model\Indices\Delete $delete
 	)
 	{
 		parent::__construct(NULL);
-		$this->elasticMapper = $elasticMapper;
+		$this->delete = $delete;
 	}
 
 
@@ -41,7 +38,7 @@ class DeleteIndex extends \Symfony\Component\Console\Command\Command
 		$output->writeln('Starting');
 
 		foreach ($indexNames as $indexName) {
-			$this->elasticMapper->deleteIndex($indexName);
+			$this->delete->execute($indexName);
 		}
 
 		$output->writeln('Done');
