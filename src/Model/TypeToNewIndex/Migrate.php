@@ -57,11 +57,6 @@ class Migrate
 	private $search;
 
 	/**
-	 * @var \Spameri\Elastic\Mapper\ElasticMapper
-	 */
-	private $elasticMapper;
-
-	/**
 	 * @var \Spameri\Elastic\Model\Indices\Create
 	 */
 	private $create;
@@ -70,6 +65,8 @@ class Migrate
 	 * @var \Spameri\Elastic\Model\Indices\Get
 	 */
 	private $indicesGet;
+
+	private \Spameri\Elastic\Model\Indices\AddAlias $addAlias;
 
 
 	public function __construct(
@@ -82,9 +79,9 @@ class Migrate
 		, \Spameri\Elastic\Model\Indices\GetMapping $getMapping
 		, \Spameri\Elastic\Model\Indices\PutMapping $putMapping
 		, \Spameri\Elastic\Model\Search $search
-		, \Spameri\Elastic\Mapper\ElasticMapper $elasticMapper
 		, \Spameri\Elastic\Model\Indices\Create $create
 		, \Spameri\Elastic\Model\Indices\Get $indicesGet
+		, \Spameri\Elastic\Model\Indices\AddAlias $addAlias
 	)
 	{
 		$this->documentMigrateStatus = $documentMigrateStatus;
@@ -96,9 +93,9 @@ class Migrate
 		$this->getMapping = $getMapping;
 		$this->putMapping = $putMapping;
 		$this->search = $search;
-		$this->elasticMapper = $elasticMapper;
 		$this->create = $create;
 		$this->indicesGet = $indicesGet;
+		$this->addAlias = $addAlias;
 	}
 
 
@@ -227,7 +224,7 @@ class Migrate
 
 		// 8. Switch to new index
 		$this->output->writeln('Adding alias: ' . $aliasTo . ' to index: ' . $indexTo);
-		$this->elasticMapper->addAlias($indexTo, $aliasTo);
+		$this->addAlias->execute($aliasTo, $indexTo);
 
 		// 9. Write info
 		$this->output->writeln(

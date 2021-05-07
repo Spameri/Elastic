@@ -6,18 +6,19 @@ namespace Spameri\Elastic\Commands;
 class CreateIndex extends \Symfony\Component\Console\Command\Command
 {
 
-	/**
-	 * @var \Spameri\Elastic\Mapper\ElasticMapper
-	 */
-	private $elasticMapper;
+	private \Spameri\Elastic\Model\CreateIndex $createIndex;
+
+	private \Spameri\Elastic\Model\DeleteIndex $deleteIndex;
 
 
 	public function __construct(
-		\Spameri\Elastic\Mapper\ElasticMapper $elasticMapper
+		\Spameri\Elastic\Model\CreateIndex $createIndex,
+		\Spameri\Elastic\Model\DeleteIndex $deleteIndex
 	)
 	{
 		parent::__construct(NULL);
-		$this->elasticMapper = $elasticMapper;
+		$this->createIndex = $createIndex;
+		$this->deleteIndex = $deleteIndex;
 	}
 
 
@@ -25,7 +26,9 @@ class CreateIndex extends \Symfony\Component\Console\Command\Command
 	{
 		$this
 			->setName('spameri:elastic:create-index')
-			->setDescription('Creates index')
+			->setDescription(
+				'Creates index. Take string as is, adds timestamp and inserts it in Elastic. No mapping or settings.'
+			)
 			->addArgument('indexName', \Symfony\Component\Console\Input\InputArgument::REQUIRED)
 			->addOption(
 				'force', 'f', NULL,
@@ -48,13 +51,12 @@ class CreateIndex extends \Symfony\Component\Console\Command\Command
 		$forcedDelete = $input->getOption('force');
 
 		if ($forcedDelete) {
-			$this->elasticMapper->deleteIndex($indexName);
+			$this->deleteIndex->execute($indexName);
 			$output->writeln('Index ' . $indexName . ' deleted.');
 		}
+
 		try {
-			$this->elasticMapper->createIndex([
-				'index' => $indexName,
-			]);
+			$this->createIndex->execute($indexName);
 			$output->writeln('Index ' . $indexName . ' created.');
 
 		} catch (\Spameri\Elastic\Exception\AbstractElasticSearchException $exception) {

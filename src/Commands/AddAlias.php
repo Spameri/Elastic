@@ -6,18 +6,15 @@ namespace Spameri\Elastic\Commands;
 class AddAlias extends \Symfony\Component\Console\Command\Command
 {
 
-	/**
-	 * @var \Spameri\Elastic\Mapper\ElasticMapper
-	 */
-	private $elasticMapper;
+	private \Spameri\Elastic\Model\Indices\AddAlias $addAlias;
 
 
 	public function __construct(
-		\Spameri\Elastic\Mapper\ElasticMapper $elasticMapper
+		\Spameri\Elastic\Model\Indices\AddAlias $addAlias
 	)
 	{
 		parent::__construct(NULL);
-		$this->elasticMapper = $elasticMapper;
+		$this->addAlias = $addAlias;
 	}
 
 
@@ -43,7 +40,7 @@ class AddAlias extends \Symfony\Component\Console\Command\Command
 		$alias = $input->getArgument('alias');
 
 		try {
-			$this->elasticMapper->addAlias($index, $alias);
+			$this->addAlias->execute($alias, $index);
 
 		} catch (\Spameri\Elastic\Exception\AliasAlreadyExists $exception) {
 			$output->writeln($exception->getMessage());

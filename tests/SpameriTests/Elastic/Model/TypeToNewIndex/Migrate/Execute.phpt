@@ -57,9 +57,9 @@ class Execute extends \Tester\TestCase
 			new \Spameri\Elastic\Model\Indices\GetMapping($this->clientProvider),
 			new \Spameri\Elastic\Model\Indices\PutMapping($this->clientProvider),
 			new \Spameri\Elastic\Model\Search($this->clientProvider, $resultMapper),
-			new \Spameri\Elastic\Mapper\ElasticMapper($this->clientProvider, $dateTimeProvider),
 			new \Spameri\Elastic\Model\Indices\Create($this->clientProvider),
-			new \Spameri\Elastic\Model\Indices\Get($this->clientProvider)
+			new \Spameri\Elastic\Model\Indices\Get($this->clientProvider),
+			new \Spameri\Elastic\Model\Indices\AddAlias($this->clientProvider)
 		);
 
 		$id = '192489';
