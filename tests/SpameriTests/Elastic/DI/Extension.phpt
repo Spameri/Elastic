@@ -38,7 +38,18 @@ class Extension extends \Tester\TestCase
 		/** @var \Spameri\Elastic\ClientProvider $clientProvider */
 		$clientProvider = $container->getByType(\Spameri\Elastic\ClientProvider::class);
 		$connection = $clientProvider->client()->transport->connectionPool->nextConnection();
-		\Tester\Assert::same(\SpameriTests\Elastic\Config::CONNECTION, $connection->getHost());
+
+		/** @var \Spameri\Elastic\Model\VersionProvider $versionProvider */
+		$versionProvider = $container->getByType(\Spameri\Elastic\Model\VersionProvider::class);
+		\Tester\Assert::type('int', $versionProvider->provide());
+
+		if ($versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+			\Tester\Assert::same(\SpameriTests\Elastic\Config::HOST, $connection->getHost());
+			\Tester\Assert::same(\SpameriTests\Elastic\Config::PORT, $connection->getPort());
+
+		} else {
+			\Tester\Assert::same(\SpameriTests\Elastic\Config::CONNECTION, $connection->getHost());
+		}
 	}
 
 }

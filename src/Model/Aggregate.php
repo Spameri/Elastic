@@ -15,14 +15,18 @@ class Aggregate
 	 */
 	private $resultMapper;
 
+	private VersionProvider $versionProvider;
+
 
 	public function __construct(
 		\Spameri\Elastic\ClientProvider $clientProvider
 		, \Spameri\ElasticQuery\Response\ResultMapper $resultMapper
+		, \Spameri\Elastic\Model\VersionProvider $versionProvider
 	)
 	{
 		$this->clientProvider = $clientProvider;
 		$this->resultMapper = $resultMapper;
+		$this->versionProvider = $versionProvider;
 	}
 
 
@@ -34,6 +38,10 @@ class Aggregate
 	{
 		if ($type === NULL) {
 			$type = $index;
+		}
+
+		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+			$type = NULL;
 		}
 
 		try {

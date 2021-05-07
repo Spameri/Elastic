@@ -25,7 +25,7 @@ Tracy\Debugger::$logDirectory = \TEMP_DIR;
 
 
 $ch = \curl_init();
-\curl_setopt($ch, \CURLOPT_URL, \SpameriTests\Elastic\Config::HOST . '/' .  \SpameriTests\Elastic\Config::INDEX . '*');
+\curl_setopt($ch, \CURLOPT_URL, \SpameriTests\Elastic\Config::CONNECTION . '/' .  \SpameriTests\Elastic\Config::INDEX . '*');
 \curl_setopt($ch, \CURLOPT_RETURNTRANSFER, 1);
 \curl_setopt($ch, \CURLOPT_CUSTOMREQUEST, 'DELETE');
 \curl_setopt($ch, \CURLOPT_HTTPHEADER, ['Content-Type: application/json']);

@@ -16,14 +16,18 @@ class DeleteMultiple
 	 */
 	private $resultMapper;
 
+	private VersionProvider $versionProvider;
+
 
 	public function __construct(
 		\Spameri\Elastic\ClientProvider $clientProvider
 		, \Spameri\ElasticQuery\Response\ResultMapper $resultMapper
+		, VersionProvider $versionProvider
 	)
 	{
 		$this->clientProvider = $clientProvider;
 		$this->resultMapper = $resultMapper;
+		$this->versionProvider = $versionProvider;
 	}
 
 
@@ -39,6 +43,10 @@ class DeleteMultiple
 	{
 		if ($type === NULL) {
 			$type = $index;
+		}
+
+		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+			$type = '_doc';
 		}
 
 		$documentsArray = [];

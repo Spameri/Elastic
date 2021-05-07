@@ -11,12 +11,16 @@ class GetMapping
 	 */
 	private $clientProvider;
 
+	private \Spameri\Elastic\Model\VersionProvider $versionProvider;
+
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
+		\Spameri\Elastic\ClientProvider $clientProvider,
+		\Spameri\Elastic\Model\VersionProvider $versionProvider
 	)
 	{
 		$this->clientProvider = $clientProvider;
+		$this->versionProvider = $versionProvider;
 	}
 
 
@@ -32,6 +36,10 @@ class GetMapping
 			$type = $index;
 		}
 
+		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+			$type = NULL;
+		}
+
 		try {
 			$documentArray = (
 				new \Spameri\ElasticQuery\Document(
@@ -40,10 +48,6 @@ class GetMapping
 					$type
 				)
 			)->toArray();
-
-			if (\Spameri\Elastic\Model\VersionProvider::provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
-				unset($documentArray['type']);
-			}
 
 			return $this->clientProvider->client()->indices()->getMapping($documentArray);
 

@@ -4,11 +4,52 @@ extensions:
 spameriElasticSearch:
 	host: 127.0.0.1
 	port: 9200
+	version: 70000
 
 php:
 	date.timezone: Europe/Prague
 
+parameters:
+	elasticSearch:
+		personIndex: spameri_person
+		videoIndex: spameri_video
+
 services:
+	elastic.person.personMapping:
+		factory: SpameriTests\Elastic\Data\Model\PersonMapping(%elasticSearch.personIndex%)
+
+	elastic.person.personFactory:
+		factory: SpameriTests\Elastic\Data\Model\PersonFactory
+
+	elastic.person.personCollectionFactory:
+		factory: SpameriTests\Elastic\Data\Model\PersonCollectionFactory
+
+	elastic.person.personService:
+		factory: SpameriTests\Elastic\Data\Model\PersonService
+		arguments:
+			- @elastic.person.personMapping::provide()::indexName()
+			- @elastic.person.personFactory
+			- @elastic.person.personCollectionFactory
+
+
+########################################################################################################################
+
+	elastic.video.videoMapping:
+		factory: SpameriTests\Elastic\Data\Model\VideoMapping(%elasticSearch.personIndex%)
+
+	elastic.video.videoFactory:
+		factory: SpameriTests\Elastic\Data\Model\VideoFactory
+
+	elastic.video.videoCollectionFactory:
+		factory: SpameriTests\Elastic\Data\Model\VideoCollectionFactory
+
+	elastic.video.videoService:
+		factory: SpameriTests\Elastic\Data\Model\VideoService
+		arguments:
+			- @elastic.video.videoMapping::provide()::indexName()
+			- @elastic.video.videoFactory
+			- @elastic.video.videoCollectionFactory
+
 
 includes:
 	- Video.neon

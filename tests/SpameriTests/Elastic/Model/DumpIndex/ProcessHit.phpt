@@ -9,12 +9,13 @@ require_once __DIR__ . '/../../../../bootstrap.php';
 /**
  * @testCase
  */
-class ProcessHit extends \Tester\TestCase
+class ProcessHit extends \SpameriTests\Elastic\AbstractTestCase
 {
 
 	public function testProcess() : void
 	{
-		$resultMapper = new \Spameri\ElasticQuery\Response\ResultMapper();
+		/** @var \Spameri\ElasticQuery\Response\ResultMapper $resultMapper */
+		$resultMapper = $this->container->getByType(\Spameri\ElasticQuery\Response\ResultMapper::class);
 		$hits = $resultMapper->mapHits([
 			'hits' => [
 				'hits' => [
@@ -39,11 +40,8 @@ class ProcessHit extends \Tester\TestCase
 		/** @var \Spameri\ElasticQuery\Response\Result\Hit $hit */
 		$hit = $hits->getIterator()->offsetGet(0);
 
-		/** @var \Spameri\Elastic\Model\Scroll $scroll */
-		$scroll = \Spamer\DependencyMocker\Mocker::mockClassDependencies(\Spameri\Elastic\Model\Scroll::class);
-		$dumpIndex = new \Spameri\Elastic\Model\DumpIndex(
-			$scroll
-		);
+		/** @var \Spameri\Elastic\Model\DumpIndex $dumpIndex */
+		$dumpIndex = $this->container->getByType(\Spameri\Elastic\Model\DumpIndex::class);
 
 		$dumpIndex->processHit($hit);
 		$dumpIndex->writeToFile('test.log');

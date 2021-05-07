@@ -10,3 +10,5 @@ parameters:
 	checkGenericClassInNonGenericObjectType: false
 	checkMissingIterableValueType: false
 
+	bootstrapFiles:
+		- %rootDir%/../../../phpstanConstants.php
