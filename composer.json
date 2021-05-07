@@ -28,7 +28,7 @@
 		"ext-json": "*",
 		"ext-curl": "*",
 		"spameri/elastic-query": "v1.0.0-alpha.5",
-		"elasticsearch/elasticsearch": "^2.4.0",
+		"elasticsearch/elasticsearch": "^2.4.0 || ^7.12.0",
 		"nette/di": "^2.4.10 || ^3.0",
 		"nette/utils": "^2.4.10 || ^3.0",
 		"kdyby/console": "^2.7.1 || ^2.8.0",

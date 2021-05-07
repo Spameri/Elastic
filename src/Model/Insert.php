@@ -16,14 +16,18 @@ class Insert
 	 */
 	private $clientProvider;
 
+	private \Spameri\Elastic\Model\VersionProvider $versionProvider;
+
 
 	public function __construct(
 		\Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray
-		, \Spameri\Elastic\ClientProvider $clientProvider
+		, \Spameri\Elastic\ClientProvider $clientProvider,
+		\Spameri\Elastic\Model\VersionProvider $versionProvider
 	)
 	{
 		$this->prepareEntityArray = $prepareEntityArray;
 		$this->clientProvider = $clientProvider;
+		$this->versionProvider = $versionProvider;
 	}
 
 
@@ -41,23 +45,24 @@ class Insert
 			$type = $index;
 		}
 
+		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+			$type = NULL;
+		}
+
 		$entityArray = $this->prepareEntityArray->prepare($entity);
 		unset($entityArray['id']);
 
-		$document = new \Spameri\ElasticQuery\Document(
-			$index,
-			new \Spameri\ElasticQuery\Document\Body\Plain($entityArray),
-			$type,
-			$entity->id()->value()
-		);
-
 		try {
-			$documentArray = $document->toArray();
-			if (\Spameri\Elastic\Model\VersionProvider::provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
-				$documentArray['type'] = '_doc';
-			}
-
-			$response = $this->clientProvider->client()->index($documentArray);
+			$response = $this->clientProvider->client()->index(
+				(
+					new \Spameri\ElasticQuery\Document(
+						$index,
+						new \Spameri\ElasticQuery\Document\Body\Plain($entityArray),
+						$type,
+						$entity->id()->value()
+					)
+				)->toArray()
+			);
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

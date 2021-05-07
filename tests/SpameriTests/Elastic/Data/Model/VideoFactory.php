@@ -1,34 +1,42 @@
 <?php declare(strict_types = 1);
 
-namespace SpameriTests\Elastic\Model;
+namespace SpameriTests\Elastic\Data\Model;
 
-
-require_once __DIR__ . '/../../../bootstrap.php';
-
-
-class Insert extends \SpameriTests\Elastic\AbstractTestCase
+class VideoFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 {
 
-	public function testInsert(): void
+	private \SpameriTests\Elastic\Data\Model\PersonService $personService;
+
+
+	public function __construct(
+		\SpameriTests\Elastic\Data\Model\PersonService $personService
+	)
 	{
-		/** @var \SpameriTests\Elastic\Data\Model\PersonService $personService */
-		$personService = $this->container->getByType(\SpameriTests\Elastic\Data\Model\PersonService::class);
-		$video = new \SpameriTests\Elastic\Data\Entity\Video(
-			new \Spameri\Elastic\Entity\Property\EmptyElasticId(),
+		$this->personService = $personService;
+	}
+
+
+	/**
+	 * @return \Generator<\SpameriTests\Elastic\Data\Entity\Video>
+	 */
+	public function create(\Spameri\ElasticQuery\Response\Result\Hit $hit): \Generator
+	{
+		yield new \SpameriTests\Elastic\Data\Entity\Video(
+			new \Spameri\Elastic\Entity\Property\ElasticId($hit->id()),
 			new \SpameriTests\Elastic\Data\Entity\Video\Identification(
-				new \SpameriTests\Elastic\Data\Entity\Property\ImdbId(4154796)
+				new \SpameriTests\Elastic\Data\Entity\Property\ImdbId($hit->getValue('identification.imdb'))
 			),
-			new \SpameriTests\Elastic\Data\Entity\Property\Name('Avengers: Endgame'),
-			new \SpameriTests\Elastic\Data\Entity\Property\Year(2019),
+			new \SpameriTests\Elastic\Data\Entity\Property\Name($hit->getValue('name')),
+			new \SpameriTests\Elastic\Data\Entity\Property\Year($hit->getValue('year')),
 			new \SpameriTests\Elastic\Data\Entity\Video\Technical(),
 			new \SpameriTests\Elastic\Data\Entity\Video\Story(
-				new \SpameriTests\Elastic\Data\Entity\Property\Description('After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once more in order to undo Thanos\' actions and restore order to the universe.'),
+				new \SpameriTests\Elastic\Data\Entity\Property\Description($hit->getValue('story.description')),
 				new \SpameriTests\Elastic\Data\Entity\Video\Story\TagLineCollection(
-					new \SpameriTests\Elastic\Data\Entity\Video\Story\TagLine('Avenge the fallen.')
+					new \SpameriTests\Elastic\Data\Entity\Video\Story\TagLine($hit->getValue('story.tagline'))
 				),
 				new \SpameriTests\Elastic\Data\Entity\Video\Story\PlotSummaryCollection(),
 				new \SpameriTests\Elastic\Data\Entity\Video\Story\KeyWordCollection(),
-				new \SpameriTests\Elastic\Data\Entity\Video\Story\Synopsis('')
+				new \SpameriTests\Elastic\Data\Entity\Video\Story\Synopsis($hit->getValue('synopsis'))
 			),
 			new \SpameriTests\Elastic\Data\Entity\Video\Details(
 				new \SpameriTests\Elastic\Data\Entity\Video\Details\GenreCollection(),
@@ -61,18 +69,9 @@ class Insert extends \SpameriTests\Elastic\AbstractTestCase
 				new \SpameriTests\Elastic\Data\Entity\Video\Connections\VersionOfCollection(),
 				new \SpameriTests\Elastic\Data\Entity\Video\Connections\EditedFromCollection()
 			),
-			new \SpameriTests\Elastic\Data\Entity\Video\People($personService),
+			new \SpameriTests\Elastic\Data\Entity\Video\People($this->personService),
 			new \SpameriTests\Elastic\Data\Entity\Video\SeasonCollection()
 		);
-
-		$insert = $this->container->getByType(\Spameri\Elastic\Model\Insert::class);
-
-		\Tester\Assert::noError(static function () use ($insert, $video) {
-			$id = $insert->execute($video, 'spameri_video');
-
-			\Tester\Assert::same(20, \strlen($id));
-		});
 	}
 
 }
-(new Insert())->run();

@@ -15,14 +15,18 @@ class GetAllBy
 	 */
 	private $resultMapper;
 
+	private VersionProvider $versionProvider;
+
 
 	public function __construct(
 		\Spameri\Elastic\ClientProvider $clientProvider
-		, \Spameri\ElasticQuery\Response\ResultMapper $resultMapper
+		, \Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
+		VersionProvider $versionProvider
 	)
 	{
 		$this->clientProvider = $clientProvider;
 		$this->resultMapper = $resultMapper;
+		$this->versionProvider = $versionProvider;
 	}
 
 
@@ -36,14 +40,18 @@ class GetAllBy
 			$type = $index;
 		}
 
+		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+			$type = NULL;
+		}
+
 		try {
 			$result = $this->clientProvider->client()->search(
 				(
-				new \Spameri\ElasticQuery\Document(
-					$index,
-					new \Spameri\ElasticQuery\Document\Body\Plain($options->toArray()),
-					$type
-				)
+					new \Spameri\ElasticQuery\Document(
+						$index,
+						new \Spameri\ElasticQuery\Document\Body\Plain($options->toArray()),
+						$type
+					)
 				)
 					->toArray()
 			);

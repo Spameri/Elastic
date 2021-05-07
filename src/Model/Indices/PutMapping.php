@@ -11,12 +11,16 @@ class PutMapping
 	 */
 	private $clientProvider;
 
+	private \Spameri\Elastic\Model\VersionProvider $versionProvider;
+
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
+		\Spameri\Elastic\ClientProvider $clientProvider,
+		\Spameri\Elastic\Model\VersionProvider $versionProvider
 	)
 	{
 		$this->clientProvider = $clientProvider;
+		$this->versionProvider = $versionProvider;
 	}
 
 
@@ -34,24 +38,27 @@ class PutMapping
 		if ($type === NULL) {
 			$type = $index;
 		}
+		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+			$properties = $mapping['properties'];
+			$type = NULL;
+
+		} else {
+			$properties = \reset($mapping)['properties'];
+		}
 
 		try {
-			$documentArray = (
-				new \Spameri\ElasticQuery\Document(
-					$index,
-					new \Spameri\ElasticQuery\Document\Body\Plain([
-						'properties' => \reset($mapping)['properties'],
-						'dynamic' => $dynamic,
-					]),
-					$type
-				)
-			)->toArray();
-
-			if (\Spameri\Elastic\Model\VersionProvider::provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
-				unset($documentArray['type']);
-			}
-
-			return $this->clientProvider->client()->indices()->putMapping($documentArray);
+			return $this->clientProvider->client()->indices()->putMapping(
+				(
+					new \Spameri\ElasticQuery\Document(
+						$index,
+						new \Spameri\ElasticQuery\Document\Body\Plain([
+							'properties' => $properties,
+							'dynamic' => $dynamic,
+						]),
+						$type
+					)
+				)->toArray()
+			);
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

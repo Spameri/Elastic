@@ -21,16 +21,20 @@ class InsertMultiple
 	 */
 	private $resultMapper;
 
+	private VersionProvider $versionProvider;
+
 
 	public function __construct(
 		\Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray
 		, \Spameri\Elastic\ClientProvider $clientProvider
-		, \Spameri\ElasticQuery\Response\ResultMapper $resultMapper
+		, \Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
+		\Spameri\Elastic\Model\VersionProvider $versionProvider
 	)
 	{
 		$this->prepareEntityArray = $prepareEntityArray;
 		$this->clientProvider = $clientProvider;
 		$this->resultMapper = $resultMapper;
+		$this->versionProvider = $versionProvider;
 	}
 
 
@@ -48,24 +52,21 @@ class InsertMultiple
 			$type = $index;
 		}
 
-		$documentsArray = [];
+		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+			$type = '_doc';
+		}
 
+		$documentsArray = [];
 		foreach ($entityCollection as $entity) {
 			$entityArray = $this->prepareEntityArray->prepare($entity);
 			unset($entityArray['id']);
 
-			$documentArray = [
+			$documentsArray[] = [
 				'index' => [
 					'_index' => $index,
 					'_type' => $type,
 				],
 			];
-
-			if (\Spameri\Elastic\Model\VersionProvider::provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
-				unset($documentArray['index']['_type']);
-			}
-
-			$documentsArray[] = $documentArray;
 			$documentsArray[] = $entityArray;
 		}
 

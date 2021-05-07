@@ -5,23 +5,20 @@ namespace Spameri\Elastic\Model;
 class VersionProvider
 {
 
-	/**
-	 * @var int
-	 */
-	private static $versionNumber = \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_24;
+	private int $versionNumber;
 
 
 	public function __construct(
-		int $versionNumber
+		int $versionNumber = \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_24
 	)
 	{
-		self::$versionNumber = $versionNumber;
+		$this->versionNumber = $versionNumber;
 	}
 
 
-	public static function provide(): int
+	public function provide(): int
 	{
-		return self::$versionNumber;
+		return $this->versionNumber;
 	}
 
 }

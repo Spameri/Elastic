@@ -68,6 +68,8 @@ class Migrate
 
 	private \Spameri\Elastic\Model\Indices\AddAlias $addAlias;
 
+	private \Spameri\Elastic\Model\VersionProvider $versionProvider;
+
 
 	public function __construct(
 		DocumentMigrateStatus $documentMigrateStatus
@@ -82,6 +84,7 @@ class Migrate
 		, \Spameri\Elastic\Model\Indices\Create $create
 		, \Spameri\Elastic\Model\Indices\Get $indicesGet
 		, \Spameri\Elastic\Model\Indices\AddAlias $addAlias
+		, \Spameri\Elastic\Model\VersionProvider $versionProvider
 	)
 	{
 		$this->documentMigrateStatus = $documentMigrateStatus;
@@ -96,6 +99,7 @@ class Migrate
 		$this->create = $create;
 		$this->indicesGet = $indicesGet;
 		$this->addAlias = $addAlias;
+		$this->versionProvider = $versionProvider;
 	}
 
 
@@ -247,14 +251,20 @@ class Migrate
 		, bool $allowClose
 	): void
 	{
-		$document = new \Spameri\ElasticQuery\Document(
-			$indexTo,
-			new \Spameri\ElasticQuery\Document\Body\Plain($hit->source()),
-			$typeTo,
-			$hit->id()
-		);
+		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+			$typeTo = NULL;
+		}
 
-		$this->clientProvider->client()->index($document->toArray());
+		$this->clientProvider->client()->index(
+			(
+				new \Spameri\ElasticQuery\Document(
+					$indexTo,
+					new \Spameri\ElasticQuery\Document\Body\Plain($hit->source()),
+					$typeTo,
+					$hit->id()
+				)
+			)->toArray()
+		);
 
 		if ($allowClose === FALSE) {
 			$this->documentMigrateStatus->add($hit->id(), $hit->version());

@@ -11,12 +11,16 @@ class Delete
 	 */
 	private $clientProvider;
 
+	private VersionProvider $versionProvider;
+
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
+		\Spameri\Elastic\ClientProvider $clientProvider,
+		VersionProvider $versionProvider
 	)
 	{
 		$this->clientProvider = $clientProvider;
+		$this->versionProvider = $versionProvider;
 	}
 
 
@@ -31,6 +35,10 @@ class Delete
 	{
 		if ($type === NULL) {
 			$type = $index;
+		}
+
+		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+			$type = NULL;
 		}
 
 		try {
