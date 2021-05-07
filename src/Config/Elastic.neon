@@ -59,6 +59,9 @@ services:
 	initializeIndex:
 		factory: Spameri\Elastic\Model\InitializeIndex
 
+	entitySettingsLocator:
+		factory: Spameri\Elastic\Model\EntitySettingsLocator
+
 #	###
 #	Indices
 #	###

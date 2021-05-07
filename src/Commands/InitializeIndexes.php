@@ -5,21 +5,21 @@ namespace Spameri\Elastic\Commands;
 class InitializeIndexes extends \Symfony\Component\Console\Command\Command
 {
 
-	private \Nette\DI\Container $container;
-
 	private \Spameri\Elastic\Model\Indices\Delete $delete;
 
 	private \Spameri\Elastic\Model\InitializeIndex $initializeIndex;
 
+	private \Spameri\Elastic\Model\EntitySettingsLocator $entitySettingsLocator;
+
 
 	public function __construct(
-		\Nette\DI\Container $container,
+		\Spameri\Elastic\Model\EntitySettingsLocator $entitySettingsLocator,
 		\Spameri\Elastic\Model\Indices\Delete $delete,
 		\Spameri\Elastic\Model\InitializeIndex $initializeIndex
 	)
 	{
 		parent::__construct(NULL);
-		$this->container = $container;
+		$this->entitySettingsLocator = $entitySettingsLocator;
 		$this->delete = $delete;
 		$this->initializeIndex = $initializeIndex;
 	}
@@ -53,9 +53,8 @@ class InitializeIndexes extends \Symfony\Component\Console\Command\Command
 		$entityNames = $input->getArgument('entityName');
 		$forcedDelete = $input->getOption('force');
 
-		$indexConfigs = $this->container->getByType(\Spameri\Elastic\Settings\IndexConfigInterface::class);
+		$indexConfigs = $this->entitySettingsLocator->locateAll();
 
-		/** @var \Spameri\Elastic\Settings\IndexConfigInterface $indexConfig */
 		foreach ($indexConfigs as $indexConfig) {
 			$settings = $indexConfig->provide();
 
