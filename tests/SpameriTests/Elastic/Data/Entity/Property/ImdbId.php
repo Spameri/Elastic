@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Property;
 
-
 class ImdbId implements \Spameri\Elastic\Entity\ValueInterface
 {
 
@@ -31,4 +30,5 @@ class ImdbId implements \Spameri\Elastic\Entity\ValueInterface
 	{
 		return $this->value;
 	}
+
 }

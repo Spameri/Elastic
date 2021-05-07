@@ -10,6 +10,7 @@ interface ValidationObjectInterface extends \Spameri\ElasticQuery\Entity\ArrayIn
 	 */
 	public function key();
 
+
 	/**
 	 * @return array<mixed>
 	 */

@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video;
 
-
 class HighLights implements \Spameri\Elastic\Entity\EntityInterface
 {
 
@@ -10,18 +9,22 @@ class HighLights implements \Spameri\Elastic\Entity\EntityInterface
 	 * @var \SpameriTests\Elastic\Data\Entity\Video\HighLights\TriviaCollection
 	 */
 	private $trivia;
+
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Video\HighLights\GoofCollection
 	 */
 	private $goof;
+
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Video\HighLights\CrazyCreditCollection
 	 */
 	private $crazyCredit;
+
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Video\HighLights\QuoteCollection
 	 */
 	private $quote;
+
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Video\HighLights\LocationCollection
 	 */
@@ -39,13 +42,13 @@ class HighLights implements \Spameri\Elastic\Entity\EntityInterface
 
 
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Video\HighLights\TriviaCollection $trivia
-		, \SpameriTests\Elastic\Data\Entity\Video\HighLights\GoofCollection $goofs
-		, \SpameriTests\Elastic\Data\Entity\Video\HighLights\CrazyCreditCollection $crazyCredits
-		, \SpameriTests\Elastic\Data\Entity\Video\HighLights\QuoteCollection $quotes
-		, \SpameriTests\Elastic\Data\Entity\Video\HighLights\LocationCollection $locations
-		, \SpameriTests\Elastic\Data\Entity\Video\HighLights\AlternateVersionCollection $alternateVersions
-		, \SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCreditCollection $companyCredit
+		\SpameriTests\Elastic\Data\Entity\Video\HighLights\TriviaCollection $trivia,
+		\SpameriTests\Elastic\Data\Entity\Video\HighLights\GoofCollection $goofs,
+		\SpameriTests\Elastic\Data\Entity\Video\HighLights\CrazyCreditCollection $crazyCredits,
+		\SpameriTests\Elastic\Data\Entity\Video\HighLights\QuoteCollection $quotes,
+		\SpameriTests\Elastic\Data\Entity\Video\HighLights\LocationCollection $locations,
+		\SpameriTests\Elastic\Data\Entity\Video\HighLights\AlternateVersionCollection $alternateVersions,
+		\SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCreditCollection $companyCredit
 	)
 	{
 		$this->trivia = $trivia;

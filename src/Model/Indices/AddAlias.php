@@ -26,31 +26,35 @@ class AddAlias
 						$alias
 					)
 					)->toArray()
-				);
+				)
+				;
 
 				throw new \Spameri\Elastic\Exception\AliasAlreadyExists($alias);
 
 			} catch (\Elasticsearch\Common\Exceptions\Missing404Exception $exception) {
 				return $this->clientProvider->client()->indices()->putAlias(
 					(
-						new \Spameri\ElasticQuery\Document(
-							$index,
-							new \Spameri\ElasticQuery\Document\Body\Plain([
+					new \Spameri\ElasticQuery\Document(
+						$index,
+						new \Spameri\ElasticQuery\Document\Body\Plain(
+							[
 								'actions' => [
 									'add' => [
 										'index' => $index,
 										'alias' => $alias,
 									],
 								],
-							]),
-							NULL,
-							NULL,
-							[
-								'name' => $index,
 							]
-						)
+						),
+						NULL,
+						NULL,
+						[
+							'name' => $index,
+						]
+					)
 					)->toArray()
-				);
+				)
+					;
 			}
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {

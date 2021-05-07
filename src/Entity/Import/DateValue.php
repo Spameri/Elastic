@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Entity\Import;
 
-
 class DateValue implements ValidationPropertyInterface
 {
 

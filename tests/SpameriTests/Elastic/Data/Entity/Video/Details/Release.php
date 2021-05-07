@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Details;
 
-
 class Release implements \Spameri\Elastic\Entity\EntityInterface
 {
 
@@ -23,9 +22,9 @@ class Release implements \Spameri\Elastic\Entity\EntityInterface
 
 
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Property\CountryShort $country
-		, \Spameri\Elastic\Entity\Property\Date $date
-		, \SpameriTests\Elastic\Data\Entity\Property\Text $note
+		\SpameriTests\Elastic\Data\Entity\Property\CountryShort $country,
+		\Spameri\Elastic\Entity\Property\Date $date,
+		\SpameriTests\Elastic\Data\Entity\Property\Text $note
 	)
 	{
 		$this->country = $country;
@@ -74,4 +73,5 @@ class Release implements \Spameri\Elastic\Entity\EntityInterface
 	{
 		$this->date = $date;
 	}
+
 }

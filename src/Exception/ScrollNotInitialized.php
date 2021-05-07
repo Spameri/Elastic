@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Exception;
 
-
 class ScrollNotInitialized extends \Spameri\Elastic\Exception\AbstractElasticSearchException
 {
 

@@ -2,9 +2,9 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Details;
 
-
 class Genre implements \Spameri\Elastic\Entity\ValueInterface
 {
+
 	/**
 	 * @var string
 	 */
@@ -30,4 +30,5 @@ class Genre implements \Spameri\Elastic\Entity\ValueInterface
 	{
 		return $this->value;
 	}
+
 }

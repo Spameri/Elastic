@@ -2,11 +2,11 @@
 
 namespace Spameri\Elastic\Entity\Property;
 
-
 class Date extends \Nette\Utils\DateTime implements \Spameri\Elastic\Entity\DateTimeInterface
 {
 
 	public const FORMAT = 'Y-m-d';
+
 
 	/**
 	 * @param string|null $format

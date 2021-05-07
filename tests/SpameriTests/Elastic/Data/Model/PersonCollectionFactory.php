@@ -12,7 +12,7 @@ class PersonCollectionFactory implements \Spameri\Elastic\Factory\CollectionFact
 	public function create(
 		\Spameri\Elastic\Model\ServiceInterface $service,
 		array $elasticIds = [],
-		\Spameri\Elastic\Entity\ElasticEntityInterface ... $entityCollection
+		\Spameri\Elastic\Entity\ElasticEntityInterface ...$entityCollection
 	): \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
 	{
 		return new \SpameriTests\Elastic\Data\Model\PersonCollection(

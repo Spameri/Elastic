@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Story;
 
-
 class PlotSummaryCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
@@ -13,7 +12,7 @@ class PlotSummaryCollection implements \Spameri\Elastic\Entity\ValueCollectionIn
 
 
 	public function __construct(
-		PlotSummary ... $collection
+		PlotSummary ...$collection
 	)
 	{
 		$this->collection = [];

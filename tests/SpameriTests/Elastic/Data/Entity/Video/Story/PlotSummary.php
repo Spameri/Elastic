@@ -2,9 +2,9 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Story;
 
-
 class PlotSummary implements \Spameri\Elastic\Entity\ValueInterface
 {
+
 	/**
 	 * @var string
 	 */

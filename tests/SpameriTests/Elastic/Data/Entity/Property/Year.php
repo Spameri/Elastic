@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Property;
 
-
 class Year implements \Spameri\Elastic\Entity\ValueInterface
 {
 
@@ -37,4 +36,5 @@ class Year implements \Spameri\Elastic\Entity\ValueInterface
 	{
 		return (string) $this->value;
 	}
+
 }

@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity;
 
-
 class Person implements \Spameri\Elastic\Entity\ElasticEntityInterface
 {
 
@@ -53,15 +52,15 @@ class Person implements \Spameri\Elastic\Entity\ElasticEntityInterface
 
 
 	public function __construct(
-		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
-		, \SpameriTests\Elastic\Data\Entity\Video\Identification $identification
-		, \SpameriTests\Elastic\Data\Entity\Property\Name $name
-		, \SpameriTests\Elastic\Data\Entity\Property\Description $description
-		, ?\Spameri\Elastic\Entity\Property\Date $birth
-		, ?\Spameri\Elastic\Entity\Property\Date $death
-		, \SpameriTests\Elastic\Data\Entity\Property\Name $alias
-		, \SpameriTests\Elastic\Data\Entity\Person\CharacterCollectionElastic $characters
-		, \SpameriTests\Elastic\Data\Entity\Person\JobCollectionElastic $jobs
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
+		\SpameriTests\Elastic\Data\Entity\Video\Identification $identification,
+		\SpameriTests\Elastic\Data\Entity\Property\Name $name,
+		\SpameriTests\Elastic\Data\Entity\Property\Description $description,
+		?\Spameri\Elastic\Entity\Property\Date $birth,
+		?\Spameri\Elastic\Entity\Property\Date $death,
+		\SpameriTests\Elastic\Data\Entity\Property\Name $alias,
+		\SpameriTests\Elastic\Data\Entity\Person\CharacterCollectionElastic $characters,
+		\SpameriTests\Elastic\Data\Entity\Person\JobCollectionElastic $jobs
 	)
 	{
 		$this->id = $id;
@@ -111,10 +110,12 @@ class Person implements \Spameri\Elastic\Entity\ElasticEntityInterface
 		return $this->description;
 	}
 
+
 	public function changeDescription(\SpameriTests\Elastic\Data\Entity\Property\Description $description): void
 	{
 		$this->description = $description;
 	}
+
 
 	public function birth(): ?\Spameri\Elastic\Entity\Property\Date
 	{

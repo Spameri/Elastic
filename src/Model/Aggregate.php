@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model;
 
-
 class Aggregate
 {
 
@@ -10,6 +9,7 @@ class Aggregate
 	 * @var \Spameri\Elastic\ClientProvider
 	 */
 	private $clientProvider;
+
 	/**
 	 * @var \Spameri\ElasticQuery\Response\ResultMapper
 	 */
@@ -19,9 +19,9 @@ class Aggregate
 
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
-		, \Spameri\ElasticQuery\Response\ResultMapper $resultMapper
-		, \Spameri\Elastic\Model\VersionProvider $versionProvider
+		\Spameri\Elastic\ClientProvider $clientProvider,
+		\Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
+		\Spameri\Elastic\Model\VersionProvider $versionProvider
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -31,9 +31,9 @@ class Aggregate
 
 
 	public function execute(
-		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
-		, string $index
-		, ?string $type = NULL
+		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
+		string $index,
+		?string $type = NULL
 	): \Spameri\ElasticQuery\Response\ResultSearch
 	{
 		if ($type === NULL) {
@@ -55,7 +55,8 @@ class Aggregate
 					$type
 				)
 				)->toArray()
-			);
+			)
+			;
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

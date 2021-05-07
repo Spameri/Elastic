@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Exception;
 
-
 class EntityIsNotValid extends \Spameri\Elastic\Exception\AbstractElasticSearchException
 {
 

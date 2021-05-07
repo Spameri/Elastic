@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Commands;
 
-
 class CreateIndex extends \Symfony\Component\Console\Command\Command
 {
 
@@ -42,8 +41,8 @@ class CreateIndex extends \Symfony\Component\Console\Command\Command
 	 * @throws \Spameri\Elastic\Exception\AbstractElasticSearchException
 	 */
 	protected function execute(
-		\Symfony\Component\Console\Input\InputInterface $input
-		, \Symfony\Component\Console\Output\OutputInterface $output
+		\Symfony\Component\Console\Input\InputInterface $input,
+		\Symfony\Component\Console\Output\OutputInterface $output
 	): int
 	{
 		/** @var string $indexName */

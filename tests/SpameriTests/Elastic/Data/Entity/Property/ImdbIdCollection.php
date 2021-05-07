@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Property;
 
-
 class ImdbIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
@@ -13,7 +12,7 @@ class ImdbIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInterfa
 
 
 	public function __construct(
-		ImdbId ... $collection
+		ImdbId ...$collection
 	)
 	{
 		$this->collection = [];
@@ -67,4 +66,5 @@ class ImdbIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInterfa
 	{
 		return new \ArrayIterator($this->collection);
 	}
+
 }

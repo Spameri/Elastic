@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Entity;
 
-
 abstract class AbstractEntity implements EntityInterface
 {
 

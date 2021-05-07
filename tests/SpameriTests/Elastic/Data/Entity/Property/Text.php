@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Property;
 
-
 class Text implements \Spameri\Elastic\Entity\ValueInterface
 {
 
@@ -24,4 +23,5 @@ class Text implements \Spameri\Elastic\Entity\ValueInterface
 	{
 		return $this->value;
 	}
+
 }

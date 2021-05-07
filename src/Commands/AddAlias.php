@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Commands;
 
-
 class AddAlias extends \Symfony\Component\Console\Command\Command
 {
 
@@ -30,13 +29,13 @@ class AddAlias extends \Symfony\Component\Console\Command\Command
 
 
 	protected function execute(
-		\Symfony\Component\Console\Input\InputInterface $input
-		, \Symfony\Component\Console\Output\OutputInterface $output
+		\Symfony\Component\Console\Input\InputInterface $input,
+		\Symfony\Component\Console\Output\OutputInterface $output
 	): int
 	{
 		/** @var string $index */
 		$index = $input->getArgument('index');
-		/** @var string $alias*/
+		/** @var string $alias */
 		$alias = $input->getArgument('alias');
 
 		try {

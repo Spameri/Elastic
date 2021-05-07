@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model;
 
-
 abstract class AbstractBaseService implements ServiceInterface
 {
 
@@ -50,6 +49,7 @@ abstract class AbstractBaseService implements ServiceInterface
 	 * @var \Spameri\Elastic\Factory\CollectionFactoryInterface
 	 */
 	private $collectionFactory;
+
 	/**
 	 * @var \Spameri\Elastic\Model\Aggregate
 	 */
@@ -57,16 +57,16 @@ abstract class AbstractBaseService implements ServiceInterface
 
 
 	public function __construct(
-		string $index
-		, \Spameri\Elastic\Factory\EntityFactoryInterface $entityFactory
-		, \Spameri\Elastic\Factory\CollectionFactoryInterface $collectionFactory
-		, \Spameri\Elastic\ClientProvider $client
-		, \Spameri\Elastic\Model\Insert $insert
-		, \Spameri\Elastic\Model\Get $get
-		, \Spameri\Elastic\Model\GetBy $getBy
-		, \Spameri\Elastic\Model\GetAllBy $getAllBy
-		, \Spameri\Elastic\Model\Delete $delete
-		, \Spameri\Elastic\Model\Aggregate $aggregate
+		string $index,
+		\Spameri\Elastic\Factory\EntityFactoryInterface $entityFactory,
+		\Spameri\Elastic\Factory\CollectionFactoryInterface $collectionFactory,
+		\Spameri\Elastic\ClientProvider $client,
+		\Spameri\Elastic\Model\Insert $insert,
+		\Spameri\Elastic\Model\Get $get,
+		\Spameri\Elastic\Model\GetBy $getBy,
+		\Spameri\Elastic\Model\GetAllBy $getAllBy,
+		\Spameri\Elastic\Model\Delete $delete,
+		\Spameri\Elastic\Model\Aggregate $aggregate
 	)
 	{
 		$this->client = $client->client();

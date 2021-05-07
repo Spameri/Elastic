@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Story;
 
-
 class TagLineCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
@@ -13,7 +12,7 @@ class TagLineCollection implements \Spameri\Elastic\Entity\ValueCollectionInterf
 
 
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Video\Story\TagLine ... $collection
+		\SpameriTests\Elastic\Data\Entity\Video\Story\TagLine ...$collection
 	)
 	{
 		$this->collection = [];
@@ -38,4 +37,5 @@ class TagLineCollection implements \Spameri\Elastic\Entity\ValueCollectionInterf
 	{
 		return new \ArrayIterator($this->collection);
 	}
+
 }

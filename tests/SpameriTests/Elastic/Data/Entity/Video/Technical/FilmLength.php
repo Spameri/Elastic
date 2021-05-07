@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Technical;
 
-
 class FilmLength implements \Spameri\Elastic\Entity\ValueInterface
 {
 
@@ -28,4 +27,5 @@ class FilmLength implements \Spameri\Elastic\Entity\ValueInterface
 	{
 		return $this->value;
 	}
+
 }

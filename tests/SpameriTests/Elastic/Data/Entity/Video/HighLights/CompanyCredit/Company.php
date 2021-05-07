@@ -2,19 +2,19 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCredit;
 
-
 class Company implements \Spameri\Elastic\Entity\EntityInterface
 {
-
 
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Property\ImdbId
 	 */
 	private $id;
+
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Property\Text
 	 */
 	private $name;
+
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Property\Text
 	 */
@@ -22,9 +22,9 @@ class Company implements \Spameri\Elastic\Entity\EntityInterface
 
 
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id
-		, \SpameriTests\Elastic\Data\Entity\Property\Text $name
-		, \SpameriTests\Elastic\Data\Entity\Property\Text $note
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id,
+		\SpameriTests\Elastic\Data\Entity\Property\Text $name,
+		\SpameriTests\Elastic\Data\Entity\Property\Text $note
 	)
 	{
 		$this->id = $id;
@@ -61,4 +61,5 @@ class Company implements \Spameri\Elastic\Entity\EntityInterface
 	{
 		return $this->note;
 	}
+
 }

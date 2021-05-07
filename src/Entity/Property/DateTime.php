@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Entity\Property;
 
-
 class DateTime extends \Nette\Utils\DateTime implements \Spameri\Elastic\Entity\DateTimeInterface
 {
 

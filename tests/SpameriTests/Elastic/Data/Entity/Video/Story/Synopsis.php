@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Story;
 
-
 class Synopsis implements \Spameri\Elastic\Entity\ValueInterface
 {
 
@@ -24,4 +23,5 @@ class Synopsis implements \Spameri\Elastic\Entity\ValueInterface
 	{
 		return $this->value;
 	}
+
 }

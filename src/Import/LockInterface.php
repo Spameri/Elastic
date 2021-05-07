@@ -7,6 +7,7 @@ interface LockInterface
 
 	public function setRunName(string $runName): void;
 
+
 	/**
 	 * @throws \Spameri\Elastic\Import\Exception\AlreadyLocked
 	 */

@@ -2,14 +2,14 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Details;
 
-
 class Alias implements \Spameri\Elastic\Entity\EntityInterface
 {
+
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Property\CountryShort
 	 */
 	private $country;
-	
+
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Property\Text
 	 */
@@ -17,8 +17,8 @@ class Alias implements \Spameri\Elastic\Entity\EntityInterface
 
 
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Property\CountryShort $country
-		, \SpameriTests\Elastic\Data\Entity\Property\Text $name
+		\SpameriTests\Elastic\Data\Entity\Property\CountryShort $country,
+		\SpameriTests\Elastic\Data\Entity\Property\Text $name
 	)
 	{
 		$this->country = $country;
@@ -54,4 +54,5 @@ class Alias implements \Spameri\Elastic\Entity\EntityInterface
 	{
 		$this->name = $name;
 	}
+
 }

@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video;
 
-
 class Identification implements \Spameri\Elastic\Entity\EntityInterface
 {
 
@@ -38,4 +37,5 @@ class Identification implements \Spameri\Elastic\Entity\EntityInterface
 	{
 		return $this->imdb;
 	}
+
 }

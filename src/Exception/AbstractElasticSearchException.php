@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Exception;
 
-
 abstract class AbstractElasticSearchException extends \RuntimeException
 {
 

@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Details;
 
-
 class Ratings implements \Spameri\Elastic\Entity\EntityInterface
 {
 

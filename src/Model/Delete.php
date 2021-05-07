@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model;
 
-
 class Delete
 {
 
@@ -28,9 +27,9 @@ class Delete
 	 * @throws \Spameri\Elastic\Exception\ElasticSearch
 	 */
 	public function execute(
-		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
-		, string $index
-		, ?string $type = NULL
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
+		string $index,
+		?string $type = NULL
 	): bool
 	{
 		if ($type === NULL) {
@@ -52,7 +51,8 @@ class Delete
 				)
 				)
 					->toArray()
-			);
+			)
+			;
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
@@ -64,7 +64,8 @@ class Delete
 				new \Spameri\ElasticQuery\Document($index)
 				)
 					->toArray()
-			);
+			)
+			;
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

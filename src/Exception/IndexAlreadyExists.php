@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Exception;
 
-
 class IndexAlreadyExists extends \Spameri\Elastic\Exception\AbstractElasticSearchException
 {
 

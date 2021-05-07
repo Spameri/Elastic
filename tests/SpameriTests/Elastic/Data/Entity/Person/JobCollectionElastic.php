@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Person;
 
-
 class JobCollectionElastic extends \Spameri\Elastic\Entity\Collection\AbstractEntityCollection
 {
 

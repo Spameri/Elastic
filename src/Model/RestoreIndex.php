@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model;
 
-
 class RestoreIndex
 {
 
@@ -32,9 +31,10 @@ class RestoreIndex
 		$this->output = $output;
 	}
 
+
 	public function execute(
-		string $filename
-		, int $step
+		string $filename,
+		int $step
 	): void
 	{
 		$this->output->writeln('Starting import.');
@@ -55,7 +55,8 @@ class RestoreIndex
 							[$bulkData]
 						)
 					)->toArray()
-				);
+				)
+				;
 				$bulkData = '';
 				$i = 0;
 				$progressBar->advance($step / 2);

@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Property;
 
-
 class Name implements \Spameri\Elastic\Entity\ValueInterface
 {
 

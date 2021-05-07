@@ -2,9 +2,9 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\HighLights;
 
-
 class Location implements \Spameri\Elastic\Entity\EntityInterface
 {
+
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Property\Text
 	 */
@@ -17,8 +17,8 @@ class Location implements \Spameri\Elastic\Entity\EntityInterface
 
 
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Property\Text $name
-		, \SpameriTests\Elastic\Data\Entity\Property\Text $note
+		\SpameriTests\Elastic\Data\Entity\Property\Text $name,
+		\SpameriTests\Elastic\Data\Entity\Property\Text $note
 	)
 	{
 		$this->name = $name;
@@ -48,4 +48,5 @@ class Location implements \Spameri\Elastic\Entity\EntityInterface
 	{
 		return $this->note;
 	}
+
 }

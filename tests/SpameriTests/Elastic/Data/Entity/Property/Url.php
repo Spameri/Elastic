@@ -2,7 +2,6 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Property;
 
-
 class Url implements \Spameri\Elastic\Entity\ValueInterface
 {
 

@@ -2,9 +2,7 @@
 
 namespace SpameriTests\Elastic\Model\TypeToNewIndex\Migrate;
 
-
 require_once __DIR__ . '/../../../../../bootstrap.php';
-
 
 /**
  * @testCase
@@ -28,7 +26,7 @@ class Execute extends \SpameriTests\Elastic\AbstractTestCase
 	}
 
 
-	public function testProcess() : void
+	public function testProcess(): void
 	{
 		/** @var \Spameri\Elastic\Model\TypeToNewIndex\Migrate $migrate */
 		$migrate = $this->container->getByType(\Spameri\Elastic\Model\TypeToNewIndex\Migrate::class);
@@ -73,7 +71,7 @@ class Execute extends \SpameriTests\Elastic\AbstractTestCase
 	}
 
 
-	protected function tearDown() : void
+	protected function tearDown(): void
 	{
 		/** @var \Spameri\Elastic\Model\Indices\Delete $delete */
 		$delete = $this->container->getByType(\Spameri\Elastic\Model\Indices\Delete::class);

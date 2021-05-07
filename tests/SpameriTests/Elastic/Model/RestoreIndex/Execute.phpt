@@ -2,9 +2,7 @@
 
 namespace SpameriTests\Elastic\Model\RestoreIndex;
 
-
 require_once __DIR__ . '/../../../../bootstrap.php';
-
 
 /**
  * @testCase
@@ -21,7 +19,7 @@ class Execute extends \SpameriTests\Elastic\AbstractTestCase
 	}
 
 
-	public function testProcess() : void
+	public function testProcess(): void
 	{
 		/** @var \Spameri\Elastic\Model\RestoreIndex $restoreIndex */
 		$restoreIndex = $this->container->getByType(\Spameri\Elastic\Model\RestoreIndex::class);
@@ -36,12 +34,14 @@ class Execute extends \SpameriTests\Elastic\AbstractTestCase
 		\Tester\Assert::same($id->value(), $result->hit()->id());
 	}
 
+
 	protected function tearDown()
 	{
 		/** @var \Spameri\Elastic\Model\Indices\Delete $delete */
 		$delete = $this->container->getByType(\Spameri\Elastic\Model\Indices\Delete::class);
 		$delete->execute(\SpameriTests\Elastic\Config::INDEX_RESTORE);
 	}
+
 }
 
 (new Execute())->run();
