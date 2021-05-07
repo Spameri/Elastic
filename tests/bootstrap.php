@@ -23,4 +23,16 @@ if ( ! $loader) {
 Tester\Helpers::purge(\TEMP_DIR);
 Tracy\Debugger::$logDirectory = \TEMP_DIR;
 
+
+$ch = \curl_init();
+\curl_setopt($ch, \CURLOPT_URL, \SpameriTests\Elastic\Config::HOST . '/' .  \SpameriTests\Elastic\Config::INDEX . '*');
+\curl_setopt($ch, \CURLOPT_RETURNTRANSFER, 1);
+\curl_setopt($ch, \CURLOPT_CUSTOMREQUEST, 'DELETE');
+\curl_setopt($ch, \CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+
+\curl_exec($ch);
+
+\curl_close($ch);
+
+
 return $loader;
