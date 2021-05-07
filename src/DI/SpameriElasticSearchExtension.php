@@ -70,13 +70,6 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 		$versionProvider = $services['services']['versionProvider']['factory'];
 		$versionProvider->arguments[0] = $config['version'];
 
-		$services['services']['clientBuilder']['setup'][] = new \Nette\DI\Statement(
-			'setHosts',
-			[
-				[$config['host'] . ':' . $config['port']],
-			]
-		);
-
 		return $services;
 	}
 
