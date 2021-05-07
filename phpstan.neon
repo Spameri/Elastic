@@ -3,9 +3,41 @@ parameters:
 		- %rootDir%/../../../tests/tmp/*
 
 	ignoreErrors:
-		- '#PHPDoc tag \@throws with type Elasticsearch\\Common\\Exceptions\\ElasticsearchException is not subtype of Throwable#'
-		- '#Call to function array_key_exists\(\) with string and array<int, mixed> will always evaluate to false.#'
-		- '#Static method Nette\\DI\\Compiler\:\:loadDefinitions\(\) invoked with 3 parameters, 0 required.#'
+		-
+			message: "#^PHPDoc tag @throws with type Elasticsearch\\\\Common\\\\Exceptions\\\\ElasticsearchException is not subtype of Throwable$#"
+			count: 1
+			path: src/ClientProvider.php
+
+		-
+			message: "#^PHPDoc tag @throws with type Elasticsearch\\\\Common\\\\Exceptions\\\\ElasticsearchException is not subtype of Throwable$#"
+			count: 1
+			path: src/Commands/TypeToNewIndex.php
+
+		-
+			message: "#^Call to method addSetup\\(\\) on an unknown class Nette\\\\DI\\\\Definitions\\\\ServiceDefinition\\.$#"
+			count: 1
+			path: src/DI/SpameriElasticSearchExtension.php
+
+		-
+			message: "#^PHPDoc tag @var for variable \\$definition contains unknown class Nette\\\\DI\\\\Definitions\\\\ServiceDefinition\\.$#"
+			count: 1
+			path: src/DI/SpameriElasticSearchExtension.php
+
+		-
+			message: "#^Call to function array_key_exists\\(\\) with string and array\\<int, mixed\\> will always evaluate to false\\.$#"
+			count: 1
+			path: src/Entity/Collection/AbstractElasticEntityCollection.php
+
+		-
+			message: "#^Call to function array_key_exists\\(\\) with string and array\\<int, mixed\\> will always evaluate to false\\.$#"
+			count: 1
+			path: src/Entity/Collection/AbstractEntityCollection.php
+
+		-
+			message: "#^PHPDoc tag @throws with type Elasticsearch\\\\Common\\\\Exceptions\\\\ElasticsearchException is not subtype of Throwable$#"
+			count: 2
+			path: src/Model/TypeToNewIndex/Migrate.php
+
 
 	checkGenericClassInNonGenericObjectType: false
 	checkMissingIterableValueType: false
