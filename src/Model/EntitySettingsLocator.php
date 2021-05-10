@@ -30,12 +30,13 @@ class EntitySettingsLocator
 	}
 
 
-	public function locateAll(): array
+	public function locateAll(): \Generator
 	{
 		/** @var array<\Spameri\Elastic\Settings\IndexConfigInterface> $settings */
-		$settings = $this->container->getByType(\Spameri\Elastic\Settings\IndexConfigInterface::class);
-
-		return $settings;
+		$serviceNames = $this->container->findByType(\Spameri\Elastic\Settings\IndexConfigInterface::class);
+		foreach ($serviceNames as $serviceName) {
+			yield $this->container->getService($serviceName);
+		}
 	}
 
 }
