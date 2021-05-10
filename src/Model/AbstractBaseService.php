@@ -5,62 +5,29 @@ namespace Spameri\Elastic\Model;
 abstract class AbstractBaseService implements ServiceInterface
 {
 
-	/**
-	 * @var string
-	 */
-	protected $index;
+	protected string $index;
 
-	/**
-	 * @var \Elasticsearch\Client
-	 */
-	protected $client;
+	protected \Spameri\Elastic\Model\Insert $insert;
 
-	/**
-	 * @var \Spameri\Elastic\Model\Insert
-	 */
-	protected $insert;
+	protected \Spameri\Elastic\Model\Get $get;
 
-	/**
-	 * @var \Spameri\Elastic\Model\Get
-	 */
-	protected $get;
+	protected \Spameri\Elastic\Model\Delete $delete;
 
-	/**
-	 * @var \Spameri\Elastic\Model\Delete
-	 */
-	protected $delete;
+	protected \Spameri\Elastic\Model\GetBy $getBy;
 
-	/**
-	 * @var \Spameri\Elastic\Model\GetBy
-	 */
-	protected $getBy;
+	protected \Spameri\Elastic\Model\GetAllBy $getAllBy;
 
-	/**
-	 * @var \Spameri\Elastic\Model\GetAllBy
-	 */
-	protected $getAllBy;
+	protected \Spameri\Elastic\Factory\EntityFactoryInterface $entityFactory;
 
-	/**
-	 * @var \Spameri\Elastic\Factory\EntityFactoryInterface
-	 */
-	protected $entityFactory;
+	protected \Spameri\Elastic\Factory\CollectionFactoryInterface $collectionFactory;
 
-	/**
-	 * @var \Spameri\Elastic\Factory\CollectionFactoryInterface
-	 */
-	private $collectionFactory;
-
-	/**
-	 * @var \Spameri\Elastic\Model\Aggregate
-	 */
-	private $aggregate;
+	protected \Spameri\Elastic\Model\Aggregate $aggregate;
 
 
 	public function __construct(
 		string $index,
 		\Spameri\Elastic\Factory\EntityFactoryInterface $entityFactory,
 		\Spameri\Elastic\Factory\CollectionFactoryInterface $collectionFactory,
-		\Spameri\Elastic\ClientProvider $client,
 		\Spameri\Elastic\Model\Insert $insert,
 		\Spameri\Elastic\Model\Get $get,
 		\Spameri\Elastic\Model\GetBy $getBy,
@@ -69,7 +36,6 @@ abstract class AbstractBaseService implements ServiceInterface
 		\Spameri\Elastic\Model\Aggregate $aggregate
 	)
 	{
-		$this->client = $client->client();
 		$this->index = $index;
 		$this->insert = $insert;
 		$this->get = $get;
