@@ -16,6 +16,7 @@ class AllowedValues
 
 	// Text types
 	public const TYPE_TEXT = 'text';
+	public const TYPE_STRING = 'string';
 	public const TYPE_KEYWORD = 'keyword';
 
 	// Boolean types
@@ -60,6 +61,7 @@ class AllowedValues
 
 	public const TYPES = [
 		self::TYPE_TEXT => self::TYPE_TEXT,
+		self::TYPE_STRING => self::TYPE_STRING,
 		self::TYPE_KEYWORD => self::TYPE_KEYWORD,
 
 		self::TYPE_BOOLEAN => self::TYPE_BOOLEAN,

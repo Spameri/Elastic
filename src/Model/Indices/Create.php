@@ -5,17 +5,18 @@ namespace Spameri\Elastic\Model\Indices;
 class Create
 {
 
-	/**
-	 * @var \Spameri\Elastic\ClientProvider
-	 */
-	private $clientProvider;
+	private \Spameri\Elastic\ClientProvider $clientProvider;
+
+	private \Spameri\Elastic\Model\VersionProvider $versionProvider;
 
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
+		\Spameri\Elastic\ClientProvider $clientProvider,
+		\Spameri\Elastic\Model\VersionProvider $versionProvider
 	)
 	{
 		$this->clientProvider = $clientProvider;
+		$this->versionProvider = $versionProvider;
 	}
 
 
@@ -28,6 +29,19 @@ class Create
 		array $parameters
 	): array
 	{
+		if (
+			isset($parameters['mappings']['properties'])
+			&& $this->versionProvider->provide() <= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7
+		) {
+			foreach ($parameters['mappings']['properties'] as $fieldName => $field) {
+				$this->replaceKeywordInOlderVersion($field);
+				$parameters['mappings']['properties'][$fieldName] = $field;
+			}
+			$parameters['mappings'] = [
+				$index => $parameters['mappings'],
+			];
+		}
+
 		try {
 			return $this->clientProvider->client()->indices()->create(
 				(
@@ -41,6 +55,39 @@ class Create
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
+		}
+	}
+
+
+	public function replaceKeywordInOlderVersion(array &$field): void
+	{
+		if (isset($field['properties'])) {
+			foreach ($field['properties'] as $propertyKey => $propertyField) {
+				$this->replaceKeywordInOlderVersion($propertyField);
+				$field['properties'][$propertyKey] = $propertyField;
+			}
+		}
+
+		if (isset($field['fields'])) {
+			foreach ($field['fields'] as $fieldKey => $subField) {
+				$this->replaceKeywordInOlderVersion($subField);
+				$field['fields'][$fieldKey] = $subField;
+			}
+		}
+
+		if (isset($field['type']) === FALSE) {
+			return;
+		}
+
+		if (
+			\in_array(
+				\strtolower($field['type']), [
+					\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_TEXT,
+					\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_KEYWORD
+				], TRUE
+			)
+		) {
+			$field['type'] = \Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_STRING;
 		}
 	}
 
