@@ -65,8 +65,13 @@ class InitializeIndexes extends \Symfony\Component\Console\Command\Command
 			}
 
 			if ($forcedDelete) {
-				$this->delete->execute($settings->indexName());
-				$output->writeln('Index ' . $settings->indexName() . ' deleted.');
+				try {
+					$this->delete->execute($settings->indexName());
+					$output->writeln('Index ' . $settings->indexName() . ' deleted.');
+
+				} catch (\Spameri\Elastic\Exception\ElasticSearch $exception) {
+					// May be non existing index exception
+				}
 			}
 
 			try {

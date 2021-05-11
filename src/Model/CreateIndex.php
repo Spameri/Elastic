@@ -39,7 +39,7 @@ class CreateIndex
 			$indexName = $index . '-'
 				. $this->dateTimeProvider->provide()->format(\Spameri\Elastic\Entity\Property\DateTime::INDEX_FORMAT);
 
-			$this->create->execute($indexName, []);
+			$this->create->execute($indexName, [], $index);
 			$this->addAlias->execute($index, $indexName);
 		}
 	}

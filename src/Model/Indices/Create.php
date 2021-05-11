@@ -26,9 +26,18 @@ class Create
 	 */
 	public function execute(
 		string $index,
-		array $parameters
+		array $parameters,
+		?string $type = NULL
 	): array
 	{
+		if ($type === NULL) {
+			$type = $index;
+		}
+
+		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+			$type = NULL;
+		}
+
 		if (
 			isset($parameters['mappings']['properties'])
 			&& $this->versionProvider->provide() <= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7
@@ -38,7 +47,7 @@ class Create
 				$parameters['mappings']['properties'][$fieldName] = $field;
 			}
 			$parameters['mappings'] = [
-				$index => $parameters['mappings'],
+				$type => $parameters['mappings'],
 			];
 		}
 
