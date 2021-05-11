@@ -24,7 +24,11 @@ class CreateTest extends \SpameriTests\Elastic\AbstractTestCase
 			$this->container->getByType(\Spameri\Elastic\Model\VersionProvider::class)
 		);
 
-		$create->execute(\SpameriTests\Elastic\Config::INDEX_CREATE, $videoMapping->provide()->toArray());
+		$create->execute(
+			\SpameriTests\Elastic\Config::INDEX_CREATE,
+			$videoMapping->provide()->toArray(),
+			\SpameriTests\Elastic\Config::INDEX_CREATE
+		);
 		$response = $getMapping->execute(\SpameriTests\Elastic\Config::INDEX_CREATE);
 
 		if ($versionProvider->provide() <= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
