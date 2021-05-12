@@ -9,6 +9,10 @@
  * source code.
  */
 
+if (\defined('__PHPSTAN_RUNNING__')) {
+	return;
+}
+
 $loader = include __DIR__ . '/../vendor/autoload.php';
 if ( ! $loader) {
 	echo 'Install Nette Tester using `composer update --dev`';
