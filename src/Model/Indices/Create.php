@@ -92,7 +92,7 @@ class Create
 			\in_array(
 				\strtolower($field['type']), [
 					\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_TEXT,
-					\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_KEYWORD
+					\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_KEYWORD,
 				], TRUE
 			)
 		) {
