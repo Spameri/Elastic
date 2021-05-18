@@ -62,6 +62,9 @@ services:
 	entitySettingsLocator:
 		factory: Spameri\Elastic\Model\EntitySettingsLocator
 
+	index:
+		factory: Spameri\Elastic\Model\Index
+
 #	###
 #	Indices
 #	###
@@ -98,6 +101,12 @@ services:
 
 	indicesRemoveAlias:
 		factory: Spameri\Elastic\Model\Indices\RemoveAlias
+
+	indicesExists:
+		factory: Spameri\Elastic\Model\Indices\Exists
+
+	indicesGetFieldMapping:
+		factory: Spameri\Elastic\Model\Indices\GetFieldMapping
 
 	neonSettingsProvider:
 		factory: Spameri\Elastic\Settings\NeonSettingsProvider(%host%, %port%)
