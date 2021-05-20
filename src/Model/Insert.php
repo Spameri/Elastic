@@ -85,7 +85,7 @@ class Insert
 			return $response['_id'];
 		}
 
-		if (isset($response['result']) && $response['result'] === 'created') {
+		if (isset($response['result']) && ($response['result'] === 'created' || $response['result'] === 'updated')) {
 			return $response['_id'];
 		}
 
