@@ -5,7 +5,7 @@ namespace Spameri\Elastic\Commands;
 class InitializeIndexes extends \Symfony\Component\Console\Command\Command
 {
 
-	private \Spameri\Elastic\Model\Indices\Delete $delete;
+	private \Spameri\Elastic\Model\DeleteIndex $deleteIndex;
 
 	private \Spameri\Elastic\Model\InitializeIndex $initializeIndex;
 
@@ -14,13 +14,13 @@ class InitializeIndexes extends \Symfony\Component\Console\Command\Command
 
 	public function __construct(
 		\Spameri\Elastic\Model\EntitySettingsLocator $entitySettingsLocator,
-		\Spameri\Elastic\Model\Indices\Delete $delete,
+		\Spameri\Elastic\Model\DeleteIndex $deleteIndex,
 		\Spameri\Elastic\Model\InitializeIndex $initializeIndex
 	)
 	{
 		parent::__construct(NULL);
 		$this->entitySettingsLocator = $entitySettingsLocator;
-		$this->delete = $delete;
+		$this->deleteIndex = $deleteIndex;
 		$this->initializeIndex = $initializeIndex;
 	}
 
@@ -66,7 +66,7 @@ class InitializeIndexes extends \Symfony\Component\Console\Command\Command
 
 			if ($forcedDelete) {
 				try {
-					$this->delete->execute($settings->indexName());
+					$this->deleteIndex->execute($settings->indexName());
 					$output->writeln('Index ' . $settings->indexName() . ' deleted.');
 
 				} catch (\Spameri\Elastic\Exception\ElasticSearch $exception) {
