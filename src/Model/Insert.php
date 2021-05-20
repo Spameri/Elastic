@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model;
 
-
 class Insert
 {
 
@@ -16,14 +15,18 @@ class Insert
 	 */
 	private $clientProvider;
 
+	private \Spameri\Elastic\Model\VersionProvider $versionProvider;
+
 
 	public function __construct(
-		\Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray
-		, \Spameri\Elastic\ClientProvider $clientProvider
+		\Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray,
+		\Spameri\Elastic\ClientProvider $clientProvider,
+		\Spameri\Elastic\Model\VersionProvider $versionProvider
 	)
 	{
 		$this->prepareEntityArray = $prepareEntityArray;
 		$this->clientProvider = $clientProvider;
+		$this->versionProvider = $versionProvider;
 	}
 
 
@@ -32,27 +35,34 @@ class Insert
 	 * @throws \Spameri\Elastic\Exception\DocumentInsertFailed
 	 */
 	public function execute(
-		\Spameri\Elastic\Entity\IElasticEntity $entity
-		, string $index
-		, ?string $type = NULL
-	) : string
+		\Spameri\Elastic\Entity\ElasticEntityInterface $entity,
+		string $index,
+		?string $type = NULL
+	): string
 	{
 		if ($type === NULL) {
 			$type = $index;
 		}
 
+		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+			$type = NULL;
+		}
+
 		$entityArray = $this->prepareEntityArray->prepare($entity);
 		unset($entityArray['id']);
 
-		$document = new \Spameri\ElasticQuery\Document(
-			$index,
-			new \Spameri\ElasticQuery\Document\Body\Plain($entityArray),
-			$type,
-			$entity->id()->value()
-		);
-
 		try {
-			$response = $this->clientProvider->client()->index($document->toArray());
+			$response = $this->clientProvider->client()->index(
+				(
+					new \Spameri\ElasticQuery\Document(
+						$index,
+						new \Spameri\ElasticQuery\Document\Body\Plain($entityArray),
+						$type,
+						$entity->id()->value()
+					)
+				)->toArray()
+			)
+			;
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
@@ -61,16 +71,21 @@ class Insert
 		try {
 			$this->clientProvider->client()->indices()->refresh(
 				(
-					new \Spameri\ElasticQuery\Document($index)
+				new \Spameri\ElasticQuery\Document($index)
 				)
 					->toArray()
-			);
+			)
+			;
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}
 
-		if (\in_array($response['result'], ['created', 'updated'], TRUE)) {
+		if (isset($response['created']) || isset($response['updated'])) {
+			return $response['_id'];
+		}
+
+		if (isset($response['result']) && ($response['result'] === 'created' || $response['result'] === 'updated')) {
 			return $response['_id'];
 		}
 

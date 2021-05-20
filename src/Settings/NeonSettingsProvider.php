@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Settings;
 
-
 class NeonSettingsProvider implements \Spameri\Elastic\SettingsProviderInterface
 {
 
@@ -17,11 +16,14 @@ class NeonSettingsProvider implements \Spameri\Elastic\SettingsProviderInterface
 	private $port;
 
 	/**
-	 * @var array
+	 * @var array<mixed>
 	 */
 	private $headers;
 
 
+	/**
+	 * @param array<mixed> $headers
+	 */
 	public function __construct(
 		string $host,
 		int $port,
@@ -34,7 +36,7 @@ class NeonSettingsProvider implements \Spameri\Elastic\SettingsProviderInterface
 	}
 
 
-	public function provide() : \Spameri\Elastic\Settings
+	public function provide(): \Spameri\Elastic\Settings
 	{
 		return new \Spameri\Elastic\Settings(
 			$this->host,

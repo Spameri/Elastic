@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Entity\Import;
 
-
 class StringValue implements ValidationPropertyInterface
 {
 

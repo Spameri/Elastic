@@ -2,8 +2,7 @@
 
 namespace Spameri\Elastic\Entity\Property;
 
-
-class ElasticId implements \Spameri\Elastic\Entity\IValue, \Spameri\Elastic\Entity\Property\IElasticId
+class ElasticId implements \Spameri\Elastic\Entity\ValueInterface, \Spameri\Elastic\Entity\Property\ElasticIdInterface
 {
 
 	/**
@@ -23,7 +22,7 @@ class ElasticId implements \Spameri\Elastic\Entity\IValue, \Spameri\Elastic\Enti
 	}
 
 
-	public function value() : string
+	public function value(): string
 	{
 		return $this->value;
 	}

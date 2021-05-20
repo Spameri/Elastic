@@ -2,8 +2,7 @@
 
 namespace Spameri\Elastic\Entity\Value;
 
-
-class BoolValue implements \Spameri\Elastic\Entity\IValue
+class BoolValue implements \Spameri\Elastic\Entity\ValueInterface
 {
 
 	/**

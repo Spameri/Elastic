@@ -1,7 +1,6 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Spameri\Elastic\Model;
-
 
 class DumpIndex
 {
@@ -33,16 +32,17 @@ class DumpIndex
 
 	public function setOutput(
 		\Symfony\Component\Console\Output\OutputInterface $output
-	) : void
+	): void
 	{
 		$this->output = $output;
 	}
 
+
 	public function execute(
-		string $index
-		, string $filename
-		, ?string $type = NULL
-	) : void
+		string $index,
+		string $filename,
+		?string $type = NULL
+	): void
 	{
 		if ( ! $type) {
 			$type = $index;
@@ -57,7 +57,7 @@ class DumpIndex
 		$progressBar = new \Symfony\Component\Console\Helper\ProgressBar($this->output);
 		$progressBar->setFormat('debug');
 
-		\Nette\Utils\FileSystem::createDir(dirname($filename));
+		\Nette\Utils\FileSystem::createDir(\dirname($filename));
 		while ($continue) {
 			$this->bulkData = '';
 			$result = $this->scroll->execute($elasticQuery, $index, $type);
@@ -85,13 +85,13 @@ class DumpIndex
 
 	public function processHit(
 		\Spameri\ElasticQuery\Response\Result\Hit $hit
-	) : void
+	): void
 	{
 		$bulkData = [
 			'index' => [
-				'_index'	=> $hit->index(),
-				'_type'  	=> $hit->type(),
-				'_id'  		=> $hit->id(),
+				'_index' => $hit->index(),
+				'_type' => $hit->type(),
+				'_id' => $hit->id(),
 			],
 		];
 
@@ -104,7 +104,7 @@ class DumpIndex
 		string $filename
 	): void
 	{
-		@file_put_contents($filename, $this->bulkData, \FILE_APPEND);
+		@\file_put_contents($filename, $this->bulkData, \FILE_APPEND);
 	}
 
 }

@@ -2,91 +2,67 @@
 
 namespace Spameri\Elastic\Commands;
 
-
 class CreateIndex extends \Symfony\Component\Console\Command\Command
 {
 
-	/**
-	 * @var array
-	 */
-	private $entities;
+	private \Spameri\Elastic\Model\CreateIndex $createIndex;
 
-	/**
-	 * @var \Spameri\Elastic\Mapper\ElasticMapper
-	 */
-	private $elasticMapper;
+	private \Spameri\Elastic\Model\DeleteIndex $deleteIndex;
 
 
 	public function __construct(
-		array $entities
-		, \Spameri\Elastic\Mapper\ElasticMapper $elasticMapper
+		\Spameri\Elastic\Model\CreateIndex $createIndex,
+		\Spameri\Elastic\Model\DeleteIndex $deleteIndex
 	)
 	{
 		parent::__construct(NULL);
-		$this->entities = $entities;
-		$this->elasticMapper = $elasticMapper;
+		$this->createIndex = $createIndex;
+		$this->deleteIndex = $deleteIndex;
 	}
 
 
-	protected function configure() : void
+	protected function configure(): void
 	{
 		$this
 			->setName('spameri:elastic:create-index')
-			->setDescription('Creates index and puts mapping for entity/ies.')
-			->addArgument('entityName', \Symfony\Component\Console\Input\InputArgument::OPTIONAL)
+			->setDescription(
+				'Creates index. Take string as is, adds timestamp and inserts it in Elastic. No mapping or settings.'
+			)
+			->addArgument('indexName', \Symfony\Component\Console\Input\InputArgument::REQUIRED)
 			->addOption(
 				'force', 'f', NULL,
-				'Warning this deletes your data! Forces now used index to be deleted before new index is created and mapping set.'
+				'Warning this deletes your data! Forces now used index to be deleted before new index is created.'
 			)
 		;
 	}
 
 
 	/**
-	 * @throws \Spameri\Elastic\Exception\ElasticSearch
+	 * @throws \Spameri\Elastic\Exception\AbstractElasticSearchException
 	 */
 	protected function execute(
-		\Symfony\Component\Console\Input\InputInterface $input
-		, \Symfony\Component\Console\Output\OutputInterface $output
-	)
+		\Symfony\Component\Console\Input\InputInterface $input,
+		\Symfony\Component\Console\Output\OutputInterface $output
+	): int
 	{
-		/** @var string $entityName */
-		$entityName = $input->getArgument('entityName');
+		/** @var string $indexName */
+		$indexName = $input->getArgument('indexName');
 		$forcedDelete = $input->getOption('force');
 
-		if ($entityName) {
-			if ( ! isset($this->entities[$entityName])) {
-				$output->writeln('Provided entity name ' . $entityName . ' is not found in configuration.');
-
-			} else {
-				if ($forcedDelete) {
-					$this->elasticMapper->deleteIndex($this->entities[$entityName]['index']);
-					$output->writeln('Index ' . $this->entities[$entityName]['index'] . ' deleted.');
-				}
-				try {
-					$this->elasticMapper->createIndex($this->entities[$entityName]);
-					$output->writeln('Index ' . $this->entities[$entityName]['index'] . ' created.');
-
-				} catch (\Spameri\Elastic\Exception\ElasticSearchException $exception) {
-					$output->writeln($exception->getMessage());
-				}
-			}
-
-		} else {
-			foreach ($this->entities as $entityName => $entity) {
-				if ($forcedDelete) {
-					$this->elasticMapper->deleteIndex($entity['index']);
-					$output->writeln('Index ' . $this->entities[$entityName]['index'] . ' deleted.');
-				}
-				try {
-					$this->elasticMapper->createIndex($entity);
-					$output->writeln('Index ' . $this->entities[$entityName]['index'] . ' created.');
-
-				} catch (\Spameri\Elastic\Exception\ElasticSearchException $exception) {
-					$output->writeln($exception->getMessage());
-				}
-			}
+		if ($forcedDelete) {
+			$this->deleteIndex->execute($indexName);
+			$output->writeln('Index ' . $indexName . ' deleted.');
 		}
+
+		try {
+			$this->createIndex->execute($indexName);
+			$output->writeln('Index ' . $indexName . ' created.');
+
+		} catch (\Spameri\Elastic\Exception\AbstractElasticSearchException $exception) {
+			$output->writeln($exception->getMessage());
+		}
+
+		return 0;
 	}
 
 }

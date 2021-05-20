@@ -5,6 +5,10 @@ namespace Spameri\Elastic\Import\Run;
 class NullLoggerHandler implements \Spameri\Elastic\Import\LoggerHandlerInterface
 {
 
+	// phpcs:disable
+	/**
+	 * @param mixed $item
+	 */
 	public function logItemStart($item): void
 	{
 		// do nothing;
@@ -39,6 +43,7 @@ class NullLoggerHandler implements \Spameri\Elastic\Import\LoggerHandlerInterfac
 	{
 		// do nothing
 	}
+	// phpcs:enable
 
 
 	public function logFinish(): void

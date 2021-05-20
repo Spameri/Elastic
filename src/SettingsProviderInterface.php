@@ -2,10 +2,9 @@
 
 namespace Spameri\Elastic;
 
-
 interface SettingsProviderInterface
 {
 
-	public function provide() : \Spameri\Elastic\Settings;
+	public function provide(): \Spameri\Elastic\Settings;
 
 }

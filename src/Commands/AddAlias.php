@@ -2,26 +2,22 @@
 
 namespace Spameri\Elastic\Commands;
 
-
 class AddAlias extends \Symfony\Component\Console\Command\Command
 {
 
-	/**
-	 * @var \Spameri\Elastic\Mapper\ElasticMapper
-	 */
-	private $elasticMapper;
+	private \Spameri\Elastic\Model\Indices\AddAlias $addAlias;
 
 
 	public function __construct(
-		\Spameri\Elastic\Mapper\ElasticMapper $elasticMapper
+		\Spameri\Elastic\Model\Indices\AddAlias $addAlias
 	)
 	{
 		parent::__construct(NULL);
-		$this->elasticMapper = $elasticMapper;
+		$this->addAlias = $addAlias;
 	}
 
 
-	protected function configure() : void
+	protected function configure(): void
 	{
 		$this
 			->setName('spameri:elastic:add-alias')
@@ -33,21 +29,23 @@ class AddAlias extends \Symfony\Component\Console\Command\Command
 
 
 	protected function execute(
-		\Symfony\Component\Console\Input\InputInterface $input
-		, \Symfony\Component\Console\Output\OutputInterface $output
-	)
+		\Symfony\Component\Console\Input\InputInterface $input,
+		\Symfony\Component\Console\Output\OutputInterface $output
+	): int
 	{
 		/** @var string $index */
 		$index = $input->getArgument('index');
-		/** @var string $alias*/
+		/** @var string $alias */
 		$alias = $input->getArgument('alias');
 
 		try {
-			$this->elasticMapper->addAlias($index, $alias);
+			$this->addAlias->execute($alias, $index);
 
 		} catch (\Spameri\Elastic\Exception\AliasAlreadyExists $exception) {
 			$output->writeln($exception->getMessage());
 		}
+
+		return 0;
 	}
 
 }

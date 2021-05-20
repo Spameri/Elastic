@@ -2,8 +2,7 @@
 
 namespace Spameri\Elastic\Exception;
 
-
-class SettingsNotLocated extends \Spameri\Elastic\Exception\ElasticSearchException
+class SettingsNotLocated extends \Spameri\Elastic\Exception\AbstractElasticSearchException
 {
 
 	public function __construct(

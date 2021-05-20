@@ -2,8 +2,7 @@
 
 namespace Spameri\Elastic\Import\Exception;
 
-
-class ImportException extends \Spameri\Elastic\Exception\ElasticSearchException
+class ImportException extends \Spameri\Elastic\Exception\AbstractElasticSearchException
 {
 
 }

@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model\Indices;
 
-
 class Close
 {
 
@@ -22,14 +21,15 @@ class Close
 
 	public function execute(
 		string $index
-	) : bool
+	): bool
 	{
 		try {
 			$result = $this->clientProvider->client()->indices()->close(
 				(
 					new \Spameri\ElasticQuery\Document($index)
 				)->toArray()
-			);
+			)
+			;
 
 			if ($result['acknowledged'] === TRUE) {
 				return TRUE;

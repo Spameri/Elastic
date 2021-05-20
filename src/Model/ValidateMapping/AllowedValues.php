@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model\ValidateMapping;
 
-
 /**
  * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping-types.html
  * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-tokenizers.html
@@ -17,6 +16,7 @@ class AllowedValues
 
 	// Text types
 	public const TYPE_TEXT = 'text';
+	public const TYPE_STRING = 'string';
 	public const TYPE_KEYWORD = 'keyword';
 
 	// Boolean types
@@ -37,10 +37,10 @@ class AllowedValues
 
 	// Range types
 	public const TYPE_INTEGER_RANGE = 'integer_range';
-	public const TYPE_FLOAT_RANGE   = 'float_range';
-	public const TYPE_LONG_RANGE    = 'long_range';
-	public const TYPE_DOUBLE_RANGE  = 'double_range';
-	public const TYPE_DATE_RANGE    = 'date_range';
+	public const TYPE_FLOAT_RANGE = 'float_range';
+	public const TYPE_LONG_RANGE = 'long_range';
+	public const TYPE_DOUBLE_RANGE = 'double_range';
+	public const TYPE_DATE_RANGE = 'date_range';
 
 	// Complex types
 	public const TYPE_OBJECT = 'object';
@@ -60,27 +60,28 @@ class AllowedValues
 	public const TYPE_ALIAS = 'alias';
 
 	public const TYPES = [
-		self::TYPE_TEXT    => self::TYPE_TEXT,
+		self::TYPE_TEXT => self::TYPE_TEXT,
+		self::TYPE_STRING => self::TYPE_STRING,
 		self::TYPE_KEYWORD => self::TYPE_KEYWORD,
 
 		self::TYPE_BOOLEAN => self::TYPE_BOOLEAN,
 
-		self::TYPE_INTEGER      => self::TYPE_INTEGER,
-		self::TYPE_LONG         => self::TYPE_LONG,
-		self::TYPE_SHORT        => self::TYPE_SHORT,
-		self::TYPE_BYTE         => self::TYPE_BYTE,
-		self::TYPE_DOUBLE       => self::TYPE_DOUBLE,
-		self::TYPE_FLOAT        => self::TYPE_FLOAT,
-		self::TYPE_HALF_FLOAT   => self::TYPE_HALF_FLOAT,
+		self::TYPE_INTEGER => self::TYPE_INTEGER,
+		self::TYPE_LONG => self::TYPE_LONG,
+		self::TYPE_SHORT => self::TYPE_SHORT,
+		self::TYPE_BYTE => self::TYPE_BYTE,
+		self::TYPE_DOUBLE => self::TYPE_DOUBLE,
+		self::TYPE_FLOAT => self::TYPE_FLOAT,
+		self::TYPE_HALF_FLOAT => self::TYPE_HALF_FLOAT,
 		self::TYPE_SCALED_FLOAT => self::TYPE_SCALED_FLOAT,
 
 		self::TYPE_DATE => self::TYPE_DATE,
 
 		self::TYPE_INTEGER_RANGE => self::TYPE_INTEGER_RANGE,
-		self::TYPE_FLOAT_RANGE   => self::TYPE_FLOAT_RANGE,
-		self::TYPE_LONG_RANGE    => self::TYPE_LONG_RANGE,
-		self::TYPE_DOUBLE_RANGE  => self::TYPE_DOUBLE_RANGE,
-		self::TYPE_DATE_RANGE    => self::TYPE_DATE_RANGE,
+		self::TYPE_FLOAT_RANGE => self::TYPE_FLOAT_RANGE,
+		self::TYPE_LONG_RANGE => self::TYPE_LONG_RANGE,
+		self::TYPE_DOUBLE_RANGE => self::TYPE_DOUBLE_RANGE,
+		self::TYPE_DATE_RANGE => self::TYPE_DATE_RANGE,
 
 		self::TYPE_OBJECT => self::TYPE_OBJECT,
 		self::TYPE_NESTED => self::TYPE_NESTED,
@@ -88,13 +89,13 @@ class AllowedValues
 		self::TYPE_GEO_POINT => self::TYPE_GEO_POINT,
 		self::TYPE_GEO_SHAPE => self::TYPE_GEO_SHAPE,
 
-		self::TYPE_IP          => self::TYPE_IP,
-		self::TYPE_COMPLETION  => self::TYPE_COMPLETION,
+		self::TYPE_IP => self::TYPE_IP,
+		self::TYPE_COMPLETION => self::TYPE_COMPLETION,
 		self::TYPE_TOKEN_COUNT => self::TYPE_TOKEN_COUNT,
-		self::TYPE_MURMUR3     => self::TYPE_MURMUR3,
-		self::TYPE_PERCOLATOR  => self::TYPE_PERCOLATOR,
-		self::TYPE_JOIN        => self::TYPE_JOIN,
-		self::TYPE_ALIAS       => self::TYPE_ALIAS,
+		self::TYPE_MURMUR3 => self::TYPE_MURMUR3,
+		self::TYPE_PERCOLATOR => self::TYPE_PERCOLATOR,
+		self::TYPE_JOIN => self::TYPE_JOIN,
+		self::TYPE_ALIAS => self::TYPE_ALIAS,
 	];
 
 	//
@@ -108,7 +109,6 @@ class AllowedValues
 	public const ANALYZER_KEYWORD = 'keyword';
 	public const ANALYZER_PATTERN = 'pattern';
 	public const ANALYZER_FINGERPRINT = 'fingerprint';
-
 
 	public const ANALYZER_ARABIC = 'arabic';
 	public const ANALYZER_ARMENIAN = 'armenian';
@@ -177,7 +177,7 @@ class AllowedValues
 		self::ANALYZER_IRISH => self::ANALYZER_IRISH,
 		self::ANALYZER_ITALIAN => self::ANALYZER_ITALIAN,
 		self::ANALYZER_LITHUANIAN => self::ANALYZER_LITHUANIAN,
-		self::ANALYZER_NORWEGIAN=> self::ANALYZER_NORWEGIAN,
+		self::ANALYZER_NORWEGIAN => self::ANALYZER_NORWEGIAN,
 		self::ANALYZER_PERSIAN => self::ANALYZER_PERSIAN,
 		self::ANALYZER_PORTUGUESE => self::ANALYZER_PORTUGUESE,
 		self::ANALYZER_ROMANIAN => self::ANALYZER_ROMANIAN,
@@ -212,23 +212,23 @@ class AllowedValues
 	public const TOKENIZER_PATH = 'path_hierarchy';
 
 	public const TOKENIZERS = [
-		self::TOKENIZER_STANDARD 		=> self::TOKENIZER_STANDARD,
-		self::TOKENIZER_LETTER 			=> self::TOKENIZER_LETTER,
-		self::TOKENIZER_LOWERCASE 		=> self::TOKENIZER_LOWERCASE,
-		self::TOKENIZER_WHITESPACE 		=> self::TOKENIZER_WHITESPACE,
-		self::TOKENIZER_UAX_URL_EMAIL 	=> self::TOKENIZER_UAX_URL_EMAIL,
-		self::TOKENIZER_CLASSIC 		=> self::TOKENIZER_CLASSIC,
-		self::TOKENIZER_THAI 			=> self::TOKENIZER_THAI,
+		self::TOKENIZER_STANDARD => self::TOKENIZER_STANDARD,
+		self::TOKENIZER_LETTER => self::TOKENIZER_LETTER,
+		self::TOKENIZER_LOWERCASE => self::TOKENIZER_LOWERCASE,
+		self::TOKENIZER_WHITESPACE => self::TOKENIZER_WHITESPACE,
+		self::TOKENIZER_UAX_URL_EMAIL => self::TOKENIZER_UAX_URL_EMAIL,
+		self::TOKENIZER_CLASSIC => self::TOKENIZER_CLASSIC,
+		self::TOKENIZER_THAI => self::TOKENIZER_THAI,
 
-		self::TOKENIZER_NGRAM 		=> self::TOKENIZER_NGRAM,
-		self::TOKENIZER_EDGE_NGRAM 	=> self::TOKENIZER_EDGE_NGRAM,
+		self::TOKENIZER_NGRAM => self::TOKENIZER_NGRAM,
+		self::TOKENIZER_EDGE_NGRAM => self::TOKENIZER_EDGE_NGRAM,
 
-		self::TOKENIZER_KEYWORD 				=> self::TOKENIZER_KEYWORD,
-		self::TOKENIZER_PATTERN 				=> self::TOKENIZER_PATTERN,
-		self::TOKENIZER_SIMPLE_PATTERN 			=> self::TOKENIZER_SIMPLE_PATTERN,
-		self::TOKENIZER_CHAR_GROUP 				=> self::TOKENIZER_CHAR_GROUP,
-		self::TOKENIZER_SIMPLE_PATTERN_SPLIT 	=> self::TOKENIZER_SIMPLE_PATTERN_SPLIT,
-		self::TOKENIZER_PATH 					=> self::TOKENIZER_PATH,
+		self::TOKENIZER_KEYWORD => self::TOKENIZER_KEYWORD,
+		self::TOKENIZER_PATTERN => self::TOKENIZER_PATTERN,
+		self::TOKENIZER_SIMPLE_PATTERN => self::TOKENIZER_SIMPLE_PATTERN,
+		self::TOKENIZER_CHAR_GROUP => self::TOKENIZER_CHAR_GROUP,
+		self::TOKENIZER_SIMPLE_PATTERN_SPLIT => self::TOKENIZER_SIMPLE_PATTERN_SPLIT,
+		self::TOKENIZER_PATH => self::TOKENIZER_PATH,
 	];
 
 	//
@@ -241,10 +241,11 @@ class AllowedValues
 	public const BLOCK_FORMAT = 'format';
 
 	public const BLOCKS = [
-		self::BLOCK_TYPE 		=> self::BLOCK_TYPE,
-		self::BLOCK_ANALYZER 	=> self::BLOCK_ANALYZER,
-		self::BLOCK_TOKENIZER 	=> self::BLOCK_TOKENIZER,
-		self::BLOCK_PROPERTIES 	=> self::BLOCK_PROPERTIES,
-		self::BLOCK_FORMAT 		=> self::BLOCK_FORMAT,
+		self::BLOCK_TYPE => self::BLOCK_TYPE,
+		self::BLOCK_ANALYZER => self::BLOCK_ANALYZER,
+		self::BLOCK_TOKENIZER => self::BLOCK_TOKENIZER,
+		self::BLOCK_PROPERTIES => self::BLOCK_PROPERTIES,
+		self::BLOCK_FORMAT => self::BLOCK_FORMAT,
 	];
+
 }

@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model;
 
-
 class Aggregate
 {
 
@@ -10,30 +9,39 @@ class Aggregate
 	 * @var \Spameri\Elastic\ClientProvider
 	 */
 	private $clientProvider;
+
 	/**
 	 * @var \Spameri\ElasticQuery\Response\ResultMapper
 	 */
 	private $resultMapper;
 
+	private VersionProvider $versionProvider;
+
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
-		, \Spameri\ElasticQuery\Response\ResultMapper $resultMapper
+		\Spameri\Elastic\ClientProvider $clientProvider,
+		\Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
+		\Spameri\Elastic\Model\VersionProvider $versionProvider
 	)
 	{
 		$this->clientProvider = $clientProvider;
 		$this->resultMapper = $resultMapper;
+		$this->versionProvider = $versionProvider;
 	}
 
 
 	public function execute(
-		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
-		, string $index
-		, ?string $type = NULL
-	) : \Spameri\ElasticQuery\Response\ResultSearch
+		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
+		string $index,
+		?string $type = NULL
+	): \Spameri\ElasticQuery\Response\ResultSearch
 	{
 		if ($type === NULL) {
 			$type = $index;
+		}
+
+		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+			$type = NULL;
 		}
 
 		try {
@@ -47,7 +55,8 @@ class Aggregate
 					$type
 				)
 				)->toArray()
-			);
+			)
+			;
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

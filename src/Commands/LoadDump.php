@@ -2,14 +2,10 @@
 
 namespace Spameri\Elastic\Commands;
 
-
 class LoadDump extends \Symfony\Component\Console\Command\Command
 {
 
-	/**
-	 * @var \Spameri\Elastic\Model\RestoreIndex
-	 */
-	private $restoreIndex;
+	private \Spameri\Elastic\Model\RestoreIndex $restoreIndex;
 
 
 	public function __construct(
@@ -24,7 +20,7 @@ class LoadDump extends \Symfony\Component\Console\Command\Command
 	/**
 	 * @example spameri:elastic:load-dump
 	 */
-	protected function configure() : void
+	protected function configure(): void
 	{
 		$this
 			->setName('spameri:elastic:load-dump')
@@ -34,16 +30,16 @@ class LoadDump extends \Symfony\Component\Console\Command\Command
 				'step',
 				\Symfony\Component\Console\Input\InputArgument::OPTIONAL,
 				'Number of documents per one bulk index',
-				500
+				'500'
 			)
 		;
 	}
 
 
 	protected function execute(
-		\Symfony\Component\Console\Input\InputInterface $input
-		, \Symfony\Component\Console\Output\OutputInterface $output
-	)
+		\Symfony\Component\Console\Input\InputInterface $input,
+		\Symfony\Component\Console\Output\OutputInterface $output
+	): int
 	{
 		$output->writeln('Starting');
 
@@ -54,6 +50,8 @@ class LoadDump extends \Symfony\Component\Console\Command\Command
 		$this->restoreIndex->execute($filename, $step);
 
 		$output->writeln('Done');
+
+		return 0;
 	}
 
 }

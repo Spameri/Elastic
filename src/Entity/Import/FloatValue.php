@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Entity\Import;
 
-
 class FloatValue implements ValidationPropertyInterface
 {
 

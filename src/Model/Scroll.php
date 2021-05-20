@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model;
 
-
 class Scroll
 {
 
@@ -16,14 +15,18 @@ class Scroll
 	 */
 	private $resultMapper;
 
+	private VersionProvider $versionProvider;
+
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
-		, \Spameri\ElasticQuery\Response\ResultMapper $resultMapper
+		\Spameri\Elastic\ClientProvider $clientProvider,
+		\Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
+		VersionProvider $versionProvider
 	)
 	{
 		$this->clientProvider = $clientProvider;
 		$this->resultMapper = $resultMapper;
+		$this->versionProvider = $versionProvider;
 	}
 
 
@@ -31,13 +34,17 @@ class Scroll
 	 * @throws \Spameri\Elastic\Exception\ElasticSearch
 	 */
 	public function execute(
-		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
-		, string $index
-		, ?string $type = NULL
-	) : \Spameri\ElasticQuery\Response\ResultSearch
+		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
+		string $index,
+		?string $type = NULL
+	): \Spameri\ElasticQuery\Response\ResultSearch
 	{
 		if ($type === NULL) {
 			$type = $index;
+		}
+
+		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+			$type = NULL;
 		}
 
 		try {
@@ -55,7 +62,8 @@ class Scroll
 						)
 					)
 						->toArray()
-				);
+				)
+				;
 
 				if (isset($result['_scroll_id'])) {
 					$elasticQuery->options()->scrollInitialized($result['_scroll_id']);
@@ -81,7 +89,8 @@ class Scroll
 						)
 					)
 						->toArray()
-				);
+				)
+				;
 			}
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
@@ -94,7 +103,7 @@ class Scroll
 
 	public function closeScroll(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
-	) : void
+	): void
 	{
 		try {
 			$this->clientProvider->client()->clearScroll(
@@ -110,8 +119,8 @@ class Scroll
 					)
 				)
 					->toArray()
-			);
-
+			)
+			;
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

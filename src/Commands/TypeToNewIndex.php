@@ -2,14 +2,10 @@
 
 namespace Spameri\Elastic\Commands;
 
-
 class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 {
 
-	/**
-	 * @var \Spameri\Elastic\Model\TypeToNewIndex\Migrate
-	 */
-	private $migrate;
+	private \Spameri\Elastic\Model\TypeToNewIndex\Migrate $migrate;
 
 
 	public function __construct(
@@ -24,7 +20,7 @@ class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 	/**
 	 * @example spameri:elastic:move-type oldIndex productType newIndex newIndexAlias -c
 	 */
-	protected function configure() : void
+	protected function configure(): void
 	{
 		$this
 			->setName('spameri:elastic:move-type')
@@ -34,17 +30,22 @@ class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 			->addArgument('indexTo', \Symfony\Component\Console\Input\InputArgument::REQUIRED)
 			->addArgument('aliasTo', \Symfony\Component\Console\Input\InputArgument::REQUIRED)
 			->addArgument('typeTo', \Symfony\Component\Console\Input\InputArgument::OPTIONAL, 'Use only on old ElasticSearch', NULL)
-			->addOption('allowClose', 'c', \Symfony\Component\Console\Input\InputOption::VALUE_OPTIONAL,
+			->addOption(
+				'allowClose', 'c', \Symfony\Component\Console\Input\InputOption::VALUE_OPTIONAL,
 				'Allows command to close index for data transfer. After data is transferred index is opened and resumes normal operations. When open it needs to check changed files after move and sync remaining.',
 				TRUE
 			)
 		;
 	}
 
+
+	/**
+	 * @throws \Elasticsearch\Common\Exceptions\ElasticsearchException
+	 */
 	protected function execute(
-		\Symfony\Component\Console\Input\InputInterface $input
-		, \Symfony\Component\Console\Output\OutputInterface $output
-	)
+		\Symfony\Component\Console\Input\InputInterface $input,
+		\Symfony\Component\Console\Output\OutputInterface $output
+	): int
 	{
 		$output->writeln('Starting');
 
@@ -56,9 +57,11 @@ class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 		$allowClose = $input->getOption('allowClose');
 
 		$this->migrate->setOutput($output);
-		$this->migrate->execute($indexFrom, $typeFrom, $indexTo, $aliasTo, $typeTo, $allowClose);
+		$this->migrate->execute((string) $indexFrom, (string) $typeFrom, (string) $indexTo, (string) $aliasTo, (string) $typeTo, (bool) $allowClose);
 
 		$output->writeln('Done');
+
+		return 0;
 	}
 
 }

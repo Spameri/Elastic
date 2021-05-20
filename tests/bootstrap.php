@@ -5,8 +5,13 @@
  *
  * Copyright (c) 2018 Václav Čevela (vcevela@gmail.com)
  *
- * For the full copyright and license information, please view the file license.md that was distributed with this source code.
+ * For the full copyright and license information, please view the file license.md that was distributed with this
+ * source code.
  */
+
+if (\defined('__PHPSTAN_RUNNING__')) {
+	return;
+}
 
 $loader = include __DIR__ . '/../vendor/autoload.php';
 if ( ! $loader) {
@@ -22,5 +27,15 @@ if ( ! $loader) {
 
 Tester\Helpers::purge(\TEMP_DIR);
 Tracy\Debugger::$logDirectory = \TEMP_DIR;
+
+$ch = \curl_init();
+\curl_setopt($ch, \CURLOPT_URL, \SpameriTests\Elastic\Config::CONNECTION . '/' . \SpameriTests\Elastic\Config::INDEX . '*');
+\curl_setopt($ch, \CURLOPT_RETURNTRANSFER, 1);
+\curl_setopt($ch, \CURLOPT_CUSTOMREQUEST, 'DELETE');
+\curl_setopt($ch, \CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+
+\curl_exec($ch);
+
+\curl_close($ch);
 
 return $loader;

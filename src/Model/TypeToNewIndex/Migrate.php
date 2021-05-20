@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model\TypeToNewIndex;
 
-
 class Migrate
 {
 
@@ -57,11 +56,6 @@ class Migrate
 	private $search;
 
 	/**
-	 * @var \Spameri\Elastic\Mapper\ElasticMapper
-	 */
-	private $elasticMapper;
-
-	/**
 	 * @var \Spameri\Elastic\Model\Indices\Create
 	 */
 	private $create;
@@ -71,26 +65,25 @@ class Migrate
 	 */
 	private $indicesGet;
 
-	/**
-	 * @var \Spameri\Elastic\Model\Indices\PutSettings
-	 */
-	private $putSettings;
+	private \Spameri\Elastic\Model\Indices\AddAlias $addAlias;
+
+	private \Spameri\Elastic\Model\VersionProvider $versionProvider;
 
 
 	public function __construct(
-		DocumentMigrateStatus $documentMigrateStatus
-		, \Spameri\Elastic\ClientProvider $clientProvider
-		, \Spameri\Elastic\Provider\DateTimeProvider $dateTimeProvider
-		, \Spameri\Elastic\Model\Delete $delete
-		, \Spameri\Elastic\Model\Get $get
-		, \Spameri\Elastic\Model\Indices\Close $close
-		, \Spameri\Elastic\Model\Indices\GetMapping $getMapping
-		, \Spameri\Elastic\Model\Indices\PutMapping $putMapping
-		, \Spameri\Elastic\Model\Search $search
-		, \Spameri\Elastic\Mapper\ElasticMapper $elasticMapper
-		, \Spameri\Elastic\Model\Indices\Create $create
-		, \Spameri\Elastic\Model\Indices\Get $indicesGet
-		, \Spameri\Elastic\Model\Indices\PutSettings $putSettings
+		DocumentMigrateStatus $documentMigrateStatus,
+		\Spameri\Elastic\ClientProvider $clientProvider,
+		\Spameri\Elastic\Provider\DateTimeProvider $dateTimeProvider,
+		\Spameri\Elastic\Model\Delete $delete,
+		\Spameri\Elastic\Model\Get $get,
+		\Spameri\Elastic\Model\Indices\Close $close,
+		\Spameri\Elastic\Model\Indices\GetMapping $getMapping,
+		\Spameri\Elastic\Model\Indices\PutMapping $putMapping,
+		\Spameri\Elastic\Model\Search $search,
+		\Spameri\Elastic\Model\Indices\Create $create,
+		\Spameri\Elastic\Model\Indices\Get $indicesGet,
+		\Spameri\Elastic\Model\Indices\AddAlias $addAlias,
+		\Spameri\Elastic\Model\VersionProvider $versionProvider
 	)
 	{
 		$this->documentMigrateStatus = $documentMigrateStatus;
@@ -102,16 +95,16 @@ class Migrate
 		$this->getMapping = $getMapping;
 		$this->putMapping = $putMapping;
 		$this->search = $search;
-		$this->elasticMapper = $elasticMapper;
 		$this->create = $create;
 		$this->indicesGet = $indicesGet;
-		$this->putSettings = $putSettings;
+		$this->addAlias = $addAlias;
+		$this->versionProvider = $versionProvider;
 	}
 
 
 	public function setOutput(
 		\Symfony\Component\Console\Output\OutputInterface $output
-	) : void
+	): void
 	{
 		$this->output = $output;
 	}
@@ -121,13 +114,13 @@ class Migrate
 	 * @throws \Elasticsearch\Common\Exceptions\ElasticsearchException
 	 */
 	public function execute(
-		string $indexFrom
-		, string $typeFrom
-		, string $indexTo
-		, string $aliasTo
-		, ?string $typeTo
-		, bool $allowClose
-	) : void
+		string $indexFrom,
+		string $typeFrom,
+		string $indexTo,
+		string $aliasTo,
+		?string $typeTo,
+		bool $allowClose
+	): void
 	{
 		// 1. Close index
 		if ($allowClose) {
@@ -142,11 +135,15 @@ class Migrate
 		// 2a. Put settings to new index
 		$oldIndexSettings = $this->indicesGet->execute($indexFrom);
 		$settings = \reset($oldIndexSettings);
-		$this->create->execute($indexTo, [
-			'settings' => [
-				'index' => $settings['settings']['index']['analysis'] ?? [],
-			]
-		]);
+		$indexToParameters = [];
+		if (isset($settings['settings']['index']['analysis'])) {
+			$indexToParameters = [
+				'settings' => [
+					'index' => $settings['settings']['index']['analysis'] ?? [],
+				],
+			];
+		}
+		$this->create->execute($indexTo, $indexToParameters);
 
 		// 2b. Set mapping in new index
 		$this->output->writeln('Transferring mapping from index: ' . $indexFrom . ' and type: ' . $typeFrom . ' to index: ' . $indexTo);
@@ -197,6 +194,7 @@ class Migrate
 			$loops = 0;
 			while ($canContinue) {
 				$changed = 0;
+				// phpcs:ignore
 				foreach ($this->documentMigrateStatus->storage() as $documentId => $documentVersion) {
 					$response = $this->get->execute(
 						new \Spameri\Elastic\Entity\Property\ElasticId((string) $documentId),
@@ -206,10 +204,9 @@ class Migrate
 
 					if ($this->documentMigrateStatus->isChanged((string) $documentId, $response->hit()->version())) {
 						// Reindex this document
-						$this->processHit($indexTo, $typeTo, $indexFrom, $response, $allowClose);
+						$this->processHit($indexTo, $typeTo, $indexFrom, $response->hit(), $allowClose);
 						$changed++;
 
-						/** @noinspection DisconnectedForeachInstructionInspection */
 						$updateBar->advance();
 					}
 				}
@@ -230,11 +227,11 @@ class Migrate
 
 		// 8. Switch to new index
 		$this->output->writeln('Adding alias: ' . $aliasTo . ' to index: ' . $indexTo);
-		$this->elasticMapper->addAlias($indexTo, $aliasTo);
+		$this->addAlias->execute($aliasTo, $indexTo);
 
 		// 9. Write info
 		$this->output->writeln(
-			'Migration done. All old data remains in old index: '. $indexFrom . ' with type: ' . $typeFrom
+			'Migration done. All old data remains in old index: ' . $indexFrom . ' with type: ' . $typeFrom
 			. ' it is recommended to manually delete data after this command'
 		);
 
@@ -246,21 +243,28 @@ class Migrate
 	 * @throws \Elasticsearch\Common\Exceptions\ElasticsearchException
 	 */
 	public function processHit(
-		string $indexTo
-		, ?string $typeTo
-		, string $indexFrom
-		, \Spameri\ElasticQuery\Response\Result\Hit $hit
-		, bool $allowClose
-	) : void
+		string $indexTo,
+		?string $typeTo,
+		string $indexFrom,
+		\Spameri\ElasticQuery\Response\Result\Hit $hit,
+		bool $allowClose
+	): void
 	{
-		$document = new \Spameri\ElasticQuery\Document(
-			$indexTo,
-			new \Spameri\ElasticQuery\Document\Body\Plain($hit->source()),
-			$typeTo,
-			$hit->id()
-		);
+		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+			$typeTo = NULL;
+		}
 
-		$this->clientProvider->client()->index($document->toArray());
+		$this->clientProvider->client()->index(
+			(
+				new \Spameri\ElasticQuery\Document(
+					$indexTo,
+					new \Spameri\ElasticQuery\Document\Body\Plain($hit->source()),
+					$typeTo,
+					$hit->id()
+				)
+			)->toArray()
+		)
+		;
 
 		if ($allowClose === FALSE) {
 			$this->documentMigrateStatus->add($hit->id(), $hit->version());

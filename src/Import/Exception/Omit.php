@@ -5,7 +5,7 @@ namespace Spameri\Elastic\Import\Exception;
 /**
  * You need to skip one item with defined parameters. IE. product is not public.
  */
-class Omit extends ImportException
+class Omit extends \Spameri\Elastic\Import\Exception\ImportException
 {
 
 }

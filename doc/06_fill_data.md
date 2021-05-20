@@ -10,10 +10,10 @@ entity data to array.
 - [Example](../tests/SpameriTests/Model/Insert.phpt#L16)
 ```php
 $sqlData = $dibi->fetchRow();
-$video = new \SpameriTests\Data\Entity\Video(
+$video = new \SpameriTests\Elastic\Data\Entity\Video(
 	new \Spameri\Elastic\Entity\Property\EmptyElasticId(),
-	new \SpameriTests\Data\Entity\Video\Identification(
-		new \SpameriTests\Data\Entity\Property\ImdbId($sqlData['imdb'])
+	new \SpameriTests\Elastic\Data\Entity\Video\Identification(
+		new \SpameriTests\Elastic\Data\Entity\Property\ImdbId($sqlData['imdb'])
 	)
 );
 ```

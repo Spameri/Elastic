@@ -43,12 +43,12 @@ class Run
 	/**
 	 * @var string
 	 */
-	private $runName;
+	protected $runName;
 
 	/**
 	 * @var string
 	 */
-	private $fileName;
+	protected $fileName;
 
 	/**
 	 * @var \Symfony\Component\Console\Helper\ProgressBar
@@ -66,7 +66,6 @@ class Run
 	 */
 	public function __construct(
 		string $logDir,
-		\Symfony\Component\Console\Output\OutputInterface $output,
 		\Spameri\Elastic\Import\LoggerHandlerInterface $loggerHandler,
 		\Spameri\Elastic\Import\LockInterface $lock,
 		\Spameri\Elastic\Import\RunHandlerInterface $runHandler,
@@ -76,7 +75,6 @@ class Run
 		\Spameri\Elastic\Import\AfterImportInterface $afterImport
 	)
 	{
-		$this->output = $output;
 		$this->lock = $lock;
 		$this->loggerHandler = $loggerHandler;
 		$this->runHandler = $runHandler;
@@ -91,7 +89,13 @@ class Run
 	}
 
 
-	protected function setUpLogger($logDir): void
+	public function setOutput(\Symfony\Component\Console\Output\OutputInterface $output): void
+	{
+		$this->output = $output;
+	}
+
+
+	protected function setUpLogger(string $logDir): void
 	{
 		$directory = $logDir;
 		\Nette\Utils\FileSystem::createDir($directory);

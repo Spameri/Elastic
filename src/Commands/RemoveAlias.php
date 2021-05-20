@@ -2,26 +2,22 @@
 
 namespace Spameri\Elastic\Commands;
 
-
 class RemoveAlias extends \Symfony\Component\Console\Command\Command
 {
 
-	/**
-	 * @var \Spameri\Elastic\Mapper\ElasticMapper
-	 */
-	private $elasticMapper;
+	private \Spameri\Elastic\Model\Indices\RemoveAlias $removeAlias;
 
 
 	public function __construct(
-		\Spameri\Elastic\Mapper\ElasticMapper $elasticMapper
+		\Spameri\Elastic\Model\Indices\RemoveAlias $removeAlias
 	)
 	{
 		parent::__construct(NULL);
-		$this->elasticMapper = $elasticMapper;
+		$this->removeAlias = $removeAlias;
 	}
 
 
-	protected function configure() : void
+	protected function configure(): void
 	{
 		$this
 			->setName('spameri:elastic:remove-alias')
@@ -33,9 +29,9 @@ class RemoveAlias extends \Symfony\Component\Console\Command\Command
 
 
 	protected function execute(
-		\Symfony\Component\Console\Input\InputInterface $input
-		, \Symfony\Component\Console\Output\OutputInterface $output
-	)
+		\Symfony\Component\Console\Input\InputInterface $input,
+		\Symfony\Component\Console\Output\OutputInterface $output
+	): int
 	{
 		/** @var string $index */
 		$index = $input->getArgument('index');
@@ -43,9 +39,11 @@ class RemoveAlias extends \Symfony\Component\Console\Command\Command
 		$alias = $input->getArgument('alias');
 		$output->writeln('Starting');
 
-		$this->elasticMapper->removeAlias($index, $alias);
+		$this->removeAlias->execute($alias, $index);
 
 		$output->writeln('Done');
+
+		return 0;
 	}
 
 }

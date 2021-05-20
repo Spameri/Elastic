@@ -11,6 +11,9 @@ abstract class AbstractImport implements \Spameri\Elastic\Entity\Import\Validati
 	private $key;
 
 
+	/**
+	 * @param int|string $key
+	 */
 	public function __construct(
 		$key
 	)
@@ -19,20 +22,30 @@ abstract class AbstractImport implements \Spameri\Elastic\Entity\Import\Validati
 	}
 
 
+	/**
+	 * @return  int|string
+	 */
 	public function key()
 	{
 		return $this->key;
 	}
 
 
+	/**
+	 * @return array<mixed>
+	 */
 	public function entityVariables(): array
 	{
 		$vars = \get_object_vars($this);
 		unset($vars['key']);
+
 		return $vars;
 	}
 
 
+	/**
+	 * @return array<mixed>
+	 */
 	public function toArray(): array
 	{
 		$array = [];

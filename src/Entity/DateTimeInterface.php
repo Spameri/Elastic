@@ -2,8 +2,9 @@
 
 namespace Spameri\Elastic\Entity;
 
-
 interface DateTimeInterface extends \DateTimeInterface
 {
+
 	public function format($format = NULL);
+
 }
