@@ -34,6 +34,10 @@ class Index
 			$type = $index;
 		}
 
+		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+			$type = NULL;
+		}
+
 		try {
 			$response = $this->clientProvider->client()->index(
 				(
