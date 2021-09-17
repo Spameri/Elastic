@@ -9,14 +9,18 @@ Use composer `composer require spameri/elastic`
 ### 1. Config ElasticSearch
 
 In your config neon, enable extensions. Kdyby/Console is there because we need it to do some command line commands.
-Monolog is required by elasticsearch/elasticsearch and we can use existing extension in Kdyby/Monolog. 
 
-```neon
+```yaml
 extensions:
 	spameriElasticSearch: \Spameri\Elastic\DI\SpameriElasticSearchExtension
-	console: Kdyby\Console\DI\ConsoleExtension
-	monolog: Kdyby\Monolog\DI\MonologExtension
 ```
+
+Optionaly you need some Symfony Console implementation ie:
+
+`````yaml
+extensions:
+	console: Kdyby\Console\DI\ConsoleExtension
+`````
 
 Then configure where is your ElasticSearch.
 ```neon
@@ -51,8 +55,6 @@ what methods and arrays are supported.
 ---
 
 ### 2. First entity
-
-#### [Neon file configuration](02_neon_configuration.md)
 
 #### [Create entity class](03_entity_class.md)
 
