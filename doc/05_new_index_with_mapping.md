@@ -1,6 +1,6 @@
 # Create index with mapping for entity
 
-Entity is configured [link](03_entity_class.md) and defined in php [link](03_entity_class.md#L247) and next thing is to get these settings to ElasticSearch.
+Entity is configured [link](03_entity_class.md) and defined in php [link](03_entity_class.md#L431) and next thing is to get these settings to ElasticSearch.
 
 ## Index creating
 
@@ -8,15 +8,15 @@ Entity is configured [link](03_entity_class.md) and defined in php [link](03_ent
 - When to use?
 - You dont have any index, your ElasticSearch installation is clean and with no index for our entities.
 - How? 
-- Simple neon is configured from previous [step](02_neon_configuration.md) and we just need to run command.
+- Entity is configured from previous [step](02_configuration.md) and we just need to run command.
 
 ```bash
-php www/index spameri:elastic:create-index
+php www/index spameri:elastic:initialize-index
 ```
 
 - Can be used for specific entity
 ```bash
-php www/index spameri:elastic:create-index video
+php www/index spameri:elastic:initialize-index video
 ```
 
 
@@ -27,12 +27,12 @@ usually when you are generating ElasticSearch data from another database.
 - How?
 - Just add -f option. First thing command does is delete old index, then creating new empty index with new settings.
 ```bash
-php www/index spameri:elastic:create-index -f
+php www/index spameri:elastic:initialize-index -f
 ```
 
 - Can be used for specific entity
 ```bash
-php www/index spameri:elastic:create-index -f video
+php www/index spameri:elastic:initialize-index -f video
 ```
 
 ### Variant 3. - Preserving previous data

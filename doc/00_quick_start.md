@@ -20,9 +20,14 @@ In your configuration neon file you need to add these lines to `extension:` sect
 ```yaml
 extensions:
 	spameriElasticSearch: \Spameri\Elastic\DI\SpameriElasticSearchExtension
-	console: Kdyby\Console\DI\ConsoleExtension
-	monolog: Kdyby\Monolog\DI\MonologExtension
 ```
+
+Optionaly you need some Symfony Console implementation ie:
+
+`````yaml
+extensions:
+	console: Kdyby\Console\DI\ConsoleExtension
+`````
 
 ### II. Configure
 
@@ -38,29 +43,21 @@ spameriElasticSearch:
 
 ### III. Configure Entity
 
-Next step is to configure your first entity. This entity is for e-shop product.
+Next step is to configure your first entity. In this example, entity is for e-shop product. 
+
+In neon configuration you need just index name. In this example it is just under parameters.elasticsSearch key, but can be anywhere.
 
 ```yaml
-1.|	spameriElasticSearch:
-2.|		entities:
-3.|			SimpleProduct:
-4.|				index: spameri_simple_product
-5.|				dynamic: strict
-6.|				config: @simpleProductConfig
-7.|				properties: 
+parameters:
+	elasticSearch:
+		SimpleProductIndex: spameri_simple_product
 ```
-- First line is extensionName
-- Second line is entities config array
-- Third line is EntityName
-- Fourth line is index name for this entity
-- Fifth line is for specifying whether index should accept new not specified fields
-- Sixth line is reference to where is object with entity configuration
-- Seventh line is where you can configure your entity within this neon
 
 ---
 
 ## 3. Create entity class
 
+Mainly you need entity class, which implements \Spameri\Elastic\Entity\ElasticEntityInterface interface.
 ```php
 <?php declare(strict_types = 1);
 
@@ -86,6 +83,8 @@ class SimpleProduct implements \Spameri\Elastic\Entity\ElasticEntityInterface
 }
 ```
 
+And then implement two methods. Method id is quite clear :) and entityVariables method returns all the properties you want inserted to Elastic.
+
 ```php
 public function id(): \Spameri\Elastic\Entity\Property\ElasticIdInterface
 {
@@ -98,6 +97,8 @@ public function entityVariables(): array
 	return \get_object_vars($this);
 }
 ```
+
+To build entity from Elasticsearch and not use black magic🪄 you have to explicitly make factory class for that entity. And from hit object which represents result from Elasticsearch you have to extract all parameters. No magic, typed 🎖️
 
 ### Factory
 ````php
@@ -123,6 +124,8 @@ class SimpleProductFactory implements \Spameri\Elastic\Factory\EntityFactoryInte
 }
 ````
 
+In collection factory you need to specify our entity.
+
 ### CollectionFactory
 ````php
 class SimpleProductCollectionFactory implements \Spameri\Elastic\Factory\CollectionFactoryInterface
@@ -139,6 +142,8 @@ class SimpleProductCollectionFactory implements \Spameri\Elastic\Factory\Collect
 
 }
 ````
+
+---
 
 ## 4. Index Configuring
 ````php
