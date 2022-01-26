@@ -31,7 +31,7 @@
 		"elasticsearch/elasticsearch": "^2.4.0 || ^7.12.0",
 		"nette/di": "^2.4.17 || ^3.0",
 		"nette/utils": "^2.5.7 || ^3.0",
-		"kdyby/console": "^2.7.1 || ^2.8.0",
+		"kdyby/console": "^4.0.0",
 		"symfony/console": "^4",
 		"tracy/tracy": "^2.6.7",
 		"monolog/monolog": "^2.0.2",
@@ -55,6 +55,11 @@
 	"autoload-dev": {
 		"psr-4": {
 			"SpameriTests\\": "tests/SpameriTests"
+		}
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
 		}
 	}
 }
