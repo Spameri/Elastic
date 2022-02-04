@@ -43,7 +43,7 @@
 		"phpstan/phpstan": "0.12.84",
 		"php-coveralls/php-coveralls": "^2.1",
 		"nette/bootstrap": "^3.0",
-		"nette/http": "^3.0",
+		"nette/http": "^3.0.7",
 		"kdyby/console": "^4.0.0",
 		"mockery/mockery": "^1.5"
 	},
