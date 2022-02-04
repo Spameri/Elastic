@@ -45,7 +45,7 @@
 		"nette/bootstrap": "^3.0",
 		"nette/http": "^3.0",
 		"kdyby/console": "^4.0.0",
-		"mockery/mockery": "^1.2"
+		"mockery/mockery": "^1.5"
 	},
 	"autoload": {
 		"psr-4": {
