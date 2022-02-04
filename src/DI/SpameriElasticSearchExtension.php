@@ -31,29 +31,17 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 
 		$services = $this->toggleDebugBar($config, $services);
 
-		if ( ! \class_exists(\Symfony\Component\Console\Command\Command::class)) {
-			$services = $this->removeCommandDefinitions($services);
-		}
-
 		$services = $this->setConfigOptions($services, $config);
 
-		if (\method_exists($this->compiler, 'loadDefinitionsFromConfig')) {
-			$aliasedServices = [];
-			foreach ($services['services'] as $key => $service) {
-				$aliasedServices['spameriElasticSearch.' . $key] = $service;
-			}
-
-			$this->compiler->loadDefinitionsFromConfig(
-				$aliasedServices
-			);
-
-		} else {
-			$this->compiler::loadDefinitions(
-				$this->getContainerBuilder(),
-				$services['services'],
-				$this->name
-			);
+		$aliasedServices = [];
+		foreach ($services['services'] as $key => $service) {
+			$aliasedServices['spameriElasticSearch.' . $key] = $service;
 		}
+
+		$this->compiler->loadDefinitionsFromConfig(
+			$aliasedServices
+		);
+
 	}
 
 
@@ -99,29 +87,6 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 			;
 			$definition
 				->addSetup('addPanel', ['@' . $this->prefix('elasticPanel')]);
-		}
-
-		return $services;
-	}
-
-
-	/**
-	 * @param array<mixed> $services
-	 * @return array<mixed>
-	 */
-	public function removeCommandDefinitions(
-		array $services
-	): array
-	{
-		$iterableServices = $services['services'];
-		foreach ($iterableServices as $serviceKey => $serviceArray) {
-			if (isset($serviceArray['tags'])) {
-				foreach ($serviceArray['tags'] as $tag) {
-					if ($tag === 'kdyby.console.command') {
-						unset($services[$serviceKey]);
-					}
-				}
-			}
 		}
 
 		return $services;
