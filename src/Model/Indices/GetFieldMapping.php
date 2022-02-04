@@ -7,8 +7,6 @@ class GetFieldMapping
 
 	private \Spameri\Elastic\ClientProvider $clientProvider;
 
-	private \Spameri\Elastic\Model\VersionProvider $versionProvider;
-
 
 	public function __construct(
 		\Spameri\Elastic\ClientProvider $clientProvider
