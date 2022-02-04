@@ -29,7 +29,7 @@
 		"ext-curl": "*",
 		"spameri/elastic-query": "^v1.0.0-alpha.10",
 		"elasticsearch/elasticsearch": "^7.12.0",
-		"nette/di": "^3.0",
+		"nette/di": "^3.0.5",
 		"nette/utils": "^3.0",
 		"symfony/console": "^4",
 		"tracy/tracy": "^2.6.7",
