@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: [ 7.4 ]
+        php: [ 7.4, 8.0, 8.1 ]
         version: [ lowest, standard ]
         elastic: [ 7.12.1 ]
 
@@ -39,19 +39,18 @@ jobs:
         name: Composer standard
         run: make composer
 
-      - if: matrix.php == '7.4'
+      - if: matrix.php == '8.1'
         name: Coding standard
         run: make cs
 
-      - if: matrix.php == '7.4' && matrix.version == 'lowest'
+      - if: matrix.version == 'lowest'
         name: PHPStan lowest
         run: make phpstan-lowest
 
-      - if: matrix.php == '7.4' && matrix.version == 'standard'
+      - if: matrix.version == 'standard'
         name: PHPStan standard
         run: make phpstan
 
-      - if: matrix.php == '7.4'
-        name: Tests
+      - name: Tests
         run: make tests
 
