@@ -39,15 +39,15 @@ jobs:
         name: Composer standard
         run: make composer
 
-      - if: matrix.php == '8.1'
+      - if: matrix.php == '7.4'
         name: Coding standard
         run: make cs
 
-      - if: matrix.version == 'lowest'
+      - if: matrix.php == '7.4' && matrix.version == 'lowest'
         name: PHPStan lowest
         run: make phpstan-lowest
 
-      - if: matrix.version == 'standard'
+      - if: matrix.php == '7.4' && matrix.version == 'standard'
         name: PHPStan standard
         run: make phpstan
 
