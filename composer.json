@@ -34,7 +34,7 @@
 		"symfony/console": "^4",
 		"tracy/tracy": "^2.6.7",
 		"monolog/monolog": "^2.0.2",
-		"ezimuel/ringphp": "^1.1.2"
+		"ezimuel/ringphp": "^1.2"
 	},
 	"require-dev": {
 		"spameri/coding-standard": "dev-master",
