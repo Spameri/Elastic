@@ -40,7 +40,7 @@ class Create
 
 		if (
 			isset($parameters['mappings']['properties'])
-			&& $this->versionProvider->provide() <= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7
+			&& $this->versionProvider->provide() < \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7
 		) {
 			foreach ($parameters['mappings']['properties'] as $fieldName => $field) {
 				$this->replaceKeywordInOlderVersion($field);
