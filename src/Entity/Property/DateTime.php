@@ -13,7 +13,7 @@ class DateTime extends \Nette\Utils\DateTime implements \Spameri\Elastic\Entity\
 	 * @param string|null $format
 	 * @return string
 	 */
-    #[\ReturnTypeWillChange]
+	#[\ReturnTypeWillChange]
 	public function format($format = NULL)
 	{
 		if (\is_null($format)) {
