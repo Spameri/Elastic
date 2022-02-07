@@ -5,7 +5,7 @@ namespace Spameri\Elastic\Entity;
 interface DateTimeInterface extends \DateTimeInterface
 {
 
-    #[\ReturnTypeWillChange]
+	#[\ReturnTypeWillChange]
 	public function format($format = NULL);
 
 }
