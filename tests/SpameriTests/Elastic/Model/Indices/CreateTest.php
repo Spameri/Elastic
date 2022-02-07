@@ -31,7 +31,7 @@ class CreateTest extends \SpameriTests\Elastic\AbstractTestCase
 		);
 		$response = $getMapping->execute(\SpameriTests\Elastic\Config::INDEX_CREATE);
 
-		if ($versionProvider->provide() <= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+		if ($versionProvider->provide() < \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
 			\Tester\Assert::true(
 				isset($response[\SpameriTests\Elastic\Config::INDEX_CREATE]['mappings'][\SpameriTests\Elastic\Config::INDEX_CREATE])
 			);
@@ -73,7 +73,7 @@ class CreateTest extends \SpameriTests\Elastic\AbstractTestCase
 				$existingMapping['properties']['season']['properties']['number']['type']
 			);
 			\Tester\Assert::same(
-				\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_KEYWORD,
+				\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_TEXT,
 				$existingMapping['properties']['story']['properties']['description']['type']
 			);
 		}
