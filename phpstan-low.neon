@@ -11,15 +11,6 @@ parameters:
 	ignoreErrors:
 		- '#PHPDoc tag \@throws with type Elasticsearch\\Common\\Exceptions\\ElasticsearchException is not subtype of Throwable#'
 		- '#Call to function array_key_exists\(\) with string and array<int, mixed> will always evaluate to false.#'
-		-
-			message: "#^Call to method addSetup\\(\\) on an unknown class Nette\\\\DI\\\\Definitions\\\\ServiceDefinition\\.$#"
-			count: 1
-			path: src/DI/SpameriElasticSearchExtension.php
-
-		-
-			message: "#^PHPDoc tag @var for variable \\$definition contains unknown class Nette\\\\DI\\\\Definitions\\\\ServiceDefinition\\.$#"
-			count: 1
-			path: src/DI/SpameriElasticSearchExtension.php
 
 		-
 			message: "#^Method Spameri\\\\Elastic\\\\Diagnostics\\\\PanelLogger\\:\\:emergency\\(\\) should return null but return statement is missing\\.$#"

@@ -27,15 +27,14 @@
 		"php": ">=7.4",
 		"ext-json": "*",
 		"ext-curl": "*",
-		"spameri/elastic-query": "^v1.0.0-alpha.10",
-		"elasticsearch/elasticsearch": "^2.4.0 || ^7.12.0",
-		"nette/di": "^2.4.17 || ^3.0",
-		"nette/utils": "^2.5.7 || ^3.0",
-		"kdyby/console": "^2.7.1 || ^2.8.0",
-		"symfony/console": "^4",
+		"spameri/elastic-query": "^v1.0.0-alpha.13",
+		"elasticsearch/elasticsearch": "^7.12.0",
+		"nette/di": "^3.0.5",
+		"nette/utils": "^3.2.5",
+		"symfony/console": "^4.4.26",
 		"tracy/tracy": "^2.6.7",
 		"monolog/monolog": "^2.0.2",
-		"ezimuel/ringphp": "^1.1.2"
+		"ezimuel/ringphp": "^1.2"
 	},
 	"require-dev": {
 		"spameri/coding-standard": "dev-master",
@@ -43,9 +42,10 @@
 		"nette/tester": "^2.4",
 		"phpstan/phpstan": "0.12.84",
 		"php-coveralls/php-coveralls": "^2.1",
-		"nette/bootstrap": "~2.4.6 || ^3.0",
-		"nette/http": "^2.4.12 || ^3.0",
-		"mockery/mockery": "^1.2"
+		"nette/bootstrap": "^3.0",
+		"nette/http": "^3.0.7",
+		"kdyby/console": "^4.0.0",
+		"mockery/mockery": "^1.5"
 	},
 	"autoload": {
 		"psr-4": {
@@ -55,6 +55,11 @@
 	"autoload-dev": {
 		"psr-4": {
 			"SpameriTests\\": "tests/SpameriTests"
+		}
+	},
+	"config": {
+		"allow-plugins": {
+			"dealerdirect/phpcodesniffer-composer-installer": true
 		}
 	}
 }
