@@ -72,6 +72,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 			$entities = $this->service->getAllBy(
 				new \Spameri\ElasticQuery\ElasticQuery(
 					new \Spameri\ElasticQuery\Query\QueryCollection(
+						NULL,
 						new \Spameri\ElasticQuery\Query\MustCollection(
 							new \Spameri\ElasticQuery\Query\Terms(
 								'_id',
