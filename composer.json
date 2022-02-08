@@ -27,7 +27,7 @@
 		"php": ">=7.4",
 		"ext-json": "*",
 		"ext-curl": "*",
-		"spameri/elastic-query": "^v1.0.0-alpha.10",
+		"spameri/elastic-query": "^v1.0.0-alpha.13",
 		"elasticsearch/elasticsearch": "^7.12.0",
 		"nette/di": "^3.0.5",
 		"nette/utils": "^3.2.5",
