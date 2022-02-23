@@ -5,7 +5,7 @@ TODO convert to video example
 - Import created file to your application config neon. Usually located in`app/config/config.neon`.  
 ```neon
 includes:
-	- ../ProducModule/Config/Product.neon
+	- ../ProductModule/Config/Product.neon
 ``` 
 - Now you can configure your entity. Each entity has own ElasticSearch type and index with same name. 
 You have to specify only index, type has same name and is only one in index, it is defined in library so you don't 
