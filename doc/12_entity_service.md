@@ -1,7 +1,6 @@
 # Entity service
 
 ## Description
-TODO
 Every service should extend BaseService which has all methods for entity manipulation. Like **Insert**, **Get**, 
 **GetBy**, **GetAllBy**.
 

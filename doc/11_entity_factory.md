@@ -1,7 +1,6 @@
 # Entity factory
 
 ## Description
-TODO
 Creates entity from result hit.
 
 ## Example

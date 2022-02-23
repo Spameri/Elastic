@@ -41,8 +41,7 @@ $result = $this->clientProvider->client()->search(
 			$index,
 			new \Spameri\ElasticQuery\Document\Body\Plain(
 				$elasticQuery->toArray()
-			),
-			$index
+			)
 		)
 	)->toArray()
 );

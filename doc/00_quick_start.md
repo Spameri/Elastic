@@ -401,7 +401,7 @@ public function buildQuery(?string $queryString): \Spameri\ElasticQuery\ElasticQ
 {
 	$query = new \Spameri\ElasticQuery\ElasticQuery();
 	$query->addShouldQuery(
-		new \Spameri\ElasticQuery\Query\Match(
+		new \Spameri\ElasticQuery\Query\ElasticMatch(
 			'name',
 			$queryString
 		)
@@ -423,7 +423,7 @@ $subQuery = new \Spameri\ElasticQuery\Query\QueryCollection();
 
 ```php
 $subQuery->addShouldQuery(
-	new \Spameri\ElasticQuery\Query\Match(
+	new \Spameri\ElasticQuery\Query\ElasticMatch(
 		'name',
 		$queryString,
 		3,
@@ -446,7 +446,7 @@ $subQuery->addShouldQuery(
 	)
 );
 $subQuery->addShouldQuery(
-	new \Spameri\ElasticQuery\Query\Match(
+	new \Spameri\ElasticQuery\Query\ElasticMatch(
 		'content',
 		$queryString,
 		1,
