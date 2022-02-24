@@ -2,12 +2,11 @@
 
 namespace Spameri\Elastic\Model\TypeToNewIndex;
 
-
 class DocumentMigrateStatus
 {
 
 	/**
-	 * @var array<string=>int>
+	 * @var array<string, int>
 	 */
 	private $storage = [];
 
@@ -15,7 +14,7 @@ class DocumentMigrateStatus
 	public function add(
 		string $documentId,
 		int $version
-	) : void
+	): void
 	{
 		$this->storage[$documentId] = $version;
 	}
@@ -24,7 +23,7 @@ class DocumentMigrateStatus
 	public function isChanged(
 		string $documentId,
 		int $version
-	) : bool
+	): bool
 	{
 		if ( ! isset($this->storage[$documentId])) {
 			return TRUE;
@@ -34,7 +33,10 @@ class DocumentMigrateStatus
 	}
 
 
-	public function storage() : array
+	/**
+	 * @return array<string, int>
+	 */
+	public function storage(): array
 	{
 		return $this->storage;
 	}

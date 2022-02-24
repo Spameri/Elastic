@@ -16,7 +16,7 @@ $elasticQuery->query()->must()->add(
 	)
 );
 $elasticQuery->query()->must()->add(
-	new \Spameri\ElasticQuery\Query\Match(
+	new \Spameri\ElasticQuery\Query\ElasticMatch(
 		'name',
 		'Avengers'
 	)

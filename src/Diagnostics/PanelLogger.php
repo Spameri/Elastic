@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Diagnostics;
 
-
 class PanelLogger implements \Psr\Log\LoggerInterface
 {
 
@@ -10,16 +9,19 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	 * @var \Psr\Log\LoggerInterface
 	 */
 	private $logger;
+
 	/**
-	 * @var array
+	 * @var array<mixed>
 	 */
 	private $queries = [];
+
 	/**
-	 * @var array
+	 * @var array<mixed>
 	 */
 	private $requestBodies = [];
+
 	/**
-	 * @var array
+	 * @var array<mixed>
 	 */
 	private $responseBodies = [];
 
@@ -32,80 +34,112 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	}
 
 
+	/**
+	 * @param string $message
+	 * @param array<mixed> $context
+	 */
 	public function emergency(
 		$message,
 		array $context = []
-	) : void
+	)
 	{
 		$this->logger->emergency($message, $context);
 		$this->logQuery($context);
 	}
 
 
+	/**
+	 * @param string $message
+	 * @param array<mixed> $context
+	 */
 	public function alert(
 		$message,
 		array $context = []
-	) : void
+	): void
 	{
 		$this->logger->alert($message, $context);
 		$this->logQuery($context);
 	}
 
 
+	/**
+	 * @param string $message
+	 * @param array<mixed> $context
+	 */
 	public function critical(
 		$message,
 		array $context = []
-	) : void
+	): void
 	{
 		$this->logger->critical($message, $context);
 		$this->logQuery($context);
 	}
 
 
+	/**
+	 * @param string $message
+	 * @param array<mixed> $context
+	 */
 	public function error(
 		$message,
 		array $context = []
-	) : void
+	): void
 	{
 		$this->logger->error($message, $context);
 		$this->logQuery($context);
 	}
 
 
+	/**
+	 * @param string $message
+	 * @param array<mixed> $context
+	 */
 	public function warning(
 		$message,
 		array $context = []
-	) : void
+	): void
 	{
 		$this->logger->warning($message, $context);
 		$this->logQuery($context);
 	}
 
 
+	/**
+	 * @param string $message
+	 * @param array<mixed> $context
+	 */
 	public function notice(
 		$message,
 		array $context = []
-	) : void
+	): void
 	{
 		$this->logger->notice($message, $context);
 		$this->logQuery($context);
 	}
 
 
+	/**
+	 * @param string $message
+	 * @param array<mixed> $context
+	 */
 	public function info(
 		$message,
 		array $context = []
-	) : void
+	): void
 	{
 		$this->logger->info($message, $context);
 		$this->logQuery($context);
 	}
 
 
+	/**
+	 * @param string $message
+	 * @param array<mixed> $context
+	 */
 	public function debug(
 		$message,
 		array $context = []
-	) : void
+	): void
 	{
 		$this->logger->debug($message, $context);
 		$this->logQuery($context);
@@ -114,38 +148,55 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	}
 
 
+	/**
+	 * @param mixed $level
+	 * @param string $message
+	 * @param array<mixed> $context
+	 */
 	public function log(
 		$level,
 		$message,
 		array $context = []
-	) : void
+	): void
 	{
 		$this->logger->log($level, $message, $context);
 		$this->logQuery($context);
 	}
 
 
-	public function getQueries() : array
+	/**
+	 * @return array<mixed>
+	 */
+	public function getQueries(): array
 	{
 		return $this->queries;
 	}
 
 
-	public function getRequestBodies() : array
+	/**
+	 * @return array<mixed>
+	 */
+	public function getRequestBodies(): array
 	{
 		return $this->requestBodies;
 	}
 
 
-	public function getResponseBodies() : array
+	/**
+	 * @return array<mixed>
+	 */
+	public function getResponseBodies(): array
 	{
 		return $this->responseBodies;
 	}
 
 
+	/**
+	 * @param array<mixed> $context
+	 */
 	private function logQuery(
 		array $context = []
-	) : void
+	): void
 	{
 		if (isset($context['method'], $context['uri'])) {
 			$path = \explode('9200', $context['uri']);
@@ -155,10 +206,13 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	}
 
 
+	/**
+	 * @param mixed $context
+	 */
 	private function logRequestBody(
-		$message,
+		string $message,
 		$context
-	) : void
+	): void
 	{
 		if (
 			$message === 'Request Body'
@@ -169,10 +223,13 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	}
 
 
+	/**
+	 * @param mixed $context
+	 */
 	private function logResponseBody(
-		$message,
+		string $message,
 		$context
-	) : void
+	): void
 	{
 		if ($message === 'Response') {
 			$this->responseBodies[] = $context;

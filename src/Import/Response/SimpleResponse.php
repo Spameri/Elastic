@@ -32,13 +32,16 @@ class SimpleResponse implements \Spameri\Elastic\Import\ResponseInterface
 	}
 
 
+	/**
+	 * @return mixed
+	 */
 	public function getResponse()
 	{
 		return $this->response;
 	}
 
 
-	public function getEntity($entity)
+	public function getEntity(): \Spameri\Elastic\Entity\AbstractImport
 	{
 		return $this->entity;
 	}

@@ -1,8 +1,5 @@
 # Advanced Get
 
-## Description
-
-
 ## Example
 In this example we want videos with tag **action** and are public. Also we want only first 50 sorted by year, but if 
 year has multiple videos sort them by score. Bonus points if movie is on beach with someone named john or here 
@@ -24,7 +21,7 @@ $elasticQuery = new \Spameri\ElasticQuery\ElasticQuery(
 			)
 		),
 		new \Spameri\ElasticQuery\Query\ShouldCollection(
-			new \Spameri\ElasticQuery\Query\Match(
+			new \Spameri\ElasticQuery\Query\ElasticMatch(
 				'story.description',
 				'beach'
 			),

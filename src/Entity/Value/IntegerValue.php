@@ -2,8 +2,7 @@
 
 namespace Spameri\Elastic\Entity\Value;
 
-
-class IntegerValue implements \Spameri\Elastic\Entity\IValue
+class IntegerValue implements \Spameri\Elastic\Entity\ValueInterface
 {
 
 	/**

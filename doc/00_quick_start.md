@@ -20,9 +20,14 @@ In your configuration neon file you need to add these lines to `extension:` sect
 ```yaml
 extensions:
 	spameriElasticSearch: \Spameri\Elastic\DI\SpameriElasticSearchExtension
-	console: Kdyby\Console\DI\ConsoleExtension
-	monolog: Kdyby\Monolog\DI\MonologExtension
 ```
+
+Optionaly you need some Symfony Console implementation ie:
+
+`````yaml
+extensions:
+	console: Kdyby\Console\DI\ConsoleExtension
+`````
 
 ### II. Configure
 
@@ -38,37 +43,29 @@ spameriElasticSearch:
 
 ### III. Configure Entity
 
-Next step is to configure your first entity. This entity is for e-shop product.
+Next step is to configure your first entity. In this example, entity is for e-shop product. 
+
+In neon configuration you need just index name. In this example it is just under parameters.elasticsSearch key, but can be anywhere.
 
 ```yaml
-1.|	spameriElasticSearch:
-2.|		entities:
-3.|			SimpleProduct:
-4.|				index: spameri_simple_product
-5.|				dynamic: strict
-6.|				config: @simpleProductConfig
-7.|				properties: 
+parameters:
+	elasticSearch:
+		SimpleProductIndex: spameri_simple_product
 ```
-- First line is extensionName
-- Second line is entities config array
-- Third line is EntityName
-- Fourth line is index name for this entity
-- Fifth line is for specifying whether index should accept new not specified fields
-- Sixth line is reference to where is object with entity configuration
-- Seventh line is where you can configure your entity within this neon
 
 ---
 
 ## 3. Create entity class
 
+Mainly you need entity class, which implements \Spameri\Elastic\Entity\ElasticEntityInterface interface.
 ```php
 <?php declare(strict_types = 1);
 
-class SimpleProduct implements \Spameri\Elastic\Entity\IElasticEntity
+class SimpleProduct implements \Spameri\Elastic\Entity\ElasticEntityInterface
 {
 	
 	public function __construct(
-		\Spameri\Elastic\Entity\Property\IElasticId $id,
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
 		int $databaseId,
 		string $name,
 		?string $content,
@@ -86,8 +83,10 @@ class SimpleProduct implements \Spameri\Elastic\Entity\IElasticEntity
 }
 ```
 
+And then implement two methods. Method id is quite clear :) and entityVariables method returns all the properties you want inserted to Elastic.
+
 ```php
-public function id(): \Spameri\Elastic\Entity\Property\IElasticId
+public function id(): \Spameri\Elastic\Entity\Property\ElasticIdInterface
 {
 	return $this->id;
 }
@@ -99,9 +98,11 @@ public function entityVariables(): array
 }
 ```
 
+To build entity from Elasticsearch and not use black magic🪄 you have to explicitly make factory class for that entity. And from hit object which represents result from Elasticsearch you have to extract all parameters. No magic, typed 🎖️
+
 ### Factory
 ````php
-class SimpleProductFactory implements \Spameri\Elastic\Factory\IEntityFactory
+class SimpleProductFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 {
 
 	public function create(\Spameri\ElasticQuery\Response\Result\Hit $hit) : \Generator
@@ -123,22 +124,26 @@ class SimpleProductFactory implements \Spameri\Elastic\Factory\IEntityFactory
 }
 ````
 
+In collection factory you need to specify our entity.
+
 ### CollectionFactory
 ````php
-class SimpleProductCollectionFactory implements \Spameri\Elastic\Factory\ICollectionFactory
+class SimpleProductCollectionFactory implements \Spameri\Elastic\Factory\CollectionFactoryInterface
 {
 
 	public function create(
-		\Spameri\Elastic\Model\IService $service
-		, array $elasticIds = []
-		, \Spameri\Elastic\Entity\IElasticEntity ... $entityCollection
-	) : \Spameri\Elastic\Entity\IElasticEntityCollection
+		\Spameri\Elastic\Model\ServiceInterface $service,
+        array $elasticIds = [],
+        \Spameri\Elastic\Entity\ElasticEntityInterface ... $entityCollection
+	) : \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
 	{
 		return new \App\ProductModule\Entity\ProductCollection($service, $elasticIds, ... $entityCollection);
 	}
 
 }
 ````
+
+---
 
 ## 4. Index Configuring
 ````php
@@ -306,7 +311,7 @@ $options = new \Spameri\Elastic\Import\Run\Options(600);
 // Clear index
 try {
 	$this->delete->execute($this->simpleProductConfig->provide()->indexName());
-} catch (\Spameri\Elastic\Exception\ElasticSearchException $exception) {}
+} catch (\Spameri\Elastic\Exception\AbstractElasticSearchException $exception) {}
 
 // Create index
 $this->create->execute(
@@ -330,7 +335,7 @@ class SimpleProductListPresenter extends \App\Presenter\BasePresenter
 		try {
 			$products = $this->productService->getAllBy($query);
 
-		} catch (\Spameri\Elastic\Exception\ElasticSearchException $exception) {
+		} catch (\Spameri\Elastic\Exception\AbstractElasticSearchException $exception) {
 			$products = [];
 		}
 
@@ -396,7 +401,7 @@ public function buildQuery(?string $queryString): \Spameri\ElasticQuery\ElasticQ
 {
 	$query = new \Spameri\ElasticQuery\ElasticQuery();
 	$query->addShouldQuery(
-		new \Spameri\ElasticQuery\Query\Match(
+		new \Spameri\ElasticQuery\Query\ElasticMatch(
 			'name',
 			$queryString
 		)
@@ -418,7 +423,7 @@ $subQuery = new \Spameri\ElasticQuery\Query\QueryCollection();
 
 ```php
 $subQuery->addShouldQuery(
-	new \Spameri\ElasticQuery\Query\Match(
+	new \Spameri\ElasticQuery\Query\ElasticMatch(
 		'name',
 		$queryString,
 		3,
@@ -441,7 +446,7 @@ $subQuery->addShouldQuery(
 	)
 );
 $subQuery->addShouldQuery(
-	new \Spameri\ElasticQuery\Query\Match(
+	new \Spameri\ElasticQuery\Query\ElasticMatch(
 		'content',
 		$queryString,
 		1,

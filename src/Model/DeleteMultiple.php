@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model;
 
-
 class DeleteMultiple
 {
 
@@ -16,14 +15,18 @@ class DeleteMultiple
 	 */
 	private $resultMapper;
 
+	private VersionProvider $versionProvider;
+
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
-		, \Spameri\ElasticQuery\Response\ResultMapper $resultMapper
+		\Spameri\Elastic\ClientProvider $clientProvider,
+		\Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
+		VersionProvider $versionProvider
 	)
 	{
 		$this->clientProvider = $clientProvider;
 		$this->resultMapper = $resultMapper;
+		$this->versionProvider = $versionProvider;
 	}
 
 
@@ -32,23 +35,27 @@ class DeleteMultiple
 	 * @throws \Spameri\Elastic\Exception\DocumentInsertFailed
 	 */
 	public function execute(
-		\Spameri\Elastic\Entity\IElasticEntityCollection $entityCollection
-		, string $index
-		, ?string $type = NULL
-	) : \Spameri\ElasticQuery\Response\ResultBulk
+		\Spameri\Elastic\Entity\ElasticEntityCollectionInterface $entityCollection,
+		string $index,
+		?string $type = NULL
+	): \Spameri\ElasticQuery\Response\ResultBulk
 	{
 		if ($type === NULL) {
 			$type = $index;
 		}
 
+		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+			$type = '_doc';
+		}
+
 		$documentsArray = [];
-		/** @var \Spameri\Elastic\Entity\IElasticEntity $entity */
+		/** @var \Spameri\Elastic\Entity\ElasticEntityInterface $entity */
 		foreach ($entityCollection as $entity) {
 			$documentsArray[] = [
 				'delete' => [
 					'_index' => $index,
-					'_type'  => $type,
-					'_id' 	 => $entity->id()->value(),
+					'_type' => $type,
+					'_id' => $entity->id()->value(),
 				],
 			];
 		}
@@ -69,7 +76,8 @@ class DeleteMultiple
 						new \Spameri\ElasticQuery\Document($index)
 					)
 						->toArray()
-				);
+				)
+				;
 
 			} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 				throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

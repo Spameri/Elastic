@@ -2,13 +2,12 @@
 
 namespace Spameri\Elastic\Exception;
 
-
-class DocumentNotFound extends \Spameri\Elastic\Exception\ElasticSearchException
+class DocumentNotFound extends \Spameri\Elastic\Exception\AbstractElasticSearchException
 {
 
 	public function __construct(
-		string $message
-		, ?\Spameri\ElasticQuery\ElasticQuery $elasticQuery = NULL
+		string $message,
+		?\Spameri\ElasticQuery\ElasticQuery $elasticQuery = NULL
 	)
 	{
 		$queryString = '';

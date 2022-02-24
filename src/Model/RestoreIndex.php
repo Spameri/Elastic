@@ -1,7 +1,6 @@
-<?php declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace Spameri\Elastic\Model;
-
 
 class RestoreIndex
 {
@@ -27,15 +26,16 @@ class RestoreIndex
 
 	public function setOutput(
 		\Symfony\Component\Console\Output\OutputInterface $output
-	) : void
+	): void
 	{
 		$this->output = $output;
 	}
 
+
 	public function execute(
-		string $filename
-		, int $step
-	) : void
+		string $filename,
+		int $step
+	): void
 	{
 		$this->output->writeln('Starting import.');
 		$progressBar = new \Symfony\Component\Console\Helper\ProgressBar($this->output);
@@ -55,7 +55,8 @@ class RestoreIndex
 							[$bulkData]
 						)
 					)->toArray()
-				);
+				)
+				;
 				$bulkData = '';
 				$i = 0;
 				$progressBar->advance($step / 2);

@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model\Indices;
 
-
 class GetMapping
 {
 
@@ -11,37 +10,45 @@ class GetMapping
 	 */
 	private $clientProvider;
 
+	private \Spameri\Elastic\Model\VersionProvider $versionProvider;
+
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
+		\Spameri\Elastic\ClientProvider $clientProvider,
+		\Spameri\Elastic\Model\VersionProvider $versionProvider
 	)
 	{
 		$this->clientProvider = $clientProvider;
+		$this->versionProvider = $versionProvider;
 	}
 
 
+	/**
+	 * @return array<mixed>
+	 */
 	public function execute(
-		string $index
-		, ?string $type = NULL
-	) : array
+		string $index,
+		?string $type = NULL
+	): array
 	{
 		if ($type === NULL) {
 			$type = $index;
 		}
 
-		try {
-			/** @var array $result */
-			$result = $this->clientProvider->client()->indices()->getMapping(
-				(
-					new \Spameri\ElasticQuery\Document(
-						$index,
-						NULL,
-						$type
-					)
-				)->toArray()
-			);
+		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+			$type = NULL;
+		}
 
-			return $result;
+		try {
+			$documentArray = (
+				new \Spameri\ElasticQuery\Document(
+					$index,
+					NULL,
+					$type
+				)
+			)->toArray();
+
+			return $this->clientProvider->client()->indices()->getMapping($documentArray);
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

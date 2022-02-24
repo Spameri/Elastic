@@ -2,14 +2,8 @@
 
 namespace Spameri\Elastic\Model\Insert;
 
-
 class PrepareEntityArray
 {
-
-	/**
-	 * @var \Spameri\Elastic\Model\Insert\ApplyTimestamp
-	 */
-	protected $applyTimestamp;
 
 	/**
 	 * @var \Spameri\Elastic\Model\ServiceLocatorInterface
@@ -18,68 +12,68 @@ class PrepareEntityArray
 
 
 	public function __construct(
-		ApplyTimestamp $applyTimestamp
-		, \Spameri\Elastic\Model\ServiceLocatorInterface $serviceLocator
+		\Spameri\Elastic\Model\ServiceLocatorInterface $serviceLocator
 	)
 	{
-		$this->applyTimestamp = $applyTimestamp;
 		$this->serviceLocator = $serviceLocator;
 	}
 
 
+	/**
+	 * @return array<mixed>
+	 */
 	public function prepare(
-		\Spameri\Elastic\Entity\IElasticEntity $entity
-	) : array
+		\Spameri\Elastic\Entity\ElasticEntityInterface $entity
+	): array
 	{
-		$this->applyTimestamp->apply($entity);
-
 		return $this->iterateVariables($entity->entityVariables());
 	}
 
 
+	/**
+	 * @param array<mixed> $variables
+	 * @return array<mixed>
+	 */
 	public function iterateVariables(
 		array $variables
-	) : array
+	): array
 	{
 		$preparedArray = [];
 
 		foreach ($variables as $key => $property) {
-			if ($property instanceof \Spameri\Elastic\Entity\IElasticEntity) {
+			if ($property instanceof \Spameri\Elastic\Entity\ElasticEntityInterface) {
 				$preparedArray[$key] = $this->serviceLocator->locate($property)->insert($property);
 
-			} elseif ($property instanceof \Spameri\Elastic\Entity\IEntity) {
+			} elseif ($property instanceof \Spameri\Elastic\Entity\EntityInterface) {
 				$preparedArray[$key] = $this->iterateVariables($property->entityVariables());
 
-			} elseif ($property instanceof \Spameri\Elastic\Entity\IValue) {
+			} elseif ($property instanceof \Spameri\Elastic\Entity\ValueInterface) {
 				$preparedArray[$key] = $property->value();
 
-			} elseif ($property instanceof \Spameri\Elastic\Entity\IEntityCollection) {
+			} elseif ($property instanceof \Spameri\Elastic\Entity\EntityCollectionInterface) {
 				$preparedArray[$key] = [];
-				/** @var \Spameri\Elastic\Entity\IEntity $item */
-				/** @var \Spameri\Elastic\Entity\IEntityCollection $property */
+				/** @var \Spameri\Elastic\Entity\EntityInterface $item */
 				foreach ($property as $item) {
 					$preparedArray[$key][] = $this->iterateVariables($item->entityVariables());
 				}
 
-			} elseif ($property instanceof \Spameri\Elastic\Entity\IElasticEntityCollection) {
+			} elseif ($property instanceof \Spameri\Elastic\Entity\ElasticEntityCollectionInterface) {
 				$preparedArray[$key] = [];
 				if ( ! $property->initialized()) {
 					$preparedArray[$key] = $property->elasticIds();
 
 				} else {
-					/** @var \Spameri\Elastic\Entity\IElasticEntity $item */
-					/** @var \Spameri\Elastic\Entity\IElasticEntityCollection $property */
+					/** @var \Spameri\Elastic\Entity\ElasticEntityInterface $item */
 					foreach ($property as $item) {
 						$preparedArray[$key][] = $this->serviceLocator->locate($item)->insert($item);
 					}
 				}
 
-			} elseif ($property instanceof \Spameri\Elastic\Entity\IValueCollection) {
+			} elseif ($property instanceof \Spameri\Elastic\Entity\ValueCollectionInterface) {
 				$preparedArray[$key] = [];
-				/** @var \Spameri\Elastic\Entity\IValue $value */
-				/** @var \Spameri\Elastic\Entity\IValueCollection $property */
+				/** @var \Spameri\Elastic\Entity\ValueInterface|mixed $value */
 				foreach ($property as $value) {
-					if ($value instanceof \Spameri\Elastic\Entity\IValue) {
+					if ($value instanceof \Spameri\Elastic\Entity\ValueInterface) {
 						$preparedArray[$key][] = $value->value();
 
 					} else {
@@ -120,4 +114,5 @@ class PrepareEntityArray
 
 		return $preparedArray;
 	}
+
 }

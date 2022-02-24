@@ -5,11 +5,13 @@ namespace Spameri\Elastic\Import\AfterImport;
 class NullAfterImport implements \Spameri\Elastic\Import\AfterImportInterface
 {
 
+	// phpcs:disable
 	public function process(
-		$entityData,
+		array $entityData,
 		\Spameri\Elastic\Import\ResponseInterface $result
-	) : void
+	): void
 	{
+		// phpcs:enable
 		// do nothing
 	}
 

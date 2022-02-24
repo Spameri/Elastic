@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model\Indices;
 
-
 class Get
 {
 
@@ -20,9 +19,12 @@ class Get
 	}
 
 
+	/**
+	 * @return array<mixed>
+	 */
 	public function execute(
 		string $index
-	) : array
+	): array
 	{
 		try {
 			/** @var array $result */
@@ -32,7 +34,8 @@ class Get
 						$index
 					)
 				)->toArray()
-			);
+			)
+			;
 
 			return $result;
 

@@ -2,56 +2,42 @@
 
 namespace SpameriTests\Elastic\Model\DumpIndex;
 
-
-require_once __DIR__ . '/../../../bootstrap.php';
-
+require_once __DIR__ . '/../../../../bootstrap.php';
 
 /**
  * @testCase
  */
-class Execute extends \Tester\TestCase
+class Execute extends \SpameriTests\Elastic\AbstractTestCase
 {
 
-	/**
-	 * @var \Spameri\Elastic\ClientProvider
-	 */
-	private $clientProvider;
-
-
-	protected function setUp()
+	protected function setUp(): void
 	{
-		$this->clientProvider = new \Spameri\Elastic\ClientProvider(
-			new \Elasticsearch\ClientBuilder(),
-			new \Spameri\Elastic\Settings\NeonSettingsProvider(
-				\SpameriTests\Elastic\Config::HOST,
-				9200
-			)
-		);
-		$restoreIndex = new \Spameri\Elastic\Model\RestoreIndex($this->clientProvider);
+		parent::setUp();
+
+		/** @var \Spameri\Elastic\Model\RestoreIndex $restoreIndex */
+		$restoreIndex = $this->container->getByType(\Spameri\Elastic\Model\RestoreIndex::class);
 		$restoreIndex->setOutput(new \Symfony\Component\Console\Output\ConsoleOutput());
 
 		$restoreIndex->execute(__DIR__ . '/dumpData.json', 500);
 	}
 
 
-	public function testProcess() : void
+	public function testProcess(): void
 	{
-		$scroll = new \Spameri\Elastic\Model\Scroll(
-			$this->clientProvider,
-			new \Spameri\ElasticQuery\Response\ResultMapper()
-		);
-
-		$dumpIndex = new \Spameri\Elastic\Model\DumpIndex(
-			$scroll
-		);
+		/** @var \Spameri\Elastic\Model\DumpIndex $dumpIndex */
+		$dumpIndex = $this->container->getByType(\Spameri\Elastic\Model\DumpIndex::class);
 		$dumpIndex->setOutput(new \Symfony\Component\Console\Output\ConsoleOutput());
 
-		$dumpIndex->execute(\SpameriTests\Elastic\Config::INDEX_DUMP, 'test.log', 'product');
+		$dumpIndex->execute(
+			\SpameriTests\Elastic\Config::INDEX_DUMP,
+			'test.log',
+			\SpameriTests\Elastic\Config::INDEX_DUMP
+		);
 
 		\Tester\Assert::true(\file_exists('test.log'));
 
 		$dumpFile = \file_get_contents('test.log');
-		$exploded = explode("\r\n", $dumpFile);
+		$exploded = explode(\PHP_EOL, $dumpFile);
 		$decoded = \Nette\Utils\Json::decode($exploded[10]);
 
 		\Tester\Assert::same('192437', $decoded->index->_id);
@@ -60,14 +46,10 @@ class Execute extends \Tester\TestCase
 
 	protected function tearDown()
 	{
-		$this->clientProvider->client()->indices()->delete(
-			(
-			new \Spameri\ElasticQuery\Document(
-				\SpameriTests\Elastic\Config::INDEX_DUMP
-			)
-			)->toArray()
-		)
-		;
+		/** @var \Spameri\Elastic\Model\Indices\Delete $delete */
+		$delete = $this->container->getByType(\Spameri\Elastic\Model\Indices\Delete::class);
+		$delete->execute(\SpameriTests\Elastic\Config::INDEX_DUMP);
+
 		\Nette\Utils\FileSystem::delete('test.log');
 	}
 

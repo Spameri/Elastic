@@ -1,0 +1,56 @@
+name: Package CI
+
+on:
+  pull_request:
+
+jobs:
+  checks:
+    name: Checks
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [ 7.4, 8.0, 8.1 ]
+        version: [ lowest, standard ]
+        elastic: [ 7.12.1 ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+
+      - name: Configure sysctl limits
+        run: |
+          sudo swapoff -a
+          sudo sysctl -w vm.swappiness=1
+          sudo sysctl -w fs.file-max=262144
+          sudo sysctl -w vm.max_map_count=262144
+
+      - name: Start Elasticsearch
+        uses: elastic/elastic-github-actions/elasticsearch@master
+        with:
+          stack-version: ${{ matrix.elastic }}
+
+      - if: matrix.version == 'lowest'
+        name: Composer lowest
+        run: make composer-lowest
+
+      - if: matrix.version == 'standard'
+        name: Composer standard
+        run: make composer
+
+      - if: matrix.php == '7.4'
+        name: Coding standard
+        run: make cs
+
+      - if: matrix.php == '7.4' && matrix.version == 'lowest'
+        name: PHPStan lowest
+        run: make phpstan-lowest
+
+      - if: matrix.php == '7.4' && matrix.version == 'standard'
+        name: PHPStan standard
+        run: make phpstan
+
+      - name: Tests
+        run: make tests
+

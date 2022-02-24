@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model\Indices;
 
-
 class PutMapping
 {
 
@@ -11,42 +10,57 @@ class PutMapping
 	 */
 	private $clientProvider;
 
+	private \Spameri\Elastic\Model\VersionProvider $versionProvider;
+
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
+		\Spameri\Elastic\ClientProvider $clientProvider,
+		\Spameri\Elastic\Model\VersionProvider $versionProvider
 	)
 	{
 		$this->clientProvider = $clientProvider;
+		$this->versionProvider = $versionProvider;
 	}
 
 
+	/**
+	 * @param array<mixed> $mapping
+	 * @return array<mixed>
+	 */
 	public function execute(
-		string $index
-		, array $mapping
-		, string $dynamic = 'false'
-		, ?string $type = NULL
-	) : array
+		string $index,
+		array $mapping,
+		string $dynamic = 'false',
+		?string $type = NULL
+	): array
 	{
 		if ($type === NULL) {
 			$type = $index;
 		}
+		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
+			$properties = $mapping['properties'];
+			$type = NULL;
+
+		} else {
+			$properties = \reset($mapping)['properties'];
+		}
 
 		try {
-			/** @var array $result */
-			$result = $this->clientProvider->client()->indices()->putMapping(
+			return $this->clientProvider->client()->indices()->putMapping(
 				(
-					new \Spameri\ElasticQuery\Document(
-						$index,
-						new \Spameri\ElasticQuery\Document\Body\Plain([
-							'properties' => $mapping,
+				new \Spameri\ElasticQuery\Document(
+					$index,
+					new \Spameri\ElasticQuery\Document\Body\Plain(
+						[
+							'properties' => $properties,
 							'dynamic' => $dynamic,
-						]),
-						$type
-					)
+						]
+					),
+					$type
+				)
 				)->toArray()
-			);
-
-			return $result;
+			)
+				;
 
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

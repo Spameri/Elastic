@@ -7,6 +7,6 @@ interface DataImportInterface
 
 	public function import(
 		\Spameri\Elastic\Entity\AbstractImport $entity
-	) : \Spameri\Elastic\Import\ResponseInterface;
+	): \Spameri\Elastic\Import\ResponseInterface;
 
 }

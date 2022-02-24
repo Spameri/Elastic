@@ -5,6 +5,6 @@ namespace Spameri\Elastic\Settings;
 interface IndexConfigInterface
 {
 
-	public function provide() : \Spameri\ElasticQuery\Mapping\Settings;
+	public function provide(): \Spameri\ElasticQuery\Mapping\Settings;
 
 }

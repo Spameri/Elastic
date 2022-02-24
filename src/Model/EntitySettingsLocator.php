@@ -5,31 +5,40 @@ namespace Spameri\Elastic\Model;
 class EntitySettingsLocator
 {
 
-	/**
-	 * @var \Spameri\Elastic\Settings\IndexConfigInterface[]
-	 */
-	private $indexConfig;
+	private \Nette\DI\Container $container;
 
 
 	public function __construct(
-		\Spameri\Elastic\Settings\IndexConfigInterface ... $indexConfig
-		// TODO Annotation
-		// TODO Neon
+		\Nette\DI\Container $container
 	)
 	{
-		$this->indexConfig = $indexConfig;
+		$this->container = $container;
 	}
 
 
-	public function locate($indexName) : \Spameri\ElasticQuery\Mapping\Settings
+	public function locate(string $indexName): \Spameri\ElasticQuery\Mapping\Settings
 	{
-		foreach ($this->indexConfig as $indexConfig) {
-			if ($indexConfig->provide()->indexName() === $indexName) {
+		$indexConfigs = $this->locateAll();
+
+		foreach ($indexConfigs as $indexConfig) {
+			if (\strpos($indexConfig->provide()->indexName(), $indexName) !== FALSE) {
 				return $indexConfig->provide();
 			}
 		}
 
 		throw new \Spameri\Elastic\Exception\SettingsNotLocated($indexName);
+	}
+
+
+	/**
+	 * @return \Generator<\Spameri\Elastic\Settings\IndexConfigInterface>
+	 */
+	public function locateAll(): \Generator
+	{
+		$serviceNames = $this->container->findByType(\Spameri\Elastic\Settings\IndexConfigInterface::class);
+		foreach ($serviceNames as $serviceName) {
+			yield $this->container->getService($serviceName);
+		}
 	}
 
 }

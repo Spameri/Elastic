@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Model\Indices;
 
-
 class Open
 {
 
@@ -22,14 +21,15 @@ class Open
 
 	public function execute(
 		string $index
-	) : bool
+	): bool
 	{
 		try {
 			$result = $this->clientProvider->client()->indices()->open(
 				(
 					new \Spameri\ElasticQuery\Document($index)
 				)->toArray()
-			);
+			)
+			;
 
 			if ($result['acknowledged'] === TRUE) {
 				return TRUE;

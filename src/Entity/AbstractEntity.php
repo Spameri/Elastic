@@ -2,17 +2,19 @@
 
 namespace Spameri\Elastic\Entity;
 
-
-abstract class AbstractEntity implements IEntity
+abstract class AbstractEntity implements EntityInterface
 {
 
-	public function entityVariables() : array
+	/**
+	 * @return array<mixed>
+	 */
+	public function entityVariables(): array
 	{
 		return \get_object_vars($this);
 	}
 
 
-	public function key() : string
+	public function key(): string
 	{
 		return \md5(\implode('_', $this->entityVariables()));
 	}

@@ -2,7 +2,6 @@
 
 namespace Spameri\Elastic\Provider;
 
-
 class DateTimeProvider
 {
 
@@ -20,7 +19,7 @@ class DateTimeProvider
 	}
 
 
-	public function provide() : \DateTimeImmutable
+	public function provide(): \DateTimeImmutable
 	{
 		return $this->constant;
 	}
