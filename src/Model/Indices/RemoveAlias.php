@@ -19,24 +19,15 @@ class RemoveAlias
 	public function execute(string $alias, string $index): array
 	{
 		try {
-			return $this->clientProvider->client()->indices()->putAlias(
+			return $this->clientProvider->client()->indices()->deleteAlias(
 				(
 				new \Spameri\ElasticQuery\Document(
 					$index,
-					new \Spameri\ElasticQuery\Document\Body\Plain(
-						[
-							'actions' => [
-								'remove' => [
-									'index' => $index,
-									'alias' => $alias,
-								],
-							],
-						]
-					),
+					NULL,
 					NULL,
 					NULL,
 					[
-						'name' => $index,
+						'name' => $alias,
 					]
 				)
 				)->toArray()
