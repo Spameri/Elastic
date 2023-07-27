@@ -93,12 +93,12 @@ class PrepareEntityArray
 			} elseif (\is_array($property)) {
 				$preparedArray[$key] = $this->iterateVariables($property);
 
-			} elseif ($property instanceof \Spameri\Elastic\Entity\DateTimeInterface) {
-				$preparedArray[$key] = $property->format();
-
-			} elseif ($property instanceof \DateTime) {
-				$preparedArray[$key] = $property->format(\Spameri\Elastic\Entity\Property\DateTime::FORMAT);
-
+			} elseif ($property instanceof \DateTimeInterface) {
+				if ($property instanceof \Spameri\Elastic\Entity\DateTimeInterface) {
+					$preparedArray[$key] = $property->format();
+				} else {
+					$preparedArray[$key] = $property->format(\Spameri\Elastic\Entity\Property\DateTime::FORMAT);
+				}
 			} else {
 				if (\is_object($property)) {
 					throw new \Spameri\Elastic\Exception\EntityIsNotValid(
