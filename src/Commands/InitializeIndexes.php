@@ -5,6 +5,8 @@ namespace Spameri\Elastic\Commands;
 class InitializeIndexes extends \Symfony\Component\Console\Command\Command
 {
 
+	protected static $defaultName = 'spameri:elastic:initialize-index';
+
 	private \Spameri\Elastic\Model\DeleteIndex $deleteIndex;
 
 	private \Spameri\Elastic\Model\InitializeIndex $initializeIndex;
@@ -28,7 +30,7 @@ class InitializeIndexes extends \Symfony\Component\Console\Command\Command
 	protected function configure(): void
 	{
 		$this
-			->setName('spameri:elastic:initialize-index')
+			->setName(self::$defaultName)
 			->setDescription(
 				'Creates index/es. And initializes with settings and mappings'
 			)

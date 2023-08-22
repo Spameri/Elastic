@@ -82,10 +82,12 @@ class Insert
 		}
 
 		if (isset($response['created']) || isset($response['updated'])) {
+			$entity->id = new \Spameri\Elastic\Entity\Property\ElasticId($response['_id']);
 			return $response['_id'];
 		}
 
 		if (isset($response['result']) && ($response['result'] === 'created' || $response['result'] === 'updated')) {
+			$entity->id = new \Spameri\Elastic\Entity\Property\ElasticId($response['_id']);
 			return $response['_id'];
 		}
 

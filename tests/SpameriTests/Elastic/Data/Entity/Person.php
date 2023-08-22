@@ -8,7 +8,7 @@ class Person implements \Spameri\Elastic\Entity\ElasticEntityInterface
 	/**
 	 * @var \Spameri\Elastic\Entity\Property\ElasticIdInterface
 	 */
-	private $id;
+	public $id;
 
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Video\Identification

@@ -5,6 +5,8 @@ namespace Spameri\Elastic\Commands;
 class AddAlias extends \Symfony\Component\Console\Command\Command
 {
 
+	protected static $defaultName = 'spameri:elastic:add-alias';
+
 	private \Spameri\Elastic\Model\Indices\AddAlias $addAlias;
 
 
@@ -20,7 +22,7 @@ class AddAlias extends \Symfony\Component\Console\Command\Command
 	protected function configure(): void
 	{
 		$this
-			->setName('spameri:elastic:add-alias')
+			->setName(self::$defaultName)
 			->setDescription('Adds alias to existing index.')
 			->addArgument('index', \Symfony\Component\Console\Input\InputArgument::REQUIRED)
 			->addArgument('alias', \Symfony\Component\Console\Input\InputArgument::REQUIRED)

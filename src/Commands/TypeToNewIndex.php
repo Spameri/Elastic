@@ -5,6 +5,8 @@ namespace Spameri\Elastic\Commands;
 class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 {
 
+	protected static $defaultName = 'spameri:elastic:move-type';
+
 	private \Spameri\Elastic\Model\TypeToNewIndex\Migrate $migrate;
 
 
@@ -23,7 +25,7 @@ class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 	protected function configure(): void
 	{
 		$this
-			->setName('spameri:elastic:move-type')
+			->setName(self::$defaultName)
 			->setDescription('Move type to new index to separate data and prepare for deprecation of types is ES.')
 			->addArgument('indexFrom', \Symfony\Component\Console\Input\InputArgument::REQUIRED)
 			->addArgument('typeFrom', \Symfony\Component\Console\Input\InputArgument::REQUIRED)

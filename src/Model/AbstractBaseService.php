@@ -5,7 +5,7 @@ namespace Spameri\Elastic\Model;
 abstract class AbstractBaseService implements ServiceInterface
 {
 
-	protected string $index;
+	public string $index;
 
 	protected \Spameri\Elastic\Model\Insert $insert;
 

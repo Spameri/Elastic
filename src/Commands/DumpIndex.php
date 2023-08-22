@@ -5,6 +5,8 @@ namespace Spameri\Elastic\Commands;
 class DumpIndex extends \Symfony\Component\Console\Command\Command
 {
 
+	protected static $defaultName = 'spameri:elastic:dump-index';
+
 	private \Spameri\Elastic\Model\DumpIndex $dumpIndex;
 
 
@@ -23,7 +25,7 @@ class DumpIndex extends \Symfony\Component\Console\Command\Command
 	protected function configure(): void
 	{
 		$this
-			->setName('spameri:elastic:dump-index')
+			->setName(self::$defaultName)
 			->setDescription('Dumps all data from index to file')
 			->addArgument('index', \Symfony\Component\Console\Input\InputArgument::REQUIRED)
 			->addArgument('filename', \Symfony\Component\Console\Input\InputArgument::REQUIRED)

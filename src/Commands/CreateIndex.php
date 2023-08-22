@@ -5,6 +5,8 @@ namespace Spameri\Elastic\Commands;
 class CreateIndex extends \Symfony\Component\Console\Command\Command
 {
 
+	protected static $defaultName = 'spameri:elastic:create-index';
+
 	private \Spameri\Elastic\Model\CreateIndex $createIndex;
 
 	private \Spameri\Elastic\Model\DeleteIndex $deleteIndex;
@@ -24,7 +26,7 @@ class CreateIndex extends \Symfony\Component\Console\Command\Command
 	protected function configure(): void
 	{
 		$this
-			->setName('spameri:elastic:create-index')
+			->setName(self::$defaultName)
 			->setDescription(
 				'Creates index. Take string as is, adds timestamp and inserts it in Elastic. No mapping or settings.'
 			)
