@@ -8,7 +8,7 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 	/**
 	 * @var array<\Spameri\Elastic\Entity\EntityInterface>
 	 */
-	private $collection;
+	protected array $collection;
 
 
 	public function __construct(
