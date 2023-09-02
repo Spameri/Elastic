@@ -142,6 +142,12 @@ abstract class AbstractBaseService implements ServiceInterface
 	}
 
 
+	public function createEmptyCollection(): \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
+	{
+		return $this->collectionFactory->create($this);
+	}
+
+
 	public function delete(
 		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
 	): bool
