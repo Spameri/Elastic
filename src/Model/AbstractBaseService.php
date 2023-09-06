@@ -131,7 +131,12 @@ abstract class AbstractBaseService implements ServiceInterface
 
 		$entities = [];
 		foreach ($resultSearch->hits() as $hit) {
-			$entities[] = $this->entityFactory->create($hit)->current();
+			try {
+				$entities[] = $this->entityFactory->create($hit)->current();
+
+			} catch (\Spameri\Elastic\Exception\ElasticSearch $exception) {
+				\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
+			}
 		}
 
 		return $this->collectionFactory->create(
