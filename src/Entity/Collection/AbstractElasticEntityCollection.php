@@ -220,4 +220,14 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 		throw new \Nette\NotImplementedException();
 	}
 
+
+	public function first(): ?\Spameri\Elastic\Entity\ElasticEntityInterface
+	{
+		if ( ! $this->initialized) {
+			$this->initialize();
+		}
+
+		return \reset($this->collection) ?: NULL;
+	}
+
 }
