@@ -5,47 +5,18 @@ namespace Spameri\Elastic\Model;
 abstract class AbstractBaseService implements ServiceInterface
 {
 
-	public string $index;
-
-	protected \Spameri\Elastic\Model\Insert $insert;
-
-	protected \Spameri\Elastic\Model\Get $get;
-
-	protected \Spameri\Elastic\Model\Delete $delete;
-
-	protected \Spameri\Elastic\Model\GetBy $getBy;
-
-	protected \Spameri\Elastic\Model\GetAllBy $getAllBy;
-
-	protected \Spameri\Elastic\Factory\EntityFactoryInterface $entityFactory;
-
-	protected \Spameri\Elastic\Factory\CollectionFactoryInterface $collectionFactory;
-
-	protected \Spameri\Elastic\Model\Aggregate $aggregate;
-
-
 	public function __construct(
-		string $index,
-		\Spameri\Elastic\Factory\EntityFactoryInterface $entityFactory,
-		\Spameri\Elastic\Factory\CollectionFactoryInterface $collectionFactory,
-		\Spameri\Elastic\Model\Insert $insert,
-		\Spameri\Elastic\Model\Get $get,
-		\Spameri\Elastic\Model\GetBy $getBy,
-		\Spameri\Elastic\Model\GetAllBy $getAllBy,
-		\Spameri\Elastic\Model\Delete $delete,
-		\Spameri\Elastic\Model\Aggregate $aggregate
-	)
-	{
-		$this->index = $index;
-		$this->insert = $insert;
-		$this->get = $get;
-		$this->delete = $delete;
-		$this->getBy = $getBy;
-		$this->getAllBy = $getAllBy;
-		$this->entityFactory = $entityFactory;
-		$this->collectionFactory = $collectionFactory;
-		$this->aggregate = $aggregate;
-	}
+		public string $index,
+		protected readonly \Spameri\Elastic\Factory\EntityFactoryInterface $entityFactory,
+		protected readonly \Spameri\Elastic\Factory\CollectionFactoryInterface $collectionFactory,
+		protected readonly \Spameri\Elastic\Model\Insert $insert,
+		protected readonly \Spameri\Elastic\Model\Get $get,
+		protected readonly \Spameri\Elastic\Model\GetBy $getBy,
+		protected readonly \Spameri\Elastic\Model\GetAllBy $getAllBy,
+		protected readonly \Spameri\Elastic\Model\Delete $delete,
+		protected readonly \Spameri\Elastic\Model\Aggregate $aggregate,
+		protected readonly \Spameri\Elastic\Model\ServiceLocator $serviceLocator,
+	) {}
 
 
 	/**
@@ -167,6 +138,30 @@ abstract class AbstractBaseService implements ServiceInterface
 		}
 	}
 
+	public function deleteReference(
+		\Spameri\Elastic\Entity\ElasticEntityInterface $entityToDelete,
+		string $class,
+		string $field,
+	): void
+	{
+		try {
+			$service = $this->serviceLocator->locateByEntityClass($class);
+			$elasticQuery = new \Spameri\ElasticQuery\ElasticQuery();
+			$elasticQuery->addMustQuery(
+				new \Spameri\ElasticQuery\Query\Term(
+					field: $field,
+					query: $entityToDelete->id()->value()
+				)
+			);
+			$collection = $service->getAllBy($elasticQuery);
+			foreach ($collection as $entity) {
+				$service->delete($entity->id());
+			}
+
+		} catch (\Spameri\Elastic\Exception\DocumentNotFound $e) {
+			// Do nothing
+		}
+	}
 
 	public function aggregate(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
