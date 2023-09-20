@@ -96,7 +96,7 @@ abstract class AbstractBaseService implements ServiceInterface
 			throw $exception;
 		}
 
-		if ($resultSearch->stats()->total() === 0) {
+		if ($resultSearch->hits()->count() === 0) {
 			throw new \Spameri\Elastic\Exception\DocumentNotFound($this->index, $elasticQuery);
 		}
 
