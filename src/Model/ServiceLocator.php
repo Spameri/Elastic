@@ -38,6 +38,9 @@ class ServiceLocator implements ServiceLocatorInterface
 	): \Spameri\Elastic\Model\ServiceInterface
 	{
 		$serviceName = \str_replace('Entity', 'Model', $entityClass . 'Service');
+		$serviceName = \str_replace('Interface', '', $serviceName);
+		$serviceName = \str_replace('Abstract', '', $serviceName);
+		$serviceName = \str_replace('Trait', '', $serviceName);
 
 		/** @var \Spameri\Elastic\Model\ServiceInterface $service */
 		$service = $this->container->getByType($serviceName);
