@@ -10,6 +10,8 @@ class PrepareEntityArray
 	 */
 	private $serviceLocator;
 
+	private array $insertedEntities;
+
 
 	public function __construct(
 		\Spameri\Elastic\Model\ServiceLocatorInterface $serviceLocator
@@ -26,6 +28,9 @@ class PrepareEntityArray
 		\Spameri\Elastic\Entity\ElasticEntityInterface $entity
 	): array
 	{
+		$this->insertedEntities = [];
+		$this->insertedEntities[$entity->id()->value()] = true;
+
 		return $this->iterateVariables($entity->entityVariables());
 	}
 
@@ -42,7 +47,13 @@ class PrepareEntityArray
 
 		foreach ($variables as $key => $property) {
 			if ($property instanceof \Spameri\Elastic\Entity\ElasticEntityInterface) {
-				$preparedArray[$key] = $this->serviceLocator->locate($property)->insert($property);
+				if (\in_array($property->id()->value(), $this->insertedEntities)) {
+					$preparedArray[$key] = $property->id()->value();
+
+				} else {
+					$preparedArray[$key] = $this->serviceLocator->locate($property)->insert($property);
+					$this->insertedEntities[$property->id()->value()] = true;
+				}
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\EntityInterface) {
 				$preparedArray[$key] = $this->iterateVariables($property->entityVariables());
@@ -66,7 +77,13 @@ class PrepareEntityArray
 				} else {
 					/** @var \Spameri\Elastic\Entity\ElasticEntityInterface $item */
 					foreach ($property as $item) {
-						$preparedArray[$key][] = $this->serviceLocator->locate($item)->insert($item);
+						if (\in_array($item->id()->value(), $this->insertedEntities)) {
+							$preparedArray[$key][] = $item->id()->value();
+
+						} else {
+							$preparedArray[$key][] = $this->serviceLocator->locate($item)->insert($item);
+							$this->insertedEntities[$item->id()->value()] = true;
+						}
 					}
 				}
 
