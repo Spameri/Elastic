@@ -10,12 +10,18 @@ class ServiceLocator implements ServiceLocatorInterface
 	 */
 	private $container;
 
+	/**
+	 * @var array<string>
+	 */
+	private array $services;
+
 
 	public function __construct(
 		\Nette\DI\Container $container
 	)
 	{
 		$this->container = $container;
+		$this->services = $container->findByType(\Spameri\Elastic\Model\ServiceInterface::class);
 	}
 
 
@@ -38,6 +44,7 @@ class ServiceLocator implements ServiceLocatorInterface
 	): \Spameri\Elastic\Model\ServiceInterface
 	{
 		$serviceName = \str_replace('Entity', 'Model', $entityClass . 'Service');
+
 		$serviceName = \str_replace('Interface', '', $serviceName);
 		$serviceName = \str_replace('Abstract', '', $serviceName);
 		$serviceName = \str_replace('Trait', '', $serviceName);
@@ -48,4 +55,20 @@ class ServiceLocator implements ServiceLocatorInterface
 		return $service;
 	}
 
+
+	public function locateByIndex(string $index): \Spameri\Elastic\Model\ServiceInterface|null
+	{
+		foreach ($this->services as $serviceType) {
+			$service = $this->container->getService($serviceType);
+			if (($service instanceof \Spameri\Elastic\Model\AbstractBaseService) === false) {
+				continue;
+			}
+
+			if ($service->index === $index) {
+				return $service;
+			}
+		}
+
+		return null;
+	}
 }
