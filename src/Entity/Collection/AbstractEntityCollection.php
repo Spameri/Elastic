@@ -108,4 +108,10 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 		throw new \Nette\NotImplementedException();
 	}
 
+
+	public function first(): ?\Spameri\Elastic\Entity\EntityInterface
+	{
+		return \reset($this->collection) ?: NULL;
+	}
+
 }
