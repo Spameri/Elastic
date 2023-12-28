@@ -12,7 +12,7 @@ class Name implements \Spameri\Elastic\Entity\ValueInterface
 
 
 	public function __construct(
-		string $value
+		string $value,
 	)
 	{
 		if (\strlen($value) <= 0) {

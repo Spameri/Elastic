@@ -12,7 +12,7 @@ class RatingsCount implements \Spameri\Elastic\Entity\ValueInterface
 
 
 	public function __construct(
-		?int $value
+		int|null $value,
 	)
 	{
 		if ($value === NULL) {

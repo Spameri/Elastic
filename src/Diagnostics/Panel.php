@@ -12,7 +12,7 @@ class Panel implements \Tracy\IBarPanel
 
 
 	public function __construct(
-		\Spameri\Elastic\Diagnostics\PanelLogger $logger
+		\Spameri\Elastic\Diagnostics\PanelLogger $logger,
 	)
 	{
 		$this->logger = $logger;

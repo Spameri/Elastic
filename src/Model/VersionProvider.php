@@ -9,7 +9,7 @@ class VersionProvider
 
 
 	public function __construct(
-		int $versionNumber = \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7
+		int $versionNumber = \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7,
 	)
 	{
 		$this->versionNumber = $versionNumber;

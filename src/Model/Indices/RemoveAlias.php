@@ -9,7 +9,7 @@ class RemoveAlias
 
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
+		\Spameri\Elastic\ClientProvider $clientProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -31,15 +31,15 @@ class RemoveAlias
 									'alias' => $alias,
 								],
 							],
-						]
+						],
 					),
 					NULL,
 					NULL,
 					[
 						'name' => $index,
-					]
+					],
 				)
-				)->toArray()
+				)->toArray(),
 			)
 				;
 

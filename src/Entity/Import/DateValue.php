@@ -24,7 +24,7 @@ class DateValue implements ValidationPropertyInterface
 	public function __construct(
 		\DateTime $value,
 		string $key,
-		string $format = 'Y-m-d H:i:s'
+		string $format = 'Y-m-d H:i:s',
 	)
 	{
 		$this->value = $value;

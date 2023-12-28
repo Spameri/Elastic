@@ -14,7 +14,7 @@ class CreateIndex extends \Symfony\Component\Console\Command\Command
 
 	public function __construct(
 		\Spameri\Elastic\Model\CreateIndex $createIndex,
-		\Spameri\Elastic\Model\DeleteIndex $deleteIndex
+		\Spameri\Elastic\Model\DeleteIndex $deleteIndex,
 	)
 	{
 		parent::__construct(NULL);
@@ -28,12 +28,12 @@ class CreateIndex extends \Symfony\Component\Console\Command\Command
 		$this
 			->setName(self::$defaultName)
 			->setDescription(
-				'Creates index. Take string as is, adds timestamp and inserts it in Elastic. No mapping or settings.'
+				'Creates index. Take string as is, adds timestamp and inserts it in Elastic. No mapping or settings.',
 			)
 			->addArgument('indexName', \Symfony\Component\Console\Input\InputArgument::REQUIRED)
 			->addOption(
 				'force', 'f', NULL,
-				'Warning this deletes your data! Forces now used index to be deleted before new index is created.'
+				'Warning this deletes your data! Forces now used index to be deleted before new index is created.',
 			)
 		;
 	}
@@ -44,7 +44,7 @@ class CreateIndex extends \Symfony\Component\Console\Command\Command
 	 */
 	protected function execute(
 		\Symfony\Component\Console\Input\InputInterface $input,
-		\Symfony\Component\Console\Output\OutputInterface $output
+		\Symfony\Component\Console\Output\OutputInterface $output,
 	): int
 	{
 		/** @var string $indexName */

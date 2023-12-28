@@ -18,7 +18,7 @@ class CompanyCredit implements \Spameri\Elastic\Entity\EntityInterface
 
 	public function __construct(
 		\SpameriTests\Elastic\Data\Entity\Property\Text $group,
-		\SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCredit\CompanyCollection $company
+		\SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCredit\CompanyCollection $company,
 	)
 	{
 		$this->group = $group;

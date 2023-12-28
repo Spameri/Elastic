@@ -12,7 +12,7 @@ class CountryShort implements \Spameri\Elastic\Entity\ValueInterface
 
 
 	public function __construct(
-		?string $value
+		string|null $value,
 	)
 	{
 		if ($value === '' || $value === NULL) {

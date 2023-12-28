@@ -21,7 +21,7 @@ class Insert
 	public function __construct(
 		\Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray,
 		\Spameri\Elastic\ClientProvider $clientProvider,
-		\Spameri\Elastic\Model\VersionProvider $versionProvider
+		\Spameri\Elastic\Model\VersionProvider $versionProvider,
 	)
 	{
 		$this->prepareEntityArray = $prepareEntityArray;
@@ -37,7 +37,7 @@ class Insert
 	public function execute(
 		\Spameri\Elastic\Entity\ElasticEntityInterface $entity,
 		string $index,
-		?string $type = NULL
+		string|null $type = NULL,
 	): string
 	{
 		if ($type === NULL) {
@@ -58,9 +58,9 @@ class Insert
 						$index,
 						new \Spameri\ElasticQuery\Document\Body\Plain($entityArray),
 						$type,
-						$entity->id()->value()
+						$entity->id()->value(),
 					)
-				)->toArray()
+				)->toArray(),
 			)
 			;
 
@@ -73,7 +73,7 @@ class Insert
 				(
 				new \Spameri\ElasticQuery\Document($index)
 				)
-					->toArray()
+					->toArray(),
 			)
 			;
 

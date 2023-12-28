@@ -18,7 +18,7 @@ class FloatValue implements ValidationPropertyInterface
 
 	public function __construct(
 		float $value,
-		string $key
+		string $key,
 	)
 	{
 		$this->value = $value;

@@ -12,7 +12,7 @@ class Year implements \Spameri\Elastic\Entity\ValueInterface
 
 
 	public function __construct(
-		int $year
+		int $year,
 	)
 	{
 		if ($year < 1800) {

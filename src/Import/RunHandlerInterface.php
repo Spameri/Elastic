@@ -8,14 +8,14 @@ interface RunHandlerInterface
 	public function advance(
 		string $runName,
 		\Symfony\Component\Console\Helper\ProgressBar $progressBar,
-		?\Spameri\Elastic\Entity\AbstractImport $lastProcessed
+		\Spameri\Elastic\Entity\AbstractImport|null $lastProcessed,
 	): void;
 
 
 	public function finish(
 		string $runName,
 		\Symfony\Component\Console\Helper\ProgressBar $progressBar,
-		?\Spameri\Elastic\Entity\AbstractImport $lastProcessed
+		\Spameri\Elastic\Entity\AbstractImport|null $lastProcessed,
 	): void;
 
 }

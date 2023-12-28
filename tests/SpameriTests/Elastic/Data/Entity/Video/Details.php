@@ -30,7 +30,7 @@ class Details implements \Spameri\Elastic\Entity\EntityInterface
 		\SpameriTests\Elastic\Data\Entity\Video\Details\GenreCollection $genres,
 		\SpameriTests\Elastic\Data\Entity\Video\Details\AliasCollectionElastic $aliases,
 		\SpameriTests\Elastic\Data\Entity\Video\Details\ReleaseCollectionElastic $releases,
-		\SpameriTests\Elastic\Data\Entity\Video\Details\Ratings $ratings
+		\SpameriTests\Elastic\Data\Entity\Video\Details\Ratings $ratings,
 	)
 	{
 		$this->genres = $genres;

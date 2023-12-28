@@ -12,7 +12,7 @@ class KeyWord implements \Spameri\Elastic\Entity\ValueInterface
 
 
 	public function __construct(
-		string $value
+		string $value,
 	)
 	{
 		if ($value === '') {

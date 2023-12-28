@@ -9,7 +9,7 @@ class VideoFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 
 
 	public function __construct(
-		\SpameriTests\Elastic\Data\Model\PersonService $personService
+		\SpameriTests\Elastic\Data\Model\PersonService $personService,
 	)
 	{
 		$this->personService = $personService;
@@ -24,7 +24,7 @@ class VideoFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 		yield new \SpameriTests\Elastic\Data\Entity\Video(
 			new \Spameri\Elastic\Entity\Property\ElasticId($hit->id()),
 			new \SpameriTests\Elastic\Data\Entity\Video\Identification(
-				new \SpameriTests\Elastic\Data\Entity\Property\ImdbId($hit->getValue('identification.imdb'))
+				new \SpameriTests\Elastic\Data\Entity\Property\ImdbId($hit->getValue('identification.imdb')),
 			),
 			new \SpameriTests\Elastic\Data\Entity\Property\Name($hit->getValue('name')),
 			new \SpameriTests\Elastic\Data\Entity\Property\Year($hit->getValue('year')),
@@ -32,19 +32,19 @@ class VideoFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 			new \SpameriTests\Elastic\Data\Entity\Video\Story(
 				new \SpameriTests\Elastic\Data\Entity\Property\Description($hit->getValue('story.description')),
 				new \SpameriTests\Elastic\Data\Entity\Video\Story\TagLineCollection(
-					new \SpameriTests\Elastic\Data\Entity\Video\Story\TagLine($hit->getValue('story.tagline'))
+					new \SpameriTests\Elastic\Data\Entity\Video\Story\TagLine($hit->getValue('story.tagline')),
 				),
 				new \SpameriTests\Elastic\Data\Entity\Video\Story\PlotSummaryCollection(),
 				new \SpameriTests\Elastic\Data\Entity\Video\Story\KeyWordCollection(),
-				new \SpameriTests\Elastic\Data\Entity\Video\Story\Synopsis($hit->getValue('synopsis'))
+				new \SpameriTests\Elastic\Data\Entity\Video\Story\Synopsis($hit->getValue('synopsis')),
 			),
 			new \SpameriTests\Elastic\Data\Entity\Video\Details(
 				new \SpameriTests\Elastic\Data\Entity\Video\Details\GenreCollection(),
 				new \SpameriTests\Elastic\Data\Entity\Video\Details\AliasCollectionElastic(),
 				new \SpameriTests\Elastic\Data\Entity\Video\Details\ReleaseCollectionElastic(),
 				new \SpameriTests\Elastic\Data\Entity\Video\Details\Ratings(
-					new \SpameriTests\Elastic\Data\Entity\Video\Details\RatingsCount(1000)
-				)
+					new \SpameriTests\Elastic\Data\Entity\Video\Details\RatingsCount(1000),
+				),
 			),
 			new \SpameriTests\Elastic\Data\Entity\Video\HighLights(
 				new \SpameriTests\Elastic\Data\Entity\Video\HighLights\TriviaCollection(),
@@ -53,7 +53,7 @@ class VideoFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 				new \SpameriTests\Elastic\Data\Entity\Video\HighLights\QuoteCollection(),
 				new \SpameriTests\Elastic\Data\Entity\Video\HighLights\LocationCollection(),
 				new \SpameriTests\Elastic\Data\Entity\Video\HighLights\AlternateVersionCollection(),
-				new \SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCreditCollection()
+				new \SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCreditCollection(),
 			),
 			new \SpameriTests\Elastic\Data\Entity\Video\Connections(
 				new \SpameriTests\Elastic\Data\Entity\Video\Connections\FollowedCollection(),
@@ -67,10 +67,10 @@ class VideoFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 				new \SpameriTests\Elastic\Data\Entity\Video\Connections\FollowsCollection(),
 				new \SpameriTests\Elastic\Data\Entity\Video\Connections\SpunOffCollection(),
 				new \SpameriTests\Elastic\Data\Entity\Video\Connections\VersionOfCollection(),
-				new \SpameriTests\Elastic\Data\Entity\Video\Connections\EditedFromCollection()
+				new \SpameriTests\Elastic\Data\Entity\Video\Connections\EditedFromCollection(),
 			),
 			new \SpameriTests\Elastic\Data\Entity\Video\People($this->personService),
-			new \SpameriTests\Elastic\Data\Entity\Video\SeasonCollection()
+			new \SpameriTests\Elastic\Data\Entity\Video\SeasonCollection(),
 		);
 	}
 

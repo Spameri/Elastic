@@ -17,7 +17,7 @@ class InitializeIndexes extends \Symfony\Component\Console\Command\Command
 	public function __construct(
 		\Spameri\Elastic\Model\EntitySettingsLocator $entitySettingsLocator,
 		\Spameri\Elastic\Model\DeleteIndex $deleteIndex,
-		\Spameri\Elastic\Model\InitializeIndex $initializeIndex
+		\Spameri\Elastic\Model\InitializeIndex $initializeIndex,
 	)
 	{
 		parent::__construct(NULL);
@@ -32,12 +32,12 @@ class InitializeIndexes extends \Symfony\Component\Console\Command\Command
 		$this
 			->setName(self::$defaultName)
 			->setDescription(
-				'Creates index/es. And initializes with settings and mappings'
+				'Creates index/es. And initializes with settings and mappings',
 			)
 			->addArgument('entityName', \Symfony\Component\Console\Input\InputArgument::IS_ARRAY)
 			->addOption(
 				'force', 'f', NULL,
-				'Warning this deletes your data! Forces now used index to be deleted before new index is created.'
+				'Warning this deletes your data! Forces now used index to be deleted before new index is created.',
 			)
 		;
 	}
@@ -48,7 +48,7 @@ class InitializeIndexes extends \Symfony\Component\Console\Command\Command
 	 */
 	protected function execute(
 		\Symfony\Component\Console\Input\InputInterface $input,
-		\Symfony\Component\Console\Output\OutputInterface $output
+		\Symfony\Component\Console\Output\OutputInterface $output,
 	): int
 	{
 		/** @var array<string> $entityNames */

@@ -14,7 +14,7 @@ class PrepareEntityArray
 
 
 	public function __construct(
-		\Spameri\Elastic\Model\ServiceLocatorInterface $serviceLocator
+		\Spameri\Elastic\Model\ServiceLocatorInterface $serviceLocator,
 	)
 	{
 		$this->serviceLocator = $serviceLocator;
@@ -25,7 +25,7 @@ class PrepareEntityArray
 	 * @return array<mixed>
 	 */
 	public function prepare(
-		\Spameri\Elastic\Entity\ElasticEntityInterface $entity
+		\Spameri\Elastic\Entity\ElasticEntityInterface $entity,
 	): array
 	{
 		$this->insertedEntities = [];
@@ -40,7 +40,7 @@ class PrepareEntityArray
 	 * @return array<mixed>
 	 */
 	public function iterateVariables(
-		array $variables
+		array $variables,
 	): array
 	{
 		$preparedArray = [];
@@ -125,12 +125,12 @@ class PrepareEntityArray
 			} else {
 				if (\is_object($property)) {
 					throw new \Spameri\Elastic\Exception\EntityIsNotValid(
-						'Property ' . $key . ' in ' . \get_class($property) . ' is not supported.'
+						'Property ' . $key . ' in ' . \get_class($property) . ' is not supported.',
 					);
 				}
 
 				throw new \Spameri\Elastic\Exception\EntityIsNotValid(
-					'Property ' . $key . ' with value' . $property . ' is not supported.'
+					'Property ' . $key . ' with value' . $property . ' is not supported.',
 				);
 			}
 		}

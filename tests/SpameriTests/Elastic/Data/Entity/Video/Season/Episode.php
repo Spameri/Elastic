@@ -30,7 +30,7 @@ class Episode implements \Spameri\Elastic\Entity\EntityInterface
 		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id,
 		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $number,
 		\SpameriTests\Elastic\Data\Entity\Property\Name $name,
-		\SpameriTests\Elastic\Data\Entity\Property\Description $description
+		\SpameriTests\Elastic\Data\Entity\Property\Description $description,
 	)
 	{
 		$this->id = $id;

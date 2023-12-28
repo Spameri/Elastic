@@ -56,11 +56,11 @@ class Person implements \Spameri\Elastic\Entity\ElasticEntityInterface
 		\SpameriTests\Elastic\Data\Entity\Video\Identification $identification,
 		\SpameriTests\Elastic\Data\Entity\Property\Name $name,
 		\SpameriTests\Elastic\Data\Entity\Property\Description $description,
-		?\Spameri\Elastic\Entity\Property\Date $birth,
-		?\Spameri\Elastic\Entity\Property\Date $death,
+		\Spameri\Elastic\Entity\Property\Date|null $birth,
+		\Spameri\Elastic\Entity\Property\Date|null $death,
 		\SpameriTests\Elastic\Data\Entity\Property\Name $alias,
 		\SpameriTests\Elastic\Data\Entity\Person\CharacterCollectionElastic $characters,
-		\SpameriTests\Elastic\Data\Entity\Person\JobCollectionElastic $jobs
+		\SpameriTests\Elastic\Data\Entity\Person\JobCollectionElastic $jobs,
 	)
 	{
 		$this->id = $id;
@@ -117,25 +117,25 @@ class Person implements \Spameri\Elastic\Entity\ElasticEntityInterface
 	}
 
 
-	public function birth(): ?\Spameri\Elastic\Entity\Property\Date
+	public function birth(): \Spameri\Elastic\Entity\Property\Date|null
 	{
 		return $this->birth;
 	}
 
 
-	public function setBirth(?\Spameri\Elastic\Entity\Property\Date $birth): void
+	public function setBirth(\Spameri\Elastic\Entity\Property\Date|null $birth): void
 	{
 		$this->birth = $birth;
 	}
 
 
-	public function death(): ?\Spameri\Elastic\Entity\Property\Date
+	public function death(): \Spameri\Elastic\Entity\Property\Date|null
 	{
 		return $this->death;
 	}
 
 
-	public function setDeath(?\Spameri\Elastic\Entity\Property\Date $death): void
+	public function setDeath(\Spameri\Elastic\Entity\Property\Date|null $death): void
 	{
 		$this->death = $death;
 	}

@@ -7,14 +7,14 @@ class Identification implements \Spameri\Elastic\Entity\EntityInterface
 
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Property\ImdbId
-	 * @type(keyword)
-	 * @analyzer(keyword)
+	 * @type(\SpameriTests\Elastic\Data\Entity\Video\keyword)
+	 * @analyzer(\SpameriTests\Elastic\Data\Entity\Video\keyword)
 	 */
 	private $imdb;
 
 
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $imdb
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $imdb,
 	)
 	{
 		$this->imdb = $imdb;

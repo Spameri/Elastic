@@ -17,7 +17,7 @@ class RestoreIndex
 
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
+		\Spameri\Elastic\ClientProvider $clientProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -25,7 +25,7 @@ class RestoreIndex
 
 
 	public function setOutput(
-		\Symfony\Component\Console\Output\OutputInterface $output
+		\Symfony\Component\Console\Output\OutputInterface $output,
 	): void
 	{
 		$this->output = $output;
@@ -34,7 +34,7 @@ class RestoreIndex
 
 	public function execute(
 		string $filename,
-		int $step
+		int $step,
 	): void
 	{
 		$this->output->writeln('Starting import.');
@@ -52,9 +52,9 @@ class RestoreIndex
 				$this->clientProvider->client()->bulk(
 					(
 						new \Spameri\ElasticQuery\Document\Bulk(
-							[$bulkData]
+							[$bulkData],
 						)
-					)->toArray()
+					)->toArray(),
 				)
 				;
 				$bulkData = '';

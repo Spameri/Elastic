@@ -7,7 +7,7 @@ class JobCollectionElastic extends \Spameri\Elastic\Entity\Collection\AbstractEn
 
 	public function job(
 		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $imdbId,
-		?\SpameriTests\Elastic\Data\Entity\Property\ImdbId $episode = NULL
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId|null $episode = NULL,
 	): Job
 	{
 		/** @var \SpameriTests\Elastic\Data\Entity\Person\Job $job */
@@ -29,7 +29,7 @@ class JobCollectionElastic extends \Spameri\Elastic\Entity\Collection\AbstractEn
 		}
 
 		throw new \Nette\InvalidStateException(
-			'Job in video: ' . $imdbId->value() . ' not found.'
+			'Job in video: ' . $imdbId->value() . ' not found.',
 		);
 	}
 

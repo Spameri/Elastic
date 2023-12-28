@@ -18,7 +18,7 @@ class Alias
 
 	public function __construct(
 		\SpameriTests\Elastic\Data\Entity\Property\Name $name,
-		\SpameriTests\Elastic\Data\Entity\Property\CountryShort $country
+		\SpameriTests\Elastic\Data\Entity\Property\CountryShort $country,
 	)
 	{
 		$this->name = $name;

@@ -22,7 +22,7 @@ class DumpIndex
 
 
 	public function __construct(
-		\Spameri\Elastic\Model\Scroll $scroll
+		\Spameri\Elastic\Model\Scroll $scroll,
 	)
 	{
 		$this->bulkData = '';
@@ -31,7 +31,7 @@ class DumpIndex
 
 
 	public function setOutput(
-		\Symfony\Component\Console\Output\OutputInterface $output
+		\Symfony\Component\Console\Output\OutputInterface $output,
 	): void
 	{
 		$this->output = $output;
@@ -41,7 +41,7 @@ class DumpIndex
 	public function execute(
 		string $index,
 		string $filename,
-		?string $type = NULL
+		string|null $type = NULL,
 	): void
 	{
 		if ( ! $type) {
@@ -84,7 +84,7 @@ class DumpIndex
 
 
 	public function processHit(
-		\Spameri\ElasticQuery\Response\Result\Hit $hit
+		\Spameri\ElasticQuery\Response\Result\Hit $hit,
 	): void
 	{
 		$bulkData = [
@@ -101,7 +101,7 @@ class DumpIndex
 
 
 	public function writeToFile(
-		string $filename
+		string $filename,
 	): void
 	{
 		@\file_put_contents($filename, $this->bulkData, \FILE_APPEND);

@@ -12,7 +12,7 @@ class DateTimeProvider
 
 
 	public function __construct(
-		\DateTimeImmutable $constant
+		\DateTimeImmutable $constant,
 	)
 	{
 		$this->constant = $constant;

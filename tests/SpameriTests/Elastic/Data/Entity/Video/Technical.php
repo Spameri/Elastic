@@ -52,15 +52,15 @@ class Technical implements \Spameri\Elastic\Entity\EntityInterface
 
 
 	public function __construct(
-		?\SpameriTests\Elastic\Data\Entity\Video\Technical\Camera $camera = NULL,
-		?\SpameriTests\Elastic\Data\Entity\Video\Technical\Runtime $runtime = NULL,
-		?\SpameriTests\Elastic\Data\Entity\Video\Technical\Color $color = NULL,
-		?\SpameriTests\Elastic\Data\Entity\Video\Technical\Ratio $ratio = NULL,
-		?\SpameriTests\Elastic\Data\Entity\Video\Technical\Laboratory $laboratory = NULL,
-		?\SpameriTests\Elastic\Data\Entity\Video\Technical\FilmLength $filmLength = NULL,
-		?\SpameriTests\Elastic\Data\Entity\Video\Technical\NegativeFormat $negativeFormat = NULL,
-		?\SpameriTests\Elastic\Data\Entity\Video\Technical\CineProcess $cineProcess = NULL,
-		?\SpameriTests\Elastic\Data\Entity\Video\Technical\Printed $printed = NULL
+		\SpameriTests\Elastic\Data\Entity\Video\Technical\Camera|null $camera = NULL,
+		\SpameriTests\Elastic\Data\Entity\Video\Technical\Runtime|null $runtime = NULL,
+		\SpameriTests\Elastic\Data\Entity\Video\Technical\Color|null $color = NULL,
+		\SpameriTests\Elastic\Data\Entity\Video\Technical\Ratio|null $ratio = NULL,
+		\SpameriTests\Elastic\Data\Entity\Video\Technical\Laboratory|null $laboratory = NULL,
+		\SpameriTests\Elastic\Data\Entity\Video\Technical\FilmLength|null $filmLength = NULL,
+		\SpameriTests\Elastic\Data\Entity\Video\Technical\NegativeFormat|null $negativeFormat = NULL,
+		\SpameriTests\Elastic\Data\Entity\Video\Technical\CineProcess|null $cineProcess = NULL,
+		\SpameriTests\Elastic\Data\Entity\Video\Technical\Printed|null $printed = NULL,
 	)
 	{
 		$this->camera = $camera;
@@ -93,55 +93,55 @@ class Technical implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
-	public function camera(): ?\SpameriTests\Elastic\Data\Entity\Video\Technical\Camera
+	public function camera(): \SpameriTests\Elastic\Data\Entity\Video\Technical\Camera|null
 	{
 		return $this->camera;
 	}
 
 
-	public function runtime(): ?\SpameriTests\Elastic\Data\Entity\Video\Technical\Runtime
+	public function runtime(): \SpameriTests\Elastic\Data\Entity\Video\Technical\Runtime|null
 	{
 		return $this->runtime;
 	}
 
 
-	public function color(): ?\SpameriTests\Elastic\Data\Entity\Video\Technical\Color
+	public function color(): \SpameriTests\Elastic\Data\Entity\Video\Technical\Color|null
 	{
 		return $this->color;
 	}
 
 
-	public function ratio(): ?\SpameriTests\Elastic\Data\Entity\Video\Technical\Ratio
+	public function ratio(): \SpameriTests\Elastic\Data\Entity\Video\Technical\Ratio|null
 	{
 		return $this->ratio;
 	}
 
 
-	public function laboratory(): ?\SpameriTests\Elastic\Data\Entity\Video\Technical\Laboratory
+	public function laboratory(): \SpameriTests\Elastic\Data\Entity\Video\Technical\Laboratory|null
 	{
 		return $this->laboratory;
 	}
 
 
-	public function filmLength(): ?\SpameriTests\Elastic\Data\Entity\Video\Technical\FilmLength
+	public function filmLength(): \SpameriTests\Elastic\Data\Entity\Video\Technical\FilmLength|null
 	{
 		return $this->filmLength;
 	}
 
 
-	public function negativeFormat(): ?\SpameriTests\Elastic\Data\Entity\Video\Technical\NegativeFormat
+	public function negativeFormat(): \SpameriTests\Elastic\Data\Entity\Video\Technical\NegativeFormat|null
 	{
 		return $this->negativeFormat;
 	}
 
 
-	public function cineProcess(): ?\SpameriTests\Elastic\Data\Entity\Video\Technical\CineProcess
+	public function cineProcess(): \SpameriTests\Elastic\Data\Entity\Video\Technical\CineProcess|null
 	{
 		return $this->cineProcess;
 	}
 
 
-	public function printed(): ?\SpameriTests\Elastic\Data\Entity\Video\Technical\Printed
+	public function printed(): \SpameriTests\Elastic\Data\Entity\Video\Technical\Printed|null
 	{
 		return $this->printed;
 	}

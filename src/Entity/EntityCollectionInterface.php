@@ -6,22 +6,22 @@ interface EntityCollectionInterface extends \IteratorAggregate
 {
 
 	public function add(
-		\Spameri\Elastic\Entity\EntityInterface $entity
+		\Spameri\Elastic\Entity\EntityInterface $entity,
 	): void;
 
 
 	public function entity(
-		string $key
-	): ?\Spameri\Elastic\Entity\EntityInterface;
+		string $key,
+	): \Spameri\Elastic\Entity\EntityInterface|null;
 
 
 	public function remove(
-		string $key
+		string $key,
 	): void;
 
 
 	public function isValue(
-		string $key
+		string $key,
 	): bool;
 
 
@@ -36,7 +36,7 @@ interface EntityCollectionInterface extends \IteratorAggregate
 
 	public function sort(
 		\Spameri\Elastic\Entity\Collection\SortField $sortField,
-		string $type
+		string $type,
 	): void;
 
 }

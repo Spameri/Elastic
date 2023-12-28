@@ -12,7 +12,7 @@ class Open
 
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
+		\Spameri\Elastic\ClientProvider $clientProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -20,14 +20,14 @@ class Open
 
 
 	public function execute(
-		string $index
+		string $index,
 	): bool
 	{
 		try {
 			$result = $this->clientProvider->client()->indices()->open(
 				(
 					new \Spameri\ElasticQuery\Document($index)
-				)->toArray()
+				)->toArray(),
 			)
 			;
 

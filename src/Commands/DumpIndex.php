@@ -11,7 +11,7 @@ class DumpIndex extends \Symfony\Component\Console\Command\Command
 
 
 	public function __construct(
-		\Spameri\Elastic\Model\DumpIndex $migrate
+		\Spameri\Elastic\Model\DumpIndex $migrate,
 	)
 	{
 		parent::__construct(NULL);
@@ -36,7 +36,7 @@ class DumpIndex extends \Symfony\Component\Console\Command\Command
 	protected function execute(
 		\Symfony\Component\Console\Input\InputInterface $input,
 
-		\Symfony\Component\Console\Output\OutputInterface $output
+		\Symfony\Component\Console\Output\OutputInterface $output,
 	): int
 	{
 		$output->writeln('Starting');

@@ -12,7 +12,7 @@ class Url implements \Spameri\Elastic\Entity\ValueInterface
 
 
 	public function __construct(
-		string $value
+		string $value,
 	)
 	{
 		if ( ! \Nette\Utils\Validators::isUrl($value)) {

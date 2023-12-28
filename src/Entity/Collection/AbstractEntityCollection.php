@@ -12,7 +12,7 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 
 
 	public function __construct(
-		\Spameri\Elastic\Entity\EntityInterface ...$entityCollection
+		\Spameri\Elastic\Entity\EntityInterface ...$entityCollection,
 	)
 	{
 		$this->collection = [];
@@ -23,7 +23,7 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 
 
 	public function add(
-		\Spameri\Elastic\Entity\EntityInterface $entity
+		\Spameri\Elastic\Entity\EntityInterface $entity,
 	): void
 	{
 		$this->collection[$entity->key()] = $entity;
@@ -43,8 +43,8 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 
 
 	public function entity(
-		string $key
-	): ?\Spameri\Elastic\Entity\EntityInterface
+		string $key,
+	): \Spameri\Elastic\Entity\EntityInterface|null
 	{
 		if (\array_key_exists($key, $this->collection)) {
 			return $this->collection[$key];
@@ -55,7 +55,7 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 
 
 	public function remove(
-		string $key
+		string $key,
 	): void
 	{
 		unset($this->collection[$key]);
@@ -63,7 +63,7 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 
 
 	public function isValue(
-		string $key
+		string $key,
 	): bool
 	{
 		return \array_key_exists($key, $this->collection);
@@ -83,7 +83,7 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 
 
 	public function isKey(
-		string $key
+		string $key,
 	): bool
 	{
 		return \array_key_exists($key, \array_map('\strval', \array_keys($this->collection)));
@@ -98,7 +98,7 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 
 	public function sort(
 		\Spameri\Elastic\Entity\Collection\SortField $sortField, // phpcs:ignore
-		string $type
+		string $type,
 	): void
 	{
 		if ( ! \in_array($type, ['asc', 'desc'], TRUE)) {
@@ -109,7 +109,7 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 	}
 
 
-	public function first(): ?\Spameri\Elastic\Entity\EntityInterface
+	public function first(): \Spameri\Elastic\Entity\EntityInterface|null
 	{
 		return \reset($this->collection) ?: NULL;
 	}

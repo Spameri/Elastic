@@ -18,7 +18,7 @@ class Reference implements \Spameri\Elastic\Entity\EntityInterface
 
 	public function __construct(
 		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id,
-		\SpameriTests\Elastic\Data\Entity\Property\Text $note
+		\SpameriTests\Elastic\Data\Entity\Property\Text $note,
 	)
 	{
 		$this->id = $id;

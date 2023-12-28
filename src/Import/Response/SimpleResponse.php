@@ -18,7 +18,7 @@ class SimpleResponse implements \Spameri\Elastic\Import\ResponseInterface
 
 	public function __construct(
 		$response,
-		\Spameri\Elastic\Entity\AbstractImport $entity
+		\Spameri\Elastic\Entity\AbstractImport $entity,
 	)
 	{
 		$this->response = $response;

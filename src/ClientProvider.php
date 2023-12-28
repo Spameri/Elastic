@@ -23,7 +23,7 @@ class ClientProvider
 
 	public function __construct(
 		\Elasticsearch\ClientBuilder $clientBuilder,
-		\Spameri\Elastic\SettingsProviderInterface $settingsProvider
+		\Spameri\Elastic\SettingsProviderInterface $settingsProvider,
 	)
 	{
 		$this->clientBuilder = $clientBuilder;
@@ -38,14 +38,14 @@ class ClientProvider
 		$this->clientBuilder->setHosts(
 			[
 				$settings->host() . ':' . $settings->port(),
-			]
+			],
 		);
 		$this->clientBuilder->setConnectionParams(
 			[
 				'client' => [
 					'headers' => $settings->headers(),
 				],
-			]
+			],
 		);
 	}
 

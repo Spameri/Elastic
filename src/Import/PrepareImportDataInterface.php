@@ -9,7 +9,7 @@ interface PrepareImportDataInterface
 	 * @param mixed $entityData
 	 */
 	public function prepare(
-		$entityData
+		$entityData,
 	): \Spameri\Elastic\Entity\AbstractImport;
 
 }

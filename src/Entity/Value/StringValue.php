@@ -12,7 +12,7 @@ class StringValue implements \Spameri\Elastic\Entity\ValueInterface
 
 
 	public function __construct(
-		string $value
+		string $value,
 	)
 	{
 		$this->value = $value;

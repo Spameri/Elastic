@@ -72,7 +72,7 @@ class Video implements \Spameri\Elastic\Entity\ElasticEntityInterface
 		\SpameriTests\Elastic\Data\Entity\Video\HighLights $highLights,
 		\SpameriTests\Elastic\Data\Entity\Video\Connections $connections,
 		\SpameriTests\Elastic\Data\Entity\Video\People $people,
-		\SpameriTests\Elastic\Data\Entity\Video\SeasonCollection $season = NULL
+		\SpameriTests\Elastic\Data\Entity\Video\SeasonCollection $season = NULL,
 	)
 	{
 		$this->id = $id;

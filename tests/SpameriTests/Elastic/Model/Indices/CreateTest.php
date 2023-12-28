@@ -21,60 +21,60 @@ class CreateTest extends \SpameriTests\Elastic\AbstractTestCase
 
 		$create = new \Spameri\Elastic\Model\Indices\Create(
 			$this->container->getByType(\Spameri\Elastic\ClientProvider::class),
-			$this->container->getByType(\Spameri\Elastic\Model\VersionProvider::class)
+			$this->container->getByType(\Spameri\Elastic\Model\VersionProvider::class),
 		);
 
 		$create->execute(
 			\SpameriTests\Elastic\Config::INDEX_CREATE,
 			$videoMapping->provide()->toArray(),
-			\SpameriTests\Elastic\Config::INDEX_CREATE
+			\SpameriTests\Elastic\Config::INDEX_CREATE,
 		);
 		$response = $getMapping->execute(\SpameriTests\Elastic\Config::INDEX_CREATE);
 
 		if ($versionProvider->provide() < \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
 			\Tester\Assert::true(
-				isset($response[\SpameriTests\Elastic\Config::INDEX_CREATE]['mappings'][\SpameriTests\Elastic\Config::INDEX_CREATE])
+				isset($response[\SpameriTests\Elastic\Config::INDEX_CREATE]['mappings'][\SpameriTests\Elastic\Config::INDEX_CREATE]),
 			);
 			$existingMapping = $response[\SpameriTests\Elastic\Config::INDEX_CREATE]['mappings'][\SpameriTests\Elastic\Config::INDEX_CREATE];
 
 			\Tester\Assert::same(
 				\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_STRING,
-				$existingMapping['properties']['name']['type']
+				$existingMapping['properties']['name']['type'],
 			);
 			\Tester\Assert::same(
 				\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_STRING,
-				$existingMapping['properties']['name']['fields']['edgeNgram']['type']
+				$existingMapping['properties']['name']['fields']['edgeNgram']['type'],
 			);
 			\Tester\Assert::same(
 				\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_STRING,
-				$existingMapping['properties']['season']['properties']['number']['type']
+				$existingMapping['properties']['season']['properties']['number']['type'],
 			);
 			\Tester\Assert::same(
 				\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_STRING,
-				$existingMapping['properties']['story']['properties']['description']['type']
+				$existingMapping['properties']['story']['properties']['description']['type'],
 			);
 
 		} else {
 			\Tester\Assert::true(
-				isset($response[\SpameriTests\Elastic\Config::INDEX_CREATE]['mappings'])
+				isset($response[\SpameriTests\Elastic\Config::INDEX_CREATE]['mappings']),
 			);
 			$existingMapping = $response[\SpameriTests\Elastic\Config::INDEX_CREATE]['mappings'];
 
 			\Tester\Assert::same(
 				\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_TEXT,
-				$existingMapping['properties']['name']['type']
+				$existingMapping['properties']['name']['type'],
 			);
 			\Tester\Assert::same(
 				\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_TEXT,
-				$existingMapping['properties']['name']['fields']['edgeNgram']['type']
+				$existingMapping['properties']['name']['fields']['edgeNgram']['type'],
 			);
 			\Tester\Assert::same(
 				\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_KEYWORD,
-				$existingMapping['properties']['season']['properties']['number']['type']
+				$existingMapping['properties']['season']['properties']['number']['type'],
 			);
 			\Tester\Assert::same(
 				\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_TEXT,
-				$existingMapping['properties']['story']['properties']['description']['type']
+				$existingMapping['properties']['story']['properties']['description']['type'],
 			);
 		}
 	}

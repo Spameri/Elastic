@@ -18,7 +18,7 @@ class Alias implements \Spameri\Elastic\Entity\EntityInterface
 
 	public function __construct(
 		\SpameriTests\Elastic\Data\Entity\Property\CountryShort $country,
-		\SpameriTests\Elastic\Data\Entity\Property\Text $name
+		\SpameriTests\Elastic\Data\Entity\Property\Text $name,
 	)
 	{
 		$this->country = $country;

@@ -12,7 +12,7 @@ class PutSettings
 
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
+		\Spameri\Elastic\ClientProvider $clientProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -25,7 +25,7 @@ class PutSettings
 	 */
 	public function execute(
 		string $index,
-		array $settings
+		array $settings,
 	): array
 	{
 		try {
@@ -33,9 +33,9 @@ class PutSettings
 				(
 					new \Spameri\ElasticQuery\Document(
 						$index,
-						new \Spameri\ElasticQuery\Document\Body\Plain($settings)
+						new \Spameri\ElasticQuery\Document\Body\Plain($settings),
 					)
-				)->toArray()
+				)->toArray(),
 			)
 				;
 

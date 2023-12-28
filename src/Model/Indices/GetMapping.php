@@ -15,7 +15,7 @@ class GetMapping
 
 	public function __construct(
 		\Spameri\Elastic\ClientProvider $clientProvider,
-		\Spameri\Elastic\Model\VersionProvider $versionProvider
+		\Spameri\Elastic\Model\VersionProvider $versionProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -28,7 +28,7 @@ class GetMapping
 	 */
 	public function execute(
 		string $index,
-		?string $type = NULL
+		string|null $type = NULL,
 	): array
 	{
 		if ($type === NULL) {
@@ -44,7 +44,7 @@ class GetMapping
 				new \Spameri\ElasticQuery\Document(
 					$index,
 					NULL,
-					$type
+					$type,
 				)
 			)->toArray();
 

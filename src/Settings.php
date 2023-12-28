@@ -27,7 +27,7 @@ class Settings
 	public function __construct(
 		string $host,
 		int $port,
-		array $headers
+		array $headers,
 	)
 	{
 		$this->host = $host;

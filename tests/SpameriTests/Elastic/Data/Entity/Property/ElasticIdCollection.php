@@ -12,7 +12,7 @@ class ElasticIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInte
 
 
 	public function __construct(
-		\Spameri\Elastic\Entity\Property\ElasticIdInterface ...$collection
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface ...$collection,
 	)
 	{
 		$this->collection = $collection;

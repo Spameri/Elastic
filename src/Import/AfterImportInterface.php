@@ -10,7 +10,7 @@ interface AfterImportInterface
 	 */
 	public function process(
 		array $entityData,
-		\Spameri\Elastic\Import\ResponseInterface $result
+		\Spameri\Elastic\Import\ResponseInterface $result,
 	): void;
 
 }

@@ -9,7 +9,7 @@ class PersonMapping implements \Spameri\Elastic\Settings\IndexConfigInterface
 
 
 	public function __construct(
-		string $index
+		string $index,
 	)
 	{
 		$this->index = $index;

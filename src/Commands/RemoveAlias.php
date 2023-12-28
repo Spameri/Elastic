@@ -11,7 +11,7 @@ class RemoveAlias extends \Symfony\Component\Console\Command\Command
 
 
 	public function __construct(
-		\Spameri\Elastic\Model\Indices\RemoveAlias $removeAlias
+		\Spameri\Elastic\Model\Indices\RemoveAlias $removeAlias,
 	)
 	{
 		parent::__construct(NULL);
@@ -32,7 +32,7 @@ class RemoveAlias extends \Symfony\Component\Console\Command\Command
 
 	protected function execute(
 		\Symfony\Component\Console\Input\InputInterface $input,
-		\Symfony\Component\Console\Output\OutputInterface $output
+		\Symfony\Component\Console\Output\OutputInterface $output,
 	): int
 	{
 		/** @var string $index */

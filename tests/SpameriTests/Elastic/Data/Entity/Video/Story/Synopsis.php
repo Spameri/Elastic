@@ -12,14 +12,14 @@ class Synopsis implements \Spameri\Elastic\Entity\ValueInterface
 
 
 	public function __construct(
-		?string $value
+		string|null $value,
 	)
 	{
 		$this->value = $value;
 	}
 
 
-	public function value(): ?string
+	public function value(): string|null
 	{
 		return $this->value;
 	}

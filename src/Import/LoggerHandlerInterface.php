@@ -9,32 +9,32 @@ interface LoggerHandlerInterface
 	 * @param mixed $item
 	 */
 	public function logItemStart(
-		$item
+		$item,
 	): void;
 
 
 	public function logPrepared(
-		\Spameri\Elastic\Entity\AbstractImport $import
+		\Spameri\Elastic\Entity\AbstractImport $import,
 	): void;
 
 
 	public function logResponse(
-		\Spameri\Elastic\Import\ResponseInterface $result
+		\Spameri\Elastic\Import\ResponseInterface $result,
 	): void;
 
 
 	public function logOmitException(
-		\Spameri\Elastic\Import\Exception\ImportException $exception
+		\Spameri\Elastic\Import\Exception\ImportException $exception,
 	): void;
 
 
 	public function logErrorException(
-		\Spameri\Elastic\Import\Exception\ImportException $exception
+		\Spameri\Elastic\Import\Exception\ImportException $exception,
 	): void;
 
 
 	public function logFatalException(
-		\Spameri\Elastic\Import\Exception\ImportException $exception
+		\Spameri\Elastic\Import\Exception\ImportException $exception,
 	): void;
 
 

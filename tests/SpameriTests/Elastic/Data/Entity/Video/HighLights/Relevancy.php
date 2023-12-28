@@ -12,7 +12,7 @@ class Relevancy implements \Spameri\Elastic\Entity\ValueInterface
 
 
 	public function __construct(
-		int $value
+		int $value,
 	)
 	{
 		if ($value < 0) {

@@ -12,7 +12,7 @@ class Delete
 
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
+		\Spameri\Elastic\ClientProvider $clientProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -23,16 +23,16 @@ class Delete
 	 * @return array<mixed>
 	 */
 	public function execute(
-		string $index
+		string $index,
 	): array
 	{
 		try {
 			return $this->clientProvider->client()->indices()->delete(
 				(
 					new \Spameri\ElasticQuery\Document(
-						$index
+						$index,
 					)
-				)->toArray()
+				)->toArray(),
 			)
 				;
 

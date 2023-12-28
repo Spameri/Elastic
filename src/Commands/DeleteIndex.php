@@ -11,7 +11,7 @@ class DeleteIndex extends \Symfony\Component\Console\Command\Command
 
 
 	public function __construct(
-		\Spameri\Elastic\Model\Indices\Delete $delete
+		\Spameri\Elastic\Model\Indices\Delete $delete,
 	)
 	{
 		parent::__construct(NULL);
@@ -31,7 +31,7 @@ class DeleteIndex extends \Symfony\Component\Console\Command\Command
 
 	protected function execute(
 		\Symfony\Component\Console\Input\InputInterface $input,
-		\Symfony\Component\Console\Output\OutputInterface $output
+		\Symfony\Component\Console\Output\OutputInterface $output,
 	): int
 	{
 		/** @var array $indexNames */

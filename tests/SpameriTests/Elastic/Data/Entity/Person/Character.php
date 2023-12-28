@@ -38,11 +38,11 @@ class Character implements \Spameri\Elastic\Entity\EntityInterface
 
 	public function __construct(
 		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id,
-		?\SpameriTests\Elastic\Data\Entity\Property\ImdbId $episode,
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId|null $episode,
 		\SpameriTests\Elastic\Data\Entity\Property\Name $name,
 		\SpameriTests\Elastic\Data\Entity\Property\Name $alias,
 		\SpameriTests\Elastic\Data\Entity\Video\Identification $identification,
-		\SpameriTests\Elastic\Data\Entity\Property\Description $biography
+		\SpameriTests\Elastic\Data\Entity\Property\Description $biography,
 	)
 	{
 		$this->id = $id;
@@ -72,13 +72,13 @@ class Character implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
-	public function episode(): ?\SpameriTests\Elastic\Data\Entity\Property\ImdbId
+	public function episode(): \SpameriTests\Elastic\Data\Entity\Property\ImdbId|null
 	{
 		return $this->episode;
 	}
 
 
-	public function setEpisode(?\SpameriTests\Elastic\Data\Entity\Property\ImdbId $episode): void
+	public function setEpisode(\SpameriTests\Elastic\Data\Entity\Property\ImdbId|null $episode): void
 	{
 		$this->episode = $episode;
 	}

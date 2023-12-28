@@ -17,7 +17,7 @@ class ServiceLocator implements ServiceLocatorInterface
 
 
 	public function __construct(
-		\Nette\DI\Container $container
+		\Nette\DI\Container $container,
 	)
 	{
 		$this->container = $container;
@@ -26,7 +26,7 @@ class ServiceLocator implements ServiceLocatorInterface
 
 
 	public function locate(
-		\Spameri\Elastic\Entity\ElasticEntityInterface $entity
+		\Spameri\Elastic\Entity\ElasticEntityInterface $entity,
 	): \Spameri\Elastic\Model\ServiceInterface
 	{
 		$entityName = \get_class($entity);
@@ -40,7 +40,7 @@ class ServiceLocator implements ServiceLocatorInterface
 
 
 	public function locateByEntityClass(
-		string $entityClass
+		string $entityClass,
 	): \Spameri\Elastic\Model\ServiceInterface
 	{
 		$serviceName = \str_replace('Entity', 'Model', $entityClass . 'Service');

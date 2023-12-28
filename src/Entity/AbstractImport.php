@@ -15,7 +15,7 @@ abstract class AbstractImport implements \Spameri\Elastic\Entity\Import\Validati
 	 * @param int|string $key
 	 */
 	public function __construct(
-		$key
+		$key,
 	)
 	{
 		$this->key = $key;

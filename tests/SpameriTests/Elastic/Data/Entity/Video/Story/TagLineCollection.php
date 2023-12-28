@@ -12,7 +12,7 @@ class TagLineCollection implements \Spameri\Elastic\Entity\ValueCollectionInterf
 
 
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Video\Story\TagLine ...$collection
+		\SpameriTests\Elastic\Data\Entity\Video\Story\TagLine ...$collection,
 	)
 	{
 		$this->collection = [];
@@ -23,7 +23,7 @@ class TagLineCollection implements \Spameri\Elastic\Entity\ValueCollectionInterf
 
 
 	public function add(
-		\SpameriTests\Elastic\Data\Entity\Video\Story\TagLine $tagLine
+		\SpameriTests\Elastic\Data\Entity\Video\Story\TagLine $tagLine,
 	): void
 	{
 		$this->collection[\md5($tagLine->value())] = $tagLine;

@@ -6,12 +6,12 @@ class IndexAlreadyExists extends \Spameri\Elastic\Exception\AbstractElasticSearc
 {
 
 	public function __construct(
-		string $indexName
+		string $indexName,
 	)
 	{
 		parent::__construct(
 			'You are trying to create already existing index or aliased index with name: ' . $indexName . "\n"
-			. 'You can delete already existing index by -f option' . "\n"
+			. 'You can delete already existing index by -f option' . "\n",
 		);
 	}
 

@@ -18,7 +18,7 @@ class CreateIndex
 		\Spameri\Elastic\Provider\DateTimeProvider $dateTimeProvider,
 		\Spameri\Elastic\Model\Indices\AddAlias $addAlias,
 		\Spameri\Elastic\Model\Indices\Get $get,
-		\Spameri\Elastic\Model\Indices\Create $create
+		\Spameri\Elastic\Model\Indices\Create $create,
 	)
 	{
 		$this->dateTimeProvider = $dateTimeProvider;

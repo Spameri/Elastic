@@ -36,7 +36,7 @@ class Story implements \Spameri\Elastic\Entity\EntityInterface
 		\SpameriTests\Elastic\Data\Entity\Video\Story\TagLineCollection $tagLines,
 		\SpameriTests\Elastic\Data\Entity\Video\Story\PlotSummaryCollection $plots,
 		\SpameriTests\Elastic\Data\Entity\Video\Story\KeyWordCollection $keyWord,
-		?\SpameriTests\Elastic\Data\Entity\Video\Story\Synopsis $synopsis = NULL
+		\SpameriTests\Elastic\Data\Entity\Video\Story\Synopsis|null $synopsis = NULL,
 	)
 	{
 		$this->description = $description;
@@ -66,7 +66,7 @@ class Story implements \Spameri\Elastic\Entity\EntityInterface
 
 
 	public function changeDescription(
-		\SpameriTests\Elastic\Data\Entity\Property\Description $description
+		\SpameriTests\Elastic\Data\Entity\Property\Description $description,
 	): void
 	{
 		$this->description = $description;
@@ -86,14 +86,14 @@ class Story implements \Spameri\Elastic\Entity\EntityInterface
 
 
 	public function setSynopsis(
-		?\SpameriTests\Elastic\Data\Entity\Video\Story\Synopsis $synopsis
+		\SpameriTests\Elastic\Data\Entity\Video\Story\Synopsis|null $synopsis,
 	): void
 	{
 		$this->synopsis = $synopsis;
 	}
 
 
-	public function synopsis(): ?\SpameriTests\Elastic\Data\Entity\Video\Story\Synopsis
+	public function synopsis(): \SpameriTests\Elastic\Data\Entity\Video\Story\Synopsis|null
 	{
 		return $this->synopsis;
 	}

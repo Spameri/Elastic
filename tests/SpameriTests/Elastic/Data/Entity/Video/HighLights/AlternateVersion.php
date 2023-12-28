@@ -12,7 +12,7 @@ class AlternateVersion implements \Spameri\Elastic\Entity\EntityInterface
 
 
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Property\Text $text
+		\SpameriTests\Elastic\Data\Entity\Property\Text $text,
 	)
 	{
 		$this->text = $text;

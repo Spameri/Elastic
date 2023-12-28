@@ -21,7 +21,7 @@ class Get
 	public function __construct(
 		\Spameri\Elastic\ClientProvider $clientProvider,
 		\Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
-		VersionProvider $versionProvider
+		VersionProvider $versionProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -38,7 +38,7 @@ class Get
 	public function execute(
 		\Spameri\Elastic\Entity\Property\ElasticId $id,
 		string $index,
-		?string $type = NULL
+		string|null $type = NULL,
 	): \Spameri\ElasticQuery\Response\ResultSingle
 	{
 		if ($type === NULL) {
@@ -56,10 +56,10 @@ class Get
 						$index,
 						NULL,
 						$type,
-						$id->value()
+						$id->value(),
 					)
 				)
-					->toArray()
+					->toArray(),
 			)
 			;
 

@@ -12,7 +12,7 @@ interface LockInterface
 	 * @throws \Spameri\Elastic\Import\Exception\AlreadyLocked
 	 */
 	public function acquire(
-		int $time
+		int $time,
 	): self;
 
 
@@ -20,7 +20,7 @@ interface LockInterface
 
 
 	public function extend(
-		int $time
+		int $time,
 	): void;
 
 }

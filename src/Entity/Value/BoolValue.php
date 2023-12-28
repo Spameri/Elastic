@@ -12,7 +12,7 @@ class BoolValue implements \Spameri\Elastic\Entity\ValueInterface
 
 
 	public function __construct(
-		bool $value
+		bool $value,
 	)
 	{
 		$this->value = $value;

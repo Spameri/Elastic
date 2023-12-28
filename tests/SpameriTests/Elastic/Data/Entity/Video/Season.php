@@ -18,7 +18,7 @@ class Season implements \Spameri\Elastic\Entity\EntityInterface
 
 	public function __construct(
 		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $number,
-		\SpameriTests\Elastic\Data\Entity\Video\Season\EpisodeCollection $episodes
+		\SpameriTests\Elastic\Data\Entity\Video\Season\EpisodeCollection $episodes,
 	)
 	{
 		$this->number = $number;

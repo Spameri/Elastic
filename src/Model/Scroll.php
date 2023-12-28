@@ -21,7 +21,7 @@ class Scroll
 	public function __construct(
 		\Spameri\Elastic\ClientProvider $clientProvider,
 		\Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
-		VersionProvider $versionProvider
+		VersionProvider $versionProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -36,7 +36,7 @@ class Scroll
 	public function execute(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
 		string $index,
-		?string $type = NULL
+		string|null $type = NULL,
 	): \Spameri\ElasticQuery\Response\ResultSearch
 	{
 		if ($type === NULL) {
@@ -58,10 +58,10 @@ class Scroll
 							NULL,
 							[
 								'scroll' => $elasticQuery->options()->scroll(),
-							]
+							],
 						)
 					)
-						->toArray()
+						->toArray(),
 				)
 				;
 
@@ -70,7 +70,7 @@ class Scroll
 
 				} else {
 					throw new \Spameri\Elastic\Exception\ScrollNotInitialized(
-						'ElasticSearch did not return scroll id.'
+						'ElasticSearch did not return scroll id.',
 					);
 				}
 
@@ -85,10 +85,10 @@ class Scroll
 							[
 								'scroll' => $elasticQuery->options()->scroll(),
 								'scroll_id' => $elasticQuery->options()->scrollId(),
-							]
+							],
 						)
 					)
-						->toArray()
+						->toArray(),
 				)
 				;
 			}
@@ -102,7 +102,7 @@ class Scroll
 
 
 	public function closeScroll(
-		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
+		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
 	): void
 	{
 		try {
@@ -115,10 +115,10 @@ class Scroll
 						NULL,
 						[
 							'scroll_id' => $elasticQuery->options()->scrollId(),
-						]
+						],
 					)
 				)
-					->toArray()
+					->toArray(),
 			)
 			;
 

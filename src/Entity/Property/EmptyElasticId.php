@@ -12,7 +12,7 @@ class EmptyElasticId implements \Spameri\Elastic\Entity\ValueInterface, \Spameri
 
 
 	public function __construct(
-		string $id = ''
+		string $id = '',
 	)
 	{
 		if ($id !== '') {

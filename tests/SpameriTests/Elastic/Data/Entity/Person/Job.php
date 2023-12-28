@@ -37,7 +37,7 @@ class Job implements \Spameri\Elastic\Entity\EntityInterface
 		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id,
 		\SpameriTests\Elastic\Data\Entity\Property\Name $name,
 		\SpameriTests\Elastic\Data\Entity\Property\Description $description,
-		?\SpameriTests\Elastic\Data\Entity\Property\ImdbId $episode
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId|null $episode,
 	)
 	{
 		$this->id = $id;
@@ -89,7 +89,7 @@ class Job implements \Spameri\Elastic\Entity\EntityInterface
 	}
 
 
-	public function episode(): ?\SpameriTests\Elastic\Data\Entity\Property\ImdbId
+	public function episode(): \SpameriTests\Elastic\Data\Entity\Property\ImdbId|null
 	{
 		return $this->episode;
 	}

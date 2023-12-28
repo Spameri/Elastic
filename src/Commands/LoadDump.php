@@ -11,7 +11,7 @@ class LoadDump extends \Symfony\Component\Console\Command\Command
 
 
 	public function __construct(
-		\Spameri\Elastic\Model\RestoreIndex $migrate
+		\Spameri\Elastic\Model\RestoreIndex $migrate,
 	)
 	{
 		parent::__construct(NULL);
@@ -32,7 +32,7 @@ class LoadDump extends \Symfony\Component\Console\Command\Command
 				'step',
 				\Symfony\Component\Console\Input\InputArgument::OPTIONAL,
 				'Number of documents per one bulk index',
-				'500'
+				'500',
 			)
 		;
 	}
@@ -40,7 +40,7 @@ class LoadDump extends \Symfony\Component\Console\Command\Command
 
 	protected function execute(
 		\Symfony\Component\Console\Input\InputInterface $input,
-		\Symfony\Component\Console\Output\OutputInterface $output
+		\Symfony\Component\Console\Output\OutputInterface $output,
 	): int
 	{
 		$output->writeln('Starting');

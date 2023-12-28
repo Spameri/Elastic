@@ -72,7 +72,7 @@ class Run
 		\Spameri\Elastic\Import\DataProviderInterface $dataProvider,
 		\Spameri\Elastic\Import\PrepareImportDataInterface $prepareImportData,
 		\Spameri\Elastic\Import\DataImportInterface $dataImport,
-		\Spameri\Elastic\Import\AfterImportInterface $afterImport
+		\Spameri\Elastic\Import\AfterImportInterface $afterImport,
 	)
 	{
 		$this->lock = $lock;
@@ -113,7 +113,7 @@ class Run
 
 
 	public function execute(
-		\Spameri\Elastic\Import\Run\Options $options
+		\Spameri\Elastic\Import\Run\Options $options,
 	): void
 	{
 		$this->lock->acquire($options->lockDuration());

@@ -15,7 +15,7 @@ class ElasticId implements \Spameri\Elastic\Entity\ValueInterface, \Spameri\Elas
 
 
 	public function __construct(
-		string $id
+		string $id,
 	)
 	{
 		if ($id === '') {

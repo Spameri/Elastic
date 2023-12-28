@@ -12,7 +12,7 @@ class IntegerValue implements \Spameri\Elastic\Entity\ValueInterface
 
 
 	public function __construct(
-		int $value
+		int $value,
 	)
 	{
 		$this->value = $value;

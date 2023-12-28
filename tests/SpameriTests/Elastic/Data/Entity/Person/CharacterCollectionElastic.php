@@ -7,7 +7,7 @@ class CharacterCollectionElastic extends \Spameri\Elastic\Entity\Collection\Abst
 
 	public function character(
 		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id,
-		?\SpameriTests\Elastic\Data\Entity\Property\ImdbId $episode = NULL
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId|null $episode = NULL,
 	): Character
 	{
 		/** @var \SpameriTests\Elastic\Data\Entity\Person\Character $character */
@@ -29,7 +29,7 @@ class CharacterCollectionElastic extends \Spameri\Elastic\Entity\Collection\Abst
 		}
 
 		throw new \Nette\InvalidStateException(
-			'Character in video: ' . $id->value() . ' not found.'
+			'Character in video: ' . $id->value() . ' not found.',
 		);
 	}
 

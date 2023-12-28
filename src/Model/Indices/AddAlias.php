@@ -9,7 +9,7 @@ class AddAlias
 
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
+		\Spameri\Elastic\ClientProvider $clientProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -23,9 +23,9 @@ class AddAlias
 				$this->clientProvider->client()->indices()->get(
 					(
 					new \Spameri\ElasticQuery\Document(
-						$alias
+						$alias,
 					)
-					)->toArray()
+					)->toArray(),
 				)
 				;
 
@@ -44,15 +44,15 @@ class AddAlias
 										'alias' => $alias,
 									],
 								],
-							]
+							],
 						),
 						NULL,
 						NULL,
 						[
 							'name' => $index,
-						]
+						],
 					)
-					)->toArray()
+					)->toArray(),
 				)
 					;
 			}

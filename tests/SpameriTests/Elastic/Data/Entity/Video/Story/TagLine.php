@@ -12,7 +12,7 @@ class TagLine implements \Spameri\Elastic\Entity\ValueInterface
 
 
 	public function __construct(
-		string $tagLine
+		string $tagLine,
 	)
 	{
 		if ($tagLine === '') {

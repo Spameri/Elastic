@@ -11,8 +11,8 @@ abstract class AbstractCachedEntityCollection extends AbstractEntityCollection
 	abstract public function initialize(): void;
 
 	public function entity(
-		string $key
-	): ?\Spameri\Elastic\Entity\EntityInterface
+		string $key,
+	): \Spameri\Elastic\Entity\EntityInterface|null
 	{
 		$this->initialize();
 
@@ -21,7 +21,7 @@ abstract class AbstractCachedEntityCollection extends AbstractEntityCollection
 
 
 	public function remove(
-		string $key
+		string $key,
 	): void
 	{
 		$this->initialize();
@@ -31,7 +31,7 @@ abstract class AbstractCachedEntityCollection extends AbstractEntityCollection
 
 
 	public function isValue(
-		string $key
+		string $key,
 	): bool
 	{
 		$this->initialize();
@@ -57,7 +57,7 @@ abstract class AbstractCachedEntityCollection extends AbstractEntityCollection
 
 
 	public function isKey(
-		string $key
+		string $key,
 	): bool
 	{
 		$this->initialize();
@@ -68,7 +68,7 @@ abstract class AbstractCachedEntityCollection extends AbstractEntityCollection
 
 	public function sort(
 		\Spameri\Elastic\Entity\Collection\SortField $sortField, // phpcs:ignore
-		string $type
+		string $type,
 	): void
 	{
 		$this->initialize();

@@ -27,7 +27,7 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 
 
 	public function __construct(
-		\Psr\Log\LoggerInterface $logger
+		\Psr\Log\LoggerInterface $logger,
 	)
 	{
 		$this->logger = $logger;
@@ -40,7 +40,7 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	 */
 	public function emergency(
 		$message,
-		array $context = []
+		array $context = [],
 	)
 	{
 		$this->logger->emergency($message, $context);
@@ -54,7 +54,7 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	 */
 	public function alert(
 		$message,
-		array $context = []
+		array $context = [],
 	): void
 	{
 		$this->logger->alert($message, $context);
@@ -68,7 +68,7 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	 */
 	public function critical(
 		$message,
-		array $context = []
+		array $context = [],
 	): void
 	{
 		$this->logger->critical($message, $context);
@@ -82,7 +82,7 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	 */
 	public function error(
 		$message,
-		array $context = []
+		array $context = [],
 	): void
 	{
 		$this->logger->error($message, $context);
@@ -96,7 +96,7 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	 */
 	public function warning(
 		$message,
-		array $context = []
+		array $context = [],
 	): void
 	{
 		$this->logger->warning($message, $context);
@@ -110,7 +110,7 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	 */
 	public function notice(
 		$message,
-		array $context = []
+		array $context = [],
 	): void
 	{
 		$this->logger->notice($message, $context);
@@ -124,7 +124,7 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	 */
 	public function info(
 		$message,
-		array $context = []
+		array $context = [],
 	): void
 	{
 		$this->logger->info($message, $context);
@@ -138,7 +138,7 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	 */
 	public function debug(
 		$message,
-		array $context = []
+		array $context = [],
 	): void
 	{
 		$this->logger->debug($message, $context);
@@ -156,7 +156,7 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	public function log(
 		$level,
 		$message,
-		array $context = []
+		array $context = [],
 	): void
 	{
 		$this->logger->log($level, $message, $context);
@@ -195,7 +195,7 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	 * @param array<mixed> $context
 	 */
 	private function logQuery(
-		array $context = []
+		array $context = [],
 	): void
 	{
 		if (isset($context['method'], $context['uri'])) {
@@ -211,7 +211,7 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	 */
 	private function logRequestBody(
 		string $message,
-		$context
+		$context,
 	): void
 	{
 		if (
@@ -228,7 +228,7 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 	 */
 	private function logResponseBody(
 		string $message,
-		$context
+		$context,
 	): void
 	{
 		if ($message === 'Response') {

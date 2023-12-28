@@ -12,7 +12,7 @@ class Options
 
 
 	public function __construct(
-		int $lockDuration
+		int $lockDuration,
 	)
 	{
 		$this->lockDuration = $lockDuration;

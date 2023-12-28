@@ -12,7 +12,7 @@ class Runtime implements \Spameri\Elastic\Entity\ValueInterface
 
 
 	public function __construct(
-		?int $value
+		int|null $value,
 	)
 	{
 		if ($value < 0) {
@@ -26,7 +26,7 @@ class Runtime implements \Spameri\Elastic\Entity\ValueInterface
 	}
 
 
-	public function value(): ?int
+	public function value(): int|null
 	{
 		return $this->value;
 	}

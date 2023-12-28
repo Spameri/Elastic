@@ -12,7 +12,7 @@ abstract class AbstractValueCollection implements ValueCollectionInterface
 
 
 	public function __construct(
-		\Spameri\Elastic\Entity\ValueInterface ...$collection
+		\Spameri\Elastic\Entity\ValueInterface ...$collection,
 	)
 	{
 		$this->collection = [];
@@ -23,7 +23,7 @@ abstract class AbstractValueCollection implements ValueCollectionInterface
 
 
 	public function add(
-		\Spameri\Elastic\Entity\ValueInterface $value
+		\Spameri\Elastic\Entity\ValueInterface $value,
 	): void
 	{
 		$this->collection[$value->value()] = $value;
@@ -42,7 +42,7 @@ abstract class AbstractValueCollection implements ValueCollectionInterface
 	/**
 	 * @param mixed $key
 	 */
-	public function get($key): ?\Spameri\Elastic\Entity\ValueInterface
+	public function get($key): \Spameri\Elastic\Entity\ValueInterface|null
 	{
 		if ( ! isset($this->collection[$key])) {
 			return NULL;

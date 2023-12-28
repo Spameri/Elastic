@@ -10,7 +10,7 @@ class VideoService extends \Spameri\Elastic\Model\AbstractBaseService
 	 * @return string
 	 */
 	public function insert(
-		\Spameri\Elastic\Entity\ElasticEntityInterface $entity
+		\Spameri\Elastic\Entity\ElasticEntityInterface $entity,
 	): string
 	{
 		return parent::insert($entity);
@@ -22,7 +22,7 @@ class VideoService extends \Spameri\Elastic\Model\AbstractBaseService
 	 * @return \Spameri\Elastic\Entity\ElasticEntityInterface|\SpameriTests\Elastic\Data\Entity\Video
 	 */
 	public function get(
-		\Spameri\Elastic\Entity\Property\ElasticId $id
+		\Spameri\Elastic\Entity\Property\ElasticId $id,
 	): \Spameri\Elastic\Entity\ElasticEntityInterface
 	{
 		return parent::get($id);
@@ -35,7 +35,7 @@ class VideoService extends \Spameri\Elastic\Model\AbstractBaseService
 	 * @throws \Spameri\Elastic\Exception\DocumentNotFound
 	 */
 	public function getBy(
-		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
+		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
 	): \Spameri\Elastic\Entity\ElasticEntityInterface
 	{
 		return parent::getBy($elasticQuery);
@@ -47,7 +47,7 @@ class VideoService extends \Spameri\Elastic\Model\AbstractBaseService
 	 * @return \Spameri\Elastic\Entity\ElasticEntityCollectionInterface<\SpameriTests\Elastic\Data\Entity\Video>
 	 */
 	public function getAllBy(
-		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
+		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
 	): \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
 	{
 		return parent::getAllBy($elasticQuery);

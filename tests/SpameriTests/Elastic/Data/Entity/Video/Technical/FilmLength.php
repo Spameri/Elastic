@@ -12,7 +12,7 @@ class FilmLength implements \Spameri\Elastic\Entity\ValueInterface
 
 
 	public function __construct(
-		?string $value
+		string|null $value,
 	)
 	{
 		if ($value !== NULL && \strlen($value) > 255) {
@@ -23,7 +23,7 @@ class FilmLength implements \Spameri\Elastic\Entity\ValueInterface
 	}
 
 
-	public function value(): ?string
+	public function value(): string|null
 	{
 		return $this->value;
 	}

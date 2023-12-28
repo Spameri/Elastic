@@ -12,7 +12,7 @@ class Index
 
 	public function __construct(
 		\Spameri\Elastic\ClientProvider $clientProvider,
-		\Spameri\Elastic\Model\VersionProvider $versionProvider
+		\Spameri\Elastic\Model\VersionProvider $versionProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -27,7 +27,7 @@ class Index
 	public function execute(
 		array $data,
 		string $index,
-		?string $type = NULL
+		string|null $type = NULL,
 	): string
 	{
 		if ($type === NULL) {
@@ -44,9 +44,9 @@ class Index
 					new \Spameri\ElasticQuery\Document(
 						$index,
 						new \Spameri\ElasticQuery\Document\Body\Plain($data),
-						$type
+						$type,
 					)
-				)->toArray()
+				)->toArray(),
 			)
 			;
 
@@ -59,7 +59,7 @@ class Index
 				(
 					new \Spameri\ElasticQuery\Document($index)
 				)
-					->toArray()
+					->toArray(),
 			)
 			;
 

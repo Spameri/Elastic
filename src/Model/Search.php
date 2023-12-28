@@ -21,7 +21,7 @@ class Search
 	public function __construct(
 		\Spameri\Elastic\ClientProvider $clientProvider,
 		\Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
-		VersionProvider $versionProvider
+		VersionProvider $versionProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -36,7 +36,7 @@ class Search
 	public function execute(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
 		string $index,
-		?string $type = NULL
+		string|null $type = NULL,
 	): \Spameri\ElasticQuery\Response\ResultSearch
 	{
 		if ($type === NULL) {
@@ -53,10 +53,10 @@ class Search
 					new \Spameri\ElasticQuery\Document(
 						$index,
 						new \Spameri\ElasticQuery\Document\Body\Plain($elasticQuery->toArray()),
-						$type
+						$type,
 					)
 				)
-					->toArray()
+					->toArray(),
 			)
 			;
 

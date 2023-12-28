@@ -10,7 +10,7 @@ interface ResponseInterface
 	 */
 	public function __construct(
 		$response,
-		\Spameri\Elastic\Entity\AbstractImport $entity
+		\Spameri\Elastic\Entity\AbstractImport $entity,
 	);
 
 

@@ -13,7 +13,7 @@ class SimpleRun extends \Spameri\Elastic\Import\Run
 		\Spameri\Elastic\Import\DataProviderInterface $dataProvider,
 		\Spameri\Elastic\Import\PrepareImportDataInterface $prepareImportData,
 		\Spameri\Elastic\Import\DataImportInterface $dataImport,
-		\Spameri\Elastic\Import\AfterImport\NullAfterImport $afterImport
+		\Spameri\Elastic\Import\AfterImport\NullAfterImport $afterImport,
 	)
 	{
 		parent::__construct($logDir, $loggerHandler, $lock, $runHandler, $dataProvider, $prepareImportData, $dataImport, $afterImport);

@@ -18,7 +18,7 @@ class BoolValue implements ValidationPropertyInterface
 
 	public function __construct(
 		bool $value,
-		string $key
+		string $key,
 	)
 	{
 		$this->value = $value;

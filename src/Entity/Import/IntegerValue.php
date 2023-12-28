@@ -18,7 +18,7 @@ class IntegerValue implements ValidationPropertyInterface
 
 	public function __construct(
 		int $value,
-		string $key
+		string $key,
 	)
 	{
 		$this->value = $value;

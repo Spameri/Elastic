@@ -15,7 +15,7 @@ class PutMapping
 
 	public function __construct(
 		\Spameri\Elastic\ClientProvider $clientProvider,
-		\Spameri\Elastic\Model\VersionProvider $versionProvider
+		\Spameri\Elastic\Model\VersionProvider $versionProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -31,7 +31,7 @@ class PutMapping
 		string $index,
 		array $mapping,
 		string $dynamic = 'false',
-		?string $type = NULL
+		string|null $type = NULL,
 	): array
 	{
 		if ($type === NULL) {
@@ -54,11 +54,11 @@ class PutMapping
 						[
 							'properties' => $properties,
 							'dynamic' => $dynamic,
-						]
+						],
 					),
-					$type
+					$type,
 				)
-				)->toArray()
+				)->toArray(),
 			)
 				;
 

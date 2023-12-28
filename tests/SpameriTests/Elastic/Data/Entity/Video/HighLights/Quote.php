@@ -24,7 +24,7 @@ class Quote implements \Spameri\Elastic\Entity\EntityInterface
 	public function __construct(
 		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id,
 		\SpameriTests\Elastic\Data\Entity\Property\Text $text,
-		Relevancy $relevancy
+		Relevancy $relevancy,
 	)
 	{
 		$this->id = $id;

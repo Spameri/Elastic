@@ -21,7 +21,7 @@ class GetAllBy
 	public function __construct(
 		\Spameri\Elastic\ClientProvider $clientProvider,
 		\Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
-		VersionProvider $versionProvider
+		VersionProvider $versionProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -33,7 +33,7 @@ class GetAllBy
 	public function execute(
 		\Spameri\ElasticQuery\ElasticQuery $options,
 		string $index,
-		?string $type = NULL
+		string|null $type = NULL,
 	): \Spameri\ElasticQuery\Response\ResultSearch
 	{
 		if ($type === NULL) {
@@ -50,10 +50,10 @@ class GetAllBy
 					new \Spameri\ElasticQuery\Document(
 						$index,
 						new \Spameri\ElasticQuery\Document\Body\Plain($options->toArray()),
-						$type
+						$type,
 					)
 				)
-					->toArray()
+					->toArray(),
 			)
 			;
 

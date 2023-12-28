@@ -17,7 +17,7 @@ class FileLock implements \Spameri\Elastic\Import\LockInterface
 
 
 	public function __construct(
-		string $lockDir
+		string $lockDir,
 	)
 	{
 		$this->lockDir = $lockDir;

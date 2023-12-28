@@ -12,7 +12,7 @@ class Create
 
 	public function __construct(
 		\Spameri\Elastic\ClientProvider $clientProvider,
-		\Spameri\Elastic\Model\VersionProvider $versionProvider
+		\Spameri\Elastic\Model\VersionProvider $versionProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -27,7 +27,7 @@ class Create
 	public function execute(
 		string $index,
 		array $parameters,
-		?string $type = NULL
+		string|null $type = NULL,
 	): array
 	{
 		if ($type === NULL) {
@@ -56,9 +56,9 @@ class Create
 				(
 					new \Spameri\ElasticQuery\Document(
 						$index,
-						new \Spameri\ElasticQuery\Document\Body\Plain($parameters)
+						new \Spameri\ElasticQuery\Document\Body\Plain($parameters),
 					)
-				)->toArray()
+				)->toArray(),
 			)
 				;
 
@@ -93,7 +93,7 @@ class Create
 				\strtolower($field['type']), [
 					\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_TEXT,
 					\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_KEYWORD,
-				], TRUE
+				], TRUE,
 			)
 		) {
 			$field['type'] = \Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_STRING;

@@ -12,7 +12,7 @@ class LoggerHandler implements \Spameri\Elastic\Import\LoggerHandlerInterface
 
 
 	public function __construct(
-		\Psr\Log\LoggerInterface $logger
+		\Psr\Log\LoggerInterface $logger,
 	)
 	{
 		$this->logger = $logger;

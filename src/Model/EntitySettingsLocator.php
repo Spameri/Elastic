@@ -9,7 +9,7 @@ class EntitySettingsLocator
 
 
 	public function __construct(
-		\Nette\DI\Container $container
+		\Nette\DI\Container $container,
 	)
 	{
 		$this->container = $container;

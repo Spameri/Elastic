@@ -27,7 +27,7 @@ class NeonSettingsProvider implements \Spameri\Elastic\SettingsProviderInterface
 	public function __construct(
 		string $host,
 		int $port,
-		array $headers = []
+		array $headers = [],
 	)
 	{
 		$this->host = $host;
@@ -41,7 +41,7 @@ class NeonSettingsProvider implements \Spameri\Elastic\SettingsProviderInterface
 		return new \Spameri\Elastic\Settings(
 			$this->host,
 			$this->port,
-			$this->headers
+			$this->headers,
 		);
 	}
 

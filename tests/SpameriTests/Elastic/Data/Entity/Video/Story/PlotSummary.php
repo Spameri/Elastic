@@ -12,7 +12,7 @@ class PlotSummary implements \Spameri\Elastic\Entity\ValueInterface
 
 
 	public function __construct(
-		string $plot
+		string $plot,
 	)
 	{
 		if ($plot === '') {

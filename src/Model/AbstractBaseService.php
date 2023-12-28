@@ -24,7 +24,7 @@ abstract class AbstractBaseService implements ServiceInterface
 	 * @throws \Spameri\Elastic\Exception\DocumentInsertFailed
 	 */
 	public function insert(
-		\Spameri\Elastic\Entity\ElasticEntityInterface $entity
+		\Spameri\Elastic\Entity\ElasticEntityInterface $entity,
 	): string
 	{
 		return $this->insert->execute($entity, $this->index);
@@ -35,7 +35,7 @@ abstract class AbstractBaseService implements ServiceInterface
 	 * @throws \Spameri\Elastic\Exception\DocumentNotFound
 	 */
 	public function get(
-		\Spameri\Elastic\Entity\Property\ElasticId $id
+		\Spameri\Elastic\Entity\Property\ElasticId $id,
 	): \Spameri\Elastic\Entity\ElasticEntityInterface
 	{
 		try {
@@ -60,7 +60,7 @@ abstract class AbstractBaseService implements ServiceInterface
 	 * @throws \Spameri\Elastic\Exception\ElasticSearch
 	 */
 	public function getBy(
-		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
+		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
 	): \Spameri\Elastic\Entity\ElasticEntityInterface
 	{
 		try {
@@ -84,7 +84,7 @@ abstract class AbstractBaseService implements ServiceInterface
 	 * @throws \Spameri\Elastic\Exception\DocumentNotFound
 	 */
 	public function getAllBy(
-		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
+		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
 	): \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
 	{
 		try {
@@ -113,7 +113,7 @@ abstract class AbstractBaseService implements ServiceInterface
 		return $this->collectionFactory->create(
 			$this,
 			[],
-			... $entities
+			... $entities,
 		);
 	}
 
@@ -125,7 +125,7 @@ abstract class AbstractBaseService implements ServiceInterface
 
 
 	public function delete(
-		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
 	): bool
 	{
 		try {
@@ -150,8 +150,8 @@ abstract class AbstractBaseService implements ServiceInterface
 			$elasticQuery->addMustQuery(
 				new \Spameri\ElasticQuery\Query\Term(
 					field: $field,
-					query: $entityToDelete->id()->value()
-				)
+					query: $entityToDelete->id()->value(),
+				),
 			);
 			$collection = $service->getAllBy($elasticQuery);
 			foreach ($collection as $entity) {
@@ -164,7 +164,7 @@ abstract class AbstractBaseService implements ServiceInterface
 	}
 
 	public function aggregate(
-		\Spameri\ElasticQuery\ElasticQuery $elasticQuery
+		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
 	): \Spameri\ElasticQuery\Response\ResultSearch
 	{
 		return $this->aggregate->execute($elasticQuery, $this->index);

@@ -83,7 +83,7 @@ class Migrate
 		\Spameri\Elastic\Model\Indices\Create $create,
 		\Spameri\Elastic\Model\Indices\Get $indicesGet,
 		\Spameri\Elastic\Model\Indices\AddAlias $addAlias,
-		\Spameri\Elastic\Model\VersionProvider $versionProvider
+		\Spameri\Elastic\Model\VersionProvider $versionProvider,
 	)
 	{
 		$this->documentMigrateStatus = $documentMigrateStatus;
@@ -103,7 +103,7 @@ class Migrate
 
 
 	public function setOutput(
-		\Symfony\Component\Console\Output\OutputInterface $output
+		\Symfony\Component\Console\Output\OutputInterface $output,
 	): void
 	{
 		$this->output = $output;
@@ -118,8 +118,8 @@ class Migrate
 		string $typeFrom,
 		string $indexTo,
 		string $aliasTo,
-		?string $typeTo,
-		bool $allowClose
+		string|null $typeTo,
+		bool $allowClose,
 	): void
 	{
 		// 1. Close index
@@ -199,7 +199,7 @@ class Migrate
 					$response = $this->get->execute(
 						new \Spameri\Elastic\Entity\Property\ElasticId((string) $documentId),
 						$indexFrom,
-						$typeFrom
+						$typeFrom,
 					);
 
 					if ($this->documentMigrateStatus->isChanged((string) $documentId, $response->hit()->version())) {
@@ -232,7 +232,7 @@ class Migrate
 		// 9. Write info
 		$this->output->writeln(
 			'Migration done. All old data remains in old index: ' . $indexFrom . ' with type: ' . $typeFrom
-			. ' it is recommended to manually delete data after this command'
+			. ' it is recommended to manually delete data after this command',
 		);
 
 		// 10. Done
@@ -244,10 +244,10 @@ class Migrate
 	 */
 	public function processHit(
 		string $indexTo,
-		?string $typeTo,
+		string|null $typeTo,
 		string $indexFrom,
 		\Spameri\ElasticQuery\Response\Result\Hit $hit,
-		bool $allowClose
+		bool $allowClose,
 	): void
 	{
 		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
@@ -260,9 +260,9 @@ class Migrate
 					$indexTo,
 					new \Spameri\ElasticQuery\Document\Body\Plain($hit->source()),
 					$typeTo,
-					$hit->id()
+					$hit->id(),
 				)
-			)->toArray()
+			)->toArray(),
 		)
 		;
 
@@ -273,7 +273,7 @@ class Migrate
 		if ($allowClose === TRUE) {
 			$this->delete->execute(
 				new \Spameri\Elastic\Entity\Property\ElasticId($hit->id()),
-				$indexFrom
+				$indexFrom,
 			);
 		}
 	}

@@ -21,7 +21,7 @@ class Aggregate
 	public function __construct(
 		\Spameri\Elastic\ClientProvider $clientProvider,
 		\Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
-		\Spameri\Elastic\Model\VersionProvider $versionProvider
+		\Spameri\Elastic\Model\VersionProvider $versionProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -33,7 +33,7 @@ class Aggregate
 	public function execute(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
 		string $index,
-		?string $type = NULL
+		string|null $type = NULL,
 	): \Spameri\ElasticQuery\Response\ResultSearch
 	{
 		if ($type === NULL) {
@@ -50,11 +50,11 @@ class Aggregate
 				new \Spameri\ElasticQuery\Document(
 					$index,
 					new \Spameri\ElasticQuery\Document\Body\Plain(
-						$elasticQuery->toArray()
+						$elasticQuery->toArray(),
 					),
-					$type
+					$type,
 				)
-				)->toArray()
+				)->toArray(),
 			)
 			;
 

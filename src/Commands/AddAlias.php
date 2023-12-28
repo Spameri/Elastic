@@ -11,7 +11,7 @@ class AddAlias extends \Symfony\Component\Console\Command\Command
 
 
 	public function __construct(
-		\Spameri\Elastic\Model\Indices\AddAlias $addAlias
+		\Spameri\Elastic\Model\Indices\AddAlias $addAlias,
 	)
 	{
 		parent::__construct(NULL);
@@ -32,7 +32,7 @@ class AddAlias extends \Symfony\Component\Console\Command\Command
 
 	protected function execute(
 		\Symfony\Component\Console\Input\InputInterface $input,
-		\Symfony\Component\Console\Output\OutputInterface $output
+		\Symfony\Component\Console\Output\OutputInterface $output,
 	): int
 	{
 		/** @var string $index */

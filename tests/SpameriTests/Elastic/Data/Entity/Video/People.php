@@ -6,8 +6,8 @@ class People extends \Spameri\Elastic\Entity\Collection\AbstractElasticEntityCol
 {
 
 	public function personByImdb(
-		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $imdb
-	): ?\SpameriTests\Elastic\Data\Entity\Person
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $imdb,
+	): \SpameriTests\Elastic\Data\Entity\Person|null
 	{
 		/** @var \SpameriTests\Elastic\Data\Entity\Person $entity */
 		foreach ($this->collection() as $entity) {

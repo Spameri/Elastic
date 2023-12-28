@@ -12,7 +12,7 @@ class ImdbIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInterfa
 
 
 	public function __construct(
-		ImdbId ...$collection
+		ImdbId ...$collection,
 	)
 	{
 		$this->collection = [];
@@ -23,7 +23,7 @@ class ImdbIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInterfa
 
 
 	public function add(
-		ImdbId $imdbId
+		ImdbId $imdbId,
 	): void
 	{
 		$this->collection[$imdbId->value()] = $imdbId;
@@ -31,8 +31,8 @@ class ImdbIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInterfa
 
 
 	public function find(
-		ImdbId $imdbId
-	): ?ImdbId
+		ImdbId $imdbId,
+	): ImdbId|null
 	{
 		foreach ($this->collection as $value) {
 			if ($imdbId->value() === $value->value()) {
@@ -50,7 +50,7 @@ class ImdbIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInterfa
 	}
 
 
-	public function first(): ?ImdbId
+	public function first(): ImdbId|null
 	{
 		$first = \reset($this->collection);
 

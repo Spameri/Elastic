@@ -12,7 +12,7 @@ class KeyWordCollection implements \Spameri\Elastic\Entity\ValueCollectionInterf
 
 
 	public function __construct(
-		KeyWord ...$entities
+		KeyWord ...$entities,
 	)
 	{
 		$this->collection = [];
@@ -23,7 +23,7 @@ class KeyWordCollection implements \Spameri\Elastic\Entity\ValueCollectionInterf
 
 
 	public function add(
-		KeyWord $keyWord
+		KeyWord $keyWord,
 	): void
 	{
 		$this->collection[$keyWord->value()] = $keyWord;

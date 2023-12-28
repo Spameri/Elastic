@@ -6,7 +6,7 @@ class SettingsNotLocated extends \Spameri\Elastic\Exception\AbstractElasticSearc
 {
 
 	public function __construct(
-		string $indexName
+		string $indexName,
 	)
 	{
 		parent::__construct('Settings not found for index name ' . $indexName);

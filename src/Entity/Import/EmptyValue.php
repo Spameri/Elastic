@@ -12,7 +12,7 @@ class EmptyValue implements ValidationPropertyInterface
 
 
 	public function __construct(
-		string $key
+		string $key,
 	)
 	{
 		$this->key = $key;

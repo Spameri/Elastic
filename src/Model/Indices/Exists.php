@@ -9,7 +9,7 @@ class Exists
 
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
+		\Spameri\Elastic\ClientProvider $clientProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -17,16 +17,16 @@ class Exists
 
 
 	public function execute(
-		string $index
+		string $index,
 	): bool
 	{
 		try {
 			return $this->clientProvider->client()->indices()->exists(
 				(
 					new \Spameri\ElasticQuery\Document(
-						$index
+						$index,
 					)
-				)->toArray()
+				)->toArray(),
 			)
 			;
 

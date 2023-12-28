@@ -12,7 +12,7 @@ class GenreCollection implements \Spameri\Elastic\Entity\ValueCollectionInterfac
 
 
 	public function __construct(
-		Genre ...$collection
+		Genre ...$collection,
 	)
 	{
 		$this->collection = [];
@@ -29,7 +29,7 @@ class GenreCollection implements \Spameri\Elastic\Entity\ValueCollectionInterfac
 
 
 	public function add(
-		Genre $genre
+		Genre $genre,
 	): void
 	{
 		$this->collection[$genre->value()] = $genre;

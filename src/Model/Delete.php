@@ -15,7 +15,7 @@ class Delete
 
 	public function __construct(
 		\Spameri\Elastic\ClientProvider $clientProvider,
-		VersionProvider $versionProvider
+		VersionProvider $versionProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -29,7 +29,7 @@ class Delete
 	public function execute(
 		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
 		string $index,
-		?string $type = NULL
+		string|null $type = NULL,
 	): bool
 	{
 		if ($type === NULL) {
@@ -47,10 +47,10 @@ class Delete
 					$index,
 					NULL,
 					$type,
-					$id->value()
+					$id->value(),
 				)
 				)
-					->toArray()
+					->toArray(),
 			)
 			;
 
@@ -63,7 +63,7 @@ class Delete
 				(
 				new \Spameri\ElasticQuery\Document($index)
 				)
-					->toArray()
+					->toArray(),
 			)
 			;
 

@@ -11,7 +11,7 @@ class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 
 
 	public function __construct(
-		\Spameri\Elastic\Model\TypeToNewIndex\Migrate $migrate
+		\Spameri\Elastic\Model\TypeToNewIndex\Migrate $migrate,
 	)
 	{
 		parent::__construct(NULL);
@@ -35,7 +35,7 @@ class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 			->addOption(
 				'allowClose', 'c', \Symfony\Component\Console\Input\InputOption::VALUE_OPTIONAL,
 				'Allows command to close index for data transfer. After data is transferred index is opened and resumes normal operations. When open it needs to check changed files after move and sync remaining.',
-				TRUE
+				TRUE,
 			)
 		;
 	}
@@ -46,7 +46,7 @@ class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 	 */
 	protected function execute(
 		\Symfony\Component\Console\Input\InputInterface $input,
-		\Symfony\Component\Console\Output\OutputInterface $output
+		\Symfony\Component\Console\Output\OutputInterface $output,
 	): int
 	{
 		$output->writeln('Starting');

@@ -9,7 +9,7 @@ class GetFieldMapping
 
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
+		\Spameri\Elastic\ClientProvider $clientProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -19,7 +19,7 @@ class GetFieldMapping
 	public function execute(
 		string $index,
 		string $type = '_doc',
-		array $fields = []
+		array $fields = [],
 	): array
 	{
 		try {
@@ -32,9 +32,9 @@ class GetFieldMapping
 						NULL,
 						[
 							'fields' => $fields,
-						]
+						],
 					)
-				)->toArray()
+				)->toArray(),
 			)
 			;
 

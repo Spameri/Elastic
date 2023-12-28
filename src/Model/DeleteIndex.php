@@ -12,7 +12,7 @@ class DeleteIndex
 
 	public function __construct(
 		\Spameri\Elastic\Model\Indices\Get $get,
-		\Spameri\Elastic\Model\Indices\Delete $delete
+		\Spameri\Elastic\Model\Indices\Delete $delete,
 	)
 	{
 		$this->get = $get;

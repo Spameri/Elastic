@@ -29,7 +29,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	public function __construct(
 		\Spameri\Elastic\Model\ServiceInterface $service,
 		array $elasticIds = [],
-		\Spameri\Elastic\Entity\ElasticEntityInterface ...$entityCollection
+		\Spameri\Elastic\Entity\ElasticEntityInterface ...$entityCollection,
 	)
 	{
 		$this->collection = [];
@@ -51,7 +51,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 
 
 	public function add(
-		\Spameri\Elastic\Entity\ElasticEntityInterface $elasticEntity
+		\Spameri\Elastic\Entity\ElasticEntityInterface $elasticEntity,
 	): void
 	{
 		if ( ! $this->initialized) {
@@ -76,11 +76,11 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 						new \Spameri\ElasticQuery\Query\MustCollection(
 							new \Spameri\ElasticQuery\Query\Terms(
 								'_id',
-								$this->elasticIds
-							)
-						)
-					)
-				)
+								$this->elasticIds,
+							),
+						),
+					),
+				),
 			);
 
 			$this->initialized = TRUE;
@@ -123,8 +123,8 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 
 
 	public function entity(
-		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
-	): ?\Spameri\Elastic\Entity\ElasticEntityInterface
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
+	): \Spameri\Elastic\Entity\ElasticEntityInterface|null
 	{
 		if ( ! $this->initialized) {
 			$this->initialize();
@@ -143,7 +143,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 
 
 	public function remove(
-		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
 	): void
 	{
 		if ( ! $this->initialized) {
@@ -155,7 +155,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 
 
 	public function isValue(
-		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id
+		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
 	): bool
 	{
 		if ( ! $this->initialized) {
@@ -187,7 +187,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 
 
 	public function isKey(
-		string $key
+		string $key,
 	): bool
 	{
 		if ( ! $this->initialized) {
@@ -206,7 +206,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 
 	public function sort(
 		\Spameri\Elastic\Entity\Collection\SortField $sortField, // phpcs:ignore
-		string $type
+		string $type,
 	): void
 	{
 		if ( ! $this->initialized) {
@@ -221,7 +221,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	}
 
 
-	public function first(): ?\Spameri\Elastic\Entity\ElasticEntityInterface
+	public function first(): \Spameri\Elastic\Entity\ElasticEntityInterface|null
 	{
 		if ( ! $this->initialized) {
 			$this->initialize();

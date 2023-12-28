@@ -21,7 +21,7 @@ class ArrayValue implements ValidationPropertyInterface
 	 */
 	public function __construct(
 		array $array,
-		string $key
+		string $key,
 	)
 	{
 		$this->array = $array;

@@ -48,7 +48,7 @@ class HighLights implements \Spameri\Elastic\Entity\EntityInterface
 		\SpameriTests\Elastic\Data\Entity\Video\HighLights\QuoteCollection $quotes,
 		\SpameriTests\Elastic\Data\Entity\Video\HighLights\LocationCollection $locations,
 		\SpameriTests\Elastic\Data\Entity\Video\HighLights\AlternateVersionCollection $alternateVersions,
-		\SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCreditCollection $companyCredit
+		\SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCreditCollection $companyCredit,
 	)
 	{
 		$this->trivia = $trivia;

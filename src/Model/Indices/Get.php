@@ -12,7 +12,7 @@ class Get
 
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
+		\Spameri\Elastic\ClientProvider $clientProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -23,7 +23,7 @@ class Get
 	 * @return array<mixed>
 	 */
 	public function execute(
-		string $index
+		string $index,
 	): array
 	{
 		try {
@@ -31,9 +31,9 @@ class Get
 			$result = $this->clientProvider->client()->indices()->get(
 				(
 					new \Spameri\ElasticQuery\Document(
-						$index
+						$index,
 					)
-				)->toArray()
+				)->toArray(),
 			)
 			;
 

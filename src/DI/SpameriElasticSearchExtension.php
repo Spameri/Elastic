@@ -39,7 +39,7 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 		}
 
 		$this->compiler->loadDefinitionsFromConfig(
-			$aliasedServices
+			$aliasedServices,
 		);
 
 	}
@@ -47,7 +47,7 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 
 	public function setConfigOptions(
 		array $services,
-		array $config
+		array $config,
 	): array
 	{
 		$neonSettingsProvider = $services['services']['neonSettingsProvider']['factory'];
@@ -68,7 +68,7 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 	 */
 	public function toggleDebugBar(
 		array $config,
-		array $services
+		array $services,
 	): array
 	{
 		if ( ! $config['debug']) {
@@ -77,7 +77,7 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 				$services['services']['elasticPanelLogger'],
 				$services['services']['nullLogger'],
 				$services['services']['elasticPanel'],
-				$services['services']['clientBuilder']['setup']
+				$services['services']['clientBuilder']['setup'],
 			);
 
 		} else {

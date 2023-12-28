@@ -9,7 +9,7 @@ class MoveAlias
 
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider
+		\Spameri\Elastic\ClientProvider $clientProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -35,15 +35,15 @@ class MoveAlias
 									'alias' => $alias,
 								],
 							],
-						]
+						],
 					),
 					NULL,
 					NULL,
 					[
 						'name' => $indexTo,
-					]
+					],
 				)
-				)->toArray()
+				)->toArray(),
 			)
 				;
 

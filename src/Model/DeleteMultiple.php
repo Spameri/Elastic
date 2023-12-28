@@ -21,7 +21,7 @@ class DeleteMultiple
 	public function __construct(
 		\Spameri\Elastic\ClientProvider $clientProvider,
 		\Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
-		VersionProvider $versionProvider
+		VersionProvider $versionProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;
@@ -37,7 +37,7 @@ class DeleteMultiple
 	public function execute(
 		\Spameri\Elastic\Entity\ElasticEntityCollectionInterface $entityCollection,
 		string $index,
-		?string $type = NULL
+		string|null $type = NULL,
 	): \Spameri\ElasticQuery\Response\ResultBulk
 	{
 		if ($type === NULL) {
@@ -75,7 +75,7 @@ class DeleteMultiple
 					(
 						new \Spameri\ElasticQuery\Document($index)
 					)
-						->toArray()
+						->toArray(),
 				)
 				;
 

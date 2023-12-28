@@ -38,7 +38,7 @@ class DateTime extends \Nette\Utils\DateTime implements \Spameri\Elastic\Entity\
 			24 * 60 * 60 => 'day',
 			60 * 60 => 'hour',
 			60 => 'minute',
-			1 => 'second'
+			1 => 'second',
 		];
 
 		foreach ($condition as $secs => $str) {

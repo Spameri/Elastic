@@ -12,7 +12,7 @@ class Ratings implements \Spameri\Elastic\Entity\EntityInterface
 
 
 	public function __construct(
-		RatingsCount $imdbRatings
+		RatingsCount $imdbRatings,
 	)
 	{
 		$this->imdbRatings = $imdbRatings;

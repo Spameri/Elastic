@@ -12,7 +12,7 @@ class PlotSummaryCollection implements \Spameri\Elastic\Entity\ValueCollectionIn
 
 
 	public function __construct(
-		PlotSummary ...$collection
+		PlotSummary ...$collection,
 	)
 	{
 		$this->collection = [];
@@ -23,14 +23,14 @@ class PlotSummaryCollection implements \Spameri\Elastic\Entity\ValueCollectionIn
 
 
 	public function add(
-		PlotSummary $plotSummary
+		PlotSummary $plotSummary,
 	): void
 	{
 		$this->collection[\md5($plotSummary->value())] = $plotSummary;
 	}
 
 
-	public function first(): ?PlotSummary
+	public function first(): PlotSummary|null
 	{
 		$first = \reset($this->collection);
 

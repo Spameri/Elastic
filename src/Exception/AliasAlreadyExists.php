@@ -6,11 +6,11 @@ class AliasAlreadyExists extends \Spameri\Elastic\Exception\AbstractElasticSearc
 {
 
 	public function __construct(
-		string $indexName
+		string $indexName,
 	)
 	{
 		parent::__construct(
-			'You are trying to create already existing alias with name: ' . $indexName . "\n"
+			'You are trying to create already existing alias with name: ' . $indexName . "\n",
 		);
 	}
 

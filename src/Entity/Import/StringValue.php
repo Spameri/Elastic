@@ -18,7 +18,7 @@ class StringValue implements ValidationPropertyInterface
 
 	public function __construct(
 		string $value,
-		string $key
+		string $key,
 	)
 	{
 		$this->value = $value;

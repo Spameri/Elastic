@@ -27,7 +27,7 @@ class InsertMultiple
 		\Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray,
 		\Spameri\Elastic\ClientProvider $clientProvider,
 		\Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
-		\Spameri\Elastic\Model\VersionProvider $versionProvider
+		\Spameri\Elastic\Model\VersionProvider $versionProvider,
 	)
 	{
 		$this->prepareEntityArray = $prepareEntityArray;
@@ -44,7 +44,7 @@ class InsertMultiple
 	public function execute(
 		\Spameri\Elastic\Entity\ElasticEntityCollectionInterface $entityCollection,
 		string $index,
-		?string $type = NULL
+		string|null $type = NULL,
 	): \Spameri\ElasticQuery\Response\ResultBulk
 	{
 		if ($type === NULL) {
@@ -83,7 +83,7 @@ class InsertMultiple
 				(
 					new \Spameri\ElasticQuery\Document($index)
 				)
-					->toArray()
+					->toArray(),
 			)
 			;
 		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {

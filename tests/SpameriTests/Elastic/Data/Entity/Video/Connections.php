@@ -78,7 +78,7 @@ class Connections implements \Spameri\Elastic\Entity\EntityInterface
 		\SpameriTests\Elastic\Data\Entity\Video\Connections\FollowsCollection $follows,
 		\SpameriTests\Elastic\Data\Entity\Video\Connections\SpunOffCollection $spunOff,
 		\SpameriTests\Elastic\Data\Entity\Video\Connections\VersionOfCollection $versionOf,
-		\SpameriTests\Elastic\Data\Entity\Video\Connections\EditedFromCollection $editedFrom
+		\SpameriTests\Elastic\Data\Entity\Video\Connections\EditedFromCollection $editedFrom,
 	)
 	{
 		$this->followed = $followed;

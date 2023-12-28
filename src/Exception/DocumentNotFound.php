@@ -7,7 +7,7 @@ class DocumentNotFound extends \Spameri\Elastic\Exception\AbstractElasticSearchE
 
 	public function __construct(
 		string $message,
-		?\Spameri\ElasticQuery\ElasticQuery $elasticQuery = NULL
+		\Spameri\ElasticQuery\ElasticQuery|null $elasticQuery = NULL,
 	)
 	{
 		$queryString = '';
@@ -22,7 +22,7 @@ class DocumentNotFound extends \Spameri\Elastic\Exception\AbstractElasticSearchE
 
 		parent::__construct(
 			'Document in index "' . $message . '" not found. With query: '
-			. $queryString
+			. $queryString,
 		);
 	}
 
