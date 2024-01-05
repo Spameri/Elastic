@@ -2,19 +2,8 @@
 
 namespace SpameriTests\Elastic\Data\Model;
 
-class VideoMapping implements \Spameri\Elastic\Settings\IndexConfigInterface
+class VideoMapping extends \Spameri\Elastic\Settings\AbstractIndexConfig
 {
-
-	private string $index;
-
-
-	public function __construct(
-		string $index,
-	)
-	{
-		$this->index = $index;
-	}
-
 
 	public function provide(): \Spameri\ElasticQuery\Mapping\Settings
 	{

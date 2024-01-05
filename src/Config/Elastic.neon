@@ -189,12 +189,12 @@ services:
 #	###
 
 	clientBuilder:
-	 	factory: Elasticsearch\ClientBuilder
+	 	factory: \Elastic\Elasticsearch\ClientBuilder
 	 	setup:
 	 		- setLogger(@spameriElasticSearch.elasticPanelLogger)
 
 	client:
-		class: Elasticsearch\Client
+		class: \Elastic\Elasticsearch\Client
 		factory: @spameriElasticSearch.clientBuilder::build
 
 	dateTimeProvider:
@@ -217,3 +217,12 @@ services:
 
 	nullAfterImport:
 		factory: Spameri\Elastic\Import\AfterImport\NullAfterImport
+
+	entityFactory:
+		factory: Spameri\Elastic\Factory\EntityFactory
+
+	entityService:
+		factory: Spameri\Elastic\Model\EntityService
+
+	entityRepository:
+		factory: Spameri\Elastic\EntityRepository

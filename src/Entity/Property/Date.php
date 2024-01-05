@@ -12,7 +12,7 @@ class Date extends \Nette\Utils\DateTime implements \Spameri\Elastic\Entity\Date
 	 * @param string|null $format
 	 * @return string
 	 */
-	public function format($format = NULL)
+	public function format($format = NULL): string
 	{
 		if ( ! $format) {
 			$format = self::FORMAT;

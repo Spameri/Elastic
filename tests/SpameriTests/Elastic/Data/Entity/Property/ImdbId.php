@@ -5,28 +5,14 @@ namespace SpameriTests\Elastic\Data\Entity\Property;
 class ImdbId implements \Spameri\Elastic\Entity\ValueInterface
 {
 
-	/**
-	 * @var int
-	 */
-	private $value;
-
-
 	public function __construct(
-		int $value,
+		private string $value,
 	)
 	{
-		if ($value < 1) {
-			throw new \InvalidArgumentException();
-		}
-		if ($value > 99999999) {
-			throw new \InvalidArgumentException();
-		}
-
-		$this->value = $value;
 	}
 
 
-	public function value(): int
+	public function value(): string
 	{
 		return $this->value;
 	}

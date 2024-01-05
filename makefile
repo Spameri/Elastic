@@ -28,13 +28,13 @@ phpstan-lowest:
 	vendor/bin/phpstan analyse -l 6 -c phpstan-low.neon src tests
 
 cs:
-	vendor/bin/phpcs --standard=vendor/spameri/coding-standard/src/ruleset.xml --cache=.phpcs-cache src tests/SpameriTests
+	vendor/bin/phpcs --standard=ruleset.xml --cache=.phpcs-cache src tests/SpameriTests
 
 cs-local:
-	vendor/bin/phpcs --standard=vendor/spameri/coding-standard/src/ruleset.xml src tests/SpameriTests
+	vendor/bin/phpcs --standard=ruleset.xml src tests/SpameriTests
 
 cbf:
-	vendor/bin/phpcbf --standard=vendor/spameri/coding-standard/src/ruleset.xml src tests/SpameriTests
+	vendor/bin/phpcbf --standard=ruleset.xml src tests/SpameriTests
 
 coverage:
 	vendor/bin/tester $COVERAGE -s -c ./tests/php.ini-unix ./tests

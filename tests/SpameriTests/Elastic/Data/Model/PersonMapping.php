@@ -2,19 +2,8 @@
 
 namespace SpameriTests\Elastic\Data\Model;
 
-class PersonMapping implements \Spameri\Elastic\Settings\IndexConfigInterface
+class PersonMapping extends \Spameri\Elastic\Settings\AbstractIndexConfig
 {
-
-	private string $index;
-
-
-	public function __construct(
-		string $index,
-	)
-	{
-		$this->index = $index;
-	}
-
 
 	public function provide(): \Spameri\ElasticQuery\Mapping\Settings
 	{

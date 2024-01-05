@@ -1,18 +1,16 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
 
 namespace Spameri\Elastic\Model;
 
 class EntitySettingsLocator
 {
 
-	private \Nette\DI\Container $container;
-
-
 	public function __construct(
-		\Nette\DI\Container $container,
+		private \Nette\DI\Container $container,
 	)
 	{
-		$this->container = $container;
 	}
 
 
@@ -20,13 +18,29 @@ class EntitySettingsLocator
 	{
 		$indexConfigs = $this->locateAll();
 
+		/** @var \Spameri\Elastic\Settings\IndexConfigInterface $indexConfig */
 		foreach ($indexConfigs as $indexConfig) {
-			if (\strpos($indexConfig->provide()->indexName(), $indexName) !== FALSE) {
+			if (\str_contains($indexConfig->provide()->indexName(), $indexName)) {
 				return $indexConfig->provide();
 			}
 		}
 
 		throw new \Spameri\Elastic\Exception\SettingsNotLocated($indexName);
+	}
+
+
+	public function locateByEntityClass(string $entityClass): \Spameri\ElasticQuery\Mapping\Settings
+	{
+		$indexConfigs = $this->locateAll();
+
+		/** @var \Spameri\Elastic\Settings\AbstractIndexConfig $indexConfig */
+		foreach ($indexConfigs as $indexConfig) {
+if ($indexConfig->entityClass() === $entityClass) {
+return $indexConfig->provide();
+			}
+		}
+
+		throw new \Spameri\Elastic\Exception\SettingsNotLocated($entityClass);
 	}
 
 

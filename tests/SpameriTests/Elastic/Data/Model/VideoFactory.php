@@ -19,7 +19,10 @@ class VideoFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 	/**
 	 * @return \Generator<\SpameriTests\Elastic\Data\Entity\Video>
 	 */
-	public function create(\Spameri\ElasticQuery\Response\Result\Hit $hit): \Generator
+	public function create(
+		\Spameri\ElasticQuery\Response\Result\Hit $hit,
+		string|null $class = null,
+	): \Generator
 	{
 		yield new \SpameriTests\Elastic\Data\Entity\Video(
 			new \Spameri\Elastic\Entity\Property\ElasticId($hit->id()),

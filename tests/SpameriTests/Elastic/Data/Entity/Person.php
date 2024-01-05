@@ -5,73 +5,19 @@ namespace SpameriTests\Elastic\Data\Entity;
 class Person implements \Spameri\Elastic\Entity\ElasticEntityInterface
 {
 
-	/**
-	 * @var \Spameri\Elastic\Entity\Property\ElasticIdInterface
-	 */
-	public $id;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\Identification
-	 */
-	private $identification;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Property\Name
-	 */
-	private $name;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Property\Description
-	 */
-	private $description;
-
-	/**
-	 * @var \Spameri\Elastic\Entity\Property\Date|NULL
-	 */
-	private $birth;
-
-	/**
-	 * @var \Spameri\Elastic\Entity\Property\Date|NULL
-	 */
-	private $death;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Property\Name
-	 */
-	private $alias;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Person\CharacterCollectionElastic
-	 */
-	private $characters;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Person\JobCollectionElastic
-	 */
-	private $jobs;
-
 
 	public function __construct(
-		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
-		\SpameriTests\Elastic\Data\Entity\Video\Identification $identification,
-		\SpameriTests\Elastic\Data\Entity\Property\Name $name,
-		\SpameriTests\Elastic\Data\Entity\Property\Description $description,
-		\Spameri\Elastic\Entity\Property\Date|null $birth,
-		\Spameri\Elastic\Entity\Property\Date|null $death,
-		\SpameriTests\Elastic\Data\Entity\Property\Name $alias,
-		\SpameriTests\Elastic\Data\Entity\Person\CharacterCollectionElastic $characters,
-		\SpameriTests\Elastic\Data\Entity\Person\JobCollectionElastic $jobs,
+		public \Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
+		private \SpameriTests\Elastic\Data\Entity\Video\Identification $identification,
+		private \SpameriTests\Elastic\Data\Entity\Property\Name $name,
+		private \SpameriTests\Elastic\Data\Entity\Property\Description $description,
+		private \Spameri\Elastic\Entity\Property\Date|null $birth,
+		private \Spameri\Elastic\Entity\Property\Date|null $death,
+		private \SpameriTests\Elastic\Data\Entity\Property\Name $alias,
+//		private \SpameriTests\Elastic\Data\Entity\Person\CharacterCollectionElastic $characters,
+//		private \SpameriTests\Elastic\Data\Entity\Person\JobCollectionElastic $jobs,
 	)
 	{
-		$this->id = $id;
-		$this->identification = $identification;
-		$this->name = $name;
-		$this->description = $description;
-		$this->birth = $birth;
-		$this->death = $death;
-		$this->alias = $alias;
-		$this->characters = $characters;
-		$this->jobs = $jobs;
 	}
 
 

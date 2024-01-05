@@ -1,0 +1,120 @@
+<?xml version="1.0" ?>
+<ruleset name="Spameri\ElasticQuery">
+
+	<config name="installed_paths" value="../../slevomat/coding-standard,../../escapestudios/symfony2-coding-standard"/>
+
+	<!-- Arrays -->
+	<rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma"/>
+
+	<!-- Classes -->
+	<rule ref="Generic.Classes.DuplicateClassName"/>
+	<rule ref="Squiz.Classes.LowercaseClassKeywords"/>
+	<rule ref="SlevomatCodingStandard.Classes.ClassConstantVisibility"/>
+<!--	<rule ref="SlevomatCodingStandard.Classes.UnusedPrivateElements"/>-->
+	<rule ref="SlevomatCodingStandard.Classes.ModernClassNameReference"/>
+
+	<!-- Exceptions -->
+	<rule ref="SlevomatCodingStandard.Exceptions.DeadCatch"/>
+	<rule ref="SlevomatCodingStandard.Exceptions.ReferenceThrowableOnly"/>
+
+	<!-- Files -->
+	<rule ref="Generic.Files.ByteOrderMark"/>
+	<rule ref="Generic.Files.LineEndings"/>
+	<rule ref="PSR2.Files.EndFileNewline"/>
+	<rule ref="Zend.Files.ClosingTag"/>
+	<rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
+		<properties>
+			<property name="rootNamespaces" type="array">
+				<element key="src" value="Spameri\Elastic"/>
+				<element key="tests/SpameriTests" value="SpameriTests"/>
+			</property>
+		</properties>
+	</rule>
+
+	<!-- Functions -->
+	<rule ref="Squiz.Functions.LowercaseFunctionKeywords"/>
+	<rule ref="SlevomatCodingStandard.Functions.StaticClosure"/>
+	<rule ref="SlevomatCodingStandard.Functions.UnusedInheritedVariablePassedToClosure"/>
+	<rule ref="SlevomatCodingStandard.Functions.UnusedParameter"/>
+
+	<!-- Namespaces -->
+	<rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
+		<properties>
+			<property name="searchAnnotations" value="1"/>
+		</properties>
+	</rule>
+	<rule ref="SlevomatCodingStandard.Namespaces.UseFromSameNamespace"/>
+	<rule ref="SlevomatCodingStandard.Namespaces.UseOnlyWhitelistedNamespaces"/>
+	<rule ref="SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalConstants"/>
+	<rule ref="SlevomatCodingStandard.Namespaces.FullyQualifiedGlobalFunctions"/>
+	<rule ref="SlevomatCodingStandard.Namespaces.FullyQualifiedExceptions"/>
+	<rule ref="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameInAnnotation"/>
+
+	<!-- NamingConventions -->
+	<rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+	<rule ref="Generic.NamingConventions.CamelCapsFunctionName">
+		<properties>
+			<property name="strict" value="0"/>
+		</properties>
+	</rule>
+
+	<!-- PHP -->
+	<rule ref="Generic.PHP.DeprecatedFunctions"/>
+	<rule ref="Generic.PHP.ForbiddenFunctions"/>
+	<rule ref="Generic.PHP.LowerCaseConstant"/>
+	<rule ref="SlevomatCodingStandard.PHP.OptimizedFunctionsWithoutUnpacking"/>
+
+	<!-- NewLines -->
+<!--	<rule ref="Symfony.Formatting.BlankLineBeforeReturn"/>-->
+
+	<!-- WhiteSpace -->
+	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
+	<rule ref="Squiz.ControlStructures.ControlSignature"/>
+	<rule ref="Generic.Formatting.SpaceAfterCast"/>
+	<rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing"/>
+
+	<!-- Control structures -->
+	<rule ref="SlevomatCodingStandard.ControlStructures.AssignmentInCondition"/>
+	<rule ref="SlevomatCodingStandard.ControlStructures.DisallowYodaComparison"/>
+	<rule ref="SlevomatCodingStandard.ControlStructures.DisallowEmpty"/>
+	<rule ref="SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator"/>
+
+
+	<!-- TypeHints -->
+	<rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
+		<exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.IncorrectWhitespaceBetweenOpenTagAndDeclare"/>
+	</rule>
+	<rule ref="SlevomatCodingStandard.TypeHints.DisallowArrayTypeHintSyntax"/>
+	<rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing" />
+	<rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing"/>
+
+	<!-- Operators -->
+	<rule ref="SlevomatCodingStandard.Operators.DisallowEqualOperators"/>
+	<rule ref="SlevomatCodingStandard.Operators.RequireCombinedAssignmentOperator"/>
+
+	<!-- Variables -->
+	<rule ref="SlevomatCodingStandard.Variables.DuplicateAssignmentToVariable"/>
+	<rule ref="SlevomatCodingStandard.Variables.UnusedVariable"/>
+	<rule ref="SlevomatCodingStandard.Variables.UselessVariable"/>
+
+	<!-- Commenting -->
+	<rule ref="SlevomatCodingStandard.Commenting.DisallowOneLinePropertyDocComment"/>
+
+	<rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
+		<properties>
+			<property name="rootNamespaces" type="array">
+				<element key="src" value="Spameri\ElasticQuery"/>
+				<element key="tests/SpameriTests" value="SpameriTests"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma"/>
+	<rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall"/>
+	<rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInClosureUse"/>
+	<rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInDeclaration"/>
+	<rule ref="SlevomatCodingStandard.Classes.RequireConstructorPropertyPromotion"/>
+	<rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint"/>
+	<rule ref="SlevomatCodingStandard.Commenting.EmptyComment"/>
+
+</ruleset>

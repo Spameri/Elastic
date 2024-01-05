@@ -6,12 +6,12 @@ class ClientProvider
 {
 
 	/**
-	 * @var \Elasticsearch\Client
+	 * @var \Elastic\Elasticsearch\Client
 	 */
 	private $client;
 
 	/**
-	 * @var \Elasticsearch\ClientBuilder
+	 * @var \Elastic\Elasticsearch\ClientBuilder
 	 */
 	private $clientBuilder;
 
@@ -22,7 +22,7 @@ class ClientProvider
 
 
 	public function __construct(
-		\Elasticsearch\ClientBuilder $clientBuilder,
+		\Elastic\Elasticsearch\ClientBuilder $clientBuilder,
 		\Spameri\Elastic\SettingsProviderInterface $settingsProvider,
 	)
 	{
@@ -51,11 +51,11 @@ class ClientProvider
 
 
 	/**
-	 * @throws \Elasticsearch\Common\Exceptions\ElasticsearchException
+	 * @throws \Elastic\Elasticsearch\Exception\ElasticsearchException
 	 */
-	public function client(): \Elasticsearch\Client
+	public function client(): \Elastic\Elasticsearch\Client
 	{
-		if ( ! ($this->client instanceof \Elasticsearch\Client)) {
+		if ( ! ($this->client instanceof \Elastic\Elasticsearch\Client)) {
 			$this->client = $this->clientBuilder->build();
 		}
 

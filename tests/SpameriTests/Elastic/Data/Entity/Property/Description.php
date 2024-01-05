@@ -12,10 +12,10 @@ class Description implements \Spameri\Elastic\Entity\ValueInterface
 
 
 	public function __construct(
-		string|null $description,
+		string|null $value,
 	)
 	{
-		$this->value = $description;
+		$this->value = $value;
 	}
 
 
