@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
 
 namespace Spameri\Elastic\Factory;
 
@@ -27,7 +29,7 @@ class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 	protected function resolveProperties(
 		\Spameri\ElasticQuery\Response\Result\Hit $hit,
 		string $class,
-		string|null $parentFieldName = null
+		string|null $parentFieldName = null,
 	): array
 	{
 		$reflection = new \ReflectionClass($class);
@@ -56,22 +58,69 @@ class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 					$propertyValue = null;
 				}
 
-			} elseif (\is_subclass_of($propertyTypeName, \Spameri\Elastic\Entity\Collection\AbstractEntityCollection::class)) {
-				// TODO collections
+			} elseif (\count($property->getAttributes()) > 0) {
+				foreach ($property->getAttributes() as $attribute) {
+					if (
+						\in_array(
+							$attribute->getName(),
+							[
+								\Spameri\Elastic\Mapping\Collection::class,
+								\Spameri\Elastic\Mapping\Entity::class,
+							]
+						) === true
+					) {
+						$arguments = $attribute->getArguments();
 
-			} elseif (\interface_exists($propertyTypeName)) {
-				$propertyValue = new \Spameri\Elastic\Entity\Property\ElasticId($hit->id());
+						if ($arguments['class'] === \Spameri\Elastic\Entity\Property\ElasticId::class) {
+							$propertyValue = new $arguments['class'](
+								$hit->id(),
+							);
+
+						} elseif ($attribute->getName() === \Spameri\Elastic\Mapping\Collection::class) {
+							$propertyValue = new \Spameri\Elastic\Entity\Collection\EntityCollection();
+							foreach ($hit->getValue($hitKey) as $collectionItemKey => $collectionItem) {
+								$propertyValue->add(new $arguments['class'](
+									... $this->resolveProperties($hit, $arguments['class'], $hitKey . '.' . $collectionItemKey),
+								));
+							}
+
+						} elseif ($attribute->getName() === \Spameri\Elastic\Mapping\ElasticCollection::class) {
+							$propertyValue = new \Spameri\Elastic\Entity\Collection\ElasticEntityCollection(
+								// TODO musíme předat service nebo udělat novou kolekci co implementuje ElasticEntityCollectionInterface
+							);
+							foreach ($hit->getValue($hitKey) as $collectionItemKey => $collectionItem) {
+								$propertyValue->add(new $arguments['class'](
+									... $this->resolveProperties($hit, $arguments['class'], $hitKey . '.' . $collectionItemKey),
+								));
+							}
+
+						} else {
+							$propertyValue = new $arguments['class'](
+								... $this->resolveProperties($hit, $propertyTypeName, $hitKey),
+							);
+						}
+					}
+				}
 
 			} elseif (\class_exists($propertyTypeName)) {
-				$propertyValue = new $propertyTypeName(
-					... $this->resolveProperties($hit, $propertyTypeName, $hitKey)
-				);
+				if (isset(\class_implements($propertyTypeName)[\Spameri\Elastic\Entity\ValueInterface::class]) === true) {
+					$propertyValue = new $propertyTypeName(
+						$hit->getValue($hitKey),
+					);
+
+				} else {
+					$propertyValue = new $propertyTypeName(
+						... $this->resolveProperties($hit, $propertyTypeName, $hitKey),
+					);
+				}
 
 			} else {
 				$propertyValue = $hit->getValue($hitKey);
 			}
 
 			$resolvedProperties[$property->getName()] = $propertyValue;
+
+			unset($propertyValue);
 		}
 
 		return $resolvedProperties;

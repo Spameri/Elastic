@@ -7,6 +7,7 @@ class Person implements \Spameri\Elastic\Entity\ElasticEntityInterface
 
 
 	public function __construct(
+		#[\Spameri\Elastic\Mapping\Entity(class: \Spameri\Elastic\Entity\Property\ElasticId::class)]
 		public \Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
 		private \SpameriTests\Elastic\Data\Entity\Video\Identification $identification,
 		private \SpameriTests\Elastic\Data\Entity\Property\Name $name,
@@ -14,8 +15,12 @@ class Person implements \Spameri\Elastic\Entity\ElasticEntityInterface
 		private \Spameri\Elastic\Entity\Property\Date|null $birth,
 		private \Spameri\Elastic\Entity\Property\Date|null $death,
 		private \SpameriTests\Elastic\Data\Entity\Property\Name $alias,
-//		private \SpameriTests\Elastic\Data\Entity\Person\CharacterCollectionElastic $characters,
-//		private \SpameriTests\Elastic\Data\Entity\Person\JobCollectionElastic $jobs,
+
+		#[\Spameri\Elastic\Mapping\Collection(class: \SpameriTests\Elastic\Data\Entity\Person\Character::class)]
+		private \Spameri\Elastic\Entity\Collection\AbstractEntityCollection $characters,
+
+		#[\Spameri\Elastic\Mapping\Collection(class: \SpameriTests\Elastic\Data\Entity\Person\Job::class)]
+		private \Spameri\Elastic\Entity\Collection\EntityCollection $jobs,
 	)
 	{
 	}

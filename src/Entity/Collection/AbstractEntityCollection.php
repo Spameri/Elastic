@@ -12,11 +12,11 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 
 
 	public function __construct(
-		\Spameri\Elastic\Entity\EntityInterface ...$entityCollection,
+		\Spameri\Elastic\Entity\EntityInterface ...$collection,
 	)
 	{
 		$this->collection = [];
-		foreach ($entityCollection as $elasticEntity) {
+		foreach ($collection as $elasticEntity) {
 			$this->add($elasticEntity);
 		}
 	}

@@ -16,7 +16,7 @@ parameters:
 
 services:
 	elastic.person.personMapping:
-		factory: SpameriTests\Elastic\Data\Model\PersonMapping(%elasticSearch.personIndex%)
+		factory: SpameriTests\Elastic\Data\Model\PersonMapping(%elasticSearch.personIndex%, SpameriTests\Elastic\Data\Entity\Person::class)
 
 	elastic.person.personFactory:
 		factory: SpameriTests\Elastic\Data\Model\PersonFactory
@@ -35,7 +35,7 @@ services:
 ########################################################################################################################
 
 	elastic.video.videoMapping:
-		factory: SpameriTests\Elastic\Data\Model\VideoMapping(%elasticSearch.personIndex%)
+		factory: SpameriTests\Elastic\Data\Model\VideoMapping(%elasticSearch.personIndex%, SpameriTests\Elastic\Data\Entity\Video::class)
 
 	elastic.video.videoFactory:
 		factory: SpameriTests\Elastic\Data\Model\VideoFactory

@@ -40,13 +40,6 @@ class ClientProvider
 				$settings->host() . ':' . $settings->port(),
 			],
 		);
-		$this->clientBuilder->setConnectionParams(
-			[
-				'client' => [
-					'headers' => $settings->headers(),
-				],
-			],
-		);
 	}
 
 

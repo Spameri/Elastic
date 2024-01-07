@@ -221,8 +221,8 @@ services:
 	entityFactory:
 		factory: Spameri\Elastic\Factory\EntityFactory
 
-	entityService:
-		factory: Spameri\Elastic\Model\EntityService
+#	entityService:
+#		factory: Spameri\Elastic\Model\EntityService
 
 	entityRepository:
 		factory: Spameri\Elastic\EntityRepository

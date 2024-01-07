@@ -84,7 +84,10 @@ readonly class EntityRepository
 
 	public function findAll(string $class): array
 	{
-		return $this->findBy(new \Spameri\ElasticQuery\ElasticQuery(), $class);
+		$elasticQuery = new \Spameri\ElasticQuery\ElasticQuery();
+		$elasticQuery->options()->changeSize(10000);
+
+		return $this->findBy($elasticQuery, $class);
 	}
 
 
