@@ -38,9 +38,9 @@
 	},
 	"require-dev": {
 		"slevomat/coding-standard": "^8.0",
-	  	"spameri/dependency-mocker": "^1.3",
+		"spameri/dependency-mocker": "^1.3",
 		"nette/tester": "^2.4",
-		"phpstan/phpstan": "0.12.84",
+		"phpstan/phpstan": "^1.10.66",
 		"php-coveralls/php-coveralls": "^2.1",
 		"nette/bootstrap": "^3.0",
 		"nette/http": "^3.0.7",
