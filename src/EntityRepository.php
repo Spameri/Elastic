@@ -97,7 +97,11 @@ readonly class EntityRepository
 	{
 		$indexConfig = $this->entitySettingsLocator->locateByEntityClass($entity::class);
 
-		return $this->insert->execute($entity, $indexConfig->indexName());
+		return $this->insert->execute(
+			entity: $entity,
+			index: $indexConfig->indexName(),
+			hasSti: $indexConfig->hasSti(),
+		);
 	}
 
 

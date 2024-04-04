@@ -22,6 +22,7 @@ readonly class Insert
 		\Spameri\Elastic\Entity\ElasticEntityInterface $entity,
 		string $index,
 		string|null $type = NULL,
+		bool $hasSti = FALSE,
 	): string
 	{
 		if ($type === NULL) {
@@ -32,7 +33,7 @@ readonly class Insert
 			$type = NULL;
 		}
 
-		$entityArray = $this->prepareEntityArray->prepare($entity);
+		$entityArray = $this->prepareEntityArray->prepare($entity, $hasSti);
 		unset($entityArray['id']);
 
 		try {

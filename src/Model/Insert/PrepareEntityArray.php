@@ -22,12 +22,18 @@ class PrepareEntityArray
 	 */
 	public function prepare(
 		\Spameri\Elastic\Entity\ElasticEntityInterface $entity,
+		bool $hasSti = FALSE,
 	): array
 	{
 		$this->insertedEntities = [];
 		$this->insertedEntities[$entity->id()->value()] = true;
 
-		return $this->iterateVariables($entity->entityVariables());
+		$entityVariables = $entity->entityVariables();
+		if ($hasSti === true) {
+			$entityVariables[self::ENTITY_CLASS] = \get_class($entity);
+		}
+
+		return $this->iterateVariables($entityVariables);
 	}
 
 
