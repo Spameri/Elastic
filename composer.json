@@ -28,7 +28,7 @@
 		"ext-json": "*",
 		"ext-curl": "*",
 		"spameri/elastic-query": "dev-master",
-		"elasticsearch/elasticsearch": "^7.12|^8",
+		"elasticsearch/elasticsearch": "^8.12.0",
 		"nette/di": "^3.0.5",
 		"nette/utils": "^3.2.5",
 		"symfony/console": "^4.4.26",
