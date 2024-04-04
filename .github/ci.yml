@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: [ 7.4 ]
+        php: [ 8.2 ]
         version: [ lowest, standard ]
 
     steps:
