@@ -35,8 +35,10 @@ readonly class EntitySettingsLocator
 
 		/** @var \Spameri\Elastic\Settings\AbstractIndexConfig $indexConfig */
 		foreach ($indexConfigs as $indexConfig) {
-if ($indexConfig->entityClass() === $entityClass) {
-return $indexConfig->provide();
+			foreach ($indexConfig->entityClass() as $class) {
+				if ($class === $entityClass) {
+					return $indexConfig->provide();
+				}
 			}
 		}
 

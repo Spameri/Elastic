@@ -10,13 +10,13 @@ abstract class AbstractIndexConfig implements IndexConfigInterface
 
 	public function __construct(
 		protected string $index,
-		protected string $entityClass,
+		protected array $entityClass,
 	)
 	{
 	}
 
 
-	public function entityClass(): string
+	public function entityClass(): array
 	{
 		return $this->entityClass;
 	}
