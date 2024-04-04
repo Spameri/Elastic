@@ -6,7 +6,7 @@ interface ServiceInterface
 {
 
 	public function insert(
-		\Spameri\Elastic\Entity\ElasticEntityInterface $entity,
+		\Spameri\Elastic\Entity\AbstractElasticEntity $entity,
 	): string;
 
 

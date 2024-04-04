@@ -92,7 +92,7 @@ readonly class EntityRepository
 
 
 	public function persist(
-		\Spameri\Elastic\Entity\ElasticEntityInterface $entity
+		\Spameri\Elastic\Entity\AbstractElasticEntity $entity
 	): string
 	{
 		$indexConfig = $this->entitySettingsLocator->locateByEntityClass($entity::class);

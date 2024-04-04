@@ -24,7 +24,7 @@ abstract class AbstractBaseService implements ServiceInterface
 	 * @throws \Spameri\Elastic\Exception\DocumentInsertFailed
 	 */
 	public function insert(
-		\Spameri\Elastic\Entity\ElasticEntityInterface $entity,
+		\Spameri\Elastic\Entity\AbstractElasticEntity $entity,
 	): string
 	{
 		return $this->insert->execute($entity, $this->index);

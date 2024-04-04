@@ -48,14 +48,19 @@ class PrepareEntityArray
 		$preparedArray = [];
 
 		foreach ($variables as $key => $property) {
-			if ($property instanceof \Spameri\Elastic\Entity\ElasticEntityInterface) {
-				if (\in_array($property->id()->value(), $this->insertedEntities)) {
+			if ($property instanceof \Spameri\Elastic\Entity\AbstractElasticEntity) {
+				if (\in_array($property->id->value(), $this->insertedEntities, true)) {
 					$preparedArray[$key] = $property->id()->value();
 
 				} else {
 					$preparedArray[$key] = $this->serviceLocator->locate($property)->insert($property);
 					$this->insertedEntities[$property->id()->value()] = true;
 				}
+
+			} elseif ($property instanceof \Spameri\Elastic\Entity\ElasticEntityInterface) {
+				throw new \Spameri\Elastic\Exception\DocumentInsertFailed(
+					'Entity ' . \get_class($property) . ' must be extend AbstractElasticEntity.'
+				);
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\EntityInterface) {
 				$preparedArray[$key] = $this->iterateVariables($property->entityVariables());
@@ -77,7 +82,7 @@ class PrepareEntityArray
 					$preparedArray[$key] = $property->elasticIds();
 
 				} else {
-					/** @var \Spameri\Elastic\Entity\ElasticEntityInterface $item */
+					/** @var \Spameri\Elastic\Entity\AbstractElasticEntity $item */
 					foreach ($property as $item) {
 						if (\in_array($item->id()->value(), $this->insertedEntities)) {
 							$preparedArray[$key][] = $item->id()->value();

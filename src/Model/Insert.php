@@ -19,7 +19,7 @@ readonly class Insert
 	 * @throws \Spameri\Elastic\Exception\DocumentInsertFailed
 	 */
 	public function execute(
-		\Spameri\Elastic\Entity\ElasticEntityInterface $entity,
+		\Spameri\Elastic\Entity\AbstractElasticEntity $entity,
 		string $index,
 		string|null $type = NULL,
 		bool $hasSti = FALSE,
