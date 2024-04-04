@@ -10,7 +10,6 @@ class Collection
 
 
 	public function __construct(
-		public string $class,
 	)
 	{
 	}
