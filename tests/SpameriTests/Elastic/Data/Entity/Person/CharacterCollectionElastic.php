@@ -14,15 +14,14 @@ class CharacterCollectionElastic extends \Spameri\Elastic\Entity\Collection\Abst
 		foreach ($this->collection() as $character) {
 			if ($episode) {
 				if (
-					$character->id()->value() === $id->value()
-					&& $character->episode()
-					&& $character->episode()->value() === $episode->value()
+					$character->id === $id->value()
+					&& $character->episode->value() === $episode->value()
 				) {
 					return $character;
 				}
 
 			} else {
-				if ($character->id()->value() === $id->value()) {
+				if ($character->id === $id->value()) {
 					return $character;
 				}
 			}

@@ -23,8 +23,8 @@ class PersonFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 			birth: new \Spameri\Elastic\Entity\Property\Date($hit->getValue('birth')),
 			death: new \Spameri\Elastic\Entity\Property\Date($hit->getValue('death')),
 			alias: new \SpameriTests\Elastic\Data\Entity\Property\Name($hit->getValue('alias')),
-//			characters: new \SpameriTests\Elastic\Data\Entity\Person\CharacterCollectionElastic(),
-//			jobs: new \SpameriTests\Elastic\Data\Entity\Person\JobCollectionElastic(),
+			characters: new \SpameriTests\Elastic\Data\Entity\Person\CharacterCollectionElastic(),
+			jobs: new \SpameriTests\Elastic\Data\Entity\Person\JobCollectionElastic(),
 		);
 	}
 

@@ -231,7 +231,7 @@ class People extends \Spameri\Elastic\Entity\Collection\AbstractElasticEntityCol
 	{
 		/** @var \SpameriTests\Elastic\Data\Entity\Person $entity */
 		foreach ($this->collection() as $entity) {
-			if ($imdb->value() === $entity->identification()->imdb()->value()) {
+			if ($imdb->value() === $entity->identification->imdb->value()) {
 				return $entity;
 			}
 		}

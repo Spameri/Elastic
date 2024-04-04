@@ -55,12 +55,12 @@ class EntityFactory extends \SpameriTests\Elastic\AbstractTestCase
 		$entity = $entityFactory->create($hit, \SpameriTests\Elastic\Data\Entity\Person::class)->current();
 
 		\Tester\Assert::same($person->id->value(), $entity->id->value());
-		\Tester\Assert::same($person->identification()->imdb()->value(), $entity->identification()->imdb()->value());
-		\Tester\Assert::same($person->name()->value(), $entity->name()->value());
-		\Tester\Assert::same($person->description()->value(), $entity->description()->value());
-		\Tester\Assert::same($person->birth()->format('Y-m-d'), $entity->birth()->format('Y-m-d'));
-		\Tester\Assert::null($entity->death());
-		\Tester\Assert::same($person->alias()->value(), $entity->alias()->value());
+		\Tester\Assert::same($person->identification->imdb->value(), $entity->identification->imdb->value());
+		\Tester\Assert::same($person->name->value(), $entity->name->value());
+		\Tester\Assert::same($person->description->value(), $entity->description->value());
+		\Tester\Assert::same($person->birth->format('Y-m-d'), $entity->birth->format('Y-m-d'));
+		\Tester\Assert::null($entity->death);
+		\Tester\Assert::same($person->alias->value(), $entity->alias->value());
 	}
 
 }
