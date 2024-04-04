@@ -6,7 +6,7 @@ interface ElasticEntityCollectionInterface extends \IteratorAggregate
 {
 
 	public function add(
-		\Spameri\Elastic\Entity\ElasticEntityInterface $entity,
+		\Spameri\Elastic\Entity\ElasticEntityInterface $elasticEntity,
 	): void;
 
 

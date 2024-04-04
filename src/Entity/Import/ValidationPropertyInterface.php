@@ -5,15 +5,8 @@ namespace Spameri\Elastic\Entity\Import;
 interface ValidationPropertyInterface
 {
 
-	/**
-	 * @return mixed
-	 */
-	public function key();
+	public function key(): mixed;
 
-
-	/**
-	 * @return mixed
-	 */
-	public function getValue();
+	public function getValue(): mixed;
 
 }

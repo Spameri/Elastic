@@ -5,10 +5,7 @@ namespace Spameri\Elastic\Entity\Import;
 interface ValidationObjectInterface extends \Spameri\ElasticQuery\Entity\ArrayInterface
 {
 
-	/**
-	 * @return mixed
-	 */
-	public function key();
+	public function key(): mixed;
 
 
 	/**

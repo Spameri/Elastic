@@ -15,14 +15,11 @@ readonly class SimpleResponse implements \Spameri\Elastic\Import\ResponseInterfa
 
 	public function isSuccessful(): bool
 	{
-		return $this->response ? TRUE : FALSE;
+		return (bool) $this->response;
 	}
 
 
-	/**
-	 * @return mixed
-	 */
-	public function getResponse()
+	public function getResponse(): mixed
 	{
 		return $this->response;
 	}

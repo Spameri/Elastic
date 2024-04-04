@@ -6,6 +6,6 @@ interface DateTimeInterface extends \DateTimeInterface
 {
 
 	#[\ReturnTypeWillChange]
-	public function format($format = NULL);
+	public function format(string $format = '');
 
 }

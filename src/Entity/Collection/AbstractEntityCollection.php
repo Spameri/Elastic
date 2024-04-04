@@ -55,7 +55,7 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 
 
 	public function remove(
-		string $key,
+		string|int $key,
 	): void
 	{
 		unset($this->collection[$key]);

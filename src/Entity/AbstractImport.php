@@ -12,10 +12,7 @@ abstract readonly class AbstractImport implements \Spameri\Elastic\Entity\Import
 	}
 
 
-	/**
-	 * @return  int|string
-	 */
-	public function key()
+	public function key(): int|string
 	{
 		return $this->key;
 	}

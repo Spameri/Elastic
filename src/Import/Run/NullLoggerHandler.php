@@ -6,10 +6,7 @@ class NullLoggerHandler implements \Spameri\Elastic\Import\LoggerHandlerInterfac
 {
 
 	// phpcs:disable
-	/**
-	 * @param mixed $item
-	 */
-	public function logItemStart($item): void
+	public function logItemStart(mixed $item): void
 	{
 		// do nothing;
 	}

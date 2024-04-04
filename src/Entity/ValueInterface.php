@@ -5,9 +5,6 @@ namespace Spameri\Elastic\Entity;
 interface ValueInterface
 {
 
-	/**
-	 * @return mixed
-	 */
-	public function value();
+	public function value(): mixed;
 
 }

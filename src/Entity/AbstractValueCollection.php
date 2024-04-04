@@ -30,19 +30,13 @@ abstract class AbstractValueCollection implements ValueCollectionInterface
 	}
 
 
-	/**
-	 * @param mixed $key
-	 */
-	public function remove($key): void
+	public function remove(mixed $key): void
 	{
 		unset($this->collection[$key]);
 	}
 
 
-	/**
-	 * @param mixed $key
-	 */
-	public function get($key): \Spameri\Elastic\Entity\ValueInterface|null
+	public function get(mixed $key): \Spameri\Elastic\Entity\ValueInterface|null
 	{
 		if ( ! isset($this->collection[$key])) {
 			return NULL;

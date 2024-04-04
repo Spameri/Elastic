@@ -12,10 +12,7 @@ readonly class LoggerHandler implements \Spameri\Elastic\Import\LoggerHandlerInt
 	}
 
 
-	/**
-	 * @param mixed $item
-	 */
-	public function logItemStart($item): void
+	public function logItemStart(mixed $item): void
 	{
 		$this->logger->debug('Processing item ' . \Tracy\Dumper::toText($item));
 	}

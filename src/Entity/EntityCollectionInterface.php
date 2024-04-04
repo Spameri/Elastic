@@ -16,7 +16,7 @@ interface EntityCollectionInterface extends \IteratorAggregate
 
 
 	public function remove(
-		string $key,
+		string|int $key,
 	): void;
 
 

@@ -14,10 +14,7 @@ interface ResponseInterface
 	public function isSuccessful(): bool;
 
 
-	/**
-	 * @return mixed
-	 */
-	public function getResponse();
+	public function getResponse(): mixed;
 
 
 	public function getEntity(): \Spameri\Elastic\Entity\AbstractImport;

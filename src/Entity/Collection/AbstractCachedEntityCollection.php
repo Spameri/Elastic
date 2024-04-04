@@ -11,7 +11,7 @@ abstract class AbstractCachedEntityCollection extends AbstractEntityCollection
 	abstract public function initialize(): void;
 
 	public function entity(
-		string $key,
+		string|int $key,
 	): \Spameri\Elastic\Entity\EntityInterface|null
 	{
 		$this->initialize();
@@ -21,7 +21,7 @@ abstract class AbstractCachedEntityCollection extends AbstractEntityCollection
 
 
 	public function remove(
-		string $key,
+		string|int $key,
 	): void
 	{
 		$this->initialize();

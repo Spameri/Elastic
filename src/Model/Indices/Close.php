@@ -9,7 +9,6 @@ readonly class Close
 		private \Spameri\Elastic\ClientProvider $clientProvider,
 	)
 	{
-		$this->clientProvider = $clientProvider;
 	}
 
 
