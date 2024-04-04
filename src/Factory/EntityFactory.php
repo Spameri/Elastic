@@ -4,8 +4,14 @@ declare(strict_types = 1);
 
 namespace Spameri\Elastic\Factory;
 
-class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
+readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 {
+
+	public function __construct(
+		private \Spameri\Elastic\Reflection\Reflection $reflection,
+	)
+	{
+	}
 
 	/**
 	 * @return \Generator<\SpameriTests\Elastic\Data\Entity\Person>
@@ -21,6 +27,10 @@ class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 
 		$properties = $this->resolveProperties($hit, $class);
 
+		if ($hit->getValue(\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS) !== null) {
+			$class = $hit->getValue(\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS);
+		}
+
 		yield new $class(
 			... $properties,
 		);
@@ -32,23 +42,30 @@ class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 		string|null $parentFieldName = null,
 	): array
 	{
-		$reflection = new \ReflectionClass($class);
+		$reflection = $this->reflection->createReflection($class);
 
 		$resolvedProperties = [];
-		foreach ($reflection->getProperties() as $property) {
+		foreach ($this->reflection->getProperties($reflection) as $property) {
 			$hitKey = $property->getName();
 			if ($parentFieldName !== null) {
 				$hitKey = $parentFieldName . '.' . $hitKey;
 			}
 
-			if ($property->getType() === null) {
+			$reflectionPropertyType = $this->reflection->getPropertyType($property);
+			if ($reflectionPropertyType === null) {
 				$resolvedProperties[$property->getName()] = $hit->getValue($parentFieldName);
 				continue;
 			}
 
-			$propertyTypeName = $property->getType()->getName();
-			if ($propertyTypeName === \Spameri\Elastic\Entity\Property\Date::class) {
-				$value = $hit->getValue($hitKey);
+			$value = $hit->getValue($hitKey);
+			$propertyTypeName = $reflectionPropertyType->getName();
+			if ($reflectionPropertyType->allowsNull() && $value === null) {
+				$propertyValue = null;
+
+			} elseif ($property->hasDefaultValue() === true && $value === null) {
+				$propertyValue = $property->getDefaultValue();
+
+			} elseif ($propertyTypeName === \Spameri\Elastic\Entity\Property\Date::class) {
 				if ($value !== null) {
 					$propertyValue = new \Spameri\Elastic\Entity\Property\Date(
 						datetime: $value,
@@ -61,13 +78,7 @@ class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 			} elseif (\count($property->getAttributes()) > 0) {
 				foreach ($property->getAttributes() as $attribute) {
 					if (
-						\in_array(
-							$attribute->getName(),
-							[
-								\Spameri\Elastic\Mapping\Collection::class,
-								\Spameri\Elastic\Mapping\Entity::class,
-							]
-						) === true
+						$attribute->getName() === \Spameri\Elastic\Mapping\Entity::class
 					) {
 						$arguments = $attribute->getArguments();
 
@@ -76,36 +87,35 @@ class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 								$hit->id(),
 							);
 
-						} elseif ($attribute->getName() === \Spameri\Elastic\Mapping\Collection::class) {
-							$propertyValue = new \Spameri\Elastic\Entity\Collection\EntityCollection();
-							foreach ($hit->getValue($hitKey) as $collectionItemKey => $collectionItem) {
-								$propertyValue->add(new $arguments['class'](
-									... $this->resolveProperties($hit, $arguments['class'], $hitKey . '.' . $collectionItemKey),
-								));
-							}
-
-						} elseif ($attribute->getName() === \Spameri\Elastic\Mapping\ElasticCollection::class) {
-							$propertyValue = new \Spameri\Elastic\Entity\Collection\ElasticEntityCollection(
-								// TODO musíme předat service nebo udělat novou kolekci co implementuje ElasticEntityCollectionInterface
-							);
-							foreach ($hit->getValue($hitKey) as $collectionItemKey => $collectionItem) {
-								$propertyValue->add(new $arguments['class'](
-									... $this->resolveProperties($hit, $arguments['class'], $hitKey . '.' . $collectionItemKey),
-								));
-							}
-
 						} else {
 							$propertyValue = new $arguments['class'](
 								... $this->resolveProperties($hit, $propertyTypeName, $hitKey),
 							);
 						}
+					} elseif (
+						$attribute->getName() === \Spameri\Elastic\Mapping\Collection::class
+					) {
+						$propertyValue = new $propertyTypeName();
+						if ($value !== null) {
+							foreach ($value as $entityKey => $entity) {
+								$propertyValue->add(
+									new $entity[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS](
+										... $this->resolveProperties($hit, $entity[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS], $hitKey . '.' . $entityKey),
+									),
+								);
+							}
+						}
+					} elseif (
+						$attribute->getName() === \Spameri\Elastic\Mapping\Ignored::class
+					) {
+						continue 2;
 					}
 				}
 
 			} elseif (\class_exists($propertyTypeName)) {
 				if (isset(\class_implements($propertyTypeName)[\Spameri\Elastic\Entity\ValueInterface::class]) === true) {
 					$propertyValue = new $propertyTypeName(
-						$hit->getValue($hitKey),
+						$value,
 					);
 
 				} else {
@@ -115,10 +125,12 @@ class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 				}
 
 			} else {
-				$propertyValue = $hit->getValue($hitKey);
+				$propertyValue = $value;
 			}
 
-			$resolvedProperties[$property->getName()] = $propertyValue;
+			if (isset($propertyValue)) {
+				$resolvedProperties[$property->getName()] = $propertyValue;
+			}
 
 			unset($propertyValue);
 		}
