@@ -68,6 +68,14 @@ class PrepareEntityArray
 			} elseif ($property instanceof \Spameri\Elastic\Entity\ValueInterface) {
 				$preparedArray[$key] = $property->value();
 
+			} elseif ($property instanceof \Spameri\Elastic\Entity\Collection\STIEntityCollection) {
+				$preparedArray[$key] = [];
+				foreach ($property as $item) {
+					$iterateVariables = $this->iterateVariables($item->entityVariables());
+					$iterateVariables[self::ENTITY_CLASS] = \get_class($item);
+					$preparedArray[$key][] = $iterateVariables;
+				}
+
 			} elseif ($property instanceof \Spameri\Elastic\Entity\EntityCollectionInterface) {
 				$preparedArray[$key] = [];
 				/** @var \Spameri\Elastic\Entity\EntityInterface $item */
