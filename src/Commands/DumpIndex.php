@@ -5,6 +5,9 @@ namespace Spameri\Elastic\Commands;
 class DumpIndex extends \Symfony\Component\Console\Command\Command
 {
 
+	/**
+	 * @var string
+	 */
 	protected static $defaultName = 'spameri:elastic:dump-index';
 
 
@@ -12,7 +15,7 @@ class DumpIndex extends \Symfony\Component\Console\Command\Command
 		private readonly \Spameri\Elastic\Model\DumpIndex $migrate,
 	)
 	{
-		parent::__construct(NULL);
+		parent::__construct(null);
 	}
 
 

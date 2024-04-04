@@ -5,6 +5,9 @@ namespace Spameri\Elastic\Commands;
 class AddAlias extends \Symfony\Component\Console\Command\Command
 {
 
+	/**
+	 * @var string
+	 */
 	protected static $defaultName = 'spameri:elastic:add-alias';
 
 
@@ -12,7 +15,7 @@ class AddAlias extends \Symfony\Component\Console\Command\Command
 		private readonly \Spameri\Elastic\Model\Indices\AddAlias $addAlias,
 	)
 	{
-		parent::__construct(NULL);
+		parent::__construct(null);
 	}
 
 

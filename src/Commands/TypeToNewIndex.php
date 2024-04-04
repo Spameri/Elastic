@@ -5,6 +5,9 @@ namespace Spameri\Elastic\Commands;
 class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 {
 
+	/**
+	 * @var string
+	 */
 	protected static $defaultName = 'spameri:elastic:move-type';
 
 
@@ -12,7 +15,7 @@ class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 		private readonly \Spameri\Elastic\Model\TypeToNewIndex\Migrate $migrate,
 	)
 	{
-		parent::__construct(NULL);
+		parent::__construct(null);
 	}
 
 
@@ -28,11 +31,11 @@ class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 			->addArgument('typeFrom', \Symfony\Component\Console\Input\InputArgument::REQUIRED)
 			->addArgument('indexTo', \Symfony\Component\Console\Input\InputArgument::REQUIRED)
 			->addArgument('aliasTo', \Symfony\Component\Console\Input\InputArgument::REQUIRED)
-			->addArgument('typeTo', \Symfony\Component\Console\Input\InputArgument::OPTIONAL, 'Use only on old ElasticSearch', NULL)
+			->addArgument('typeTo', \Symfony\Component\Console\Input\InputArgument::OPTIONAL, 'Use only on old ElasticSearch', null)
 			->addOption(
 				'allowClose', 'c', \Symfony\Component\Console\Input\InputOption::VALUE_OPTIONAL,
 				'Allows command to close index for data transfer. After data is transferred index is opened and resumes normal operations. When open it needs to check changed files after move and sync remaining.',
-				TRUE,
+				true,
 			)
 		;
 	}

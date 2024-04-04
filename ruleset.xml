@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<ruleset name="Spameri\ElasticQuery">
+<ruleset name="Spameri\Elastic">
 
 	<config name="installed_paths" value="../../slevomat/coding-standard,../../escapestudios/symfony2-coding-standard"/>
 
@@ -83,6 +83,10 @@
 	<!-- TypeHints -->
 	<rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes">
 		<exclude name="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.IncorrectWhitespaceBetweenOpenTagAndDeclare"/>
+		<properties>
+			<property name="declareOnFirstLine" type="bool" value="true"/>
+			<property name="spacesCountAroundEqualsSign" type="int" value="1"/>
+		</properties>
 	</rule>
 	<rule ref="SlevomatCodingStandard.TypeHints.DisallowArrayTypeHintSyntax"/>
 	<rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing" />
@@ -103,7 +107,7 @@
 	<rule ref="SlevomatCodingStandard.Files.TypeNameMatchesFileName">
 		<properties>
 			<property name="rootNamespaces" type="array">
-				<element key="src" value="Spameri\ElasticQuery"/>
+				<element key="src" value="Spameri\Elastic"/>
 				<element key="tests/SpameriTests" value="SpameriTests"/>
 			</property>
 		</properties>

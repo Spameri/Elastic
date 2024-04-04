@@ -5,6 +5,9 @@ namespace Spameri\Elastic\Commands;
 class InitializeIndexes extends \Symfony\Component\Console\Command\Command
 {
 
+	/**
+	 * @var string
+	 */
 	protected static $defaultName = 'spameri:elastic:initialize-index';
 
 
@@ -14,7 +17,7 @@ class InitializeIndexes extends \Symfony\Component\Console\Command\Command
 		private readonly \Spameri\Elastic\Model\InitializeIndex $initializeIndex,
 	)
 	{
-		parent::__construct(NULL);
+		parent::__construct(null);
 	}
 
 
@@ -27,7 +30,7 @@ class InitializeIndexes extends \Symfony\Component\Console\Command\Command
 			)
 			->addArgument('entityName', \Symfony\Component\Console\Input\InputArgument::IS_ARRAY)
 			->addOption(
-				'force', 'f', NULL,
+				'force', 'f', null,
 				'Warning this deletes your data! Forces now used index to be deleted before new index is created.',
 			)
 		;
@@ -52,7 +55,7 @@ class InitializeIndexes extends \Symfony\Component\Console\Command\Command
 			$settings = $indexConfig->provide();
 
 			foreach ($entityNames as $entityName) {
-				if (\strpos($settings->indexName(), $entityName) === FALSE) {
+				if (\strpos($settings->indexName(), $entityName) === false) {
 					continue 2;
 				}
 			}

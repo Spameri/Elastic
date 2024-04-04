@@ -7,6 +7,9 @@ class PrepareEntityArray
 
 	public const ENTITY_CLASS = 'entityClass';
 
+	/**
+	 * @var array<string, bool>
+	 */
 	private array $insertedEntities;
 
 
@@ -22,7 +25,7 @@ class PrepareEntityArray
 	 */
 	public function prepare(
 		\Spameri\Elastic\Entity\ElasticEntityInterface $entity,
-		bool $hasSti = FALSE,
+		bool $hasSti = false,
 	): array
 	{
 		$this->insertedEntities = [];
@@ -30,7 +33,7 @@ class PrepareEntityArray
 
 		$entityVariables = $entity->entityVariables();
 		if ($hasSti === true) {
-			$entityVariables[self::ENTITY_CLASS] = \get_class($entity);
+			$entityVariables[self::ENTITY_CLASS] = $entity::class;
 		}
 
 		return $this->iterateVariables($entityVariables);
@@ -59,7 +62,7 @@ class PrepareEntityArray
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\ElasticEntityInterface) {
 				throw new \Spameri\Elastic\Exception\DocumentInsertFailed(
-					'Entity ' . \get_class($property) . ' must be extend AbstractElasticEntity.'
+					'Entity ' . $property::class . ' must be extend AbstractElasticEntity.',
 				);
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\EntityInterface) {
@@ -72,7 +75,7 @@ class PrepareEntityArray
 				$preparedArray[$key] = [];
 				foreach ($property as $item) {
 					$iterateVariables = $this->iterateVariables($item->entityVariables());
-					$iterateVariables[self::ENTITY_CLASS] = \get_class($item);
+					$iterateVariables[self::ENTITY_CLASS] = $item::class;
 					$preparedArray[$key][] = $iterateVariables;
 				}
 
@@ -119,7 +122,7 @@ class PrepareEntityArray
 				|| \is_int($property)
 				|| \is_bool($property)
 				|| \is_float($property)
-				|| $property === NULL
+				|| $property === null
 			) {
 				$preparedArray[$key] = $property;
 
@@ -140,7 +143,7 @@ class PrepareEntityArray
 			} else {
 				if (\is_object($property)) {
 					throw new \Spameri\Elastic\Exception\EntityIsNotValid(
-						'Property ' . $key . ' in ' . \get_class($property) . ' is not supported.',
+						'Property ' . $key . ' in ' . $property::class . ' is not supported.',
 					);
 				}
 

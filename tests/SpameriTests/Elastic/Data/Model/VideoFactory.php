@@ -5,14 +5,10 @@ namespace SpameriTests\Elastic\Data\Model;
 class VideoFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 {
 
-	private \SpameriTests\Elastic\Data\Model\PersonService $personService;
-
-
 	public function __construct(
-		\SpameriTests\Elastic\Data\Model\PersonService $personService,
+		private \SpameriTests\Elastic\Data\Model\PersonService $personService,
 	)
 	{
-		$this->personService = $personService;
 	}
 
 

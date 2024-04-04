@@ -5,6 +5,9 @@ namespace Spameri\Elastic\Commands;
 class DeleteIndex extends \Symfony\Component\Console\Command\Command
 {
 
+	/**
+	 * @var string
+	 */
 	protected static $defaultName = 'spameri:elastic:delete-index';
 
 
@@ -12,7 +15,7 @@ class DeleteIndex extends \Symfony\Component\Console\Command\Command
 		private readonly \Spameri\Elastic\Model\Indices\Delete $delete,
 	)
 	{
-		parent::__construct(NULL);
+		parent::__construct(null);
 	}
 
 

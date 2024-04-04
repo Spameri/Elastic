@@ -4,7 +4,9 @@ namespace Spameri\Elastic\Commands;
 
 class CreateIndex extends \Symfony\Component\Console\Command\Command
 {
-
+	/**
+	 * @var string
+	 */
 	protected static $defaultName = 'spameri:elastic:create-index';
 
 
@@ -13,7 +15,7 @@ class CreateIndex extends \Symfony\Component\Console\Command\Command
 		private readonly \Spameri\Elastic\Model\DeleteIndex $deleteIndex,
 	)
 	{
-		parent::__construct(NULL);
+		parent::__construct(null);
 	}
 
 
@@ -26,7 +28,7 @@ class CreateIndex extends \Symfony\Component\Console\Command\Command
 			)
 			->addArgument('indexName', \Symfony\Component\Console\Input\InputArgument::REQUIRED)
 			->addOption(
-				'force', 'f', NULL,
+				'force', 'f', null,
 				'Warning this deletes your data! Forces now used index to be deleted before new index is created.',
 			)
 		;

@@ -5,6 +5,9 @@ namespace Spameri\Elastic\Commands;
 class RemoveAlias extends \Symfony\Component\Console\Command\Command
 {
 
+	/**
+	 * @var string
+	 */
 	protected static $defaultName = 'spameri:elastic:remove-alias';
 
 
@@ -12,7 +15,7 @@ class RemoveAlias extends \Symfony\Component\Console\Command\Command
 		private readonly \Spameri\Elastic\Model\Indices\RemoveAlias $removeAlias,
 	)
 	{
-		parent::__construct(NULL);
+		parent::__construct(null);
 	}
 
 
