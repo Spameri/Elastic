@@ -26,7 +26,8 @@ readonly class InitializeIndex
 
 		} catch (\Spameri\Elastic\Exception\ElasticSearch $exception) {
 			$indexName =
-				$indexAlias . '-'
+				$indexAlias
+				. '-'
 				. $this->dateTimeProvider->provide()->format(\Spameri\Elastic\Entity\Property\DateTime::INDEX_FORMAT);
 
 			$this->create->execute($indexName, $indexConfig->provide()->toArray(), $indexAlias);
