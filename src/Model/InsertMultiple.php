@@ -52,7 +52,7 @@ readonly class InsertMultiple
 		try {
 			$response = $this->clientProvider->client()->bulk($document->toArray());
 
-		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
+		} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}
 
@@ -64,7 +64,7 @@ readonly class InsertMultiple
 					->toArray(),
 			)
 			;
-		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
+		} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}
 

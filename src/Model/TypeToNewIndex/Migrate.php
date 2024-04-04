@@ -35,7 +35,7 @@ class Migrate
 
 
 	/**
-	 * @throws \Elasticsearch\Common\Exceptions\ElasticsearchException
+	 * @throws \Elastic\Elasticsearch\Exception\ElasticsearchException
 	 */
 	public function execute(
 		string $indexFrom,
@@ -164,7 +164,7 @@ class Migrate
 
 
 	/**
-	 * @throws \Elasticsearch\Common\Exceptions\ElasticsearchException
+	 * @throws \Elastic\Elasticsearch\Exception\ElasticsearchException
 	 */
 	public function processHit(
 		string $indexTo,

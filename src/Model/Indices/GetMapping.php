@@ -40,7 +40,7 @@ readonly class GetMapping
 
 			return $this->clientProvider->client()->indices()->getMapping($documentArray);
 
-		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
+		} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}
 	}

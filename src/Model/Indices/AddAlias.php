@@ -27,7 +27,11 @@ readonly class AddAlias
 
 				throw new \Spameri\Elastic\Exception\AliasAlreadyExists($alias);
 
-			} catch (\Elasticsearch\Common\Exceptions\Missing404Exception $exception) {
+			} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {
+				if ($exception->getCode() !== 404) {
+					throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
+				}
+
 				return $this->clientProvider->client()->indices()->putAlias(
 					(
 					new \Spameri\ElasticQuery\Document(
@@ -53,7 +57,7 @@ readonly class AddAlias
 					;
 			}
 
-		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
+		} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}
 	}

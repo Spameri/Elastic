@@ -39,7 +39,7 @@ class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 
 
 	/**
-	 * @throws \Elasticsearch\Common\Exceptions\ElasticsearchException
+	 * @throws \Elastic\Elasticsearch\Exception\ElasticsearchException
 	 */
 	protected function execute(
 		\Symfony\Component\Console\Input\InputInterface $input,

@@ -34,7 +34,7 @@ readonly class GetFieldMapping
 			)
 			;
 
-		} catch (\Elasticsearch\Common\Exceptions\ElasticsearchException $exception) {
+		} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}
 	}
