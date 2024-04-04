@@ -31,7 +31,7 @@ readonly class GetFieldMapping
 						],
 					)
 				)->toArray(),
-			)
+			)->asArray()
 			;
 
 		} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {

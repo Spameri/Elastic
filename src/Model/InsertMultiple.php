@@ -68,7 +68,7 @@ readonly class InsertMultiple
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}
 
-		return $this->resultMapper->mapBulkResult($response);
+		return $this->resultMapper->mapBulkResult($response->asArray());
 	}
 
 }

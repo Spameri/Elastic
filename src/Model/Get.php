@@ -51,7 +51,7 @@ readonly class Get
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}
 
-		return $this->resultMapper->mapSingleResult($response);
+		return $this->resultMapper->mapSingleResult($response->asArray());
 	}
 
 }

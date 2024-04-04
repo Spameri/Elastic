@@ -38,7 +38,7 @@ readonly class GetMapping
 				)
 			)->toArray();
 
-			return $this->clientProvider->client()->indices()->getMapping($documentArray);
+			return $this->clientProvider->client()->indices()->getMapping($documentArray)->asArray();
 
 		} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

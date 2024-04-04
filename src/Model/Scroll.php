@@ -46,7 +46,7 @@ readonly class Scroll
 						)
 					)
 						->toArray(),
-				)
+				)->asArray()
 				;
 
 				if (isset($result['_scroll_id'])) {
@@ -73,7 +73,7 @@ readonly class Scroll
 						)
 					)
 						->toArray(),
-				)
+				)->asArray()
 				;
 			}
 

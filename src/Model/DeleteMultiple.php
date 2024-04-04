@@ -48,7 +48,7 @@ readonly class DeleteMultiple
 			$document = new \Spameri\ElasticQuery\Document\Bulk($documentsArray);
 
 			try {
-				$response = $this->clientProvider->client()->bulk($document->toArray());
+				$response = $this->clientProvider->client()->bulk($document->toArray())->asArray();
 
 			} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {
 				throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

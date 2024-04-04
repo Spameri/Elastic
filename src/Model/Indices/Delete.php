@@ -26,7 +26,7 @@ readonly class Delete
 						$index,
 					)
 				)->toArray(),
-			)
+			)->asArray()
 				;
 
 		} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {

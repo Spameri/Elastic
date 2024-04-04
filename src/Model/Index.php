@@ -40,7 +40,7 @@ readonly class Index
 						$type,
 					)
 				)->toArray(),
-			)
+			)->asArray()
 			;
 
 		} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {

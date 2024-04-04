@@ -46,7 +46,7 @@ readonly class Aggregate
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}
 
-		return $this->resultMapper->mapSearchResults($result);
+		return $this->resultMapper->mapSearchResults($result->asArray());
 	}
 
 }

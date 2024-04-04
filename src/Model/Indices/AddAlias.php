@@ -34,27 +34,27 @@ readonly class AddAlias
 
 				return $this->clientProvider->client()->indices()->putAlias(
 					(
-					new \Spameri\ElasticQuery\Document(
-						$index,
-						new \Spameri\ElasticQuery\Document\Body\Plain(
-							[
-								'actions' => [
-									'add' => [
-										'index' => $index,
-										'alias' => $alias,
+						new \Spameri\ElasticQuery\Document(
+							$index,
+							new \Spameri\ElasticQuery\Document\Body\Plain(
+								[
+									'actions' => [
+										'add' => [
+											'index' => $index,
+											'alias' => $alias,
+										],
 									],
 								],
+							),
+							NULL,
+							NULL,
+							[
+								'name' => $index,
 							],
-						),
-						NULL,
-						NULL,
-						[
-							'name' => $index,
-						],
-					)
+						)
 					)->toArray(),
-				)
-					;
+				)->asArray()
+				;
 			}
 
 		} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {

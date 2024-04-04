@@ -36,7 +36,7 @@ readonly class RemoveAlias
 					],
 				)
 				)->toArray(),
-			)
+			)->asArray()
 				;
 
 		} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {

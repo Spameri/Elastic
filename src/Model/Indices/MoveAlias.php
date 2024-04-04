@@ -40,7 +40,7 @@ readonly class MoveAlias
 					],
 				)
 				)->toArray(),
-			)
+			)->asArray()
 				;
 
 		} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {

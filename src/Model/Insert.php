@@ -45,7 +45,7 @@ readonly class Insert
 						$entity->id()->value(),
 					)
 				)->toArray(),
-			)
+			)->asArray()
 			;
 
 		} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {

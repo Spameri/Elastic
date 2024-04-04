@@ -48,7 +48,7 @@ readonly class GetBy
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}
 
-		return $this->resultMapper->mapSearchResults($response);
+		return $this->resultMapper->mapSearchResults($response->asArray());
 	}
 
 }

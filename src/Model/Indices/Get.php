@@ -20,17 +20,14 @@ readonly class Get
 	): array
 	{
 		try {
-			/** @var array $result */
-			$result = $this->clientProvider->client()->indices()->get(
-				(
-					new \Spameri\ElasticQuery\Document(
-						$index,
-					)
-				)->toArray(),
-			)
+			return $this->clientProvider->client()->indices()->get(
+					(
+						new \Spameri\ElasticQuery\Document(
+							$index,
+						)
+					)->toArray(),
+				)->asArray()
 			;
-
-			return $result;
 
 		} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

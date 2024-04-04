@@ -52,7 +52,7 @@ readonly class Create
 						new \Spameri\ElasticQuery\Document\Body\Plain($parameters),
 					)
 				)->toArray(),
-			)
+			)->asArray()
 				;
 
 		} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {

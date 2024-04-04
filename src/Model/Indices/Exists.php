@@ -23,7 +23,7 @@ readonly class Exists
 						$index,
 					)
 				)->toArray(),
-			)
+			)->asBool()
 			;
 
 		} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {

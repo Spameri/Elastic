@@ -29,7 +29,7 @@ readonly class PutSettings
 						new \Spameri\ElasticQuery\Document\Body\Plain($settings),
 					)
 				)->toArray(),
-			)
+			)->asArray()
 				;
 
 		} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {
