@@ -5,100 +5,24 @@ namespace Spameri\Elastic\Model\TypeToNewIndex;
 class Migrate
 {
 
-	/**
-	 * @var \Symfony\Component\Console\Output\OutputInterface $output
-	 */
-	private $output;
-
-	/**
-	 * @var \Spameri\Elastic\Model\TypeToNewIndex\DocumentMigrateStatus
-	 */
-	private $documentMigrateStatus;
-
-	/**
-	 * @var \Spameri\Elastic\ClientProvider
-	 */
-	private $clientProvider;
-
-	/**
-	 * @var \Spameri\Elastic\Provider\DateTimeProvider
-	 */
-	private $dateTimeProvider;
-
-	/**
-	 * @var \Spameri\Elastic\Model\Delete
-	 */
-	private $delete;
-
-	/**
-	 * @var \Spameri\Elastic\Model\Get
-	 */
-	private $get;
-
-	/**
-	 * @var \Spameri\Elastic\Model\Indices\Close
-	 */
-	private $close;
-
-	/**
-	 * @var \Spameri\Elastic\Model\Indices\GetMapping
-	 */
-	private $getMapping;
-
-	/**
-	 * @var \Spameri\Elastic\Model\Indices\PutMapping
-	 */
-	private $putMapping;
-
-	/**
-	 * @var \Spameri\Elastic\Model\Search
-	 */
-	private $search;
-
-	/**
-	 * @var \Spameri\Elastic\Model\Indices\Create
-	 */
-	private $create;
-
-	/**
-	 * @var \Spameri\Elastic\Model\Indices\Get
-	 */
-	private $indicesGet;
-
-	private \Spameri\Elastic\Model\Indices\AddAlias $addAlias;
-
-	private \Spameri\Elastic\Model\VersionProvider $versionProvider;
-
+	private \Symfony\Component\Console\Output\OutputInterface $output;
 
 	public function __construct(
-		DocumentMigrateStatus $documentMigrateStatus,
-		\Spameri\Elastic\ClientProvider $clientProvider,
-		\Spameri\Elastic\Provider\DateTimeProvider $dateTimeProvider,
-		\Spameri\Elastic\Model\Delete $delete,
-		\Spameri\Elastic\Model\Get $get,
-		\Spameri\Elastic\Model\Indices\Close $close,
-		\Spameri\Elastic\Model\Indices\GetMapping $getMapping,
-		\Spameri\Elastic\Model\Indices\PutMapping $putMapping,
-		\Spameri\Elastic\Model\Search $search,
-		\Spameri\Elastic\Model\Indices\Create $create,
-		\Spameri\Elastic\Model\Indices\Get $indicesGet,
-		\Spameri\Elastic\Model\Indices\AddAlias $addAlias,
-		\Spameri\Elastic\Model\VersionProvider $versionProvider,
+		private readonly DocumentMigrateStatus $documentMigrateStatus,
+		private readonly \Spameri\Elastic\ClientProvider $clientProvider,
+		private readonly \Spameri\Elastic\Provider\DateTimeProvider $dateTimeProvider,
+		private readonly \Spameri\Elastic\Model\Delete $delete,
+		private readonly \Spameri\Elastic\Model\Get $get,
+		private readonly \Spameri\Elastic\Model\Indices\Close $close,
+		private readonly \Spameri\Elastic\Model\Indices\GetMapping $getMapping,
+		private readonly \Spameri\Elastic\Model\Indices\PutMapping $putMapping,
+		private readonly \Spameri\Elastic\Model\Search $search,
+		private readonly \Spameri\Elastic\Model\Indices\Create $create,
+		private readonly \Spameri\Elastic\Model\Indices\Get $indicesGet,
+		private readonly \Spameri\Elastic\Model\Indices\AddAlias $addAlias,
+		private readonly \Spameri\Elastic\Model\VersionProvider $versionProvider,
 	)
 	{
-		$this->documentMigrateStatus = $documentMigrateStatus;
-		$this->clientProvider = $clientProvider;
-		$this->dateTimeProvider = $dateTimeProvider;
-		$this->delete = $delete;
-		$this->get = $get;
-		$this->close = $close;
-		$this->getMapping = $getMapping;
-		$this->putMapping = $putMapping;
-		$this->search = $search;
-		$this->create = $create;
-		$this->indicesGet = $indicesGet;
-		$this->addAlias = $addAlias;
-		$this->versionProvider = $versionProvider;
 	}
 
 

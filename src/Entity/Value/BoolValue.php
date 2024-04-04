@@ -2,20 +2,13 @@
 
 namespace Spameri\Elastic\Entity\Value;
 
-class BoolValue implements \Spameri\Elastic\Entity\ValueInterface
+readonly class BoolValue implements \Spameri\Elastic\Entity\ValueInterface
 {
 
-	/**
-	 * @var bool
-	 */
-	private $value;
-
-
 	public function __construct(
-		bool $value,
+		private bool $value,
 	)
 	{
-		$this->value = $value;
 	}
 
 

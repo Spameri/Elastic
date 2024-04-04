@@ -2,17 +2,13 @@
 
 namespace Spameri\Elastic\Model\Indices;
 
-class RemoveAlias
+readonly class RemoveAlias
 {
 
-	private \Spameri\Elastic\ClientProvider $clientProvider;
-
-
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider,
+		private \Spameri\Elastic\ClientProvider $clientProvider,
 	)
 	{
-		$this->clientProvider = $clientProvider;
 	}
 
 

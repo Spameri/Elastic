@@ -2,24 +2,14 @@
 
 namespace Spameri\Elastic\Model\Indices;
 
-class GetMapping
+readonly class GetMapping
 {
 
-	/**
-	 * @var \Spameri\Elastic\ClientProvider
-	 */
-	private $clientProvider;
-
-	private \Spameri\Elastic\Model\VersionProvider $versionProvider;
-
-
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider,
-		\Spameri\Elastic\Model\VersionProvider $versionProvider,
+		private \Spameri\Elastic\ClientProvider $clientProvider,
+		private \Spameri\Elastic\Model\VersionProvider $versionProvider,
 	)
 	{
-		$this->clientProvider = $clientProvider;
-		$this->versionProvider = $versionProvider;
 	}
 
 

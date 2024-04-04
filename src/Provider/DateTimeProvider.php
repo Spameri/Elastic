@@ -2,20 +2,13 @@
 
 namespace Spameri\Elastic\Provider;
 
-class DateTimeProvider
+readonly class DateTimeProvider
 {
 
-	/**
-	 * @var \DateTimeImmutable
-	 */
-	private $constant;
-
-
 	public function __construct(
-		\DateTimeImmutable $constant,
+		private \DateTimeImmutable $constant,
 	)
 	{
-		$this->constant = $constant;
 	}
 
 

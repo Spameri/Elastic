@@ -2,20 +2,13 @@
 
 namespace Spameri\Elastic\Entity\Value;
 
-class StringValue implements \Spameri\Elastic\Entity\ValueInterface
+readonly class StringValue implements \Spameri\Elastic\Entity\ValueInterface
 {
 
-	/**
-	 * @var string
-	 */
-	private $value;
-
-
 	public function __construct(
-		string $value,
+		private string $value,
 	)
 	{
-		$this->value = $value;
 	}
 
 

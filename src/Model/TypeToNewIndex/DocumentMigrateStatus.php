@@ -8,7 +8,7 @@ class DocumentMigrateStatus
 	/**
 	 * @var array<string, int>
 	 */
-	private $storage = [];
+	private array $storage = [];
 
 
 	public function add(

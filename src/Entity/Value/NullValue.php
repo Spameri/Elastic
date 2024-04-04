@@ -2,26 +2,17 @@
 
 namespace Spameri\Elastic\Entity\Value;
 
-class NullValue implements \Spameri\Elastic\Entity\ValueInterface
+readonly class NullValue implements \Spameri\Elastic\Entity\ValueInterface
 {
-
-	/**
-	 * @var NULL
-	 */
-	private $value;
-
 
 	public function __construct()
 	{
 	}
 
 
-	/**
-	 * @return NULL
-	 */
-	public function value()
+	public function value(): null
 	{
-		return $this->value;
+		return NULL;
 	}
 
 }

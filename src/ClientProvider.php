@@ -5,29 +5,14 @@ namespace Spameri\Elastic;
 class ClientProvider
 {
 
-	/**
-	 * @var \Elastic\Elasticsearch\Client
-	 */
-	private $client;
-
-	/**
-	 * @var \Elastic\Elasticsearch\ClientBuilder
-	 */
-	private $clientBuilder;
-
-	/**
-	 * @var \Spameri\Elastic\SettingsProviderInterface
-	 */
-	private $settingsProvider;
+	private \Elastic\Elasticsearch\Client $client;
 
 
 	public function __construct(
-		\Elastic\Elasticsearch\ClientBuilder $clientBuilder,
-		\Spameri\Elastic\SettingsProviderInterface $settingsProvider,
+		private readonly \Elastic\Elasticsearch\ClientBuilder $clientBuilder,
+		private readonly \Spameri\Elastic\SettingsProviderInterface $settingsProvider,
 	)
 	{
-		$this->clientBuilder = $clientBuilder;
-		$this->settingsProvider = $settingsProvider;
 		$this->init();
 	}
 

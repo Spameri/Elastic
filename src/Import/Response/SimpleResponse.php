@@ -2,27 +2,14 @@
 
 namespace Spameri\Elastic\Import\Response;
 
-class SimpleResponse implements \Spameri\Elastic\Import\ResponseInterface
+readonly class SimpleResponse implements \Spameri\Elastic\Import\ResponseInterface
 {
 
-	/**
-	 * @var mixed
-	 */
-	private $response;
-
-	/**
-	 * @var \Spameri\Elastic\Entity\AbstractImport
-	 */
-	private $entity;
-
-
 	public function __construct(
-		$response,
-		\Spameri\Elastic\Entity\AbstractImport $entity,
+		private mixed $response,
+		private \Spameri\Elastic\Entity\AbstractImport $entity,
 	)
 	{
-		$this->response = $response;
-		$this->entity = $entity;
 	}
 
 

@@ -5,22 +5,13 @@ namespace Spameri\Elastic\Import\Lock;
 class FileLock implements \Spameri\Elastic\Import\LockInterface
 {
 
-	/**
-	 * @var string
-	 */
-	private $lockDir;
-
-	/**
-	 * @var string
-	 */
-	private $runName;
+	private string $runName;
 
 
 	public function __construct(
-		string $lockDir,
+		private readonly string $lockDir,
 	)
 	{
-		$this->lockDir = $lockDir;
 	}
 
 

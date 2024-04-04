@@ -6,31 +6,25 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 {
 
 	/**
-	 * @var \Psr\Log\LoggerInterface
+	 * @var array<mixed>
 	 */
-	private $logger;
+	private array $queries = [];
 
 	/**
 	 * @var array<mixed>
 	 */
-	private $queries = [];
+	private array $requestBodies = [];
 
 	/**
 	 * @var array<mixed>
 	 */
-	private $requestBodies = [];
-
-	/**
-	 * @var array<mixed>
-	 */
-	private $responseBodies = [];
+	private array $responseBodies = [];
 
 
 	public function __construct(
-		\Psr\Log\LoggerInterface $logger,
+		private \Psr\Log\LoggerInterface $logger,
 	)
 	{
-		$this->logger = $logger;
 	}
 
 

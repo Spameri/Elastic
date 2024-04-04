@@ -5,19 +5,15 @@ namespace Spameri\Elastic\Model\Insert;
 class PrepareEntityArray
 {
 
-	/**
-	 * @var \Spameri\Elastic\Model\ServiceLocatorInterface
-	 */
-	private $serviceLocator;
+	public const ENTITY_CLASS = 'entityClass';
 
 	private array $insertedEntities;
 
 
 	public function __construct(
-		\Spameri\Elastic\Model\ServiceLocatorInterface $serviceLocator,
+		private readonly \Spameri\Elastic\Model\ServiceLocatorInterface $serviceLocator,
 	)
 	{
-		$this->serviceLocator = $serviceLocator;
 	}
 
 

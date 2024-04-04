@@ -8,33 +8,18 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	/**
 	 * @var array<\Spameri\Elastic\Entity\ElasticEntityInterface>
 	 */
-	protected $collection;
+	protected array $collection;
 
-	/**
-	 * @var \Spameri\Elastic\Model\ServiceInterface
-	 */
-	protected $service;
-
-	/**
-	 * @var array<string>
-	 */
-	protected $elasticIds;
-
-	/**
-	 * @var bool
-	 */
-	protected $initialized;
+	protected bool $initialized;
 
 
 	public function __construct(
-		\Spameri\Elastic\Model\ServiceInterface $service,
-		array $elasticIds = [],
+		protected \Spameri\Elastic\Model\ServiceInterface $service,
+		protected array $elasticIds = [],
 		\Spameri\Elastic\Entity\ElasticEntityInterface ...$entityCollection,
 	)
 	{
 		$this->collection = [];
-		$this->service = $service;
-		$this->elasticIds = $elasticIds;
 		$this->initialized = FALSE;
 
 		if (

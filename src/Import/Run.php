@@ -5,84 +5,29 @@ namespace Spameri\Elastic\Import;
 class Run
 {
 
-	/**
-	 * @var \Symfony\Component\Console\Output\OutputInterface
-	 */
-	private $output;
+	private \Symfony\Component\Console\Output\OutputInterface $output;
 
-	/**
-	 * @var \Spameri\Elastic\Import\LockInterface
-	 */
-	private $lock;
+	protected string $runName;
 
-	/**
-	 * @var \Spameri\Elastic\Import\RunHandlerInterface
-	 */
-	private $runHandler;
+	protected string $fileName;
 
-	/**
-	 * @var \Spameri\Elastic\Import\DataProviderInterface
-	 */
-	private $dataProvider;
-
-	/**
-	 * @var \Spameri\Elastic\Import\PrepareImportDataInterface
-	 */
-	private $prepareImportData;
-
-	/**
-	 * @var \Spameri\Elastic\Import\DataImportInterface
-	 */
-	private $dataImport;
-
-	/**
-	 * @var \Spameri\Elastic\Import\AfterImportInterface
-	 */
-	private $afterImport;
-
-	/**
-	 * @var string
-	 */
-	protected $runName;
-
-	/**
-	 * @var string
-	 */
-	protected $fileName;
-
-	/**
-	 * @var \Symfony\Component\Console\Helper\ProgressBar
-	 */
-	private $progressBar;
-
-	/**
-	 * @var \Spameri\Elastic\Import\LoggerHandlerInterface
-	 */
-	private $loggerHandler;
+	private \Symfony\Component\Console\Helper\ProgressBar $progressBar;
 
 
 	/**
 	 * @throws \ReflectionException
 	 */
 	public function __construct(
-		string $logDir,
-		\Spameri\Elastic\Import\LoggerHandlerInterface $loggerHandler,
-		\Spameri\Elastic\Import\LockInterface $lock,
-		\Spameri\Elastic\Import\RunHandlerInterface $runHandler,
-		\Spameri\Elastic\Import\DataProviderInterface $dataProvider,
-		\Spameri\Elastic\Import\PrepareImportDataInterface $prepareImportData,
-		\Spameri\Elastic\Import\DataImportInterface $dataImport,
-		\Spameri\Elastic\Import\AfterImportInterface $afterImport,
+		protected string $logDir,
+		private readonly \Spameri\Elastic\Import\LoggerHandlerInterface $loggerHandler,
+		private readonly \Spameri\Elastic\Import\LockInterface $lock,
+		private readonly \Spameri\Elastic\Import\RunHandlerInterface $runHandler,
+		private readonly \Spameri\Elastic\Import\DataProviderInterface $dataProvider,
+		private readonly \Spameri\Elastic\Import\PrepareImportDataInterface $prepareImportData,
+		private readonly \Spameri\Elastic\Import\DataImportInterface $dataImport,
+		private readonly \Spameri\Elastic\Import\AfterImportInterface $afterImport,
 	)
 	{
-		$this->lock = $lock;
-		$this->loggerHandler = $loggerHandler;
-		$this->runHandler = $runHandler;
-		$this->dataProvider = $dataProvider;
-		$this->prepareImportData = $prepareImportData;
-		$this->dataImport = $dataImport;
-		$this->afterImport = $afterImport;
-
 		$this->runName = (new \ReflectionClass($this))->getShortName();
 		$this->lock->setRunName($this->runName);
 		$this->setUpLogger($logDir);

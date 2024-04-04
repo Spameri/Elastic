@@ -2,27 +2,14 @@
 
 namespace Spameri\Elastic\Entity\Import;
 
-class StringValue implements ValidationPropertyInterface
+readonly class StringValue implements ValidationPropertyInterface
 {
 
-	/**
-	 * @var string
-	 */
-	private $value;
-
-	/**
-	 * @var string
-	 */
-	private $key;
-
-
 	public function __construct(
-		string $value,
-		string $key,
+		private string $value,
+		private string $key,
 	)
 	{
-		$this->value = $value;
-		$this->key = $key;
 	}
 
 

@@ -2,17 +2,11 @@
 
 namespace Spameri\Elastic\Model\Indices;
 
-class Close
+readonly class Close
 {
 
-	/**
-	 * @var \Spameri\Elastic\ClientProvider
-	 */
-	private $clientProvider;
-
-
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider,
+		private \Spameri\Elastic\ClientProvider $clientProvider,
 	)
 	{
 		$this->clientProvider = $clientProvider;

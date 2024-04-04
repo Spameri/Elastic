@@ -2,26 +2,18 @@
 
 namespace Spameri\Elastic\Entity\Property;
 
-class ElasticId implements \Spameri\Elastic\Entity\ValueInterface, \Spameri\Elastic\Entity\Property\ElasticIdInterface
+readonly class ElasticId implements \Spameri\Elastic\Entity\ValueInterface, \Spameri\Elastic\Entity\Property\ElasticIdInterface
 {
 
 	public const FIELD_NAME = '_id';
 
-
-	/**
-	 * @var string
-	 */
-	private $value;
-
-
 	public function __construct(
-		string $id,
+		private string $value,
 	)
 	{
-		if ($id === '') {
+		if ($value === '') {
 			throw new \InvalidArgumentException();
 		}
-		$this->value = $id;
 	}
 
 

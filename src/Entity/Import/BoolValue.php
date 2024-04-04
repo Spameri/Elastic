@@ -2,27 +2,14 @@
 
 namespace Spameri\Elastic\Entity\Import;
 
-class BoolValue implements ValidationPropertyInterface
+readonly class BoolValue implements ValidationPropertyInterface
 {
 
-	/**
-	 * @var bool
-	 */
-	private $value;
-
-	/**
-	 * @var string
-	 */
-	private $key;
-
-
 	public function __construct(
-		bool $value,
-		string $key,
+		private bool $value,
+		private string $key,
 	)
 	{
-		$this->value = $value;
-		$this->key = $key;
 	}
 
 

@@ -7,23 +7,14 @@ class InitializeIndexes extends \Symfony\Component\Console\Command\Command
 
 	protected static $defaultName = 'spameri:elastic:initialize-index';
 
-	private \Spameri\Elastic\Model\DeleteIndex $deleteIndex;
-
-	private \Spameri\Elastic\Model\InitializeIndex $initializeIndex;
-
-	private \Spameri\Elastic\Model\EntitySettingsLocator $entitySettingsLocator;
-
 
 	public function __construct(
-		\Spameri\Elastic\Model\EntitySettingsLocator $entitySettingsLocator,
-		\Spameri\Elastic\Model\DeleteIndex $deleteIndex,
-		\Spameri\Elastic\Model\InitializeIndex $initializeIndex,
+		private readonly \Spameri\Elastic\Model\EntitySettingsLocator $entitySettingsLocator,
+		private readonly \Spameri\Elastic\Model\DeleteIndex $deleteIndex,
+		private readonly \Spameri\Elastic\Model\InitializeIndex $initializeIndex,
 	)
 	{
 		parent::__construct(NULL);
-		$this->entitySettingsLocator = $entitySettingsLocator;
-		$this->deleteIndex = $deleteIndex;
-		$this->initializeIndex = $initializeIndex;
 	}
 
 

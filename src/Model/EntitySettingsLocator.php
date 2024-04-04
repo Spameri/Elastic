@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Spameri\Elastic\Model;
 
-class EntitySettingsLocator
+readonly class EntitySettingsLocator
 {
 
 	public function __construct(

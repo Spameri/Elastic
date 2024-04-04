@@ -2,20 +2,13 @@
 
 namespace Spameri\Elastic\Import\Run;
 
-class Options
+readonly class Options
 {
 
-	/**
-	 * @var int
-	 */
-	private $lockDuration;
-
-
 	public function __construct(
-		int $lockDuration,
+		private int $lockDuration,
 	)
 	{
-		$this->lockDuration = $lockDuration;
 	}
 
 

@@ -2,20 +2,13 @@
 
 namespace Spameri\Elastic\Diagnostics;
 
-class Panel implements \Tracy\IBarPanel
+readonly class Panel implements \Tracy\IBarPanel
 {
 
-	/**
-	 * @var \Spameri\Elastic\Diagnostics\PanelLogger
-	 */
-	private $logger;
-
-
 	public function __construct(
-		\Spameri\Elastic\Diagnostics\PanelLogger $logger,
+		private \Spameri\Elastic\Diagnostics\PanelLogger $logger,
 	)
 	{
-		$this->logger = $logger;
 	}
 
 

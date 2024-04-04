@@ -2,29 +2,16 @@
 
 namespace Spameri\Elastic\Model;
 
-class CreateIndex
+readonly class CreateIndex
 {
 
-	private \Spameri\Elastic\Provider\DateTimeProvider $dateTimeProvider;
-
-	private Indices\AddAlias $addAlias;
-
-	private Indices\Get $get;
-
-	private Indices\Create $create;
-
-
 	public function __construct(
-		\Spameri\Elastic\Provider\DateTimeProvider $dateTimeProvider,
-		\Spameri\Elastic\Model\Indices\AddAlias $addAlias,
-		\Spameri\Elastic\Model\Indices\Get $get,
-		\Spameri\Elastic\Model\Indices\Create $create,
+		private \Spameri\Elastic\Provider\DateTimeProvider $dateTimeProvider,
+		private \Spameri\Elastic\Model\Indices\AddAlias $addAlias,
+		private \Spameri\Elastic\Model\Indices\Get $get,
+		private \Spameri\Elastic\Model\Indices\Create $create,
 	)
 	{
-		$this->dateTimeProvider = $dateTimeProvider;
-		$this->addAlias = $addAlias;
-		$this->get = $get;
-		$this->create = $create;
 	}
 
 

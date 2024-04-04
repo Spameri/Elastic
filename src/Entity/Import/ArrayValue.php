@@ -2,30 +2,17 @@
 
 namespace Spameri\Elastic\Entity\Import;
 
-class ArrayValue implements ValidationPropertyInterface
+readonly class ArrayValue implements ValidationPropertyInterface
 {
-
-	/**
-	 * @var array<mixed>
-	 */
-	private $array;
-
-	/**
-	 * @var string
-	 */
-	private $key;
-
 
 	/**
 	 * @param array<mixed> $array
 	 */
 	public function __construct(
-		array $array,
-		string $key,
+		private array $array,
+		private string $key,
 	)
 	{
-		$this->array = $array;
-		$this->key = $key;
 	}
 
 

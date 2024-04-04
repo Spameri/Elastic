@@ -6,21 +6,15 @@ class ServiceLocator implements ServiceLocatorInterface
 {
 
 	/**
-	 * @var \Nette\DI\Container
-	 */
-	private $container;
-
-	/**
 	 * @var array<string>
 	 */
 	private array $services;
 
 
 	public function __construct(
-		\Nette\DI\Container $container,
+		private readonly \Nette\DI\Container $container,
 	)
 	{
-		$this->container = $container;
 		$this->services = $container->findByType(\Spameri\Elastic\Model\ServiceInterface::class);
 	}
 
@@ -71,4 +65,5 @@ class ServiceLocator implements ServiceLocatorInterface
 
 		return null;
 	}
+
 }

@@ -2,20 +2,13 @@
 
 namespace Spameri\Elastic\Import\Run;
 
-class LoggerHandler implements \Spameri\Elastic\Import\LoggerHandlerInterface
+readonly class LoggerHandler implements \Spameri\Elastic\Import\LoggerHandlerInterface
 {
 
-	/**
-	 * @var \Psr\Log\LoggerInterface
-	 */
-	private $logger;
-
-
 	public function __construct(
-		\Psr\Log\LoggerInterface $logger,
+		private \Psr\Log\LoggerInterface $logger,
 	)
 	{
-		$this->logger = $logger;
 	}
 
 

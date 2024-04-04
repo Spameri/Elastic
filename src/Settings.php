@@ -2,37 +2,18 @@
 
 namespace Spameri\Elastic;
 
-class Settings
+readonly class Settings
 {
-
-	/**
-	 * @var string
-	 */
-	private $host;
-
-	/**
-	 * @var int
-	 */
-	private $port;
-
-	/**
-	 * @var array<mixed>
-	 */
-	private $headers;
-
 
 	/**
 	 * @param array<mixed> $headers
 	 */
 	public function __construct(
-		string $host,
-		int $port,
-		array $headers,
+		private string $host,
+		private int $port,
+		private array $headers,
 	)
 	{
-		$this->host = $host;
-		$this->port = $port;
-		$this->headers = $headers;
 	}
 
 

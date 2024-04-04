@@ -2,31 +2,15 @@
 
 namespace Spameri\Elastic\Model;
 
-class Search
+readonly class Search
 {
 
-	/**
-	 * @var \Spameri\Elastic\ClientProvider
-	 */
-	private $clientProvider;
-
-	/**
-	 * @var \Spameri\ElasticQuery\Response\ResultMapper
-	 */
-	private $resultMapper;
-
-	private VersionProvider $versionProvider;
-
-
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider,
-		\Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
-		VersionProvider $versionProvider,
+		private \Spameri\Elastic\ClientProvider $clientProvider,
+		private \Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
+		private VersionProvider $versionProvider,
 	)
 	{
-		$this->clientProvider = $clientProvider;
-		$this->resultMapper = $resultMapper;
-		$this->versionProvider = $versionProvider;
 	}
 
 

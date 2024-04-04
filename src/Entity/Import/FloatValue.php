@@ -2,27 +2,14 @@
 
 namespace Spameri\Elastic\Entity\Import;
 
-class FloatValue implements ValidationPropertyInterface
+readonly class FloatValue implements ValidationPropertyInterface
 {
 
-	/**
-	 * @var float
-	 */
-	private $value;
-
-	/**
-	 * @var string
-	 */
-	private $key;
-
-
 	public function __construct(
-		float $value,
-		string $key,
+		private float $value,
+		private string $key,
 	)
 	{
-		$this->value = $value;
-		$this->key = $key;
 	}
 
 

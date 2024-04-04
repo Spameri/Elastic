@@ -8,7 +8,7 @@ abstract class AbstractValueCollection implements ValueCollectionInterface
 	/**
 	 * @var array<\Spameri\Elastic\Entity\ValueInterface>
 	 */
-	protected $collection;
+	protected array $collection;
 
 
 	public function __construct(

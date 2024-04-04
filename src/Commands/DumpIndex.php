@@ -7,15 +7,12 @@ class DumpIndex extends \Symfony\Component\Console\Command\Command
 
 	protected static $defaultName = 'spameri:elastic:dump-index';
 
-	private \Spameri\Elastic\Model\DumpIndex $dumpIndex;
-
 
 	public function __construct(
-		\Spameri\Elastic\Model\DumpIndex $migrate,
+		private readonly \Spameri\Elastic\Model\DumpIndex $migrate,
 	)
 	{
 		parent::__construct(NULL);
-		$this->dumpIndex = $migrate;
 	}
 
 
@@ -44,8 +41,8 @@ class DumpIndex extends \Symfony\Component\Console\Command\Command
 		$index = $input->getArgument('index');
 		$filename = $input->getArgument('filename');
 
-		$this->dumpIndex->setOutput($output);
-		$this->dumpIndex->execute($index, $filename);
+		$this->migrate->setOutput($output);
+		$this->migrate->execute($index, $filename);
 
 		$output->writeln('Done');
 

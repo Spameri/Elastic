@@ -5,22 +5,13 @@ namespace Spameri\Elastic\Model;
 class RestoreIndex
 {
 
-	/**
-	 * @var \Symfony\Component\Console\Output\OutputInterface
-	 */
-	private $output;
-
-	/**
-	 * @var \Spameri\Elastic\ClientProvider
-	 */
-	private $clientProvider;
+	private \Symfony\Component\Console\Output\OutputInterface $output;
 
 
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider,
+		private readonly \Spameri\Elastic\ClientProvider $clientProvider,
 	)
 	{
-		$this->clientProvider = $clientProvider;
 	}
 
 

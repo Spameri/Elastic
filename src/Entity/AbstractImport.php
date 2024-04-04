@@ -2,23 +2,13 @@
 
 namespace Spameri\Elastic\Entity;
 
-abstract class AbstractImport implements \Spameri\Elastic\Entity\Import\ValidationObjectInterface
+abstract readonly class AbstractImport implements \Spameri\Elastic\Entity\Import\ValidationObjectInterface
 {
 
-	/**
-	 * @var int|string
-	 */
-	private $key;
-
-
-	/**
-	 * @param int|string $key
-	 */
 	public function __construct(
-		$key,
+		private int|string $key,
 	)
 	{
-		$this->key = $key;
 	}
 
 

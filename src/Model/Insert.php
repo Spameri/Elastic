@@ -2,31 +2,15 @@
 
 namespace Spameri\Elastic\Model;
 
-class Insert
+readonly class Insert
 {
 
-	/**
-	 * @var \Spameri\Elastic\Model\Insert\PrepareEntityArray
-	 */
-	private $prepareEntityArray;
-
-	/**
-	 * @var \Spameri\Elastic\ClientProvider
-	 */
-	private $clientProvider;
-
-	private \Spameri\Elastic\Model\VersionProvider $versionProvider;
-
-
 	public function __construct(
-		\Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray,
-		\Spameri\Elastic\ClientProvider $clientProvider,
-		\Spameri\Elastic\Model\VersionProvider $versionProvider,
+		private \Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray,
+		private \Spameri\Elastic\ClientProvider $clientProvider,
+		private \Spameri\Elastic\Model\VersionProvider $versionProvider,
 	)
 	{
-		$this->prepareEntityArray = $prepareEntityArray;
-		$this->clientProvider = $clientProvider;
-		$this->versionProvider = $versionProvider;
 	}
 
 

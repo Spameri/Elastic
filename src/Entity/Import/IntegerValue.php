@@ -2,27 +2,14 @@
 
 namespace Spameri\Elastic\Entity\Import;
 
-class IntegerValue implements ValidationPropertyInterface
+readonly class IntegerValue implements ValidationPropertyInterface
 {
 
-	/**
-	 * @var int
-	 */
-	private $value;
-
-	/**
-	 * @var string
-	 */
-	private $key;
-
-
 	public function __construct(
-		int $value,
-		string $key,
+		private int $value,
+		private string $key,
 	)
 	{
-		$this->value = $value;
-		$this->key = $key;
 	}
 
 

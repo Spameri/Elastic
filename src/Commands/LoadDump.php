@@ -7,15 +7,12 @@ class LoadDump extends \Symfony\Component\Console\Command\Command
 
 	protected static $defaultName = 'spameri:elastic:load-dump';
 
-	private \Spameri\Elastic\Model\RestoreIndex $restoreIndex;
-
 
 	public function __construct(
-		\Spameri\Elastic\Model\RestoreIndex $migrate,
+		private readonly \Spameri\Elastic\Model\RestoreIndex $migrate,
 	)
 	{
 		parent::__construct(NULL);
-		$this->restoreIndex = $migrate;
 	}
 
 
@@ -48,8 +45,8 @@ class LoadDump extends \Symfony\Component\Console\Command\Command
 		$filename = $input->getArgument('filename');
 		$step = (int) $input->getArgument('step');
 
-		$this->restoreIndex->setOutput($output);
-		$this->restoreIndex->execute($filename, $step);
+		$this->migrate->setOutput($output);
+		$this->migrate->execute($filename, $step);
 
 		$output->writeln('Done');
 

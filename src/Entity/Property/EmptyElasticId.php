@@ -2,23 +2,16 @@
 
 namespace Spameri\Elastic\Entity\Property;
 
-class EmptyElasticId implements \Spameri\Elastic\Entity\ValueInterface, \Spameri\Elastic\Entity\Property\ElasticIdInterface
+readonly class EmptyElasticId implements \Spameri\Elastic\Entity\ValueInterface, \Spameri\Elastic\Entity\Property\ElasticIdInterface
 {
 
-	/**
-	 * @var string
-	 */
-	private $value;
-
-
 	public function __construct(
-		string $id = '',
+		private string $value = '',
 	)
 	{
-		if ($id !== '') {
+		if ($value !== '') {
 			throw new \InvalidArgumentException();
 		}
-		$this->value = $id;
 	}
 
 

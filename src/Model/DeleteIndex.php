@@ -2,21 +2,14 @@
 
 namespace Spameri\Elastic\Model;
 
-class DeleteIndex
+readonly class DeleteIndex
 {
 
-	private \Spameri\Elastic\Model\Indices\Get $get;
-
-	private \Spameri\Elastic\Model\Indices\Delete $delete;
-
-
 	public function __construct(
-		\Spameri\Elastic\Model\Indices\Get $get,
-		\Spameri\Elastic\Model\Indices\Delete $delete,
+		private \Spameri\Elastic\Model\Indices\Get $get,
+		private \Spameri\Elastic\Model\Indices\Delete $delete,
 	)
 	{
-		$this->get = $get;
-		$this->delete = $delete;
 	}
 
 

@@ -2,20 +2,13 @@
 
 namespace Spameri\Elastic\Entity\Import;
 
-class EmptyValue implements ValidationPropertyInterface
+readonly class EmptyValue implements ValidationPropertyInterface
 {
 
-	/**
-	 * @var string
-	 */
-	private $key;
-
-
 	public function __construct(
-		string $key,
+		private string $key,
 	)
 	{
-		$this->key = $key;
 	}
 
 
@@ -25,7 +18,7 @@ class EmptyValue implements ValidationPropertyInterface
 	}
 
 
-	public function getValue()
+	public function getValue(): null
 	{
 		return NULL;
 	}

@@ -2,34 +2,15 @@
 
 namespace Spameri\Elastic\Entity\Import;
 
-class DateValue implements ValidationPropertyInterface
+readonly class DateValue implements ValidationPropertyInterface
 {
 
-	/**
-	 * @var \DateTime
-	 */
-	private $value;
-
-	/**
-	 * @var string
-	 */
-	private $key;
-
-	/**
-	 * @var string
-	 */
-	private $format;
-
-
 	public function __construct(
-		\DateTime $value,
-		string $key,
-		string $format = 'Y-m-d H:i:s',
+		private \DateTime $value,
+		private string $key,
+		private string $format = 'Y-m-d H:i:s',
 	)
 	{
-		$this->value = $value;
-		$this->key = $key;
-		$this->format = $format;
 	}
 
 

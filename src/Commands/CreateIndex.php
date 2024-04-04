@@ -7,19 +7,13 @@ class CreateIndex extends \Symfony\Component\Console\Command\Command
 
 	protected static $defaultName = 'spameri:elastic:create-index';
 
-	private \Spameri\Elastic\Model\CreateIndex $createIndex;
-
-	private \Spameri\Elastic\Model\DeleteIndex $deleteIndex;
-
 
 	public function __construct(
-		\Spameri\Elastic\Model\CreateIndex $createIndex,
-		\Spameri\Elastic\Model\DeleteIndex $deleteIndex,
+		private readonly \Spameri\Elastic\Model\CreateIndex $createIndex,
+		private readonly \Spameri\Elastic\Model\DeleteIndex $deleteIndex,
 	)
 	{
 		parent::__construct(NULL);
-		$this->createIndex = $createIndex;
-		$this->deleteIndex = $deleteIndex;
 	}
 
 

@@ -2,20 +2,13 @@
 
 namespace Spameri\Elastic\Model\Indices;
 
-class Open
+readonly class Open
 {
 
-	/**
-	 * @var \Spameri\Elastic\ClientProvider
-	 */
-	private $clientProvider;
-
-
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider,
+		private \Spameri\Elastic\ClientProvider $clientProvider,
 	)
 	{
-		$this->clientProvider = $clientProvider;
 	}
 
 

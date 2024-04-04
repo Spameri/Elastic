@@ -2,22 +2,16 @@
 
 namespace Spameri\Elastic\Entity\Import;
 
-class NoValue implements ValidationPropertyInterface
+readonly class NoValue implements ValidationPropertyInterface
 {
 
-	/**
-	 * @return NULL
-	 */
-	public function key()
+	public function key(): null
 	{
 		return NULL;
 	}
 
 
-	/**
-	 * @return NULL
-	 */
-	public function getValue()
+	public function getValue(): null
 	{
 		return NULL;
 	}

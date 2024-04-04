@@ -2,17 +2,13 @@
 
 namespace Spameri\Elastic\Model;
 
-class VersionProvider
+readonly class VersionProvider
 {
 
-	private int $versionNumber;
-
-
 	public function __construct(
-		int $versionNumber = \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7,
+		private int $versionNumber = \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7,
 	)
 	{
-		$this->versionNumber = $versionNumber;
 	}
 
 

@@ -2,24 +2,14 @@
 
 namespace Spameri\Elastic\Model;
 
-class Delete
+readonly class Delete
 {
 
-	/**
-	 * @var \Spameri\Elastic\ClientProvider
-	 */
-	private $clientProvider;
-
-	private VersionProvider $versionProvider;
-
-
 	public function __construct(
-		\Spameri\Elastic\ClientProvider $clientProvider,
-		VersionProvider $versionProvider,
+		private \Spameri\Elastic\ClientProvider $clientProvider,
+		private VersionProvider $versionProvider,
 	)
 	{
-		$this->clientProvider = $clientProvider;
-		$this->versionProvider = $versionProvider;
 	}
 
 

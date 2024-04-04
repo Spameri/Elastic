@@ -5,11 +5,8 @@ namespace Spameri\Elastic\Import;
 interface ResponseInterface
 {
 
-	/**
-	 * @param mixed $response
-	 */
 	public function __construct(
-		$response,
+		mixed $response,
 		\Spameri\Elastic\Entity\AbstractImport $entity,
 	);
 

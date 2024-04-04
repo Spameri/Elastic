@@ -2,38 +2,16 @@
 
 namespace Spameri\Elastic\Model;
 
-class InsertMultiple
+readonly class InsertMultiple
 {
 
-	/**
-	 * @var \Spameri\Elastic\Model\Insert\PrepareEntityArray
-	 */
-	private $prepareEntityArray;
-
-	/**
-	 * @var \Spameri\Elastic\ClientProvider
-	 */
-	private $clientProvider;
-
-	/**
-	 * @var \Spameri\ElasticQuery\Response\ResultMapper
-	 */
-	private $resultMapper;
-
-	private VersionProvider $versionProvider;
-
-
 	public function __construct(
-		\Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray,
-		\Spameri\Elastic\ClientProvider $clientProvider,
-		\Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
-		\Spameri\Elastic\Model\VersionProvider $versionProvider,
+		private \Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray,
+		private \Spameri\Elastic\ClientProvider $clientProvider,
+		private \Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
+		private \Spameri\Elastic\Model\VersionProvider $versionProvider,
 	)
 	{
-		$this->prepareEntityArray = $prepareEntityArray;
-		$this->clientProvider = $clientProvider;
-		$this->resultMapper = $resultMapper;
-		$this->versionProvider = $versionProvider;
 	}
 
 

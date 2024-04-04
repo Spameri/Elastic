@@ -5,28 +5,16 @@ namespace Spameri\Elastic\Model;
 class DumpIndex
 {
 
-	/**
-	 * @var \Symfony\Component\Console\Output\OutputInterface
-	 */
-	private $output;
+	private \Symfony\Component\Console\Output\OutputInterface $output;
 
-	/**
-	 * @var string
-	 */
-	private $bulkData;
-
-	/**
-	 * @var \Spameri\Elastic\Model\Scroll
-	 */
-	private $scroll;
+	private string $bulkData;
 
 
 	public function __construct(
-		\Spameri\Elastic\Model\Scroll $scroll,
+		private readonly \Spameri\Elastic\Model\Scroll $scroll,
 	)
 	{
 		$this->bulkData = '';
-		$this->scroll = $scroll;
 	}
 
 
