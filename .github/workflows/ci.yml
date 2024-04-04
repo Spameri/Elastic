@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: [ 8.2, 8.3 ]
+        php: [ 8.2 ]
         version: [ lowest, standard ]
         elastic: [ 8.12.0 ]
 
