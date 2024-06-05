@@ -21,18 +21,9 @@ readonly class Insert
 	public function execute(
 		\Spameri\Elastic\Entity\AbstractElasticEntity $entity,
 		string $index,
-		string|null $type = NULL,
 		bool $hasSti = FALSE,
 	): string
 	{
-		if ($type === NULL) {
-			$type = $index;
-		}
-
-		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
-			$type = NULL;
-		}
-
 		$entityArray = $this->prepareEntityArray->prepare($entity, $hasSti);
 		unset($entityArray['id']);
 
@@ -40,10 +31,9 @@ readonly class Insert
 			$response = $this->clientProvider->client()->index(
 				(
 					new \Spameri\ElasticQuery\Document(
-						$index,
-						new \Spameri\ElasticQuery\Document\Body\Plain($entityArray),
-						$type,
-						$entity->id()->value(),
+						index: $index,
+						body: new \Spameri\ElasticQuery\Document\Body\Plain($entityArray),
+						id: $entity->id()->value(),
 					)
 				)->toArray(),
 			)->asArray()
@@ -64,11 +54,6 @@ readonly class Insert
 
 		} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
-		}
-
-		if (isset($response['created']) || isset($response['updated'])) {
-			$entity->id = new \Spameri\Elastic\Entity\Property\ElasticId($response['_id']);
-			return $response['_id'];
 		}
 
 		if (isset($response['result']) && ($response['result'] === 'created' || $response['result'] === 'updated')) {

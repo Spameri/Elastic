@@ -8,7 +8,6 @@ readonly class DeleteMultiple
 	public function __construct(
 		private \Spameri\Elastic\ClientProvider $clientProvider,
 		private \Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
-		private VersionProvider $versionProvider,
 	)
 	{
 	}
@@ -21,24 +20,14 @@ readonly class DeleteMultiple
 	public function execute(
 		\Spameri\Elastic\Entity\ElasticEntityCollectionInterface $entityCollection,
 		string $index,
-		string|null $type = NULL,
 	): \Spameri\ElasticQuery\Response\ResultBulk
 	{
-		if ($type === NULL) {
-			$type = $index;
-		}
-
-		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
-			$type = '_doc';
-		}
-
 		$documentsArray = [];
 		/** @var \Spameri\Elastic\Entity\ElasticEntityInterface $entity */
 		foreach ($entityCollection as $entity) {
 			$documentsArray[] = [
 				'delete' => [
 					'_index' => $index,
-					'_type' => $type,
 					'_id' => $entity->id()->value(),
 				],
 			];

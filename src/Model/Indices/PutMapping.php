@@ -7,7 +7,6 @@ readonly class PutMapping
 
 	public function __construct(
 		private \Spameri\Elastic\ClientProvider $clientProvider,
-		private \Spameri\Elastic\Model\VersionProvider $versionProvider,
 	)
 	{
 	}
@@ -21,20 +20,8 @@ readonly class PutMapping
 		string $index,
 		array $mapping,
 		string $dynamic = 'false',
-		string|null $type = NULL,
 	): array
 	{
-		if ($type === NULL) {
-			$type = $index;
-		}
-		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
-			$properties = $mapping['properties'];
-			$type = NULL;
-
-		} else {
-			$properties = \reset($mapping)['properties'];
-		}
-
 		try {
 			return $this->clientProvider->client()->indices()->putMapping(
 				(
@@ -46,7 +33,6 @@ readonly class PutMapping
 							'dynamic' => $dynamic,
 						],
 					),
-					$type,
 				)
 				)->toArray(),
 			)->asArray()

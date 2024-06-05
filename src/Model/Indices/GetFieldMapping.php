@@ -14,7 +14,6 @@ readonly class GetFieldMapping
 
 	public function execute(
 		string $index,
-		string $type = '_doc',
 		array $fields = [],
 	): array
 	{
@@ -23,9 +22,8 @@ readonly class GetFieldMapping
 				(
 					new \Spameri\ElasticQuery\Document(
 						$index,
-						NULL,
-						$type,
-						NULL,
+						null,
+						null,
 						[
 							'fields' => $fields,
 						],

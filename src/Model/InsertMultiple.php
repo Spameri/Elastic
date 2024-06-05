@@ -9,7 +9,6 @@ readonly class InsertMultiple
 		private \Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray,
 		private \Spameri\Elastic\ClientProvider $clientProvider,
 		private \Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
-		private \Spameri\Elastic\Model\VersionProvider $versionProvider,
 	)
 	{
 	}
@@ -22,17 +21,8 @@ readonly class InsertMultiple
 	public function execute(
 		\Spameri\Elastic\Entity\ElasticEntityCollectionInterface $entityCollection,
 		string $index,
-		string|null $type = NULL,
 	): \Spameri\ElasticQuery\Response\ResultBulk
 	{
-		if ($type === NULL) {
-			$type = $index;
-		}
-
-		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
-			$type = '_doc';
-		}
-
 		$documentsArray = [];
 		foreach ($entityCollection as $entity) {
 			$entityArray = $this->prepareEntityArray->prepare($entity);
@@ -41,7 +31,6 @@ readonly class InsertMultiple
 			$documentsArray[] = [
 				'index' => [
 					'_index' => $index,
-					'_type' => $type,
 				],
 			];
 			$documentsArray[] = $entityArray;

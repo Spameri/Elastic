@@ -7,7 +7,6 @@ readonly class Create
 
 	public function __construct(
 		private \Spameri\Elastic\ClientProvider $clientProvider,
-		private \Spameri\Elastic\Model\VersionProvider $versionProvider,
 	)
 	{
 	}
@@ -20,30 +19,8 @@ readonly class Create
 	public function execute(
 		string $index,
 		array $parameters,
-		string|null $type = NULL,
 	): array
 	{
-		if ($type === NULL) {
-			$type = $index;
-		}
-
-		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
-			$type = NULL;
-		}
-
-		if (
-			isset($parameters['mappings']['properties'])
-			&& $this->versionProvider->provide() < \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7
-		) {
-			foreach ($parameters['mappings']['properties'] as $fieldName => $field) {
-				$this->replaceKeywordInOlderVersion($field);
-				$parameters['mappings']['properties'][$fieldName] = $field;
-			}
-			$parameters['mappings'] = [
-				$type => $parameters['mappings'],
-			];
-		}
-
 		try {
 			return $this->clientProvider->client()->indices()->create(
 				(

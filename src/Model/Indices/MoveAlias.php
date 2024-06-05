@@ -33,8 +33,7 @@ readonly class MoveAlias
 							],
 						],
 					),
-					NULL,
-					NULL,
+					null,
 					[
 						'name' => $indexTo,
 					],
