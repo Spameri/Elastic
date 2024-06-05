@@ -8,6 +8,9 @@ services:
 	prepareEntityArray:
 		factory: Spameri\Elastic\Model\Insert\PrepareEntityArray
 
+	identityMap:
+		factory: Spameri\Elastic\Model\IdentityMap
+
 	versionProvider:
 		factory: Spameri\Elastic\Model\VersionProvider(%version%)
 
