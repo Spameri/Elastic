@@ -29,7 +29,7 @@ readonly class PutMapping
 					$index,
 					new \Spameri\ElasticQuery\Document\Body\Plain(
 						[
-							'properties' => $properties,
+							'properties' => $mapping['properties'],
 							'dynamic' => $dynamic,
 						],
 					),

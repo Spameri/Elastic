@@ -11,10 +11,8 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 	public array $defaults = [
 		'host' => 'localhost',
 		'port' => 9200,
-		'debug' => FALSE,
-		'version' => \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7,
-		'synonymPath' => NULL,
 		'debug' => false,
+		'version' => \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_8,
 		'synonymPath' => null,
 		'entities' => [],
 	];
