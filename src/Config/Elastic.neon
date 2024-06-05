@@ -227,5 +227,11 @@ services:
 #	entityService:
 #		factory: Spameri\Elastic\Model\EntityService
 
-	entityRepository:
-		factory: Spameri\Elastic\EntityRepository
+	entityManager:
+		factory: Spameri\Elastic\EntityManager
+
+	eventManager:
+		factory: Spameri\Elastic\EventManager
+
+	reflection:
+		factory: Spameri\Elastic\Reflection\Reflection
