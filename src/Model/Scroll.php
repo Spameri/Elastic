@@ -22,7 +22,7 @@ readonly class Scroll
 	): \Spameri\ElasticQuery\Response\ResultSearch
 	{
 		try {
-			if ($elasticQuery->options()->scrollId() === NULL) {
+			if ($elasticQuery->options()->scrollId() === null) {
 				$result = $this->clientProvider->client()->search(
 					(
 						new \Spameri\ElasticQuery\Document(

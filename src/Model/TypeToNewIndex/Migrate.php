@@ -77,7 +77,7 @@ class Migrate
 		$progressBar = new \Symfony\Component\Console\Helper\ProgressBar($this->output);
 		$progressBar->setFormat('debug');
 
-		$continue = TRUE;
+		$continue = true;
 		$from = 0;
 		$elasticQuery = new \Spameri\ElasticQuery\ElasticQuery();
 		$elasticQuery->options()->changeSize(5000);
@@ -93,7 +93,7 @@ class Migrate
 			}
 
 			if (\count($result->hits()->getIterator()) === 0) {
-				$continue = FALSE;
+				$continue = false;
 
 			} else {
 				$progressBar->advance(5000);
@@ -106,12 +106,12 @@ class Migrate
 
 		// 6. If open transfer again changed docs
 		// 7. Apply previous step until empty queue or 10 loops
-		if ($allowClose === FALSE) {
+		if ($allowClose === false) {
 			$this->output->writeln('Starting update changed documents');
 			$updateBar = new \Symfony\Component\Console\Helper\ProgressBar($this->output);
 			$updateBar->setFormat('debug');
 
-			$canContinue = TRUE;
+			$canContinue = true;
 			$loops = 0;
 			while ($canContinue) {
 				$changed = 0;
@@ -133,12 +133,12 @@ class Migrate
 
 				$loops++;
 				if ($loops >= 10) {
-					$canContinue = FALSE;
+					$canContinue = false;
 					$updateBar->finish();
 					$this->output->writeln('Loops limit reached, data is too frequently updated, please keep in mind there can be inconsistencies after this command.');
 				}
 				if ($changed === 0) {
-					$canContinue = FALSE;
+					$canContinue = false;
 					$updateBar->finish();
 					$this->output->writeln('Documents changed during migrate reindexed.');
 				}
@@ -180,11 +180,11 @@ class Migrate
 		)
 		;
 
-		if ($allowClose === FALSE) {
+		if ($allowClose === false) {
 			$this->documentMigrateStatus->add($hit->id(), $hit->version());
 		}
 
-		if ($allowClose === TRUE) {
+		if ($allowClose === true) {
 			$this->delete->execute(
 				new \Spameri\Elastic\Entity\Property\ElasticId($hit->id()),
 				$indexFrom,

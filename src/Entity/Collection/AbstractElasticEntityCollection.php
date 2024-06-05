@@ -20,13 +20,13 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	)
 	{
 		$this->collection = [];
-		$this->initialized = FALSE;
+		$this->initialized = false;
 
 		if (
 			! $elasticIds
 			&& \count($entityCollection) > 0
 		) {
-			$this->initialized = TRUE;
+			$this->initialized = true;
 		}
 
 		foreach ($entityCollection as $elasticEntity) {
@@ -57,7 +57,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 			$entities = $this->service->getAllBy(
 				new \Spameri\ElasticQuery\ElasticQuery(
 					new \Spameri\ElasticQuery\Query\QueryCollection(
-						NULL,
+						null,
 						new \Spameri\ElasticQuery\Query\MustCollection(
 							new \Spameri\ElasticQuery\Query\Terms(
 								'_id',
@@ -68,13 +68,13 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 				),
 			);
 
-			$this->initialized = TRUE;
+			$this->initialized = true;
 
 			foreach ($entities as $entity) {
 				$this->add($entity);
 			}
 		} else {
-			$this->initialized = TRUE;
+			$this->initialized = true;
 		}
 	}
 
@@ -116,14 +116,14 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 		}
 
 		if ($id instanceof \Spameri\Elastic\Entity\Property\EmptyElasticId) {
-			return NULL;
+			return null;
 		}
 
 		if ($id->value() && \array_key_exists($id->value(), $this->keys())) {
 			return $this->collection[$id->value()];
 		}
 
-		return NULL;
+		return null;
 	}
 
 
@@ -198,7 +198,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 			$this->initialize();
 		}
 
-		if ( ! \in_array($type, ['asc', 'desc'], TRUE)) {
+		if ( ! \in_array($type, ['asc', 'desc'], true)) {
 			throw new \Nette\InvalidArgumentException('Not supported sorting method.');
 		}
 
@@ -212,7 +212,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 			$this->initialize();
 		}
 
-		return \reset($this->collection) ?: NULL;
+		return \reset($this->collection) ?: null;
 	}
 
 }

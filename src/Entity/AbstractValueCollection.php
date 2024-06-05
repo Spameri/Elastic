@@ -39,7 +39,7 @@ abstract class AbstractValueCollection implements ValueCollectionInterface
 	public function get(mixed $key): \Spameri\Elastic\Entity\ValueInterface|null
 	{
 		if ( ! isset($this->collection[$key])) {
-			return NULL;
+			return null;
 		}
 
 		return $this->collection[$key];

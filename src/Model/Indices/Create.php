@@ -54,7 +54,7 @@ readonly class Create
 			}
 		}
 
-		if (isset($field['type']) === FALSE) {
+		if (isset($field['type']) === false) {
 			return;
 		}
 
@@ -63,7 +63,7 @@ readonly class Create
 				\strtolower($field['type']), [
 					\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_TEXT,
 					\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_KEYWORD,
-				], TRUE,
+				], true,
 			)
 		) {
 			$field['type'] = \Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_STRING;

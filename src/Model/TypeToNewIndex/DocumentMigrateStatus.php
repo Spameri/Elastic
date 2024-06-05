@@ -26,7 +26,7 @@ class DocumentMigrateStatus
 	): bool
 	{
 		if ( ! isset($this->storage[$documentId])) {
-			return TRUE;
+			return true;
 		}
 
 		return $this->storage[$documentId] !== $version;

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace Spameri\Elastic;
 
@@ -92,7 +90,7 @@ readonly class EntityRepository
 
 
 	public function persist(
-		\Spameri\Elastic\Entity\AbstractElasticEntity $entity
+		\Spameri\Elastic\Entity\AbstractElasticEntity $entity,
 	): string
 	{
 		$indexConfig = $this->entitySettingsLocator->locateByEntityClass($entity::class);

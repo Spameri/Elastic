@@ -21,7 +21,7 @@ readonly class Insert
 	public function execute(
 		\Spameri\Elastic\Entity\AbstractElasticEntity $entity,
 		string $index,
-		bool $hasSti = FALSE,
+		bool $hasSti = false,
 	): string
 	{
 		$entityArray = $this->prepareEntityArray->prepare($entity, $hasSti);
@@ -46,7 +46,7 @@ readonly class Insert
 		try {
 			$this->clientProvider->client()->indices()->refresh(
 				(
-				new \Spameri\ElasticQuery\Document($index)
+					new \Spameri\ElasticQuery\Document($index)
 				)
 					->toArray(),
 			)

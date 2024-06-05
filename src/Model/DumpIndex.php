@@ -55,7 +55,7 @@ class DumpIndex
 			$progressBar->advance(5000);
 			$this->writeToFile($filename);
 			if ($result->stats()->total() <= $progressBar->getProgress()) {
-				$continue = FALSE;
+				$continue = false;
 			}
 		}
 
