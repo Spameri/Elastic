@@ -2,7 +2,7 @@
 
 namespace Spameri\Elastic\Mapping;
 
-#[\Attribute(\Attribute::TARGET_PROPERTY)]
+#[\Attribute(\Attribute::TARGET_PROPERTY|\Attribute::TARGET_PARAMETER)]
 class Collection
 {
 

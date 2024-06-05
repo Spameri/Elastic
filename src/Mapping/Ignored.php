@@ -3,12 +3,11 @@
 namespace Spameri\Elastic\Mapping;
 
 #[\Attribute(\Attribute::TARGET_PROPERTY|\Attribute::TARGET_PARAMETER)]
-class Entity
+class Ignored
 {
 
 
 	public function __construct(
-		public string $class,
 	)
 	{
 	}

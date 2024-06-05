@@ -3,14 +3,7 @@
 namespace Spameri\Elastic\Mapping;
 
 #[\Attribute(\Attribute::TARGET_PROPERTY|\Attribute::TARGET_PARAMETER)]
-class Entity
+class STIEntity
 {
-
-
-	public function __construct(
-		public string $class,
-	)
-	{
-	}
 
 }
