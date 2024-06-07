@@ -19,7 +19,7 @@
 	},
 	"authors": [
 		{
-			"name": "VBoss",
+			"name": "Spamer",
 			"email": "vcevela@gmail.com"
 		}
 	],
@@ -61,6 +61,11 @@
 		"allow-plugins": {
 			"dealerdirect/phpcodesniffer-composer-installer": true,
 			"php-http/discovery": true
+		}
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "2.0-dev"
 		}
 	}
 }
