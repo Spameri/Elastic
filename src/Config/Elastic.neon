@@ -35,6 +35,9 @@ services:
 	delete:
 		factory: Spameri\Elastic\Model\Delete
 
+	dispatchEvents:
+		factory: Spameri\Elastic\EventManager\DispatchEvents
+
 	aggregate:
 		factory: Spameri\Elastic\Model\Aggregate
 
