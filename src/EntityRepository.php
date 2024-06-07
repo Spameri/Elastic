@@ -11,6 +11,7 @@ readonly class EntityRepository
 		private \Spameri\Elastic\Model\Delete $delete,
 		private \Spameri\Elastic\Model\EntitySettingsLocator $entitySettingsLocator,
 		private \Spameri\Elastic\Factory\EntityFactory $entityFactory,
+		private \Spameri\Elastic\EntityManager $entityManager,
 	)
 	{
 	}
@@ -68,7 +69,7 @@ readonly class EntityRepository
 		$entities = [];
 		foreach ($resultSearch->hits() as $hit) {
 			try {
-				$entities[] = $this->entityFactory->create($hit, $class)->current();
+				$entities[] = $this->entityFactory->create($hit, $class, $this->entityManager)->current();
 
 			} catch (\Spameri\Elastic\Exception\ElasticSearch $exception) {
 				\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
