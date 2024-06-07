@@ -23,7 +23,7 @@ class ServiceLocator implements ServiceLocatorInterface
 		\Spameri\Elastic\Entity\ElasticEntityInterface $entity,
 	): \Spameri\Elastic\Model\ServiceInterface
 	{
-		$entityName = \get_class($entity);
+		$entityName = $entity::class;
 		$serviceName = \str_replace('Entity', 'Model', $entityName . 'Service');
 
 		/** @var \Spameri\Elastic\Model\ServiceInterface $service */
