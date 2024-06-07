@@ -8,7 +8,7 @@ readonly class Insert
 	public function __construct(
 		private \Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray,
 		private \Spameri\Elastic\ClientProvider $clientProvider,
-		private \Spameri\Elastic\Model\VersionProvider $versionProvider,
+		private \Spameri\Elastic\Model\IdentityMap $identityMap,
 	)
 	{
 	}
@@ -26,6 +26,10 @@ readonly class Insert
 	{
 		$entityArray = $this->prepareEntityArray->prepare($entity, $hasSti);
 		unset($entityArray['id']);
+
+		if ($this->identityMap->isChanged($entity) === false) {
+			return $entity->id()->value();
+		}
 
 		try {
 			$response = $this->clientProvider->client()->index(
@@ -58,6 +62,8 @@ readonly class Insert
 
 		if (isset($response['result']) && ($response['result'] === 'created' || $response['result'] === 'updated')) {
 			$entity->id = new \Spameri\Elastic\Entity\Property\ElasticId($response['_id']);
+			$this->identityMap->markInserted($entity);
+
 			return $response['_id'];
 		}
 
