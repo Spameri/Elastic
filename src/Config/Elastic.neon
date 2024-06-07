@@ -11,6 +11,9 @@ services:
 	identityMap:
 		factory: Spameri\Elastic\Model\IdentityMap
 
+	changeSet:
+		factory: Spameri\Elastic\Model\ChangeSet
+
 	versionProvider:
 		factory: Spameri\Elastic\Model\VersionProvider(%version%)
 
