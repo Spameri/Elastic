@@ -5,38 +5,19 @@ namespace SpameriTests\Elastic\Data\Entity\Video;
 class Details implements \Spameri\Elastic\Entity\EntityInterface
 {
 
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\Details\GenreCollection
-	 */
-	private $genres;
+	private \SpameriTests\Elastic\Data\Entity\Video\Details\AliasCollectionElastic $alias;
 
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\Details\AliasCollectionElastic
-	 */
-	private $alias;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\Details\ReleaseCollectionElastic
-	 */
-	private $release;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\Details\Ratings
-	 */
-	private $ratings;
-
+	private \SpameriTests\Elastic\Data\Entity\Video\Details\ReleaseCollectionElastic $release;
 
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Video\Details\GenreCollection $genres,
+		private \SpameriTests\Elastic\Data\Entity\Video\Details\GenreCollection $genres,
 		\SpameriTests\Elastic\Data\Entity\Video\Details\AliasCollectionElastic $aliases,
 		\SpameriTests\Elastic\Data\Entity\Video\Details\ReleaseCollectionElastic $releases,
-		\SpameriTests\Elastic\Data\Entity\Video\Details\Ratings $ratings,
+		private \SpameriTests\Elastic\Data\Entity\Video\Details\Ratings $ratings,
 	)
 	{
-		$this->genres = $genres;
 		$this->alias = $aliases;
 		$this->release = $releases;
-		$this->ratings = $ratings;
 	}
 
 

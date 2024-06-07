@@ -5,38 +5,13 @@ namespace SpameriTests\Elastic\Data\Entity\Video\Season;
 class Episode implements \Spameri\Elastic\Entity\EntityInterface
 {
 
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Property\ImdbId
-	 */
-	private $id;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Property\ImdbId
-	 */
-	private $number;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Property\Name
-	 */
-	private $name;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Property\Description
-	 */
-	private $description;
-
-
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id,
-		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $number,
-		\SpameriTests\Elastic\Data\Entity\Property\Name $name,
-		\SpameriTests\Elastic\Data\Entity\Property\Description $description,
+		private \SpameriTests\Elastic\Data\Entity\Property\ImdbId $id,
+		private \SpameriTests\Elastic\Data\Entity\Property\ImdbId $number,
+		private \SpameriTests\Elastic\Data\Entity\Property\Name $name,
+		private \SpameriTests\Elastic\Data\Entity\Property\Description $description,
 	)
 	{
-		$this->id = $id;
-		$this->number = $number;
-		$this->name = $name;
-		$this->description = $description;
 	}
 
 

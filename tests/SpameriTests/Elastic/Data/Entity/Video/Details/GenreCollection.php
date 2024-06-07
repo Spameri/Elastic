@@ -8,7 +8,7 @@ class GenreCollection implements \Spameri\Elastic\Entity\ValueCollectionInterfac
 	/**
 	 * @var array<\SpameriTests\Elastic\Data\Entity\Video\Details\Genre>
 	 */
-	private $collection;
+	private array $collection;
 
 
 	public function __construct(

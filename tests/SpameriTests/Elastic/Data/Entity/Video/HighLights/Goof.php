@@ -5,30 +5,15 @@ namespace SpameriTests\Elastic\Data\Entity\Video\HighLights;
 class Goof implements \Spameri\Elastic\Entity\EntityInterface
 {
 
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Property\ImdbId
-	 */
-	private $id;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Property\Text
-	 */
-	private $text;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\HighLights\Relevancy
-	 */
-	private $relevancy;
+	private \SpameriTests\Elastic\Data\Entity\Video\HighLights\Relevancy $relevancy;
 
 
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id,
-		\SpameriTests\Elastic\Data\Entity\Property\Text $text,
+		private \SpameriTests\Elastic\Data\Entity\Property\ImdbId $id,
+		private \SpameriTests\Elastic\Data\Entity\Property\Text $text,
 		Relevancy $relevancy,
 	)
 	{
-		$this->id = $id;
-		$this->text = $text;
 		$this->relevancy = $relevancy;
 	}
 

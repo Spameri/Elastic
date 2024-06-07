@@ -5,10 +5,7 @@ namespace SpameriTests\Elastic\Data\Entity\Video\Details;
 class Ratings implements \Spameri\Elastic\Entity\EntityInterface
 {
 
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\Details\RatingsCount
-	 */
-	private $imdbRatings;
+	private \SpameriTests\Elastic\Data\Entity\Video\Details\RatingsCount $imdbRatings;
 
 
 	public function __construct(

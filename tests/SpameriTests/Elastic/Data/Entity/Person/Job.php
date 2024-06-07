@@ -13,36 +13,18 @@ class Job implements \Spameri\Elastic\Entity\EntityInterface
 	public const SERIES_WRITER = "Series Writing Credits\n  ";
 
 	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Property\ImdbId
-	 */
-	private $id;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Property\Name
-	 */
-	private $name;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Property\Description
-	 */
-	private $description;
-
-	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Property\ImdbId|NULL
 	 */
-	private $episode;
+	private ?\SpameriTests\Elastic\Data\Entity\Property\ImdbId $episode = null;
 
 
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id,
-		\SpameriTests\Elastic\Data\Entity\Property\Name $name,
-		\SpameriTests\Elastic\Data\Entity\Property\Description $description,
+		private \SpameriTests\Elastic\Data\Entity\Property\ImdbId $id,
+		private \SpameriTests\Elastic\Data\Entity\Property\Name $name,
+		private \SpameriTests\Elastic\Data\Entity\Property\Description $description,
 		\SpameriTests\Elastic\Data\Entity\Property\ImdbId|null $episode,
 	)
 	{
-		$this->id = $id;
-		$this->name = $name;
-		$this->description = $description;
 		$this->episode = $episode;
 	}
 
