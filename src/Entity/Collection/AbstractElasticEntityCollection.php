@@ -215,4 +215,16 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 		return \reset($this->collection) ?: null;
 	}
 
+	public function __serialize(): array
+	{
+		return [
+			'collection' => $this->collection,
+		];
+	}
+
+	public function __unserialize(array $data): void
+	{
+		$this->collection = $data;
+	}
+
 }

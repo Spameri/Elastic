@@ -29,7 +29,7 @@ class Execute extends \SpameriTests\Elastic\AbstractTestCase
 		$id = new \Spameri\Elastic\Entity\Property\ElasticId('192461');
 		/** @var \Spameri\Elastic\Model\Get $get */
 		$get = $this->container->getByType(\Spameri\Elastic\Model\Get::class);
-		$result = $get->execute($id, \SpameriTests\Elastic\Config::INDEX_RESTORE, \SpameriTests\Elastic\Config::INDEX_RESTORE);
+		$result = $get->execute($id, \SpameriTests\Elastic\Config::INDEX_RESTORE);
 
 		\Tester\Assert::same($id->value(), $result->hit()->id());
 	}

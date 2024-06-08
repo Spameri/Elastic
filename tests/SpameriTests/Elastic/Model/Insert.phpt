@@ -14,7 +14,7 @@ class Insert extends \SpameriTests\Elastic\AbstractTestCase
 		$video = new \SpameriTests\Elastic\Data\Entity\Video(
 			new \Spameri\Elastic\Entity\Property\EmptyElasticId(),
 			new \SpameriTests\Elastic\Data\Entity\Video\Identification(
-				new \SpameriTests\Elastic\Data\Entity\Property\ImdbId(4154796)
+				new \SpameriTests\Elastic\Data\Entity\Property\ImdbId('4154796')
 			),
 			new \SpameriTests\Elastic\Data\Entity\Property\Name('Avengers: Endgame'),
 			new \SpameriTests\Elastic\Data\Entity\Property\Year(2019),
