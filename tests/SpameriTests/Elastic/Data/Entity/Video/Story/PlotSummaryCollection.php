@@ -8,7 +8,7 @@ class PlotSummaryCollection implements \Spameri\Elastic\Entity\ValueCollectionIn
 	/**
 	 * @var array<\SpameriTests\Elastic\Data\Entity\Video\Story\PlotSummary>
 	 */
-	private $collection;
+	private array $collection;
 
 
 	public function __construct(
@@ -34,7 +34,7 @@ class PlotSummaryCollection implements \Spameri\Elastic\Entity\ValueCollectionIn
 	{
 		$first = \reset($this->collection);
 
-		return $first ?: NULL;
+		return $first ?: null;
 	}
 
 

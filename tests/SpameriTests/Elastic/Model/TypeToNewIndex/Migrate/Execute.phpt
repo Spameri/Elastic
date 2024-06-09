@@ -38,7 +38,6 @@ class Execute extends \SpameriTests\Elastic\AbstractTestCase
 		$responseOldIndex = $get->execute(
 			$id,
 			\SpameriTests\Elastic\Config::INDEX_MIGRATE,
-			\SpameriTests\Elastic\Config::INDEX_MIGRATE
 		);
 
 		\Tester\Assert::same($id->value(), $responseOldIndex->hit()->id());
@@ -47,8 +46,6 @@ class Execute extends \SpameriTests\Elastic\AbstractTestCase
 
 		$migrate->execute(
 			\SpameriTests\Elastic\Config::INDEX_MIGRATE,
-			\SpameriTests\Elastic\Config::INDEX_MIGRATE,
-			\SpameriTests\Elastic\Config::INDEX_MIGRATE_NEW,
 			\SpameriTests\Elastic\Config::INDEX_MIGRATE_NEW,
 			\SpameriTests\Elastic\Config::INDEX_MIGRATE_NEW,
 			FALSE
@@ -64,7 +61,6 @@ class Execute extends \SpameriTests\Elastic\AbstractTestCase
 		$responseNewIndex = $get->execute(
 			$id,
 			\SpameriTests\Elastic\Config::INDEX_MIGRATE_NEW,
-			$newType
 		);
 
 		\Tester\Assert::same($id->value(), $responseNewIndex->hit()->id());

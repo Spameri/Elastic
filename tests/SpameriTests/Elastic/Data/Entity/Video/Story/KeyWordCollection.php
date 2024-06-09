@@ -8,7 +8,7 @@ class KeyWordCollection implements \Spameri\Elastic\Entity\ValueCollectionInterf
 	/**
 	 * @var array<\SpameriTests\Elastic\Data\Entity\Video\Story\KeyWord>
 	 */
-	private $collection;
+	private array $collection;
 
 
 	public function __construct(

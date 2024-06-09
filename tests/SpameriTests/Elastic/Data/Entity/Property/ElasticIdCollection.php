@@ -8,7 +8,7 @@ class ElasticIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInte
 	/**
 	 * @var array<\Spameri\Elastic\Entity\Property\ElasticIdInterface>
 	 */
-	private $collection;
+	private array $collection;
 
 
 	public function __construct(

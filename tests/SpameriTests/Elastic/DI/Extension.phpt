@@ -17,7 +17,7 @@ class Extension extends \SpameriTests\Elastic\AbstractTestCase
 
 		/** @var \Spameri\Elastic\ClientProvider $clientProvider */
 		$clientProvider = $this->container->getByType(\Spameri\Elastic\ClientProvider::class);
-		$connection = $clientProvider->client()->transport->connectionPool->nextConnection();
+		$connection = $clientProvider->client()->getTransport()->getNodePool()->nextNode()->getUri();
 
 		/** @var \Spameri\Elastic\Model\VersionProvider $versionProvider */
 		$versionProvider = $this->container->getByType(\Spameri\Elastic\Model\VersionProvider::class);

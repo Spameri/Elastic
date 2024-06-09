@@ -2,16 +2,10 @@ parameters:
 	excludePaths:
 		- %rootDir%/../../../tests/tmp/*
 
-	checkGenericClassInNonGenericObjectType: false
-	checkMissingIterableValueType: false
-
 	bootstrapFiles:
 		- %rootDir%/../../../phpstanConstants.php
 
 	ignoreErrors:
-		- '#PHPDoc tag \@throws with type Elasticsearch\\Common\\Exceptions\\ElasticsearchException is not subtype of Throwable#'
-		- '#Call to function array_key_exists\(\) with string and array<int, mixed> will always evaluate to false.#'
-
 		-
 			message: "#^Method Spameri\\\\Elastic\\\\Diagnostics\\\\PanelLogger\\:\\:emergency\\(\\) should return null but return statement is missing\\.$#"
 			count: 1
@@ -56,5 +50,10 @@ parameters:
 			message: "#^Return type \\(void\\) of method Spameri\\\\Elastic\\\\Diagnostics\\\\PanelLogger\\:\\:warning\\(\\) should be compatible with return type \\(null\\) of method Psr\\\\Log\\\\LoggerInterface\\:\\:warning\\(\\)$#"
 			count: 1
 			path: src/Diagnostics/PanelLogger.php
+
+		-
+			identifier: missingType.iterableValue
+		-
+			identifier: missingType.generics
 
 

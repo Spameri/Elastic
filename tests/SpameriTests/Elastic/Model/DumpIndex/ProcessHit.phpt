@@ -20,7 +20,6 @@ class ProcessHit extends \SpameriTests\Elastic\AbstractTestCase
 					'hits' => [
 						0 => [
 							'_index' => 'spameri_guessed-2018-11-29_21-25-34',
-							'_type' => 'spameri_guessed',
 							'_id' => 'EWhVcWcBhsjlL-GzEP8i',
 							'_score' => 1.0,
 							'_source' => [
@@ -47,7 +46,7 @@ class ProcessHit extends \SpameriTests\Elastic\AbstractTestCase
 		$dumpIndex->writeToFile('test.log');
 
 		\Tester\Assert::same(
-			'{"index":{"_index":"spameri_guessed-2018-11-29_21-25-34","_type":"spameri_guessed","_id":"EWhVcWcBhsjlL-GzEP8i"}}'
+			'{"index":{"_index":"spameri_guessed-2018-11-29_21-25-34","_id":"EWhVcWcBhsjlL-GzEP8i"}}'
 			. "\r\n"
 			. '{"guess":"7kASSmUBq9pZLj7-1Uv4","user":"xyC3UmcBeqWWbOzi4uKU","guessed":"asdf","when":"2018-12-02T23:50:58","success":false,"rank":0}'
 			. "\r\n",

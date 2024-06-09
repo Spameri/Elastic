@@ -5,59 +5,31 @@ namespace SpameriTests\Elastic\Data\Entity\Video;
 class HighLights implements \Spameri\Elastic\Entity\EntityInterface
 {
 
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\HighLights\TriviaCollection
-	 */
-	private $trivia;
+	private \SpameriTests\Elastic\Data\Entity\Video\HighLights\GoofCollection $goof;
 
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\HighLights\GoofCollection
-	 */
-	private $goof;
+	private \SpameriTests\Elastic\Data\Entity\Video\HighLights\CrazyCreditCollection $crazyCredit;
 
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\HighLights\CrazyCreditCollection
-	 */
-	private $crazyCredit;
+	private \SpameriTests\Elastic\Data\Entity\Video\HighLights\QuoteCollection $quote;
 
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\HighLights\QuoteCollection
-	 */
-	private $quote;
+	private \SpameriTests\Elastic\Data\Entity\Video\HighLights\LocationCollection $location;
 
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\HighLights\LocationCollection
-	 */
-	private $location;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\HighLights\AlternateVersionCollection
-	 */
-	private $alternateVersion;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCreditCollection
-	 */
-	private $companyCredit;
-
+	private \SpameriTests\Elastic\Data\Entity\Video\HighLights\AlternateVersionCollection $alternateVersion;
 
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Video\HighLights\TriviaCollection $trivia,
+		private \SpameriTests\Elastic\Data\Entity\Video\HighLights\TriviaCollection $trivia,
 		\SpameriTests\Elastic\Data\Entity\Video\HighLights\GoofCollection $goofs,
 		\SpameriTests\Elastic\Data\Entity\Video\HighLights\CrazyCreditCollection $crazyCredits,
 		\SpameriTests\Elastic\Data\Entity\Video\HighLights\QuoteCollection $quotes,
 		\SpameriTests\Elastic\Data\Entity\Video\HighLights\LocationCollection $locations,
 		\SpameriTests\Elastic\Data\Entity\Video\HighLights\AlternateVersionCollection $alternateVersions,
-		\SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCreditCollection $companyCredit,
+		private \SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCreditCollection $companyCredit,
 	)
 	{
-		$this->trivia = $trivia;
 		$this->goof = $goofs;
 		$this->crazyCredit = $crazyCredits;
 		$this->quote = $quotes;
 		$this->location = $locations;
 		$this->alternateVersion = $alternateVersions;
-		$this->companyCredit = $companyCredit;
 	}
 
 

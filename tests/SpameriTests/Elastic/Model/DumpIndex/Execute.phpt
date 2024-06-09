@@ -31,7 +31,6 @@ class Execute extends \SpameriTests\Elastic\AbstractTestCase
 		$dumpIndex->execute(
 			\SpameriTests\Elastic\Config::INDEX_DUMP,
 			'test.log',
-			\SpameriTests\Elastic\Config::INDEX_DUMP
 		);
 
 		\Tester\Assert::true(\file_exists('test.log'));

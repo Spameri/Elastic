@@ -8,7 +8,7 @@ class ImdbIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInterfa
 	/**
 	 * @var array<\SpameriTests\Elastic\Data\Entity\Property\ImdbId>
 	 */
-	private $collection;
+	private array $collection;
 
 
 	public function __construct(
@@ -40,7 +40,7 @@ class ImdbIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInterfa
 			}
 		}
 
-		return NULL;
+		return null;
 	}
 
 
@@ -54,7 +54,7 @@ class ImdbIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInterfa
 	{
 		$first = \reset($this->collection);
 
-		if ($first === FALSE) {
+		if ($first === false) {
 			throw new \Nette\InvalidStateException();
 		}
 

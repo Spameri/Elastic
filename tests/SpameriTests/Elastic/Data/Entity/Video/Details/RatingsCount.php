@@ -5,17 +5,14 @@ namespace SpameriTests\Elastic\Data\Entity\Video\Details;
 class RatingsCount implements \Spameri\Elastic\Entity\ValueInterface
 {
 
-	/**
-	 * @var int
-	 */
-	private $value;
+	private int $value;
 
 
 	public function __construct(
 		int|null $value,
 	)
 	{
-		if ($value === NULL) {
+		if ($value === null) {
 			$value = 0;
 		}
 

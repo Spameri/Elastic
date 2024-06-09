@@ -7,7 +7,7 @@ class CharacterCollectionElastic extends \Spameri\Elastic\Entity\Collection\Abst
 
 	public function character(
 		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id,
-		\SpameriTests\Elastic\Data\Entity\Property\ImdbId|null $episode = NULL,
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId|null $episode = null,
 	): Character
 	{
 		/** @var \SpameriTests\Elastic\Data\Entity\Person\Character $character */

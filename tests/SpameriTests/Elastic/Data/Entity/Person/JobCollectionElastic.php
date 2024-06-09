@@ -7,7 +7,7 @@ class JobCollectionElastic extends \Spameri\Elastic\Entity\Collection\AbstractEn
 
 	public function job(
 		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $imdbId,
-		\SpameriTests\Elastic\Data\Entity\Property\ImdbId|null $episode = NULL,
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId|null $episode = null,
 	): Job
 	{
 		/** @var \SpameriTests\Elastic\Data\Entity\Person\Job $job */

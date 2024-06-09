@@ -29,8 +29,7 @@ readonly class RemoveAlias
 							],
 						],
 					),
-					NULL,
-					NULL,
+					null,
 					[
 						'name' => $index,
 					],

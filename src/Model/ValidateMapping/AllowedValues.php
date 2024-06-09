@@ -10,10 +10,7 @@ namespace Spameri\Elastic\Model\ValidateMapping;
 class AllowedValues
 {
 
-	//
 	// TYPES
-	//
-
 	// Text types
 	public const TYPE_TEXT = 'text';
 	public const TYPE_STRING = 'string';
@@ -98,10 +95,7 @@ class AllowedValues
 		self::TYPE_ALIAS => self::TYPE_ALIAS,
 	];
 
-	//
 	// ANALYZERS
-	//
-
 	public const ANALYZER_STANDARD = 'standard';
 	public const ANALYZER_SIMPLE = 'simple';
 	public const ANALYZER_WHITESPACE = 'whitespace';
@@ -189,10 +183,7 @@ class AllowedValues
 		self::ANALYZER_THAI => self::ANALYZER_THAI,
 	];
 
-	//
 	// TOKENIZERS
-	//
-
 	public const TOKENIZER_STANDARD = 'standard';
 	public const TOKENIZER_LETTER = 'letter';
 	public const TOKENIZER_LOWERCASE = 'lowercase';
@@ -231,9 +222,7 @@ class AllowedValues
 		self::TOKENIZER_PATH => self::TOKENIZER_PATH,
 	];
 
-	//
 	// Setting blocks
-	//
 	public const BLOCK_TYPE = 'type';
 	public const BLOCK_ANALYZER = 'analyzer';
 	public const BLOCK_TOKENIZER = 'tokenizer';

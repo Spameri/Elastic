@@ -5,7 +5,7 @@ namespace Spameri\Elastic\Entity\Collection;
 abstract class AbstractCachedEntityCollection extends AbstractEntityCollection
 {
 
-	protected bool $initialized = FALSE;
+	protected bool $initialized = false;
 
 
 	abstract public function initialize(): void;

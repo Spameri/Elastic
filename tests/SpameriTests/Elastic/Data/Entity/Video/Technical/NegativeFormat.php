@@ -8,14 +8,14 @@ class NegativeFormat implements \Spameri\Elastic\Entity\ValueInterface
 	/**
 	 * @var string|NULL
 	 */
-	private $value;
+	private ?string $value = null;
 
 
 	public function __construct(
 		string|null $value,
 	)
 	{
-		if ($value !== NULL && \strlen($value) > 255) {
+		if ($value !== null && \strlen($value) > 255) {
 			throw new \InvalidArgumentException();
 		}
 

@@ -5,10 +5,7 @@ namespace SpameriTests\Elastic\Data\Entity\Video\Story;
 class Synopsis implements \Spameri\Elastic\Entity\ValueInterface
 {
 
-	/**
-	 * @var ?string
-	 */
-	private $value;
+	private ?string $value = null;
 
 
 	public function __construct(

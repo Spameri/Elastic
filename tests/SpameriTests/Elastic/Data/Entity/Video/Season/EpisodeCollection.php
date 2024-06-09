@@ -14,7 +14,7 @@ class EpisodeCollection extends \Spameri\Elastic\Entity\Collection\AbstractEntit
 			}
 		}
 
-		return NULL;
+		return null;
 	}
 
 }

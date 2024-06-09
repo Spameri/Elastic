@@ -16,7 +16,7 @@ class People extends \Spameri\Elastic\Entity\Collection\AbstractElasticEntityCol
 			}
 		}
 
-		return NULL;
+		return null;
 	}
 
 }

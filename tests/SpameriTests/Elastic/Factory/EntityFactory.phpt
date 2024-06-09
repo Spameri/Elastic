@@ -12,10 +12,10 @@ class EntityFactory extends \SpameriTests\Elastic\AbstractTestCase
 
 	public function testCreate()
 	{
-		$entityFactory = new \Spameri\Elastic\Factory\EntityFactory();
-		$prepareEntityArray = new \Spameri\Elastic\Model\Insert\PrepareEntityArray(
-			\Mockery::mock(\Spameri\Elastic\Model\ServiceLocator::class)
-		);
+		$entityManager = $this->container->getByType(\Spameri\Elastic\EntityManager::class);
+		$entityFactory = $this->container->getByType(\Spameri\Elastic\Factory\EntityFactory::class);
+		$prepareEntityArray = $this->container->getByType(\Spameri\Elastic\Model\Insert\PrepareEntityArray::class);
+
 		$person = new \SpameriTests\Elastic\Data\Entity\Person(
 			new \Spameri\Elastic\Entity\Property\ElasticId('asd123'),
 			new \SpameriTests\Elastic\Data\Entity\Video\Identification(
@@ -52,7 +52,8 @@ class EntityFactory extends \SpameriTests\Elastic\AbstractTestCase
 		);
 
 		/** @var \SpameriTests\Elastic\Data\Entity\Person $entity */
-		$entity = $entityFactory->create($hit, \SpameriTests\Elastic\Data\Entity\Person::class)->current();
+		$entity = $entityFactory->create($hit, \SpameriTests\Elastic\Data\Entity\Person::class, $entityManager)
+			->current();
 
 		\Tester\Assert::same($person->id->value(), $entity->id->value());
 		\Tester\Assert::same($person->identification->imdb->value(), $entity->identification->imdb->value());

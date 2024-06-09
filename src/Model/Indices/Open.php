@@ -24,15 +24,15 @@ readonly class Open
 			)
 			;
 
-			if ($result['acknowledged'] === TRUE) {
-				return TRUE;
+			if ($result['acknowledged'] === true) {
+				return true;
 			}
 
 		} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}
 
-		return FALSE;
+		return false;
 	}
 
 }

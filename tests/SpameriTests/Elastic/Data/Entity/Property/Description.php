@@ -5,10 +5,7 @@ namespace SpameriTests\Elastic\Data\Entity\Property;
 class Description implements \Spameri\Elastic\Entity\ValueInterface
 {
 
-	/**
-	 * @var ?string
-	 */
-	private $value;
+	private ?string $value = null;
 
 
 	public function __construct(

@@ -17,6 +17,7 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
+          extensions: json
 
       - name: Run a one-line script
         run: echo Hello, world!

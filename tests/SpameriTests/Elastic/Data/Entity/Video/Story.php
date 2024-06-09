@@ -6,42 +6,21 @@ class Story implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Property\Description
-	 */
-	private $description;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\Story\TagLineCollection
-	 */
-	private $tagLines;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\Story\PlotSummaryCollection
-	 */
-	private $plots;
-
-	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Video\Story\Synopsis|NULL
 	 */
-	private $synopsis;
+	private ?\SpameriTests\Elastic\Data\Entity\Video\Story\Synopsis $synopsis = null;
 
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\Story\KeyWordCollection
-	 */
-	private $keyWords;
+	private \SpameriTests\Elastic\Data\Entity\Video\Story\KeyWordCollection $keyWords;
 
 
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Property\Description $description,
-		\SpameriTests\Elastic\Data\Entity\Video\Story\TagLineCollection $tagLines,
-		\SpameriTests\Elastic\Data\Entity\Video\Story\PlotSummaryCollection $plots,
+		private \SpameriTests\Elastic\Data\Entity\Property\Description $description,
+		private \SpameriTests\Elastic\Data\Entity\Video\Story\TagLineCollection $tagLines,
+		private \SpameriTests\Elastic\Data\Entity\Video\Story\PlotSummaryCollection $plots,
 		\SpameriTests\Elastic\Data\Entity\Video\Story\KeyWordCollection $keyWord,
-		\SpameriTests\Elastic\Data\Entity\Video\Story\Synopsis|null $synopsis = NULL,
+		\SpameriTests\Elastic\Data\Entity\Video\Story\Synopsis|null $synopsis = null,
 	)
 	{
-		$this->description = $description;
-		$this->tagLines = $tagLines;
-		$this->plots = $plots;
 		$this->synopsis = $synopsis;
 		$this->keyWords = $keyWord;
 	}

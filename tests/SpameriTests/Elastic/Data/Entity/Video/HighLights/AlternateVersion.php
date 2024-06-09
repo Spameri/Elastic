@@ -5,17 +5,10 @@ namespace SpameriTests\Elastic\Data\Entity\Video\HighLights;
 class AlternateVersion implements \Spameri\Elastic\Entity\EntityInterface
 {
 
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Property\Text
-	 */
-	private $text;
-
-
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Property\Text $text,
+		private \SpameriTests\Elastic\Data\Entity\Property\Text $text,
 	)
 	{
-		$this->text = $text;
 	}
 
 

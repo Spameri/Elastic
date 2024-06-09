@@ -7,7 +7,6 @@ readonly class Delete
 
 	public function __construct(
 		private \Spameri\Elastic\ClientProvider $clientProvider,
-		private VersionProvider $versionProvider,
 	)
 	{
 	}
@@ -19,24 +18,14 @@ readonly class Delete
 	public function execute(
 		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
 		string $index,
-		string|null $type = NULL,
 	): bool
 	{
-		if ($type === NULL) {
-			$type = $index;
-		}
-
-		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
-			$type = NULL;
-		}
-
 		try {
 			$response = $this->clientProvider->client()->delete(
 				(
 				new \Spameri\ElasticQuery\Document(
 					$index,
-					NULL,
-					$type,
+					null,
 					$id->value(),
 				)
 				)

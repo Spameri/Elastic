@@ -8,12 +8,12 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 	/**
 	 * @var array<mixed>
 	 */
-	public $defaults = [
+	public array $defaults = [
 		'host' => 'localhost',
 		'port' => 9200,
-		'debug' => FALSE,
-		'version' => \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7,
-		'synonymPath' => NULL,
+		'debug' => false,
+		'version' => \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_8,
+		'synonymPath' => null,
 		'entities' => [],
 	];
 
@@ -71,7 +71,7 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 		array $services,
 	): array
 	{
-		if ( ! $config['debug']) {
+		if ($config['debug'] === false) {
 			unset(
 				$services['tracy'],
 				$services['services']['elasticPanelLogger'],

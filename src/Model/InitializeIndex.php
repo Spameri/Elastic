@@ -30,7 +30,7 @@ readonly class InitializeIndex
 				. '-'
 				. $this->dateTimeProvider->provide()->format(\Spameri\Elastic\Entity\Property\DateTime::INDEX_FORMAT);
 
-			$this->create->execute($indexName, $indexConfig->provide()->toArray(), $indexAlias);
+			$this->create->execute($indexName, $indexConfig->provide()->toArray());
 			$this->addAlias->execute($indexAlias, $indexName);
 		}
 	}

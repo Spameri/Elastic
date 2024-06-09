@@ -14,7 +14,7 @@ class SeasonCollection extends \Spameri\Elastic\Entity\Collection\AbstractEntity
 			}
 		}
 
-		return NULL;
+		return null;
 	}
 
 }
