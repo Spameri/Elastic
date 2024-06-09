@@ -30,6 +30,7 @@ jobs:
         uses: elastic/elastic-github-actions/elasticsearch@master
         with:
           stack-version: ${{ matrix.elastic }}
+          security-enabled: false
 
       - if: matrix.version == 'lowest'
         name: Composer lowest

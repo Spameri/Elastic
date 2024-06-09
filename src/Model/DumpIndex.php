@@ -73,7 +73,6 @@ class DumpIndex
 		$bulkData = [
 			'index' => [
 				'_index' => $hit->index(),
-				'_type' => $hit->type(),
 				'_id' => $hit->id(),
 			],
 		];

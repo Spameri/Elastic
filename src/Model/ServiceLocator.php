@@ -9,6 +9,10 @@ class ServiceLocator implements ServiceLocatorInterface
 	 * @var array<string>
 	 */
 	private array $services;
+	/**
+	 * @var array<string>
+	 */
+	private array $indexConfigs;
 
 
 	public function __construct(
@@ -16,6 +20,7 @@ class ServiceLocator implements ServiceLocatorInterface
 	)
 	{
 		$this->services = $container->findByType(\Spameri\Elastic\Model\ServiceInterface::class);
+		$this->indexConfigs = $container->findByType(\Spameri\Elastic\Settings\IndexConfigInterface::class);
 	}
 
 
@@ -60,6 +65,25 @@ class ServiceLocator implements ServiceLocatorInterface
 
 			if ($service->index === $index) {
 				return $service;
+			}
+		}
+
+		return null;
+	}
+
+	public function locateBySTIClass(string $class): \Spameri\Elastic\Model\ServiceInterface|null
+	{
+		foreach ($this->indexConfigs as $serviceType) {
+			$service = $this->container->getService($serviceType);
+
+			if (($service instanceof \Spameri\Elastic\Settings\IndexConfigInterface) === false) {
+				continue;
+			}
+
+			foreach ($service->entityClass() as $entityClass) {
+				if ($entityClass === $class) {
+					return $this->locateByIndex($service->indexName());
+				}
 			}
 		}
 
