@@ -49,7 +49,7 @@ class IdentityMap
 	{
 		$this->add($entity);
 
-		$this->persisted[$entity::class][$entity->id()->value()] = \md5(\serialize($entity->entityVariables()));
+		$this->persisted[$entity::class][$entity->id()->value()] = $this->getSerializedString($entity);
 	}
 
 
@@ -61,9 +61,23 @@ class IdentityMap
 			return true;
 		}
 
-		$hash = \md5(\serialize($entity->entityVariables()));
+		$hash = $this->getSerializedString($entity);
 
 		return $this->persisted[$entity::class][$entity->id()->value()] !== $hash;
+	}
+
+
+	private function getSerializedString(\Spameri\Elastic\Entity\AbstractElasticEntity $entity): string
+	{
+		$serializedArray = $entity->entityVariables();
+
+		foreach ($serializedArray as $key => $item) {
+			if ($item instanceof \Spameri\Elastic\Entity\ElasticEntityInterface) {
+				$serializedArray[$key] = $item->id()->value();
+			}
+		}
+
+		return \md5(\serialize($serializedArray));
 	}
 
 }
