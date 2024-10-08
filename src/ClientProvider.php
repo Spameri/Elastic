@@ -20,6 +20,7 @@ class ClientProvider
 	public function init(): void
 	{
 		$settings = $this->settingsProvider->provide();
+		$this->clientBuilder->setSSLVerification(false);
 		$this->clientBuilder->setHosts(
 			[
 				$settings->host() . ':' . $settings->port(),
