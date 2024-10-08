@@ -2,6 +2,10 @@
 
 namespace Spameri\Elastic\Commands;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(
+	name: 'spameri:elastic:dump-index',
+	description: 'Dumps all data from index to file',
+)]
 class DumpIndex extends \Symfony\Component\Console\Command\Command
 {
 

@@ -2,6 +2,10 @@
 
 namespace Spameri\Elastic\Commands;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(
+	name: 'spameri:elastic:delete-index',
+	description: 'Deletes index by name or alias. Warning this deletes your data!'
+)]
 class DeleteIndex extends \Symfony\Component\Console\Command\Command
 {
 

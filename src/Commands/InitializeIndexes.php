@@ -2,6 +2,10 @@
 
 namespace Spameri\Elastic\Commands;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(
+	name: 'spameri:elastic:initialize-index',
+	description: 'Creates index/es. And initializes with settings and mappings',
+)]
 class InitializeIndexes extends \Symfony\Component\Console\Command\Command
 {
 

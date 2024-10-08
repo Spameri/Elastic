@@ -2,6 +2,10 @@
 
 namespace Spameri\Elastic\Commands;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(
+	name: 'spameri:elastic:add-alias',
+	description: 'Adds alias to existing index.'
+)]
 class AddAlias extends \Symfony\Component\Console\Command\Command
 {
 

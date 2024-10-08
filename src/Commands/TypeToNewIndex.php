@@ -2,6 +2,10 @@
 
 namespace Spameri\Elastic\Commands;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(
+	name: 'spameri:elastic:move-type',
+	description: 'Move type to new index to separate data and prepare for deprecation of types is ES.'
+)]
 class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 {
 
