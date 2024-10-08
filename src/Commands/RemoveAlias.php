@@ -15,7 +15,7 @@ class RemoveAlias extends \Symfony\Component\Console\Command\Command
 		private readonly \Spameri\Elastic\Model\Indices\RemoveAlias $removeAlias,
 	)
 	{
-		parent::__construct(null);
+		parent::__construct(self::$defaultName);
 	}
 
 

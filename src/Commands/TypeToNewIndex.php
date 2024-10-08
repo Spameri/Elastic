@@ -15,7 +15,7 @@ class TypeToNewIndex extends \Symfony\Component\Console\Command\Command
 		private readonly \Spameri\Elastic\Model\TypeToNewIndex\Migrate $migrate,
 	)
 	{
-		parent::__construct(null);
+		parent::__construct(self::$defaultName);
 	}
 
 

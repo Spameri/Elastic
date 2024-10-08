@@ -15,7 +15,7 @@ class AddAlias extends \Symfony\Component\Console\Command\Command
 		private readonly \Spameri\Elastic\Model\Indices\AddAlias $addAlias,
 	)
 	{
-		parent::__construct(null);
+		parent::__construct(self::$defaultName);
 	}
 
 

@@ -15,7 +15,7 @@ class DeleteIndex extends \Symfony\Component\Console\Command\Command
 		private readonly \Spameri\Elastic\Model\Indices\Delete $delete,
 	)
 	{
-		parent::__construct(null);
+		parent::__construct(self::$defaultName);
 	}
 
 

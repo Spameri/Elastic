@@ -15,7 +15,7 @@ class CreateIndex extends \Symfony\Component\Console\Command\Command
 		private readonly \Spameri\Elastic\Model\DeleteIndex $deleteIndex,
 	)
 	{
-		parent::__construct(null);
+		parent::__construct(self::$defaultName);
 	}
 
 

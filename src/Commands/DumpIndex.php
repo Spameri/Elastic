@@ -15,7 +15,7 @@ class DumpIndex extends \Symfony\Component\Console\Command\Command
 		private readonly \Spameri\Elastic\Model\DumpIndex $migrate,
 	)
 	{
-		parent::__construct(null);
+		parent::__construct(self::$defaultName);
 	}
 
 
