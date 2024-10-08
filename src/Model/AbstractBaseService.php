@@ -37,7 +37,7 @@ abstract class AbstractBaseService implements ServiceInterface
 	 */
 	public function get(
 		\Spameri\Elastic\Entity\Property\ElasticId $id,
-	): \Spameri\Elastic\Entity\ElasticEntityInterface
+	): \Spameri\Elastic\Entity\AbstractElasticEntity
 	{
 		try {
 			$singleResult = $this->get->execute($id, $this->index);
@@ -62,7 +62,7 @@ abstract class AbstractBaseService implements ServiceInterface
 	 */
 	public function getBy(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
-	): \Spameri\Elastic\Entity\ElasticEntityInterface
+	): \Spameri\Elastic\Entity\AbstractElasticEntity
 	{
 		try {
 			$resultSearch = $this->getBy->execute($elasticQuery, $this->index);
@@ -140,7 +140,7 @@ abstract class AbstractBaseService implements ServiceInterface
 	}
 
 	public function deleteReference(
-		\Spameri\Elastic\Entity\ElasticEntityInterface $entityToDelete,
+		\Spameri\Elastic\Entity\AbstractElasticEntity $entityToDelete,
 		string $class,
 		string $field,
 	): void
