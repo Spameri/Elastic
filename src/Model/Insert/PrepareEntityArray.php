@@ -92,7 +92,6 @@ class PrepareEntityArray
 				foreach ($property as $item) {
 					$preparedArray[$key][] = $this->iterateVariables($item->entityVariables());
 				}
-				// TODO kolekce bez klíčů
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\ElasticEntityCollectionInterface) {
 				$preparedArray[$key] = [];
