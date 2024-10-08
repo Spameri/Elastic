@@ -29,11 +29,11 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 
 
 	/**
-	 * @param string $message
+	 * @param string|\Stringable $message
 	 * @param array<mixed> $context
 	 */
 	public function emergency(
-		$message,
+		string|\Stringable $message,
 		array $context = [],
 	)
 	{
@@ -43,11 +43,11 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 
 
 	/**
-	 * @param string $message
+	 * @param string|\Stringable $message
 	 * @param array<mixed> $context
 	 */
 	public function alert(
-		$message,
+		string|\Stringable $message,
 		array $context = [],
 	): void
 	{
@@ -57,11 +57,11 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 
 
 	/**
-	 * @param string $message
+	 * @param string|\Stringable $message
 	 * @param array<mixed> $context
 	 */
 	public function critical(
-		$message,
+		string|\Stringable $message,
 		array $context = [],
 	): void
 	{
@@ -71,11 +71,11 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 
 
 	/**
-	 * @param string $message
+	 * @param string|\Stringable $message
 	 * @param array<mixed> $context
 	 */
 	public function error(
-		$message,
+		string|\Stringable $message,
 		array $context = [],
 	): void
 	{
@@ -85,11 +85,11 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 
 
 	/**
-	 * @param string $message
+	 * @param string|\Stringable $message
 	 * @param array<mixed> $context
 	 */
 	public function warning(
-		$message,
+		string|\Stringable $message,
 		array $context = [],
 	): void
 	{
@@ -99,11 +99,11 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 
 
 	/**
-	 * @param string $message
+	 * @param string|\Stringable $message
 	 * @param array<mixed> $context
 	 */
 	public function notice(
-		$message,
+		string|\Stringable $message,
 		array $context = [],
 	): void
 	{
@@ -113,11 +113,11 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 
 
 	/**
-	 * @param string $message
+	 * @param string|\Stringable $message
 	 * @param array<mixed> $context
 	 */
 	public function info(
-		$message,
+		string|\Stringable $message,
 		array $context = [],
 	): void
 	{
@@ -127,11 +127,11 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 
 
 	/**
-	 * @param string $message
+	 * @param string|\Stringable $message
 	 * @param array<mixed> $context
 	 */
 	public function debug(
-		$message,
+		string|\Stringable $message,
 		array $context = [],
 	): void
 	{
@@ -142,12 +142,12 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 
 	/**
 	 * @param mixed $level
-	 * @param string $message
+	 * @param string|\Stringable $message
 	 * @param array<mixed> $context
 	 */
 	public function log(
 		$level,
-		$message,
+		string|\Stringable $message,
 		array $context = [],
 	): void
 	{
