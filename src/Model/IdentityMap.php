@@ -74,6 +74,10 @@ class IdentityMap
 		foreach ($serializedArray as $key => $item) {
 			if ($item instanceof \Spameri\Elastic\Entity\ElasticEntityInterface) {
 				$serializedArray[$key] = $item->id()->value();
+			} elseif ($item instanceof \Spameri\Elastic\Entity\ElasticEntityCollectionInterface) {
+				$serializedArray[$key] = $item->keys();
+			} elseif ($item instanceof \Spameri\Elastic\Entity\EntityCollectionInterface) {
+				$serializedArray[$key] = $item->keys();
 			}
 		}
 
