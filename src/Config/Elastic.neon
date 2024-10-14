@@ -44,15 +44,6 @@ services:
 	deleteMultiple:
 		factory: Spameri\Elastic\Model\DeleteMultiple
 
-	serviceLocator:
-		factory: Spameri\Elastic\Model\ServiceLocator
-
-	documentMigrateStatus:
-		factory: Spameri\Elastic\Model\TypeToNewIndex\DocumentMigrateStatus
-
-	migrate:
-		factory: Spameri\Elastic\Model\TypeToNewIndex\Migrate
-
 	modelDumpIndex:
 		factory: \Spameri\Elastic\Model\DumpIndex
 
@@ -158,12 +149,6 @@ services:
 
 	removeAliasCommand:
 		factory: Spameri\Elastic\Commands\RemoveAlias
-		tags:
-			- kdyby.console.command
-			- console.command
-
-	typeToNewIndexCommand:
-		factory: Spameri\Elastic\Commands\TypeToNewIndex
 		tags:
 			- kdyby.console.command
 			- console.command

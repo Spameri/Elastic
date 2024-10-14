@@ -37,37 +37,4 @@ readonly class Create
 		}
 	}
 
-
-	public function replaceKeywordInOlderVersion(array &$field): void
-	{
-		if (isset($field['properties'])) {
-			foreach ($field['properties'] as $propertyKey => $propertyField) {
-				$this->replaceKeywordInOlderVersion($propertyField);
-				$field['properties'][$propertyKey] = $propertyField;
-			}
-		}
-
-		if (isset($field['fields'])) {
-			foreach ($field['fields'] as $fieldKey => $subField) {
-				$this->replaceKeywordInOlderVersion($subField);
-				$field['fields'][$fieldKey] = $subField;
-			}
-		}
-
-		if (isset($field['type']) === false) {
-			return;
-		}
-
-		if (
-			\in_array(
-				\strtolower($field['type']), [
-					\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_TEXT,
-					\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_KEYWORD,
-				], true,
-			)
-		) {
-			$field['type'] = \Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_STRING;
-		}
-	}
-
 }
