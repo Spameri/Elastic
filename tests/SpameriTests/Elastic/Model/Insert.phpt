@@ -9,8 +9,8 @@ class Insert extends \SpameriTests\Elastic\AbstractTestCase
 
 	public function testInsert(): void
 	{
-		/** @var \SpameriTests\Elastic\Data\Model\PersonService $personService */
-		$personService = $this->container->getByType(\SpameriTests\Elastic\Data\Model\PersonService::class);
+		/** @var \Spameri\Elastic\EntityManager $entityManager */
+		$entityManager = $this->container->getByType(\Spameri\Elastic\EntityManager::class);
 		$video = new \SpameriTests\Elastic\Data\Entity\Video(
 			new \Spameri\Elastic\Entity\Property\EmptyElasticId(),
 			new \SpameriTests\Elastic\Data\Entity\Video\Identification(
@@ -59,7 +59,7 @@ class Insert extends \SpameriTests\Elastic\AbstractTestCase
 				new \SpameriTests\Elastic\Data\Entity\Video\Connections\VersionOfCollection(),
 				new \SpameriTests\Elastic\Data\Entity\Video\Connections\EditedFromCollection()
 			),
-			new \SpameriTests\Elastic\Data\Entity\Video\People($personService),
+			new \SpameriTests\Elastic\Data\Entity\Video\People($entityManager, \SpameriTests\Elastic\Data\Entity\Person::class),
 			new \SpameriTests\Elastic\Data\Entity\Video\SeasonCollection()
 		);
 

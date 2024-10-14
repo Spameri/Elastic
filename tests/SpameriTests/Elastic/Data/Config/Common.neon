@@ -28,6 +28,7 @@ services:
 		factory: SpameriTests\Elastic\Data\Model\PersonService
 		arguments:
 			- @elastic.person.personMapping::provide()::indexName()
+			- SpameriTests\Elastic\Data\Entity\Person::class
 			- @elastic.person.personFactory
 			- @elastic.person.personCollectionFactory
 
@@ -47,6 +48,7 @@ services:
 		factory: SpameriTests\Elastic\Data\Model\VideoService
 		arguments:
 			- @elastic.video.videoMapping::provide()::indexName()
+			- SpameriTests\Elastic\Data\Entity\Video::class
 			- @elastic.video.videoFactory
 			- @elastic.video.videoCollectionFactory
 

@@ -10,13 +10,15 @@ class PersonCollectionFactory implements \Spameri\Elastic\Factory\CollectionFact
 	 * @return \SpameriTests\Elastic\Data\Model\PersonCollection<\SpameriTests\Elastic\Data\Entity\Person>
 	 */
 	public function create(
-		\Spameri\Elastic\Model\ServiceInterface $service,
+		\Spameri\Elastic\EntityManager $entityManager,
+		string $entityClass,
 		array $elasticIds = [],
 		\Spameri\Elastic\Entity\ElasticEntityInterface ...$entityCollection,
 	): \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
 	{
 		return new \SpameriTests\Elastic\Data\Model\PersonCollection(
-			$service,
+			$entityManager,
+			$entityClass,
 			$elasticIds,
 			... $entityCollection,
 		);

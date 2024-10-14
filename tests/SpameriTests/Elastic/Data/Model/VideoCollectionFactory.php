@@ -10,13 +10,15 @@ class VideoCollectionFactory implements \Spameri\Elastic\Factory\CollectionFacto
 	 * @return \SpameriTests\Elastic\Data\Model\VideoCollection<\SpameriTests\Elastic\Data\Entity\Video>
 	 */
 	public function create(
-		\Spameri\Elastic\Model\ServiceInterface $service,
+		\Spameri\Elastic\EntityManager $entityManager,
+		string $entityClass,
 		array $elasticIds = [],
 		\Spameri\Elastic\Entity\ElasticEntityInterface ...$entityCollection,
 	): \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
 	{
 		return new \SpameriTests\Elastic\Data\Model\VideoCollection(
-			$service,
+			$entityManager,
+			$entityClass,
 			$elasticIds,
 			... $entityCollection,
 		);
