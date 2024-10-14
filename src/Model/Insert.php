@@ -8,7 +8,7 @@ readonly class Insert
 	public function __construct(
 		private \Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray,
 		private \Spameri\Elastic\ClientProvider $clientProvider,
-		private \Spameri\Elastic\Model\VersionProvider $versionProvider,
+		private \Spameri\Elastic\Model\IdentityMap $identityMap,
 	)
 	{
 	}
@@ -21,29 +21,23 @@ readonly class Insert
 	public function execute(
 		\Spameri\Elastic\Entity\AbstractElasticEntity $entity,
 		string $index,
-		string|null $type = NULL,
-		bool $hasSti = FALSE,
+		bool $hasSti = false,
 	): string
 	{
-		if ($type === NULL) {
-			$type = $index;
-		}
-
-		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
-			$type = NULL;
-		}
-
 		$entityArray = $this->prepareEntityArray->prepare($entity, $hasSti);
 		unset($entityArray['id']);
+
+		if ($this->identityMap->isChanged($entity) === false) {
+			return $entity->id()->value();
+		}
 
 		try {
 			$response = $this->clientProvider->client()->index(
 				(
 					new \Spameri\ElasticQuery\Document(
-						$index,
-						new \Spameri\ElasticQuery\Document\Body\Plain($entityArray),
-						$type,
-						$entity->id()->value(),
+						index: $index,
+						body: new \Spameri\ElasticQuery\Document\Body\Plain($entityArray),
+						id: $entity->id()->value(),
 					)
 				)->toArray(),
 			)->asArray()
@@ -56,7 +50,7 @@ readonly class Insert
 		try {
 			$this->clientProvider->client()->indices()->refresh(
 				(
-				new \Spameri\ElasticQuery\Document($index)
+					new \Spameri\ElasticQuery\Document($index)
 				)
 					->toArray(),
 			)
@@ -66,13 +60,10 @@ readonly class Insert
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}
 
-		if (isset($response['created']) || isset($response['updated'])) {
-			$entity->id = new \Spameri\Elastic\Entity\Property\ElasticId($response['_id']);
-			return $response['_id'];
-		}
-
 		if (isset($response['result']) && ($response['result'] === 'created' || $response['result'] === 'updated')) {
 			$entity->id = new \Spameri\Elastic\Entity\Property\ElasticId($response['_id']);
+			$this->identityMap->markInserted($entity);
+
 			return $response['_id'];
 		}
 

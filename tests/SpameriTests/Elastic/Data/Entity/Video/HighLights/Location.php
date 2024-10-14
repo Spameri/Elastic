@@ -5,24 +5,11 @@ namespace SpameriTests\Elastic\Data\Entity\Video\HighLights;
 class Location implements \Spameri\Elastic\Entity\EntityInterface
 {
 
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Property\Text
-	 */
-	private $name;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Property\Text
-	 */
-	private $note;
-
-
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Property\Text $name,
-		\SpameriTests\Elastic\Data\Entity\Property\Text $note,
+		private \SpameriTests\Elastic\Data\Entity\Property\Text $name,
+		private \SpameriTests\Elastic\Data\Entity\Property\Text $note,
 	)
 	{
-		$this->name = $name;
-		$this->note = $note;
 	}
 
 

@@ -13,20 +13,24 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	protected bool $initialized;
 
 
+	/**
+	 * @param class-string $entityClass
+	 */
 	public function __construct(
-		protected \Spameri\Elastic\Model\ServiceInterface $service,
+		protected \Spameri\Elastic\EntityManager $entityManager,
+		protected string $entityClass,
 		protected array $elasticIds = [],
 		\Spameri\Elastic\Entity\ElasticEntityInterface ...$entityCollection,
 	)
 	{
 		$this->collection = [];
-		$this->initialized = FALSE;
+		$this->initialized = false;
 
 		if (
 			! $elasticIds
 			&& \count($entityCollection) > 0
 		) {
-			$this->initialized = TRUE;
+			$this->initialized = true;
 		}
 
 		foreach ($entityCollection as $elasticEntity) {
@@ -54,10 +58,10 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	public function initialize(): void
 	{
 		if ($this->elasticIds) {
-			$entities = $this->service->getAllBy(
+			$entities = $this->entityManager->findBy(
 				new \Spameri\ElasticQuery\ElasticQuery(
 					new \Spameri\ElasticQuery\Query\QueryCollection(
-						NULL,
+						null,
 						new \Spameri\ElasticQuery\Query\MustCollection(
 							new \Spameri\ElasticQuery\Query\Terms(
 								'_id',
@@ -66,15 +70,16 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 						),
 					),
 				),
+				$this->entityClass,
 			);
 
-			$this->initialized = TRUE;
+			$this->initialized = true;
 
 			foreach ($entities as $entity) {
 				$this->add($entity);
 			}
 		} else {
-			$this->initialized = TRUE;
+			$this->initialized = true;
 		}
 	}
 
@@ -116,14 +121,14 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 		}
 
 		if ($id instanceof \Spameri\Elastic\Entity\Property\EmptyElasticId) {
-			return NULL;
+			return null;
 		}
 
 		if ($id->value() && \array_key_exists($id->value(), $this->keys())) {
 			return $this->collection[$id->value()];
 		}
 
-		return NULL;
+		return null;
 	}
 
 
@@ -198,7 +203,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 			$this->initialize();
 		}
 
-		if ( ! \in_array($type, ['asc', 'desc'], TRUE)) {
+		if ( ! \in_array($type, ['asc', 'desc'], true)) {
 			throw new \Nette\InvalidArgumentException('Not supported sorting method.');
 		}
 
@@ -212,7 +217,19 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 			$this->initialize();
 		}
 
-		return \reset($this->collection) ?: NULL;
+		return \reset($this->collection) ?: null;
+	}
+
+	public function __serialize(): array
+	{
+		return [
+			'collection' => $this->collection,
+		];
+	}
+
+	public function __unserialize(array $data): void
+	{
+		$this->collection = $data;
 	}
 
 }

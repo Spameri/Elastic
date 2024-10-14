@@ -5,19 +5,13 @@ namespace SpameriTests\Elastic\Data\Model;
 class VideoFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 {
 
-	public function __construct(
-		private \SpameriTests\Elastic\Data\Model\PersonService $personService,
-	)
-	{
-	}
-
-
 	/**
 	 * @return \Generator<\SpameriTests\Elastic\Data\Entity\Video>
 	 */
 	public function create(
 		\Spameri\ElasticQuery\Response\Result\Hit $hit,
-		string|null $class = null,
+		string|null $class, // phpcs:ignore SlevomatCodingStandard.Functions.UnusedParameter
+		\Spameri\Elastic\EntityManager|null $entityManager, // phpcs:ignore SlevomatCodingStandard.Functions.UnusedParameter
 	): \Generator
 	{
 		yield new \SpameriTests\Elastic\Data\Entity\Video(
@@ -68,7 +62,7 @@ class VideoFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
 				new \SpameriTests\Elastic\Data\Entity\Video\Connections\VersionOfCollection(),
 				new \SpameriTests\Elastic\Data\Entity\Video\Connections\EditedFromCollection(),
 			),
-			new \SpameriTests\Elastic\Data\Entity\Video\People($this->personService),
+			new \SpameriTests\Elastic\Data\Entity\Video\People($entityManager, \SpameriTests\Elastic\Data\Entity\Person::class),
 			new \SpameriTests\Elastic\Data\Entity\Video\SeasonCollection(),
 		);
 	}

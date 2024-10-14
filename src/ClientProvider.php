@@ -20,6 +20,7 @@ class ClientProvider
 	public function init(): void
 	{
 		$settings = $this->settingsProvider->provide();
+		$this->clientBuilder->setSSLVerification(false);
 		$this->clientBuilder->setHosts(
 			[
 				$settings->host() . ':' . $settings->port(),
@@ -33,7 +34,7 @@ class ClientProvider
 	 */
 	public function client(): \Elastic\Elasticsearch\Client
 	{
-		if ( ! ($this->client instanceof \Elastic\Elasticsearch\Client)) {
+		if (isset($this->client) === false) {
 			$this->client = $this->clientBuilder->build();
 		}
 

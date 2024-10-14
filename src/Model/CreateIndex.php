@@ -26,7 +26,7 @@ readonly class CreateIndex
 			$indexName = $index . '-'
 				. $this->dateTimeProvider->provide()->format(\Spameri\Elastic\Entity\Property\DateTime::INDEX_FORMAT);
 
-			$this->create->execute($indexName, [], $index);
+			$this->create->execute($indexName, []);
 			$this->addAlias->execute($index, $indexName);
 		}
 	}

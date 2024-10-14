@@ -6,11 +6,13 @@ interface CollectionFactoryInterface
 {
 
 	/**
+	 * @param class-string $entityClass
 	 * @param array<string> $elasticIds
 	 * @return \Spameri\Elastic\Entity\ElasticEntityCollectionInterface<\Spameri\Elastic\Entity\ElasticEntityInterface>
 	 */
 	public function create(
-		\Spameri\Elastic\Model\ServiceInterface $service,
+		\Spameri\Elastic\EntityManager $entityManager,
+		string $entityClass,
 		array $elasticIds = [],
 		\Spameri\Elastic\Entity\ElasticEntityInterface ...$entityCollection,
 	): \Spameri\Elastic\Entity\ElasticEntityCollectionInterface;

@@ -19,11 +19,11 @@ class VideoService extends \Spameri\Elastic\Model\AbstractBaseService
 
 	/**
 	 * @param \Spameri\Elastic\Entity\Property\ElasticId $id
-	 * @return \Spameri\Elastic\Entity\ElasticEntityInterface|\SpameriTests\Elastic\Data\Entity\Video
+	 * @return \Spameri\Elastic\Entity\AbstractElasticEntity|\SpameriTests\Elastic\Data\Entity\Video
 	 */
 	public function get(
 		\Spameri\Elastic\Entity\Property\ElasticId $id,
-	): \Spameri\Elastic\Entity\ElasticEntityInterface
+	): \Spameri\Elastic\Entity\AbstractElasticEntity
 	{
 		return parent::get($id);
 	}
@@ -31,12 +31,12 @@ class VideoService extends \Spameri\Elastic\Model\AbstractBaseService
 
 	/**
 	 * @param \Spameri\ElasticQuery\ElasticQuery $elasticQuery
-	 * @return \Spameri\Elastic\Entity\ElasticEntityInterface|\SpameriTests\Elastic\Data\Entity\Video
+	 * @return \Spameri\Elastic\Entity\AbstractElasticEntity|\SpameriTests\Elastic\Data\Entity\Video
 	 * @throws \Spameri\Elastic\Exception\DocumentNotFound
 	 */
 	public function getBy(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
-	): \Spameri\Elastic\Entity\ElasticEntityInterface
+	): \Spameri\Elastic\Entity\AbstractElasticEntity
 	{
 		return parent::getBy($elasticQuery);
 	}

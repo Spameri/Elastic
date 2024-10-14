@@ -8,7 +8,7 @@ class TagLineCollection implements \Spameri\Elastic\Entity\ValueCollectionInterf
 	/**
 	 * @var array<\SpameriTests\Elastic\Data\Entity\Video\Story\TagLine>
 	 */
-	private $collection;
+	private array $collection;
 
 
 	public function __construct(

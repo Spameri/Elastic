@@ -46,8 +46,7 @@ readonly class AddAlias
 									],
 								],
 							),
-							NULL,
-							NULL,
+							null,
 							[
 								'name' => $index,
 							],

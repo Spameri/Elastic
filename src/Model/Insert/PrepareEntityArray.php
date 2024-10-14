@@ -7,29 +7,36 @@ class PrepareEntityArray
 
 	public const ENTITY_CLASS = 'entityClass';
 
-	/**
-	 * @var array<string, bool>
-	 */
-	private array $insertedEntities;
+	private \Spameri\Elastic\EntityManager $entityManager;
 
 
 	public function __construct(
-		private readonly \Spameri\Elastic\Model\ServiceLocatorInterface $serviceLocator,
+		private readonly \Nette\DI\Container $container,
+		private readonly \Spameri\Elastic\Model\IdentityMap $identityMap,
 	)
 	{
 	}
 
+	private function getEntityManager(): \Spameri\Elastic\EntityManager
+	{
+		if (isset($this->entityManager)) {
+			return $this->entityManager;
+		}
+
+		$this->entityManager = $this->container->getByType(\Spameri\Elastic\EntityManager::class);
+
+		return $this->entityManager;
+	}
 
 	/**
 	 * @return array<mixed>
 	 */
 	public function prepare(
-		\Spameri\Elastic\Entity\ElasticEntityInterface $entity,
+		\Spameri\Elastic\Entity\AbstractElasticEntity $entity,
 		bool $hasSti = false,
 	): array
 	{
-		$this->insertedEntities = [];
-		$this->insertedEntities[$entity->id()->value()] = true;
+		$this->identityMap->add($entity);
 
 		$entityVariables = $entity->entityVariables();
 		if ($hasSti === true) {
@@ -52,12 +59,12 @@ class PrepareEntityArray
 
 		foreach ($variables as $key => $property) {
 			if ($property instanceof \Spameri\Elastic\Entity\AbstractElasticEntity) {
-				if (\in_array($property->id->value(), $this->insertedEntities, true)) {
+				if ($this->identityMap->isChanged($property) === false) {
 					$preparedArray[$key] = $property->id()->value();
 
 				} else {
-					$preparedArray[$key] = $this->serviceLocator->locate($property)->insert($property);
-					$this->insertedEntities[$property->id()->value()] = true;
+					$preparedArray[$key] = $this->getEntityManager()->persist($property);
+					$this->identityMap->add($property);
 				}
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\ElasticEntityInterface) {
@@ -85,7 +92,6 @@ class PrepareEntityArray
 				foreach ($property as $item) {
 					$preparedArray[$key][] = $this->iterateVariables($item->entityVariables());
 				}
-				// TODO kolekce bez klíčů
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\ElasticEntityCollectionInterface) {
 				$preparedArray[$key] = [];
@@ -95,12 +101,12 @@ class PrepareEntityArray
 				} else {
 					/** @var \Spameri\Elastic\Entity\AbstractElasticEntity $item */
 					foreach ($property as $item) {
-						if (\in_array($item->id()->value(), $this->insertedEntities)) {
+						if ($this->identityMap->isChanged($item) === false) {
 							$preparedArray[$key][] = $item->id()->value();
 
 						} else {
-							$preparedArray[$key][] = $this->serviceLocator->locate($item)->insert($item);
-							$this->insertedEntities[$item->id()->value()] = true;
+							$preparedArray[$key][] = $this->getEntityManager()->persist($item);
+							$this->identityMap->add($item);
 						}
 					}
 				}
@@ -150,6 +156,10 @@ class PrepareEntityArray
 				throw new \Spameri\Elastic\Exception\EntityIsNotValid(
 					'Property ' . $key . ' with value' . $property . ' is not supported.',
 				);
+			}
+
+			if ($property instanceof \Spameri\Elastic\Entity\STIEntityInterface) {
+				$preparedArray[$key][self::ENTITY_CLASS] = $property::class;
 			}
 		}
 

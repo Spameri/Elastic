@@ -5,17 +5,14 @@ namespace SpameriTests\Elastic\Data\Entity\Property;
 class CountryShort implements \Spameri\Elastic\Entity\ValueInterface
 {
 
-	/**
-	 * @var string
-	 */
-	private $value;
+	private string $value;
 
 
 	public function __construct(
 		string|null $value,
 	)
 	{
-		if ($value === '' || $value === NULL) {
+		if ($value === '' || $value === null) {
 			throw new \InvalidArgumentException();
 		}
 

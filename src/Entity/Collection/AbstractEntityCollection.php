@@ -50,7 +50,7 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 			return $this->collection[$key];
 		}
 
-		return NULL;
+		return null;
 	}
 
 
@@ -101,7 +101,7 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 		string $type,
 	): void
 	{
-		if ( ! \in_array($type, ['asc', 'desc'], TRUE)) {
+		if ( ! \in_array($type, ['asc', 'desc'], true)) {
 			throw new \Nette\InvalidArgumentException('Not supported sorting method.');
 		}
 
@@ -111,7 +111,7 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 
 	public function first(): \Spameri\Elastic\Entity\EntityInterface|null
 	{
-		return \reset($this->collection) ?: NULL;
+		return \reset($this->collection) ?: null;
 	}
 
 }

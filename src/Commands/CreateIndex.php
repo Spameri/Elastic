@@ -2,6 +2,10 @@
 
 namespace Spameri\Elastic\Commands;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(
+	name: 'spameri:elastic:create-index',
+	description: 'Creates index. Take string as is, adds timestamp and inserts it in Elastic. No mapping or settings.',
+)]
 class CreateIndex extends \Symfony\Component\Console\Command\Command
 {
 	/**
@@ -15,7 +19,7 @@ class CreateIndex extends \Symfony\Component\Console\Command\Command
 		private readonly \Spameri\Elastic\Model\DeleteIndex $deleteIndex,
 	)
 	{
-		parent::__construct(null);
+		parent::__construct(self::$defaultName);
 	}
 
 

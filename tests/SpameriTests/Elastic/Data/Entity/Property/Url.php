@@ -5,21 +5,14 @@ namespace SpameriTests\Elastic\Data\Entity\Property;
 class Url implements \Spameri\Elastic\Entity\ValueInterface
 {
 
-	/**
-	 * @var string
-	 */
-	private $value;
-
-
 	public function __construct(
-		string $value,
+		private string $value,
 	)
 	{
 		if ( ! \Nette\Utils\Validators::isUrl($value)) {
 			throw new \InvalidArgumentException();
 		}
 
-		$this->value = $value;
 	}
 
 

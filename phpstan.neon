@@ -4,12 +4,9 @@ parameters:
 
 	ignoreErrors:
 		-
-			message: "#^Unable to resolve the template type T in call to method Nette\\\\DI\\\\Container\\:\\:getByType\\(\\)$#"
-			count: 2
-			path: src/Model/ServiceLocator.php
-
-	checkGenericClassInNonGenericObjectType: false
-	checkMissingIterableValueType: false
+			identifier: missingType.iterableValue
+		-
+			identifier: missingType.generics
 
 	bootstrapFiles:
 		- %rootDir%/../../../phpstanConstants.php

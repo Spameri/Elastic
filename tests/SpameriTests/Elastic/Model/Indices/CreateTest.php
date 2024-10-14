@@ -21,13 +21,11 @@ class CreateTest extends \SpameriTests\Elastic\AbstractTestCase
 
 		$create = new \Spameri\Elastic\Model\Indices\Create(
 			$this->container->getByType(\Spameri\Elastic\ClientProvider::class),
-			$this->container->getByType(\Spameri\Elastic\Model\VersionProvider::class),
 		);
 
 		$create->execute(
 			\SpameriTests\Elastic\Config::INDEX_CREATE,
 			$videoMapping->provide()->toArray(),
-			\SpameriTests\Elastic\Config::INDEX_CREATE,
 		);
 		$response = $getMapping->execute(\SpameriTests\Elastic\Config::INDEX_CREATE);
 

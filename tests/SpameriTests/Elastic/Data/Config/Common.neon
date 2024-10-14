@@ -4,7 +4,7 @@ extensions:
 spameriElasticSearch:
 	host: 127.0.0.1
 	port: 9200
-	version: 70000
+	version: 81200
 
 php:
 	date.timezone: Europe/Prague
@@ -16,7 +16,7 @@ parameters:
 
 services:
 	elastic.person.personMapping:
-		factory: SpameriTests\Elastic\Data\Model\PersonMapping(%elasticSearch.personIndex%, SpameriTests\Elastic\Data\Entity\Person::class)
+		factory: SpameriTests\Elastic\Data\Model\PersonMapping(%elasticSearch.personIndex%, [SpameriTests\Elastic\Data\Entity\Person::class])
 
 	elastic.person.personFactory:
 		factory: SpameriTests\Elastic\Data\Model\PersonFactory
@@ -28,6 +28,7 @@ services:
 		factory: SpameriTests\Elastic\Data\Model\PersonService
 		arguments:
 			- @elastic.person.personMapping::provide()::indexName()
+			- SpameriTests\Elastic\Data\Entity\Person::class
 			- @elastic.person.personFactory
 			- @elastic.person.personCollectionFactory
 
@@ -35,7 +36,7 @@ services:
 ########################################################################################################################
 
 	elastic.video.videoMapping:
-		factory: SpameriTests\Elastic\Data\Model\VideoMapping(%elasticSearch.personIndex%, SpameriTests\Elastic\Data\Entity\Video::class)
+		factory: SpameriTests\Elastic\Data\Model\VideoMapping(%elasticSearch.personIndex%, [SpameriTests\Elastic\Data\Entity\Video::class])
 
 	elastic.video.videoFactory:
 		factory: SpameriTests\Elastic\Data\Model\VideoFactory
@@ -47,6 +48,7 @@ services:
 		factory: SpameriTests\Elastic\Data\Model\VideoService
 		arguments:
 			- @elastic.video.videoMapping::provide()::indexName()
+			- SpameriTests\Elastic\Data\Entity\Video::class
 			- @elastic.video.videoFactory
 			- @elastic.video.videoCollectionFactory
 

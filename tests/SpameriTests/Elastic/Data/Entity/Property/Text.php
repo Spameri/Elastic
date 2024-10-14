@@ -5,17 +5,10 @@ namespace SpameriTests\Elastic\Data\Entity\Property;
 class Text implements \Spameri\Elastic\Entity\ValueInterface
 {
 
-	/**
-	 * @var string
-	 */
-	private $value;
-
-
 	public function __construct(
-		string $value,
+		private string $value,
 	)
 	{
-		$this->value = $value;
 	}
 
 
