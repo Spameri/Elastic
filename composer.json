@@ -42,7 +42,7 @@
 		"nette/tester": "^2.4",
 		"phpstan/phpstan": "^1.11.3",
 		"php-coveralls/php-coveralls": "^2.1",
-		"nette/bootstrap": "^3.0",
+		"nette/bootstrap": "^3.1",
 		"nette/http": "^3.0.7",
 		"mockery/mockery": "^1.5"
 	},
