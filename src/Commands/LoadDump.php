@@ -4,7 +4,7 @@ namespace Spameri\Elastic\Commands;
 
 #[\Symfony\Component\Console\Attribute\AsCommand(
 	name: 'spameri:elastic:load-dump',
-	description: 'Loads data from provided dump file.'
+	description: 'Loads data from provided dump file.',
 )]
 class LoadDump extends \Symfony\Component\Console\Command\Command
 {

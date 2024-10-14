@@ -86,13 +86,7 @@ class EventManager
 
 			/** @var \Spameri\Elastic\EventManager\ListenerInterface $listener */
 			foreach ($listeners as $listener) {
-				try {
-					$listener->handle($entity, $parent);
-
-				} catch (\Throwable $exception) {
-					// TODO Log
-					\Tracy\Debugger::barDump($exception->getMessage());
-				}
+				$listener->handle($entity, $parent);
 			}
 		}
 	}

@@ -14,8 +14,6 @@ readonly class Get
 
 
 	/**
-	 * $type parameter is here only for backward compatibility do not use it for new index
-	 *
 	 * @throws \Spameri\Elastic\Exception\ElasticSearch
 	 */
 	public function execute(
