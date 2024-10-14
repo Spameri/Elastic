@@ -10,7 +10,6 @@ readonly class EntityManager
 		private \Spameri\Elastic\Model\GetAllBy $getAllBy,
 		private \Spameri\Elastic\Model\Delete $delete,
 		private \Spameri\Elastic\Model\EntitySettingsLocator $entitySettingsLocator,
-		private \Spameri\Elastic\Factory\EntityFactory $entityFactory,
 		private \Spameri\Elastic\EventManager $eventManager,
 		private \Spameri\Elastic\EventManager\DispatchEvents $dispatchEvents,
 		private \Spameri\Elastic\Model\IdentityMap $identityMap,
@@ -65,23 +64,23 @@ readonly class EntityManager
 
 		$entities = $this->findBy($elasticQuery, $class);
 
-		if (\count($entities) === 0) {
+		if ($entities->count() === 0) {
 			throw new \Spameri\Elastic\Exception\DocumentNotFound('Entity ' . $class . ' not found.');
 		}
 
-		return \reset($entities);
+		return $entities->first();
 	}
 
 
 	/**
 	 * @template T
 	 * @param class-string<T> $class
-	 * @return array<T>
+	 * @return \Spameri\Elastic\Entity\Collection\ElasticEntityCollection<T>
 	 */
 	public function findBy(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
 		string $class,
-	): array
+	): \Spameri\Elastic\Entity\Collection\ElasticEntityCollection
 	{
 		$indexConfig = $this->entitySettingsLocator->locateByEntityClass($class);
 
@@ -94,30 +93,51 @@ readonly class EntityManager
 			throw $exception;
 		}
 
-		$entities = [];
-		foreach ($resultSearch->hits() as $hit) {
-			try {
-				$entities[] = $this->entityFactory->create(
-					hit: $hit,
-					class: $class,
-					entityManager: $this,
-				)->current();
-
-			} catch (\Spameri\Elastic\Exception\ElasticSearch $exception) {
-				\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
-			}
-		}
-
-		// TODO univerzální kolekce
-		return $entities;
+		return $this->createCollection($class, $resultSearch->hits()->ids());
 	}
+
 
 	/**
 	 * @template T
 	 * @param class-string<T> $class
-	 * @return array<T>
+	 * @return \Spameri\Elastic\Entity\Collection\ElasticEntityCollection<T>
 	 */
-	public function findAll(string $class): array
+	public function createEmptyCollection(
+		string $class,
+	): \Spameri\Elastic\Entity\Collection\ElasticEntityCollection
+	{
+		return new \Spameri\Elastic\Entity\Collection\ElasticEntityCollection(
+			entityManager: $this,
+			entityClass: $class,
+			elasticIds: [],
+		);
+	}
+
+
+	/**
+	 * @template T
+	 * @param class-string<T> $class
+	 * @return \Spameri\Elastic\Entity\Collection\ElasticEntityCollection<T>
+	 */
+	protected function createCollection(
+		string $class,
+		array $ids,
+	): \Spameri\Elastic\Entity\Collection\ElasticEntityCollection
+	{
+		return new \Spameri\Elastic\Entity\Collection\ElasticEntityCollection(
+			entityManager: $this,
+			entityClass: $class,
+			elasticIds: $ids,
+		);
+	}
+
+
+	/**
+	 * @template T
+	 * @param class-string<T> $class
+	 * @return \Spameri\Elastic\Entity\Collection\ElasticEntityCollection<T>
+	 */
+	public function findAll(string $class): \Spameri\Elastic\Entity\Collection\ElasticEntityCollection
 	{
 		$elasticQuery = new \Spameri\ElasticQuery\ElasticQuery();
 		$elasticQuery->options()->changeSize(10000);
@@ -188,7 +208,7 @@ readonly class EntityManager
 		$success = $this->delete->execute($entity->id(), $indexConfig->indexName());
 
 		if ($success === false) {
-			return $success;
+			return false;
 		}
 
 		$this->eventManager->dispatch(
@@ -198,7 +218,7 @@ readonly class EntityManager
 		);
 		$this->dispatchEvents->execute($entity, EventManager::POST_DELETE);
 
-		return $success;
+		return true;
 	}
 
 }

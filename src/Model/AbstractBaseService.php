@@ -5,8 +5,12 @@ namespace Spameri\Elastic\Model;
 abstract class AbstractBaseService implements ServiceInterface
 {
 
+	/**
+	 * @param class-string $entityClass
+	 */
 	public function __construct(
 		public string $index,
+		public string $entityClass,
 		protected readonly \Spameri\Elastic\Factory\EntityFactoryInterface $entityFactory,
 		protected readonly \Spameri\Elastic\Factory\CollectionFactoryInterface $collectionFactory,
 		protected readonly \Spameri\Elastic\Model\Insert $insert,
@@ -15,7 +19,6 @@ abstract class AbstractBaseService implements ServiceInterface
 		protected readonly \Spameri\Elastic\Model\GetAllBy $getAllBy,
 		protected readonly \Spameri\Elastic\Model\Delete $delete,
 		protected readonly \Spameri\Elastic\Model\Aggregate $aggregate,
-		protected readonly \Spameri\Elastic\Model\ServiceLocator $serviceLocator,
 		protected readonly \Spameri\Elastic\EntityManager $entityManager,
 	) {}
 
@@ -112,16 +115,25 @@ abstract class AbstractBaseService implements ServiceInterface
 		}
 
 		return $this->collectionFactory->create(
-			$this,
+			$this->entityManager,
+			$this->entityClass,
 			[],
 			... $entities,
 		);
 	}
 
 
-	public function createEmptyCollection(): \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
+	/**
+	 * @param class-string $entityClass
+	 */
+	public function createEmptyCollection(
+		string $entityClass,
+	): \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
 	{
-		return $this->collectionFactory->create($this);
+		return $this->collectionFactory->create(
+			entityManager: $this->entityManager,
+			entityClass: $entityClass,
+		);
 	}
 
 
@@ -139,14 +151,17 @@ abstract class AbstractBaseService implements ServiceInterface
 		}
 	}
 
-	public function deleteReference(
+
+	/**
+	 * @param class-string $class
+	 */
+	public function cascadeDelete(
 		\Spameri\Elastic\Entity\AbstractElasticEntity $entityToDelete,
 		string $class,
 		string $field,
 	): void
 	{
 		try {
-			$service = $this->serviceLocator->locateByEntityClass($class);
 			$elasticQuery = new \Spameri\ElasticQuery\ElasticQuery();
 			$elasticQuery->addMustQuery(
 				new \Spameri\ElasticQuery\Query\Term(
@@ -154,9 +169,9 @@ abstract class AbstractBaseService implements ServiceInterface
 					query: $entityToDelete->id()->value(),
 				),
 			);
-			$collection = $service->getAllBy($elasticQuery);
+			$collection = $this->entityManager->findBy($elasticQuery, $class);
 			foreach ($collection as $entity) {
-				$service->delete($entity->id());
+				$this->entityManager->remove($entity);
 			}
 
 		} catch (\Spameri\Elastic\Exception\DocumentNotFound $e) {

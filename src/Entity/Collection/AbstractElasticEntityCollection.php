@@ -13,8 +13,12 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	protected bool $initialized;
 
 
+	/**
+	 * @param class-string $entityClass
+	 */
 	public function __construct(
-		protected \Spameri\Elastic\Model\ServiceInterface $service,
+		protected \Spameri\Elastic\EntityManager $entityManager,
+		protected string $entityClass,
 		protected array $elasticIds = [],
 		\Spameri\Elastic\Entity\ElasticEntityInterface ...$entityCollection,
 	)
@@ -54,7 +58,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	public function initialize(): void
 	{
 		if ($this->elasticIds) {
-			$entities = $this->service->getAllBy(
+			$entities = $this->entityManager->findBy(
 				new \Spameri\ElasticQuery\ElasticQuery(
 					new \Spameri\ElasticQuery\Query\QueryCollection(
 						null,
@@ -66,6 +70,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 						),
 					),
 				),
+				$this->entityClass,
 			);
 
 			$this->initialized = true;
