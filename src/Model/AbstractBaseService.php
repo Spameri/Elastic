@@ -55,7 +55,7 @@ abstract class AbstractBaseService implements ServiceInterface
 			throw new \Spameri\Elastic\Exception\DocumentNotFound(' with id ' . $id->value());
 		}
 
-		return $this->entityFactory->create($singleResult->hit(), null, $this->entityManager)->current();
+		return $this->entityFactory->create($singleResult->hit(), null, $this->entityManager);
 	}
 
 
@@ -80,7 +80,7 @@ abstract class AbstractBaseService implements ServiceInterface
 			throw new \Spameri\Elastic\Exception\DocumentNotFound($this->index, $elasticQuery);
 		}
 
-		return $this->entityFactory->create($resultSearch->hits()->getIterator()->current(), null, $this->entityManager)->current();
+		return $this->entityFactory->create($resultSearch->hits()->getIterator()->current(), null, $this->entityManager);
 	}
 
 
@@ -107,7 +107,7 @@ abstract class AbstractBaseService implements ServiceInterface
 		$entities = [];
 		foreach ($resultSearch->hits() as $hit) {
 			try {
-				$entities[] = $this->entityFactory->create($hit, null, $this->entityManager)->current();
+				$entities[] = $this->entityFactory->create($hit, null, $this->entityManager);
 
 			} catch (\Spameri\Elastic\Exception\ElasticSearch $exception) {
 				\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);

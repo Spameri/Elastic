@@ -52,8 +52,7 @@ class EntityFactory extends \SpameriTests\Elastic\AbstractTestCase
 		);
 
 		/** @var \SpameriTests\Elastic\Data\Entity\Person $entity */
-		$entity = $entityFactory->create($hit, \SpameriTests\Elastic\Data\Entity\Person::class, $entityManager)
-			->current();
+		$entity = $entityFactory->create($hit, \SpameriTests\Elastic\Data\Entity\Person::class, $entityManager);
 
 		\Tester\Assert::same($person->id->value(), $entity->id->value());
 		\Tester\Assert::same($person->identification->imdb->value(), $entity->identification->imdb->value());

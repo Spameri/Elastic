@@ -15,13 +15,15 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 	}
 
 	/**
-	 * @return \Generator<\Spameri\Elastic\Entity\AbstractElasticEntity>
+	 * @template T
+	 * @param class-string<T> $class
+	 * @return T
 	 */
 	public function create(
 		\Spameri\ElasticQuery\Response\Result\Hit $hit,
 		string|null $class,
 		\Spameri\Elastic\EntityManager|null $entityManager,
-	): \Generator
+	): \Spameri\Elastic\Entity\AbstractElasticEntity
 	{
 		if ($class === null) {
 			throw new \InvalidArgumentException('Class must be set');
@@ -40,7 +42,7 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 			id: $hit->id(),
 		);
 		if ($entity !== null) {
-			yield $entity;
+			return $entity;
 		}
 
 		$properties = $this->resolveProperties(
@@ -57,7 +59,7 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 
 		$this->identityMap->add($entity);
 
-		yield $entity;
+		return $entity;
 	}
 
 	protected function resolveProperties(
@@ -86,6 +88,7 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 			$propertyTypeName = $reflectionPropertyType->getName();
 			if ($reflectionPropertyType->allowsNull() && $value === null) {
 				$propertyValue = null;
+				$setNull = true;
 
 			} elseif ($property->hasDefaultValue() === true && $value === null) {
 				$propertyValue = $property->getDefaultValue();
@@ -207,11 +210,13 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 				$propertyValue = $value;
 			}
 
-			if (isset($propertyValue)) {
+			if (
+				isset($propertyValue) || isset($setNull)
+			) {
 				$resolvedProperties[$property->getName()] = $propertyValue;
 			}
 
-			unset($propertyValue);
+			unset($propertyValue, $setNull);
 		}
 
 		return $resolvedProperties;

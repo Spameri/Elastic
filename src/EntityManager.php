@@ -14,6 +14,7 @@ readonly class EntityManager
 		private \Spameri\Elastic\EventManager\DispatchEvents $dispatchEvents,
 		private \Spameri\Elastic\Model\IdentityMap $identityMap,
 		private \Spameri\Elastic\Model\ChangeSet $changeSet,
+		private \Spameri\Elastic\Factory\EntityFactory $entityFactory,
 	)
 	{
 	}
@@ -93,7 +94,7 @@ readonly class EntityManager
 			throw $exception;
 		}
 
-		return $this->createCollection($class, $resultSearch->hits()->ids());
+		return $this->createCollection($class, $resultSearch);
 	}
 
 
@@ -121,13 +122,24 @@ readonly class EntityManager
 	 */
 	protected function createCollection(
 		string $class,
-		array $ids,
+		\Spameri\ElasticQuery\Response\ResultSearch $resultSearch,
 	): \Spameri\Elastic\Entity\Collection\ElasticEntityCollection
 	{
+		$entities = [];
+		foreach ($resultSearch->hits() as $hit) {
+			try {
+				$entities[] = $this->entityFactory->create($hit, $class, $this);
+
+			} catch (\Spameri\Elastic\Exception\ElasticSearch $exception) {
+				\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
+			}
+		}
+
 		return new \Spameri\Elastic\Entity\Collection\ElasticEntityCollection(
-			entityManager: $this,
-			entityClass: $class,
-			elasticIds: $ids,
+			$this,
+			$class,
+			$resultSearch->hits()->ids(),
+			... $entities,
 		);
 	}
 

@@ -27,8 +27,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 		$this->initialized = false;
 
 		if (
-			! $elasticIds
-			&& \count($entityCollection) > 0
+			\count($entityCollection) > 0
 		) {
 			$this->initialized = true;
 		}

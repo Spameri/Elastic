@@ -9,6 +9,6 @@ interface EntityFactoryInterface
 		\Spameri\ElasticQuery\Response\Result\Hit $hit,
 		string|null $class,
 		\Spameri\Elastic\EntityManager|null $entityManager,
-	): \Generator;
+	): \Spameri\Elastic\Entity\AbstractElasticEntity;
 
 }
