@@ -7,8 +7,8 @@ interface EntityFactoryInterface
 
 	public function create(
 		\Spameri\ElasticQuery\Response\Result\Hit $hit,
-		string|null $class,
-		\Spameri\Elastic\EntityManager|null $entityManager,
+		string $class,
+		\Spameri\Elastic\EntityManager $entityManager,
 	): \Spameri\Elastic\Entity\AbstractElasticEntity;
 
 }

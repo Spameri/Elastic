@@ -15,24 +15,16 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 	}
 
 	/**
-	 * @template T
+	 * @template T of \Spameri\Elastic\Entity\AbstractElasticEntity
 	 * @param class-string<T> $class
 	 * @return T
 	 */
 	public function create(
 		\Spameri\ElasticQuery\Response\Result\Hit $hit,
-		string|null $class,
-		\Spameri\Elastic\EntityManager|null $entityManager,
+		string $class,
+		\Spameri\Elastic\EntityManager $entityManager,
 	): \Spameri\Elastic\Entity\AbstractElasticEntity
 	{
-		if ($class === null) {
-			throw new \InvalidArgumentException('Class must be set');
-		}
-
-		if ($entityManager === null) {
-			throw new \InvalidArgumentException('EntityManager must be set');
-		}
-
 		if ($hit->getValue(\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS) !== null) {
 			$class = $hit->getValue(\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS);
 		}
