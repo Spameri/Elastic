@@ -24,12 +24,12 @@ readonly class EntityManager
 	 * @template T of \Spameri\Elastic\Entity\AbstractElasticEntity
 	 * @param class-string<T> $class
 	 * @param string $id
-	 * @return T|null
+	 * @return T
 	 */
 	public function find(
 		string $id,
 		string $class,
-	)
+	): \Spameri\Elastic\Entity\AbstractElasticEntity
 	{
 		$entity = $this->identityMap->get(
 			class: $class,
@@ -54,12 +54,12 @@ readonly class EntityManager
 	/**
 	 * @template T of \Spameri\Elastic\Entity\AbstractElasticEntity
 	 * @param class-string<T> $class
-	 * @return T|null
+	 * @return T
 	 */
 	public function findOneBy(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
 		string $class,
-	)
+	): \Spameri\Elastic\Entity\AbstractElasticEntity
 	{
 		$elasticQuery->options()->changeSize(1);
 
