@@ -21,10 +21,10 @@ readonly class EntityManager
 
 
 	/**
-	 * @template T
+	 * @template T of \Spameri\Elastic\Entity\AbstractElasticEntity
 	 * @param class-string<T> $class
 	 * @param string $id
-	 * @return T
+	 * @return T|null
 	 */
 	public function find(
 		string $id,
@@ -52,9 +52,9 @@ readonly class EntityManager
 
 
 	/**
-	 * @template T
+	 * @template T of \Spameri\Elastic\Entity\AbstractElasticEntity
 	 * @param class-string<T> $class
-	 * @return T
+	 * @return T|null
 	 */
 	public function findOneBy(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
@@ -74,7 +74,7 @@ readonly class EntityManager
 
 
 	/**
-	 * @template T
+	 * @template T of \Spameri\Elastic\Entity\AbstractElasticEntity
 	 * @param class-string<T> $class
 	 * @return \Spameri\Elastic\Entity\Collection\ElasticEntityCollection<T>
 	 */
@@ -110,13 +110,12 @@ readonly class EntityManager
 		return new \Spameri\Elastic\Entity\Collection\ElasticEntityCollection(
 			entityManager: $this,
 			entityClass: $class,
-			elasticIds: [],
 		);
 	}
 
 
 	/**
-	 * @template T
+	 * @template T of \Spameri\Elastic\Entity\AbstractElasticEntity
 	 * @param class-string<T> $class
 	 * @return \Spameri\Elastic\Entity\Collection\ElasticEntityCollection<T>
 	 */
@@ -138,14 +137,14 @@ readonly class EntityManager
 		return new \Spameri\Elastic\Entity\Collection\ElasticEntityCollection(
 			$this,
 			$class,
-			$resultSearch->hits()->ids(),
+			$resultSearch,
 			... $entities,
 		);
 	}
 
 
 	/**
-	 * @template T
+	 * @template T of \Spameri\Elastic\Entity\AbstractElasticEntity
 	 * @param class-string<T> $class
 	 * @return \Spameri\Elastic\Entity\Collection\ElasticEntityCollection<T>
 	 */
