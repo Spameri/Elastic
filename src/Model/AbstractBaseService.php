@@ -5,12 +5,7 @@ namespace Spameri\Elastic\Model;
 abstract class AbstractBaseService implements ServiceInterface
 {
 
-	/**
-	 * @param class-string $entityClass
-	 */
 	public function __construct(
-		public string $index,
-		public string $entityClass,
 		protected readonly \Spameri\Elastic\Factory\EntityFactoryInterface $entityFactory,
 		protected readonly \Spameri\Elastic\Factory\CollectionFactoryInterface $collectionFactory,
 		protected readonly \Spameri\Elastic\Model\Insert $insert,
@@ -20,6 +15,7 @@ abstract class AbstractBaseService implements ServiceInterface
 		protected readonly \Spameri\Elastic\Model\Delete $delete,
 		protected readonly \Spameri\Elastic\Model\Aggregate $aggregate,
 		protected readonly \Spameri\Elastic\EntityManager $entityManager,
+		protected readonly \Spameri\Elastic\Settings\IndexConfigInterface $indexConfig,
 	) {}
 
 
@@ -31,7 +27,7 @@ abstract class AbstractBaseService implements ServiceInterface
 		\Spameri\Elastic\Entity\AbstractElasticEntity $entity,
 	): string
 	{
-		return $this->insert->execute($entity, $this->index);
+		return $this->insert->execute($entity, $this->indexConfig->indexName(), $this->indexConfig->provide()->hasSti());
 	}
 
 
@@ -43,7 +39,7 @@ abstract class AbstractBaseService implements ServiceInterface
 	): \Spameri\Elastic\Entity\AbstractElasticEntity
 	{
 		try {
-			$singleResult = $this->get->execute($id, $this->index);
+			$singleResult = $this->get->execute($id, $this->indexConfig->indexName());
 
 		} catch (\Spameri\Elastic\Exception\ElasticSearch $exception) {
 			\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
@@ -55,7 +51,7 @@ abstract class AbstractBaseService implements ServiceInterface
 			throw new \Spameri\Elastic\Exception\DocumentNotFound(' with id ' . $id->value());
 		}
 
-		return $this->entityFactory->create($singleResult->hit(), null, $this->entityManager);
+		return $this->entityFactory->create($singleResult->hit(), $this->indexConfig->entityClass()[0], $this->entityManager);
 	}
 
 
@@ -68,7 +64,7 @@ abstract class AbstractBaseService implements ServiceInterface
 	): \Spameri\Elastic\Entity\AbstractElasticEntity
 	{
 		try {
-			$resultSearch = $this->getBy->execute($elasticQuery, $this->index);
+			$resultSearch = $this->getBy->execute($elasticQuery, $this->indexConfig->indexName());
 
 		} catch (\Spameri\Elastic\Exception\ElasticSearch $exception) {
 			\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
@@ -77,10 +73,10 @@ abstract class AbstractBaseService implements ServiceInterface
 		}
 
 		if ($resultSearch->stats()->total() === 0) {
-			throw new \Spameri\Elastic\Exception\DocumentNotFound($this->index, $elasticQuery);
+			throw new \Spameri\Elastic\Exception\DocumentNotFound($this->indexConfig->indexName(), $elasticQuery);
 		}
 
-		return $this->entityFactory->create($resultSearch->hits()->getIterator()->current(), null, $this->entityManager);
+		return $this->entityFactory->create($resultSearch->hits()->getIterator()->current(), $this->indexConfig->entityClass()[0], $this->entityManager);
 	}
 
 
@@ -92,7 +88,7 @@ abstract class AbstractBaseService implements ServiceInterface
 	): \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
 	{
 		try {
-			$resultSearch = $this->getAllBy->execute($elasticQuery, $this->index);
+			$resultSearch = $this->getAllBy->execute($elasticQuery, $this->indexConfig->indexName());
 
 		} catch (\Spameri\Elastic\Exception\ElasticSearch $exception) {
 			\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
@@ -101,13 +97,13 @@ abstract class AbstractBaseService implements ServiceInterface
 		}
 
 		if ($resultSearch->hits()->count() === 0) {
-			throw new \Spameri\Elastic\Exception\DocumentNotFound($this->index, $elasticQuery);
+			throw new \Spameri\Elastic\Exception\DocumentNotFound($this->indexConfig->indexName(), $elasticQuery);
 		}
 
 		$entities = [];
 		foreach ($resultSearch->hits() as $hit) {
 			try {
-				$entities[] = $this->entityFactory->create($hit, null, $this->entityManager);
+				$entities[] = $this->entityFactory->create($hit, $this->indexConfig->entityClass()[0], $this->entityManager);
 
 			} catch (\Spameri\Elastic\Exception\ElasticSearch $exception) {
 				\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
@@ -116,23 +112,18 @@ abstract class AbstractBaseService implements ServiceInterface
 
 		return $this->collectionFactory->create(
 			$this->entityManager,
-			$this->entityClass,
+			$this->indexConfig->entityClass()[0],
 			[],
 			... $entities,
 		);
 	}
 
 
-	/**
-	 * @param class-string $entityClass
-	 */
-	public function createEmptyCollection(
-		string $entityClass,
-	): \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
+	public function createEmptyCollection(): \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
 	{
 		return $this->collectionFactory->create(
 			entityManager: $this->entityManager,
-			entityClass: $entityClass,
+			entityClass: $this->indexConfig->entityClass()[0],
 		);
 	}
 
@@ -142,7 +133,7 @@ abstract class AbstractBaseService implements ServiceInterface
 	): bool
 	{
 		try {
-			return $this->delete->execute($id, $this->index);
+			return $this->delete->execute($id, $this->indexConfig->indexName());
 
 		} catch (\Spameri\Elastic\Exception\ElasticSearch $exception) {
 			\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
@@ -183,7 +174,7 @@ abstract class AbstractBaseService implements ServiceInterface
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
 	): \Spameri\ElasticQuery\Response\ResultSearch
 	{
-		return $this->aggregate->execute($elasticQuery, $this->index);
+		return $this->aggregate->execute($elasticQuery, $this->indexConfig->indexName());
 	}
 
 }
