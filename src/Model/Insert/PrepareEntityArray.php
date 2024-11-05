@@ -158,7 +158,10 @@ class PrepareEntityArray
 				);
 			}
 
-			if ($property instanceof \Spameri\Elastic\Entity\STIEntityInterface) {
+			if (
+				$property instanceof \Spameri\Elastic\Entity\STIEntityInterface
+				&& \is_string($preparedArray[$key]) === false
+			) {
 				$preparedArray[$key][self::ENTITY_CLASS] = $property::class;
 			}
 		}
