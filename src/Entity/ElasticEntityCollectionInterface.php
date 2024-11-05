@@ -6,13 +6,13 @@ interface ElasticEntityCollectionInterface extends \IteratorAggregate
 {
 
 	public function add(
-		\Spameri\Elastic\Entity\ElasticEntityInterface $elasticEntity,
+		\Spameri\Elastic\Entity\AbstractElasticEntity $elasticEntity,
 	): void;
 
 
 	public function entity(
 		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
-	): \Spameri\Elastic\Entity\ElasticEntityInterface|null;
+	): \Spameri\Elastic\Entity\AbstractElasticEntity|null;
 
 
 	public function remove(

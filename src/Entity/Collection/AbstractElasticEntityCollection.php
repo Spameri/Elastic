@@ -6,11 +6,16 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 {
 
 	/**
-	 * @var array<\Spameri\Elastic\Entity\ElasticEntityInterface>
+	 * @var array<\Spameri\Elastic\Entity\AbstractElasticEntity>
 	 */
 	protected array $collection;
 
 	protected bool $initialized;
+
+	/**
+	 * @var array<string>
+	 */
+	protected array $elasticIds;
 
 
 	/**
@@ -19,12 +24,18 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	public function __construct(
 		protected \Spameri\Elastic\EntityManager $entityManager,
 		protected string $entityClass,
-		protected array $elasticIds = [],
-		\Spameri\Elastic\Entity\ElasticEntityInterface ...$entityCollection,
+		public \Spameri\ElasticQuery\Response\ResultSearch $resultSearch = new \Spameri\ElasticQuery\Response\ResultSearch(
+			new \Spameri\ElasticQuery\Response\Stats(0, false, 0),
+			new \Spameri\ElasticQuery\Response\Shards(0, 1, 0, 0),
+			new \Spameri\ElasticQuery\Response\Result\HitCollection(),
+			new \Spameri\ElasticQuery\Response\Result\AggregationCollection(),
+		),
+		\Spameri\Elastic\Entity\AbstractElasticEntity ...$entityCollection,
 	)
 	{
 		$this->collection = [];
 		$this->initialized = false;
+		$this->elasticIds =  $resultSearch->hits()->ids();
 
 		if (
 			\count($entityCollection) > 0
@@ -39,7 +50,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 
 
 	public function add(
-		\Spameri\Elastic\Entity\ElasticEntityInterface $elasticEntity,
+		\Spameri\Elastic\Entity\AbstractElasticEntity $elasticEntity,
 	): void
 	{
 		if ( ! $this->initialized) {
@@ -113,7 +124,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 
 	public function entity(
 		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
-	): \Spameri\Elastic\Entity\ElasticEntityInterface|null
+	): \Spameri\Elastic\Entity\AbstractElasticEntity|null
 	{
 		if ( ! $this->initialized) {
 			$this->initialize();
@@ -210,7 +221,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	}
 
 
-	public function first(): \Spameri\Elastic\Entity\ElasticEntityInterface|null
+	public function first(): \Spameri\Elastic\Entity\AbstractElasticEntity|null
 	{
 		if ( ! $this->initialized) {
 			$this->initialize();
