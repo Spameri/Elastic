@@ -28,7 +28,10 @@ class IdentityMap
 
 		/** @var string|false $parentClass */
 		$parentClass = \get_parent_class($entity);
-		if (\is_string($parentClass) === true) {
+		if (
+			\is_string($parentClass) === true
+			&& $parentClass !== \Spameri\Elastic\Entity\AbstractElasticEntity::class
+		) {
 			$this->identityMap[$parentClass][$entity->id()->value()] = $entity;
 		}
 	}
