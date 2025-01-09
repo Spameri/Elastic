@@ -2,6 +2,10 @@
 
 namespace Spameri\Elastic\Entity;
 
+/**
+ * @template-covariant T of \Spameri\Elastic\Entity\AbstractElasticEntity
+ * @template-extends \IteratorAggregate<T>
+ */
 interface ElasticEntityCollectionInterface extends \IteratorAggregate
 {
 
@@ -14,6 +18,10 @@ interface ElasticEntityCollectionInterface extends \IteratorAggregate
 		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
 	): \Spameri\Elastic\Entity\AbstractElasticEntity|null;
 
+	/**
+	 * @return T|null
+	 */
+	public function first(): \Spameri\Elastic\Entity\AbstractElasticEntity|null;
 
 	public function remove(
 		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id,

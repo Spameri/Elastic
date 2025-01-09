@@ -2,6 +2,10 @@
 
 namespace Spameri\Elastic\Entity\Collection;
 
+/**
+ * @template-covariant T
+ * @template-extends \Spameri\Elastic\Entity\ElasticEntityCollectionInterface<T>
+ */
 abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
 {
 
@@ -49,6 +53,9 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	}
 
 
+	/**
+	 * @param T $elasticEntity
+	 */
 	public function add(
 		\Spameri\Elastic\Entity\AbstractElasticEntity $elasticEntity,
 	): void
