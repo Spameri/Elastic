@@ -18,41 +18,15 @@ services:
 	elastic.person.personMapping:
 		factory: SpameriTests\Elastic\Data\Model\PersonMapping(%elasticSearch.personIndex%, [SpameriTests\Elastic\Data\Entity\Person::class])
 
-	elastic.person.personFactory:
-		factory: SpameriTests\Elastic\Data\Model\PersonFactory
-
-	elastic.person.personCollectionFactory:
-		factory: SpameriTests\Elastic\Data\Model\PersonCollectionFactory
-
-	elastic.person.personService:
-		factory: SpameriTests\Elastic\Data\Model\PersonService
-		arguments:
-			- @elastic.person.personMapping::provide()::indexName()
-			- SpameriTests\Elastic\Data\Entity\Person::class
-			- @elastic.person.personFactory
-			- @elastic.person.personCollectionFactory
-
-
 ########################################################################################################################
 
 	elastic.video.videoMapping:
 		factory: SpameriTests\Elastic\Data\Model\VideoMapping(%elasticSearch.personIndex%, [SpameriTests\Elastic\Data\Entity\Video::class])
 
-	elastic.video.videoFactory:
-		factory: SpameriTests\Elastic\Data\Model\VideoFactory
+	elastic.title.mapping:
+		factory: SpameriTests\Elastic\Data\Model\TitleMapping
 
-	elastic.video.videoCollectionFactory:
-		factory: SpameriTests\Elastic\Data\Model\VideoCollectionFactory
-
-	elastic.video.videoService:
-		factory: SpameriTests\Elastic\Data\Model\VideoService
-		arguments:
-			- @elastic.video.videoMapping::provide()::indexName()
-			- SpameriTests\Elastic\Data\Entity\Video::class
-			- @elastic.video.videoFactory
-			- @elastic.video.videoCollectionFactory
-
+	elastic.image.mapping:
+		factory: SpameriTests\Elastic\Data\Model\ImageMapping
 
 includes:
-	- Video.neon
-	- Person.neon

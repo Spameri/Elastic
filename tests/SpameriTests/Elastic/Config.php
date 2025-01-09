@@ -16,5 +16,8 @@ class Config
 	public const INDEX_MIGRATE = 'spameri_product_migrate';
 	public const INDEX_MIGRATE_NEW = 'spameri_product_migrate_new';
 	public const INDEX_CREATE = 'spameri_video_create';
+    public const INDEX_EM = 'spameri_em';
+    public const INDEX_TITLE = 'spameri_title';
+    public const INDEX_IMAGE = 'spameri_image';
 
 }
