@@ -9,6 +9,7 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 		private \Spameri\Elastic\Reflection\Reflection $reflection,
 		private \Spameri\Elastic\Model\IdentityMap $identityMap,
 		private \Spameri\Elastic\Model\ChangeSet $changeSet,
+		private \Nette\DI\Container $container,
 	)
 	{
 
@@ -211,6 +212,9 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 						id: $value,
 						class: $propertyTypeName,
 					);
+
+				} elseif ($this->container->getByType($propertyTypeName, false) !== null) {
+					$propertyValue = $this->container->getByType($propertyTypeName);
 
 				} else {
 					$propertyValue = new $propertyTypeName(
