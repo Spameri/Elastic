@@ -24,12 +24,14 @@ readonly class Insert
 		bool $hasSti = false,
 	): string
 	{
-		$entityArray = $this->prepareEntityArray->prepare($entity, $hasSti);
-		unset($entityArray['id']);
-
 		if ($this->identityMap->isChanged($entity) === false) {
 			return $entity->id()->value();
 		}
+
+		$this->identityMap->markInserted($entity);
+
+		$entityArray = $this->prepareEntityArray->prepare($entity, $hasSti);
+		unset($entityArray['id']);
 
 		try {
 			$response = $this->clientProvider->client()->index(
