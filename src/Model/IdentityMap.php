@@ -6,14 +6,26 @@ class IdentityMap
 {
 
 	/**
-	 * @var array<string, array<string, \Spameri\Elastic\Entity\AbstractElasticEntity>>
+	 * @var array<class-string, array<string, \Spameri\Elastic\Entity\AbstractElasticEntity>>
 	 */
 	public array $identityMap = [];
 
 	/**
-	 * @var array<string, array<string, string>>
+	 * @var array<class-string, array<string, string>>
 	 */
 	public array $persisted = [];
+
+	/**
+	 * @var array<class-string, array<string, bool>>
+	 */
+	public array $creatingEntityList = [];
+
+	/**
+	 * entity that is missing, id, propertyName, entity that has missing entity in property
+	 *
+	 * @var array<class-string, array<string, array<string, \Spameri\Elastic\Entity\AbstractElasticEntity>>>
+	 */
+	public array $uninitializedEntityList = [];
 
 
 	public function add(
