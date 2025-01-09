@@ -129,7 +129,7 @@ readonly class EntityManager
 			try {
 				$entities[] = $this->entityFactory->create($hit, $class, $this);
 
-			} catch (\Spameri\Elastic\Exception\ElasticSearch $exception) {
+			} catch (\Spameri\Elastic\Exception\ElasticSearch|\Spameri\Elastic\Exception\DocumentNotFound $exception) {
 				\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
 			}
 		}
