@@ -190,6 +190,16 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
                         $this->changeSet->markExisting($propertyValue);
 
                     } elseif (
+                        $attribute->getName() === \Spameri\Elastic\Mapping\STIElasticEntity::class
+                    ) {
+                        $propertyValue = $entityManager->find(
+							id: $value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_ID],
+	                        class: $value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS],
+                        );
+
+                        $this->changeSet->markExisting($propertyValue);
+
+                    } elseif (
                         $attribute->getName() === \Spameri\Elastic\Mapping\Ignored::class
                     ) {
                         continue 2;
