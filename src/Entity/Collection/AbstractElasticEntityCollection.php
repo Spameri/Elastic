@@ -39,7 +39,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	{
 		$this->collection = [];
 		$this->initialized = false;
-		$this->elasticIds =  $resultSearch->hits()->ids();
+		$this->elasticIds = $resultSearch->hits()->ids();
 
 		if (
 			\count($entityCollection) > 0

@@ -119,7 +119,7 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 								... $this->resolveProperties(
 									hit: $hit,
 									class: $propertyTypeName,
-								entityManager: $entityManager,
+									entityManager: $entityManager,
 									parentFieldName: $hitKey,
 								),
 							);
