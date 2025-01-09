@@ -5,6 +5,7 @@ namespace Spameri\Elastic\Model\Insert;
 class PrepareEntityArray
 {
 
+	public const ENTITY_ID = 'entityId';
 	public const ENTITY_CLASS = 'entityClass';
 
 	private \Spameri\Elastic\EntityManager $entityManager;
@@ -13,6 +14,7 @@ class PrepareEntityArray
 	public function __construct(
 		private readonly \Nette\DI\Container $container,
 		private readonly \Spameri\Elastic\Model\IdentityMap $identityMap,
+		private readonly \Spameri\Elastic\Reflection\Reflection $reflection,
 	)
 	{
 	}
@@ -43,7 +45,9 @@ class PrepareEntityArray
 			$entityVariables[self::ENTITY_CLASS] = $entity::class;
 		}
 
-		return $this->iterateVariables($entityVariables);
+		$reflection = $this->reflection->createReflection($entity::class);
+
+		return $this->iterateVariables($entityVariables, $reflection);
 	}
 
 
@@ -53,11 +57,56 @@ class PrepareEntityArray
 	 */
 	public function iterateVariables(
 		array $variables,
+		\ReflectionClass|null $reflectionClass,
 	): array
 	{
 		$preparedArray = [];
 
 		foreach ($variables as $key => $property) {
+			$attributes = [];
+			if (
+				$reflectionClass !== null
+				&& $reflectionClass->hasProperty($key)
+			) {
+				$attributes = $reflectionClass->getProperty($key)->getAttributes();
+			}
+
+			foreach ($attributes as $attribute) {
+				if ($attribute->getName() === \Spameri\Elastic\Mapping\STIEntity::class) {
+					if ($property === null) {
+						continue 2;
+					}
+
+					$preparedArray[$key] = $this->iterateVariables(
+						$property->entityVariables(),
+						$this->reflection->createReflection($property::class)
+					);
+					$preparedArray[$key][self::ENTITY_CLASS] = $property::class;
+
+					continue 2;
+
+				} elseif ($attribute->getName() === \Spameri\Elastic\Mapping\STIElasticEntity::class) {
+					if ($property === null) {
+						continue 2;
+					}
+
+					$preparedArray[$key][self::ENTITY_CLASS] = $property::class;
+
+					if ($this->identityMap->isChanged($property) === false) {
+						$preparedArray[$key][self::ENTITY_ID] = $property->id()->value();
+
+					} else {
+						$preparedArray[$key][self::ENTITY_ID] = $this->getEntityManager()->persist($property);
+						$this->identityMap->add($property);
+					}
+
+					continue 2;
+
+				} elseif ($attribute->getName() === \Spameri\Elastic\Mapping\Ignored::class) {
+					continue 2;
+				}
+			}
+
 			if ($property instanceof \Spameri\Elastic\Entity\AbstractElasticEntity) {
 				if ($this->identityMap->isChanged($property) === false) {
 					$preparedArray[$key] = $property->id()->value();
@@ -73,7 +122,10 @@ class PrepareEntityArray
 				);
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\EntityInterface) {
-				$preparedArray[$key] = $this->iterateVariables($property->entityVariables());
+				$preparedArray[$key] = $this->iterateVariables(
+					$property->entityVariables(),
+					$this->reflection->createReflection($property::class)
+				);
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\ValueInterface) {
 				$preparedArray[$key] = $property->value();
@@ -81,7 +133,10 @@ class PrepareEntityArray
 			} elseif ($property instanceof \Spameri\Elastic\Entity\Collection\STIEntityCollection) {
 				$preparedArray[$key] = [];
 				foreach ($property as $item) {
-					$iterateVariables = $this->iterateVariables($item->entityVariables());
+					$iterateVariables = $this->iterateVariables(
+						$item->entityVariables(),
+						$this->reflection->createReflection($item::class)
+					);
 					$iterateVariables[self::ENTITY_CLASS] = $item::class;
 					$preparedArray[$key][] = $iterateVariables;
 				}
@@ -90,7 +145,10 @@ class PrepareEntityArray
 				$preparedArray[$key] = [];
 				/** @var \Spameri\Elastic\Entity\EntityInterface $item */
 				foreach ($property as $item) {
-					$preparedArray[$key][] = $this->iterateVariables($item->entityVariables());
+					$preparedArray[$key][] = $this->iterateVariables(
+						$item->entityVariables(),
+						$this->reflection->createReflection($item::class)
+					);
 				}
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\ElasticEntityCollectionInterface) {
@@ -133,7 +191,10 @@ class PrepareEntityArray
 				$preparedArray[$key] = $property;
 
 			} elseif (\is_array($property)) {
-				$preparedArray[$key] = $this->iterateVariables($property);
+				$preparedArray[$key] = $this->iterateVariables(
+					$property,
+					null,
+				);
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\DateTimeInterface) {
 				$preparedArray[$key] = $property->format();
@@ -156,13 +217,6 @@ class PrepareEntityArray
 				throw new \Spameri\Elastic\Exception\EntityIsNotValid(
 					'Property ' . $key . ' with value' . $property . ' is not supported.',
 				);
-			}
-
-			if (
-				$property instanceof \Spameri\Elastic\Entity\STIEntityInterface
-				&& \is_string($preparedArray[$key]) === false
-			) {
-				$preparedArray[$key][self::ENTITY_CLASS] = $property::class;
 			}
 		}
 
