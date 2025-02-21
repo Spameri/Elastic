@@ -32,7 +32,7 @@
 		"guzzlehttp/guzzle": "^7.9",
 		"nette/di": "^3.1.10",
 		"nette/utils": "^4.0.0|^3.2.5",
-		"symfony/console": "^6.4.2 || ^7.0.2",
+		"symfony/console": "^7.0.2",
 		"tracy/tracy": "^2.6.7",
 		"monolog/monolog": "^3.0.0",
 		"ezimuel/ringphp": "^1.2"
