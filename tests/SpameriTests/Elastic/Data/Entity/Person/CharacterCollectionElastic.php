@@ -2,6 +2,10 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Person;
 
+/**
+ * @template-covariant T of \SpameriTests\Elastic\Data\Entity\Person\Character
+ * @template-extends \Spameri\Elastic\Entity\Collection\AbstractEntityCollection<T>
+ */
 class CharacterCollectionElastic extends \Spameri\Elastic\Entity\Collection\AbstractEntityCollection
 {
 

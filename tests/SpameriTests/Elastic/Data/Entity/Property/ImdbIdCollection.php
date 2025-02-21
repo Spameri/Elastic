@@ -2,6 +2,10 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Property;
 
+/**
+ * @template-covariant T of \SpameriTests\Elastic\Data\Entity\Property\ImdbId
+ * @template-implements \Spameri\Elastic\Entity\ValueCollectionInterface<T>
+ */
 class ImdbIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
@@ -44,6 +48,9 @@ class ImdbIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInterfa
 	}
 
 
+	/**
+	 * @return array<int|string>
+	 */
 	public function keys(): array
 	{
 		return \array_keys($this->collection);
@@ -62,6 +69,9 @@ class ImdbIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInterfa
 	}
 
 
+	/**
+	 * @return \ArrayIterator<int|string, \SpameriTests\Elastic\Data\Entity\Property\ImdbId>
+	 */
 	public function getIterator(): \ArrayIterator
 	{
 		return new \ArrayIterator($this->collection);

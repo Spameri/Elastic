@@ -4,9 +4,14 @@ parameters:
 
 	ignoreErrors:
 		-
-			identifier: missingType.iterableValue
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: src/Factory/EntityFactory.php
+
 		-
-			identifier: missingType.generics
+			message: "#^Variable \\$propertyValue might not be defined\\.$#"
+			count: 1
+			path: src/Factory/EntityFactory.php
 
 	bootstrapFiles:
 		- %rootDir%/../../../phpstanConstants.php

@@ -119,6 +119,9 @@ abstract class AbstractBaseService implements ServiceInterface
 	}
 
 
+	/**
+	 * @return \Spameri\Elastic\Entity\ElasticEntityCollectionInterface<\Spameri\Elastic\Entity\AbstractElasticEntity>
+	 */
 	public function createEmptyCollection(): \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
 	{
 		return $this->collectionFactory->create(

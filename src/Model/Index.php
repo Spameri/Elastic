@@ -13,6 +13,7 @@ readonly class Index
 
 
 	/**
+	 * @param array<mixed> $data
 	 * @throws \Spameri\Elastic\Exception\ElasticSearch
 	 * @throws \Spameri\Elastic\Exception\DocumentInsertFailed
 	 */

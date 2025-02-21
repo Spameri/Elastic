@@ -2,6 +2,10 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Details;
 
+/**
+ * @template-covariant T of \SpameriTests\Elastic\Data\Entity\Video\Details\Genre
+ * @template-implements  \Spameri\Elastic\Entity\ValueCollectionInterface<T>
+ */
 class GenreCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
@@ -22,6 +26,9 @@ class GenreCollection implements \Spameri\Elastic\Entity\ValueCollectionInterfac
 	}
 
 
+	/**
+	 * @return \ArrayIterator<int|string, \SpameriTests\Elastic\Data\Entity\Video\Details\Genre>
+	 */
 	public function getIterator(): \ArrayIterator
 	{
 		return new \ArrayIterator($this->collection);

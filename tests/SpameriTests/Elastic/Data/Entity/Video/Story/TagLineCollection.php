@@ -2,6 +2,11 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Story;
 
+
+/**
+ * @template-covariant T of \SpameriTests\Elastic\Data\Entity\Video\Story\TagLine
+ * @template-implements \Spameri\Elastic\Entity\ValueCollectionInterface<T>
+ */
 class TagLineCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
@@ -31,7 +36,7 @@ class TagLineCollection implements \Spameri\Elastic\Entity\ValueCollectionInterf
 
 
 	/**
-	 * @return \ArrayIterator<\SpameriTests\Elastic\Data\Entity\Video\Story\TagLine>
+	 * @return \ArrayIterator<int|string, \SpameriTests\Elastic\Data\Entity\Video\Story\TagLine>
 	 */
 	public function getIterator(): \ArrayIterator
 	{

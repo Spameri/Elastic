@@ -2,6 +2,10 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video;
 
+/**
+ * @template-covariant T of \SpameriTests\Elastic\Data\Entity\Person
+ * @template-extends \Spameri\Elastic\Entity\Collection\AbstractElasticEntityCollection<T>
+ */
 class People extends \Spameri\Elastic\Entity\Collection\AbstractElasticEntityCollection
 {
 

@@ -12,6 +12,10 @@ readonly class GetFieldMapping
 	}
 
 
+	/**
+	 * @param array<string> $fields
+	 * @return array<mixed>
+	 */
 	public function execute(
 		string $index,
 		array $fields = [],

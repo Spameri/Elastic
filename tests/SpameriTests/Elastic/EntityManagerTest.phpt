@@ -45,7 +45,7 @@ class EntityManagerTest extends \SpameriTests\Elastic\AbstractTestCase
 
         $titles = $entityManager->findAll($title::class);
 
-        \Tester\Assert::true(count($titles) === 1);
+        \Tester\Assert::true($titles->count() === 1);
     }
 
 

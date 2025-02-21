@@ -5,6 +5,10 @@ namespace SpameriTests\Elastic\Data\Entity;
 class Video extends \Spameri\Elastic\Entity\AbstractElasticEntity
 {
 
+	/**
+	 * @param \SpameriTests\Elastic\Data\Entity\Video\People<\SpameriTests\Elastic\Data\Entity\Person> $people
+	 * @param \Spameri\Elastic\Entity\Collection\AbstractEntityCollection<\SpameriTests\Elastic\Data\Entity\Video\Season> $season
+	 */
 	public function __construct(
 		#[\Spameri\Elastic\Mapping\Entity(class: \Spameri\Elastic\Entity\Property\ElasticId::class)]
 		public \Spameri\Elastic\Entity\Property\ElasticIdInterface $id,

@@ -12,6 +12,9 @@ readonly class AddAlias
 	}
 
 
+	/**
+	 * @return array<mixed>
+	 */
 	public function execute(string $alias, string $index): array
 	{
 		try {

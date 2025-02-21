@@ -15,6 +15,7 @@ readonly class InsertMultiple
 
 
 	/**
+	 * @param \Spameri\Elastic\Entity\ElasticEntityCollectionInterface<\Spameri\Elastic\Entity\AbstractElasticEntity> $entityCollection
 	 * @throws \Spameri\Elastic\Exception\ElasticSearch
 	 * @throws \Spameri\Elastic\Exception\DocumentInsertFailed
 	 */

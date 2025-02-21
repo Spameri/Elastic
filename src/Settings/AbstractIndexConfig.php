@@ -6,6 +6,9 @@ abstract class AbstractIndexConfig implements IndexConfigInterface
 {
 
 
+	/**
+	 * @param array<class-string> $entityClass
+	 */
 	public function __construct(
 		protected string $index,
 		protected array $entityClass,

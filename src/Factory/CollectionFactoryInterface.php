@@ -8,7 +8,7 @@ interface CollectionFactoryInterface
 	/**
 	 * @param class-string $entityClass
 	 * @param array<string> $elasticIds
-	 * @return \Spameri\Elastic\Entity\ElasticEntityCollectionInterface<\Spameri\Elastic\Entity\ElasticEntityInterface>
+	 * @return \Spameri\Elastic\Entity\ElasticEntityCollectionInterface<\Spameri\Elastic\Entity\AbstractElasticEntity>
 	 */
 	public function create(
 		\Spameri\Elastic\EntityManager $entityManager,

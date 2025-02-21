@@ -3,8 +3,8 @@
 namespace Spameri\Elastic\Entity\Collection;
 
 /**
- * @template-covariant T
- * @template-extends \Spameri\Elastic\Entity\ElasticEntityCollectionInterface<T>
+ * @template-covariant T of \Spameri\Elastic\Entity\AbstractElasticEntity
+ * @template-implements \Spameri\Elastic\Entity\ElasticEntityCollectionInterface<T>
  */
 abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
 {
@@ -53,9 +53,6 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	}
 
 
-	/**
-	 * @param T $elasticEntity
-	 */
 	public function add(
 		\Spameri\Elastic\Entity\AbstractElasticEntity $elasticEntity,
 	): void
@@ -113,12 +110,18 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	}
 
 
+	/**
+	 * @return array<T>
+	 */
 	protected function collection(): array
 	{
 		return $this->collection;
 	}
 
 
+	/**
+	 * @return \ArrayIterator<int|string, \Spameri\Elastic\Entity\AbstractElasticEntity>
+	 */
 	public function getIterator(): \ArrayIterator
 	{
 		if ( ! $this->initialized) {
@@ -244,6 +247,9 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 		];
 	}
 
+	/**
+	 * @param array<mixed> $data
+	 */
 	public function __unserialize(array $data): void
 	{
 		$this->collection = $data;

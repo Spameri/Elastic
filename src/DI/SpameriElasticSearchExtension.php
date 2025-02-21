@@ -45,6 +45,11 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 	}
 
 
+	/**
+	 * @param array<mixed> $services
+	 * @param array<mixed> $config
+	 * @return array<mixed>
+	 */
 	public function setConfigOptions(
 		array $services,
 		array $config,

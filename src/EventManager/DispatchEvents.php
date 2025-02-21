@@ -26,6 +26,9 @@ readonly class DispatchEvents
 	}
 
 
+	/**
+	 * @param array<\Spameri\Elastic\Entity\EntityInterface|\Spameri\Elastic\Entity\EntityCollectionInterface|mixed> $variables
+	 */
 	public function iterateVariables(
 		array $variables,
 		string $eventType,

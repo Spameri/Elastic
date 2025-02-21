@@ -66,6 +66,10 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 		return $entity;
 	}
 
+	/**
+	 * @return array<mixed>
+	 * @throws \ReflectionException
+	 */
 	protected function resolveProperties(
 		\Spameri\ElasticQuery\Response\Result\Hit $hit,
 		string $class,

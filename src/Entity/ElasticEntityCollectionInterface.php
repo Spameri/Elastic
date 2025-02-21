@@ -36,6 +36,9 @@ interface ElasticEntityCollectionInterface extends \IteratorAggregate
 	public function count(): int;
 
 
+	/**
+	 * @return array<string>
+	 */
 	public function keys(): array;
 
 
@@ -45,6 +48,9 @@ interface ElasticEntityCollectionInterface extends \IteratorAggregate
 	public function initialized(): bool;
 
 
+	/**
+	 * @return array<string>
+	 */
 	public function elasticIds(): array;
 
 

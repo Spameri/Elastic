@@ -2,6 +2,10 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Story;
 
+/**
+ * @template-covariant T of \SpameriTests\Elastic\Data\Entity\Video\Story\PlotSummary
+ * @template-implements \Spameri\Elastic\Entity\ValueCollectionInterface<T>
+ */
 class PlotSummaryCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
@@ -38,6 +42,9 @@ class PlotSummaryCollection implements \Spameri\Elastic\Entity\ValueCollectionIn
 	}
 
 
+	/**
+	 * @return \ArrayIterator<int|string, \SpameriTests\Elastic\Data\Entity\Video\Story\PlotSummary>
+	 */
 	public function getIterator(): \ArrayIterator
 	{
 		return new \ArrayIterator($this->collection);

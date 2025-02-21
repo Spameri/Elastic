@@ -2,6 +2,10 @@
 
 namespace Spameri\Elastic\Entity\Collection;
 
+/**
+ * @template-covariant T of \Spameri\Elastic\Entity\EntityInterface
+ * @template-extends \Spameri\Elastic\Entity\Collection\AbstractEntityCollection<T>
+ */
 abstract class AbstractCachedEntityCollection extends AbstractEntityCollection
 {
 

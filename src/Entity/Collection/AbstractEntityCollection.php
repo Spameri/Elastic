@@ -2,6 +2,10 @@
 
 namespace Spameri\Elastic\Entity\Collection;
 
+/**
+ * @template-covariant T of \Spameri\Elastic\Entity\EntityInterface
+ * @template-implements \Spameri\Elastic\Entity\EntityCollectionInterface<T>
+ */
 abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\EntityCollectionInterface
 {
 
@@ -30,12 +34,18 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 	}
 
 
+	/**
+	 * @return array<T>
+	 */
 	protected function collection(): array
 	{
 		return $this->collection;
 	}
 
 
+	/**
+	 * @return \ArrayIterator<int|string, \Spameri\Elastic\Entity\EntityInterface>
+	 */
 	public function getIterator(): \ArrayIterator
 	{
 		return new \ArrayIterator($this->collection);

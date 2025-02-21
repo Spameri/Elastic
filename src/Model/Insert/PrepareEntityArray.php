@@ -53,6 +53,7 @@ class PrepareEntityArray
 
 	/**
 	 * @param array<mixed> $variables
+	 * @param \ReflectionClass<\Spameri\Elastic\Entity\AbstractElasticEntity>|null $reflectionClass
 	 * @return array<mixed>
 	 */
 	public function iterateVariables(
@@ -79,7 +80,7 @@ class PrepareEntityArray
 
 					$preparedArray[$key] = $this->iterateVariables(
 						$property->entityVariables(),
-						$this->reflection->createReflection($property::class)
+						$this->reflection->createReflection($property::class),
 					);
 					$preparedArray[$key][self::ENTITY_CLASS] = $property::class;
 
@@ -124,7 +125,7 @@ class PrepareEntityArray
 			} elseif ($property instanceof \Spameri\Elastic\Entity\EntityInterface) {
 				$preparedArray[$key] = $this->iterateVariables(
 					$property->entityVariables(),
-					$this->reflection->createReflection($property::class)
+					$this->reflection->createReflection($property::class),
 				);
 
 			} elseif ($property instanceof \Spameri\Elastic\Entity\ValueInterface) {
@@ -135,7 +136,7 @@ class PrepareEntityArray
 				foreach ($property as $item) {
 					$iterateVariables = $this->iterateVariables(
 						$item->entityVariables(),
-						$this->reflection->createReflection($item::class)
+						$this->reflection->createReflection($item::class),
 					);
 					$iterateVariables[self::ENTITY_CLASS] = $item::class;
 					$preparedArray[$key][] = $iterateVariables;
@@ -147,7 +148,7 @@ class PrepareEntityArray
 				foreach ($property as $item) {
 					$preparedArray[$key][] = $this->iterateVariables(
 						$item->entityVariables(),
-						$this->reflection->createReflection($item::class)
+						$this->reflection->createReflection($item::class),
 					);
 				}
 

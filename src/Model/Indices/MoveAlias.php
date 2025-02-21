@@ -12,6 +12,9 @@ readonly class MoveAlias
 	}
 
 
+	/**
+	 * @return array<mixed>
+	 */
 	public function execute(string $alias, string $indexFrom, string $indexTo): array
 	{
 		try {

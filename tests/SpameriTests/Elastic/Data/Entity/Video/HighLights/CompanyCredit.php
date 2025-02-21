@@ -5,6 +5,9 @@ namespace SpameriTests\Elastic\Data\Entity\Video\HighLights;
 class CompanyCredit implements \Spameri\Elastic\Entity\EntityInterface
 {
 
+	/**
+	 * @param \SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCredit\CompanyCollection<\SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCredit\Company> $company
+	 */
 	public function __construct(
 		private \SpameriTests\Elastic\Data\Entity\Property\Text $group,
 		private \SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCredit\CompanyCollection $company,
@@ -28,12 +31,6 @@ class CompanyCredit implements \Spameri\Elastic\Entity\EntityInterface
 	public function group(): \SpameriTests\Elastic\Data\Entity\Property\Text
 	{
 		return $this->group;
-	}
-
-
-	public function company(): \SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCredit\CompanyCollection
-	{
-		return $this->company;
 	}
 
 }
