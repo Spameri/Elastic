@@ -54,14 +54,25 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 
 		$this->identityMap->add($entity);
 
-		if (isset($this->identityMap->uninitializedEntityList[$class][$hit->id()]) === true) {
-			foreach ($this->identityMap->uninitializedEntityList[$class][$hit->id()] as $propertyName => $notCompletedEntity) {
-				$notCompletedEntity->$propertyName = $entity;
-				unset($this->identityMap->uninitializedEntityList[$class][$hit->id()]);
-			}
+		foreach ($this->identityMap->uninitializedEntityList as $uninitializedClass => $uninitializedClassData) {
+			foreach ($uninitializedClassData as $id => $uninitializedProperty) {
+				$propertyName = \array_key_first($uninitializedProperty);
+				$uninitializedEntityId = $uninitializedProperty[$propertyName];
+				if ($uninitializedEntityId !== $hit->id()) {
+					continue;
+				}
 
-			unset($this->identityMap->creatingEntityList[$class][$hit->id()]);
+				$this->identityMap->identityMap[$uninitializedClass][$id]->$propertyName = $entity;
+
+				unset($this->identityMap->uninitializedEntityList[$uninitializedClass][$id][$propertyName]);
+				if (\count($this->identityMap->uninitializedEntityList[$uninitializedClass][$id]) === 0) {
+					unset($this->identityMap->uninitializedEntityList[$uninitializedClass][$id]);
+				}
+			}
 		}
+
+
+		unset($this->identityMap->creatingEntityList[$class][$hit->id()]);
 
 		return $entity;
 	}
@@ -121,7 +132,7 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 					if (
 						$attribute->getName() === \Spameri\Elastic\Mapping\Entity::class
 					) {
-                        /** @var array{class: class-string} $arguments */
+						/** @var array{class: class-string} $arguments */
 						$arguments = $attribute->getArguments();
 
 						if ($arguments['class'] === \Spameri\Elastic\Entity\Property\ElasticId::class) {
@@ -145,7 +156,7 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 					} elseif (
 						$attribute->getName() === \Spameri\Elastic\Mapping\ElasticCollection::class
 					) {
-                        /** @var array{class: class-string} $arguments */
+						/** @var array{class: class-string} $arguments */
 						$arguments = $attribute->getArguments();
 
 						$propertyValue = new $propertyTypeName($entityManager, $arguments['class']);
@@ -158,73 +169,77 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 									class: $arguments['class'],
 								);
 
-                                if ($collectionElasticEntity === null) {
-                                    continue;
-                                }
+								if ($collectionElasticEntity === null) {
+									continue;
+								}
 
 								$propertyValue->add($collectionElasticEntity);
 
 								$this->changeSet->markExisting($collectionElasticEntity);
 							}
-                        }
+						}
 
-                    } elseif (
-                        $attribute->getName() === \Spameri\Elastic\Mapping\Collection::class
-                    ) {
-                        $propertyValue = new $propertyTypeName();
-                        $this->changeSet->markExisting($propertyValue);
-                        if ($value !== null) {
-                            foreach ($value as $entityKey => $entity) {
-                                $collectionEntity = new $entity[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS](
-                                    ... $this->resolveProperties(
-                                        hit: $hit,
-                                        class: $entity[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS],
-                                        entityManager: $entityManager,
-                                        parentFieldName: $hitKey . '.' . $entityKey,
-                                    ),
-                                );
+					} elseif (
+						$attribute->getName() === \Spameri\Elastic\Mapping\Collection::class
+					) {
+						$propertyValue = new $propertyTypeName();
+						$this->changeSet->markExisting($propertyValue);
+						if ($value !== null) {
+							foreach ($value as $entityKey => $entity) {
+								$collectionEntity = new $entity[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS](
+									... $this->resolveProperties(
+										hit: $hit,
+										class: $entity[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS],
+										entityManager: $entityManager,
+										parentFieldName: $hitKey . '.' . $entityKey,
+									),
+								);
 
-                                $propertyValue->add($collectionEntity);
+								$propertyValue->add($collectionEntity);
 
-                                $this->changeSet->markExisting($collectionEntity);
-                            }
-                        }
+								$this->changeSet->markExisting($collectionEntity);
+							}
+						}
 
-                    } elseif (
-                        $attribute->getName() === \Spameri\Elastic\Mapping\STIEntity::class
-                    ) {
-                        $propertyValue = new $value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS](
-                            ... $this->resolveProperties(
-                                hit: $hit,
-                                class: $propertyTypeName,
-                                entityManager: $entityManager,
-                                parentFieldName: $hitKey,
-                            ),
-                        );
+					} elseif (
+						$attribute->getName() === \Spameri\Elastic\Mapping\STIEntity::class
+					) {
+						$propertyValue = new $value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS](
+							... $this->resolveProperties(
+								hit: $hit,
+								class: $propertyTypeName,
+								entityManager: $entityManager,
+								parentFieldName: $hitKey,
+							),
+						);
 
-                        $this->changeSet->markExisting($propertyValue);
+						$this->changeSet->markExisting($propertyValue);
 
-                    } elseif (
-                        $attribute->getName() === \Spameri\Elastic\Mapping\STIElasticEntity::class
-                    ) {
+					} elseif (
+						$attribute->getName() === \Spameri\Elastic\Mapping\STIElasticEntity::class
+					) {
 						if (isset($this->identityMap->creatingEntityList[$value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS]][$value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_ID]])) {
 							$parentClass = $value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS];
 							$propertyValue = eval("return (new class() extends $parentClass {public function __construct(){}});");
-							$this->identityMap->uninitializedEntityList[$parentClass][$value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_ID]][$property->getName()] = $propertyValue;
+							$this->identityMap->uninitializedEntityList[$class][$hit->id()][$property->getName()] = $value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_ID];
 
 						} else {
+							if (\class_exists($value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS]) === false) {
+								throw new \Spameri\Elastic\Exception\InvalidArgument('Entity to create does not exist: ' . $value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS]);
+							}
+
 							$propertyValue = $entityManager->find(
 								id: $value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_ID],
 								class: $value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS],
 							);
 						}
 
-                        $this->changeSet->markExisting($propertyValue);
+						$this->changeSet->markExisting($propertyValue);
 
-                    } elseif (
-                        $attribute->getName() === \Spameri\Elastic\Mapping\Ignored::class
-                    ) {
-                        continue 2;
+					} elseif (
+						$attribute->getName() === \Spameri\Elastic\Mapping\Ignored::class
+					) {
+						continue 2;
 					}
 				}
 
