@@ -54,24 +54,15 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 
 		$this->identityMap->add($entity);
 
-		foreach ($this->identityMap->uninitializedEntityList as $uninitializedClass => $uninitializedClassData) {
-			foreach ($uninitializedClassData as $id => $uninitializedProperty) {
-				$propertyName = \array_key_first($uninitializedProperty);
-				$uninitializedEntityId = $uninitializedProperty[$propertyName];
-				if ($uninitializedEntityId !== $hit->id()) {
-					continue;
-				}
+		if (isset($this->identityMap->uninitializedEntityList[$class][$hit->id()]) === true) {
+			foreach ($this->identityMap->uninitializedEntityList[$class][$hit->id()] as $propertyName => $notCompletedEntities) {
+				foreach ($notCompletedEntities as $notCompletedEntityId => $notCompletedEntityClass) {
+					$this->identityMap->identityMap[$notCompletedEntityClass][$notCompletedEntityId]->$propertyName = $entity;
 
-				$this->identityMap->identityMap[$uninitializedClass][$id]->$propertyName = $entity;
-
-				unset($this->identityMap->uninitializedEntityList[$uninitializedClass][$id][$propertyName]);
-				if (\count($this->identityMap->uninitializedEntityList[$uninitializedClass][$id]) === 0) {
-					unset($this->identityMap->uninitializedEntityList[$uninitializedClass][$id]);
+					unset($this->identityMap->uninitializedEntityList[$class][$hit->id()][$propertyName][$notCompletedEntityId]);
 				}
 			}
 		}
-
-
 		unset($this->identityMap->creatingEntityList[$class][$hit->id()]);
 
 		return $entity;
@@ -221,7 +212,7 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 						if (isset($this->identityMap->creatingEntityList[$value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS]][$value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_ID]])) {
 							$parentClass = $value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS];
 							$propertyValue = eval("return (new class() extends $parentClass {public function __construct(){}});");
-							$this->identityMap->uninitializedEntityList[$class][$hit->id()][$property->getName()] = $value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_ID];
+							$this->identityMap->uninitializedEntityList[$value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS]][$value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_ID]][$property->getName()][$hit->id()] = $class;
 
 						} else {
 							if (\class_exists($value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS]) === false) {
@@ -257,7 +248,7 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 				) {
 					if (isset($this->identityMap->creatingEntityList[$propertyTypeName][$value])) {
 						$propertyValue = eval("return (new class() extends $propertyTypeName {public function __construct(){}});");
-						$this->identityMap->uninitializedEntityList[$propertyTypeName][$value][$property->getName()] = $propertyValue;
+						$this->identityMap->uninitializedEntityList[$propertyTypeName][$value][$property->getName()][$hit->id()] = $class;
 
 					} else {
 						$propertyValue = $entityManager->find(
