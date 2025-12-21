@@ -9,7 +9,7 @@ class EntityWithNestedContent extends \Spameri\Elastic\Entity\AbstractElasticEnt
 {
 
 	/**
-	 * @param \Spameri\Elastic\Entity\Collection\EntityCollection<SimpleNestedEntity>|null $items
+	 * @param \Spameri\Elastic\Entity\Collection\EntityCollection<\SpameriTests\Elastic\Data\Entity\SimpleNestedEntity>|null $items
 	 */
 	public function __construct(
 		#[\Spameri\Elastic\Mapping\Entity(class: \Spameri\Elastic\Entity\Property\ElasticId::class)]

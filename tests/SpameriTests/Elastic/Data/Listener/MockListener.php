@@ -15,23 +15,13 @@ class MockListener implements \Spameri\Elastic\EventManager\ListenerInterface
 	public array $calls = [];
 
 	/**
-	 * @var array<class-string>
-	 */
-	private array $entityClasses;
-
-	private string $event;
-
-
-	/**
 	 * @param array<class-string> $entityClasses
 	 */
 	public function __construct(
-		array $entityClasses,
-		string $event,
+		private array $entityClasses,
+		private string $event,
 	)
 	{
-		$this->entityClasses = $entityClasses;
-		$this->event = $event;
 	}
 
 

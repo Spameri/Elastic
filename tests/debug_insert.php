@@ -11,7 +11,9 @@ $container = $config->createContainer();
 
 // Delete index
 $client = $container->getByType(\Spameri\Elastic\ClientProvider::class)->client();
-try { $client->indices()->delete(['index' => 'test_pagination*']); } catch (Exception $e) {}
+try {
+$client->indices()->delete(['index' => 'test_pagination*']); } catch (\Throwable $e) {
+}
 usleep(100000);
 
 // Create index
@@ -24,15 +26,15 @@ $insert = $container->getByType(\Spameri\Elastic\Model\Insert::class);
 $identityMap = $container->getByType(\Spameri\Elastic\Model\IdentityMap::class);
 $ids = [];
 for ($i = 0; $i < 10; $i++) {
-    $entity = new \SpameriTests\Elastic\Data\Entity\Title(
-        new \Spameri\Elastic\Entity\Property\EmptyElasticId(),
-        null,
-    );
-    $isChanged = $identityMap->isChanged($entity);
-    echo "Entity $i before insert - isChanged: " . ($isChanged ? 'true' : 'false') . ", id: '" . $entity->id()->value() . "'" . PHP_EOL;
-    $ids[] = $insert->execute($entity, 'test_pagination', false);
-    echo "Insert $i result: " . $entity->id()->value() . PHP_EOL;
-    echo "Persisted map: " . print_r($identityMap->persisted, true);
+	$entity = new \SpameriTests\Elastic\Data\Entity\Title(
+		new \Spameri\Elastic\Entity\Property\EmptyElasticId(),
+		null,
+	);
+	$isChanged = $identityMap->isChanged($entity);
+	echo "Entity $i before insert - isChanged: " . ($isChanged ? 'true' : 'false') . ", id: '" . $entity->id()->value() . "'" . PHP_EOL;
+	$ids[] = $insert->execute($entity, 'test_pagination', false);
+	echo "Insert $i result: " . $entity->id()->value() . PHP_EOL;
+	echo "Persisted map: " . print_r($identityMap->persisted, true);
 }
 
 echo 'Inserted IDs: ' . count($ids) . PHP_EOL;

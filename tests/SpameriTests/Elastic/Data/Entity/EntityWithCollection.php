@@ -9,7 +9,7 @@ class EntityWithCollection extends \Spameri\Elastic\Entity\AbstractElasticEntity
 {
 
 	/**
-	 * @param \Spameri\Elastic\Entity\Collection\EntityCollection<NestedObject> $items
+	 * @param \Spameri\Elastic\Entity\Collection\EntityCollection<\SpameriTests\Elastic\Data\Entity\NestedObject> $items
 	 */
 	public function __construct(
 		#[\Spameri\Elastic\Mapping\Entity(class: \Spameri\Elastic\Entity\Property\ElasticId::class)]
