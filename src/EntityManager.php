@@ -221,6 +221,8 @@ readonly class EntityManager
 			return false;
 		}
 
+		$this->identityMap->remove($entity);
+
 		$this->eventManager->dispatch(
 			event: EventManager::POST_DELETE,
 			entityClass: $entity::class,
