@@ -58,6 +58,28 @@ class IdentityMap
 	}
 
 
+	public function remove(
+		\Spameri\Elastic\Entity\AbstractElasticEntity $entity,
+	): void
+	{
+		if ($entity->id instanceof \Spameri\Elastic\Entity\Property\EmptyElasticId) {
+			return;
+		}
+
+		unset($this->identityMap[$entity::class][$entity->id()->value()]);
+		unset($this->persisted[$entity::class][$entity->id()->value()]);
+
+		/** @var string|false $parentClass */
+		$parentClass = \get_parent_class($entity);
+		if (
+			\is_string($parentClass) === true
+			&& $parentClass !== \Spameri\Elastic\Entity\AbstractElasticEntity::class
+		) {
+			unset($this->identityMap[$parentClass][$entity->id()->value()]);
+		}
+	}
+
+
 	public function markInserted(
 		\Spameri\Elastic\Entity\AbstractElasticEntity $entity,
 	): void
