@@ -18,30 +18,25 @@ readonly class MoveAlias
 	public function execute(string $alias, string $indexFrom, string $indexTo): array
 	{
 		try {
-			return $this->clientProvider->client()->indices()->putAlias(
-				(
-				new \Spameri\ElasticQuery\Document(
-					$indexFrom,
-					new \Spameri\ElasticQuery\Document\Body\Plain(
-						[
-							'actions' => [
+			return $this->clientProvider->client()->indices()->updateAliases(
+				[
+					'body' => [
+						'actions' => [
+							[
 								'remove' => [
 									'index' => $indexFrom,
 									'alias' => $alias,
 								],
+							],
+							[
 								'add' => [
 									'index' => $indexTo,
 									'alias' => $alias,
 								],
 							],
 						],
-					),
-					null,
-					[
-						'name' => $indexTo,
 					],
-				)
-				)->toArray(),
+				],
 			)->asArray()
 				;
 
