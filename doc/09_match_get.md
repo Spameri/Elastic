@@ -1,7 +1,7 @@
 # Filter data
 
 ## Description
-You can specify complicated ElasticSearch Query and still get pretty entity. [Service](12_entity_service.md) accepts
+You can specify complicated ElasticSearch Query and still get pretty entity. [EntityManager](17_entity_manager.md) accepts
 `\Spameri\ElasticQuery\ElasticQuery` object and returns entity or collection depending if you want one or more results.
 
 ## Example
@@ -22,5 +22,5 @@ $elasticQuery->query()->must()->add(
 	)
 );
 
-$video = $videoService->getBy($elasticQuery);
+$video = $entityManager->findOneBy($elasticQuery, Video::class);
 ```

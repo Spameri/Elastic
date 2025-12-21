@@ -1,158 +1,126 @@
-## Mapping class
-```php
-<?php declare(strict_types = 1);
+# Configuration
 
-namespace SpameriTests\Elastic\Data\Model;
+## Extension Registration
 
-class VideoMapping implements \Spameri\Elastic\Settings\IndexConfigInterface
-{
+In your config neon file, register the extension:
 
-	private string $index;
-
-
-	public function __construct(
-		string $index
-	)
-	{
-		$this->index = $index;
-	}
-
-
-	public function provide(): \Spameri\ElasticQuery\Mapping\Settings
-	{
-		$settings = new \Spameri\ElasticQuery\Mapping\Settings($this->index);
-
-		$nameFields = new \Spameri\ElasticQuery\Mapping\Settings\Mapping\SubFields(
-			'name',
-			\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_TEXT
-		);
-		$nameFields->addMappingField(
-			new \Spameri\ElasticQuery\Mapping\Settings\Mapping\Field(
-				'edgeNgram',
-				\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_TEXT
-			)
-		);
-		$nameFields->addMappingField(
-			new \Spameri\ElasticQuery\Mapping\Settings\Mapping\Field(
-				'wordSplit',
-				\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_TEXT
-			)
-		);
-		$nameFields->addMappingField(
-			new \Spameri\ElasticQuery\Mapping\Settings\Mapping\Field(
-				'wordJoin',
-				\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_TEXT
-			)
-		);
-		$settings->addMappingSubField($nameFields);
-
-		$story = new \Spameri\ElasticQuery\Mapping\Settings\Mapping\FieldObject(
-			'story',
-			new \Spameri\ElasticQuery\Mapping\Settings\Mapping\FieldCollection(
-				new \Spameri\ElasticQuery\Mapping\Settings\Mapping\Field(
-					'description',
-					\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_TEXT
-				),
-				new \Spameri\ElasticQuery\Mapping\Settings\Mapping\Field(
-					'tagLine',
-					\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_KEYWORD
-				)
-			)
-		);
-		$settings->addMappingFieldObject($story);
-
-		$season = new \Spameri\ElasticQuery\Mapping\Settings\Mapping\FieldObject(
-			'season',
-			new \Spameri\ElasticQuery\Mapping\Settings\Mapping\FieldCollection(
-				new \Spameri\ElasticQuery\Mapping\Settings\Mapping\Field(
-					'number',
-					\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_KEYWORD
-				),
-				new \Spameri\ElasticQuery\Mapping\Settings\Mapping\FieldObject(
-					'episodes',
-					new \Spameri\ElasticQuery\Mapping\Settings\Mapping\FieldCollection(
-						new \Spameri\ElasticQuery\Mapping\Settings\Mapping\Field(
-							'id',
-							\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_KEYWORD
-						),
-						new \Spameri\ElasticQuery\Mapping\Settings\Mapping\Field(
-							'number',
-							\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_KEYWORD
-						),
-						new \Spameri\ElasticQuery\Mapping\Settings\Mapping\Field(
-							'name',
-							\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_TEXT
-						),
-						new \Spameri\ElasticQuery\Mapping\Settings\Mapping\Field(
-							'description',
-							\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_TEXT
-						)
-					)
-				)
-			)
-		);
-		$settings->addMappingFieldObject($season);
-		
-		$identification = new \Spameri\ElasticQuery\Mapping\Settings\Mapping\FieldObject(
-		'identification',
-			new \Spameri\ElasticQuery\Mapping\Settings\Mapping\FieldCollection(
-				new \Spameri\ElasticQuery\Mapping\Settings\Mapping\Field(
-					'imdb',
-					\Spameri\ElasticQuery\Mapping\AllowedValues::TYPE_KEYWORD
-				)
-			)
-		);
-		$settings->addMappingFieldObject($identification);
-		
-		$settings->addMappingField(
-			new \Spameri\ElasticQuery\Mapping\Settings\Mapping\Field(
-				'year',
-				\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_LONG
-			)
-		);
-		
-		$settings->addMappingFieldObject(
-			new \Spameri\ElasticQuery\Mapping\Settings\Mapping\FieldObject(
-				'technical',
-				new \Spameri\ElasticQuery\Mapping\Settings\Mapping\FieldCollection()
-			)
-		);
-		
-		$settings->addMappingFieldObject(
-			new \Spameri\ElasticQuery\Mapping\Settings\Mapping\FieldObject(
-				'details',
-				new \Spameri\ElasticQuery\Mapping\Settings\Mapping\FieldCollection()
-			)
-		);
-		
-		$settings->addMappingFieldObject(
-			new \Spameri\ElasticQuery\Mapping\Settings\Mapping\FieldObject(
-				'highLights',
-				new \Spameri\ElasticQuery\Mapping\Settings\Mapping\FieldCollection()
-			)
-		);
-		
-		$settings->addMappingFieldObject(
-			new \Spameri\ElasticQuery\Mapping\Settings\Mapping\FieldObject(
-				'connections',
-				new \Spameri\ElasticQuery\Mapping\Settings\Mapping\FieldCollection()
-			)
-		);
-		
-		$settings->addMappingFieldObject(
-			new \Spameri\ElasticQuery\Mapping\Settings\Mapping\FieldObject(
-				'people',
-				new \Spameri\ElasticQuery\Mapping\Settings\Mapping\FieldCollection()
-			)
-		);
-		
-		return $settings;
-	}
-
-}
-
+```neon
+extensions:
+    spameriElasticSearch: \Spameri\Elastic\DI\SpameriElasticSearchExtension
 ```
 
-#### Tips
-- Do not use field named `id` in mapping. Use `databaseId` or `externalId` depending from your data originates.
-- Do not use same field name in entity structure. 
+## Configuration Options
+
+Configure your ElasticSearch connection and library options:
+
+```neon
+spameriElasticSearch:
+    host: 127.0.0.1
+    port: 9200
+    debug: true
+    version: 8
+    synonymPath: %appDir%/config/synonyms.txt
+```
+
+### Available Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `host` | string | `localhost` | ElasticSearch server hostname or IP address |
+| `port` | int | `9200` | ElasticSearch server port |
+| `debug` | bool | `false` | Enable Tracy debug bar panel for query inspection |
+| `version` | int | `8` | ElasticSearch version (7 or 8) |
+| `synonymPath` | string\|null | `null` | Path to synonyms file for text analysis |
+
+## Debug Mode
+
+When `debug: true` is set:
+- Tracy debug bar panel is enabled
+- All queries are logged with timing information
+- Query details can be inspected in the debug panel
+
+```neon
+spameriElasticSearch:
+    debug: %debugMode%  # Use Nette's debug mode
+```
+
+See [Debugging Guide](16_debugging.md) for more details on the Tracy panel.
+
+## Entity and Index Registration
+
+Entities are registered through `IndexConfigInterface` implementations. Each implementation:
+1. Defines the index name via `indexName()`
+2. Specifies which entity classes it manages via `entityClass()`
+3. Provides mapping configuration via `provide()`
+
+Register your mapping class as a DI service:
+
+```neon
+services:
+    - App\Model\Settings\VideoMapping
+    - App\Model\Settings\PersonMapping
+```
+
+The system auto-discovers all `IndexConfigInterface` implementations via `container->findByType()`.
+
+See [Index Mapping](05_new_index_with_mapping.md) for detailed mapping configuration.
+
+## Symfony Console Integration
+
+For index management commands, you need a Symfony Console implementation. With Kdyby/Console:
+
+```neon
+extensions:
+    console: Kdyby\Console\DI\ConsoleExtension
+    spameriElasticSearch: \Spameri\Elastic\DI\SpameriElasticSearchExtension
+```
+
+Or with Contributte/Console:
+
+```neon
+extensions:
+    console: Contributte\Console\DI\ConsoleExtension
+    spameriElasticSearch: \Spameri\Elastic\DI\SpameriElasticSearchExtension
+```
+
+## Version Compatibility
+
+The `version` option affects query generation and response parsing:
+
+| Version | ElasticSearch | Notes                   |
+|---------|---------------|-------------------------|
+| `7`     | 7.x           | Legacy may not work     |
+| `8`     | 8.x           | Legacy, partial support |
+| `9`     | 9.x           | Default, recommended    |
+
+## Complete Example
+
+```neon
+extensions:
+    console: Contributte\Console\DI\ConsoleExtension
+    spameriElasticSearch: \Spameri\Elastic\DI\SpameriElasticSearchExtension
+
+spameriElasticSearch:
+    host: %elastic.host%
+    port: %elastic.port%
+    debug: %debugMode%
+    version: 8
+
+services:
+    - App\Model\Settings\VideoMapping
+    - App\Model\Settings\PersonMapping
+```
+
+With parameters:
+
+```neon
+parameters:
+    elastic:
+        host: 127.0.0.1
+        port: 9200
+```
+
+## Next Steps
+
+- [Create Entity Class](03_entity_class.md)
+- [Create Index Mapping](05_new_index_with_mapping.md)

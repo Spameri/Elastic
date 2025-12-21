@@ -48,5 +48,5 @@ $elasticQuery = new \Spameri\ElasticQuery\ElasticQuery(
 		)
 	)
 );
-$videos = $this->videoService->getAllBy($elasticQuery);
+$videos = $this->entityManager->findBy($elasticQuery, Video::class);
 ```
