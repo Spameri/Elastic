@@ -61,23 +61,23 @@ make composer-lowest
 ### ElasticSearch Index Management
 ```bash
 # Create an index (requires entity mapping class)
-php bin/console elastic:create-index <index-name>
+php bin/console spameri:elastic:create-index <index-name>
 
 # Delete an index
-php bin/console elastic:delete-index <index-name>
+php bin/console spameri:elastic:delete-index <index-name>
 
 # Initialize all indexes from configuration
-php bin/console elastic:initialize-indexes
+php bin/console spameri:elastic:initialize-index
 
 # Dump index data to file
-php bin/console elastic:dump-index <index-name>
+php bin/console spameri:elastic:dump-index <index-name>
 
-# Load dumped data back
-php bin/console elastic:load-dump <file-path>
+# Load dumped data back (with optional step size for bulk operations)
+php bin/console spameri:elastic:load-dump <file-path> [--step=500]
 
 # Add/remove aliases
-php bin/console elastic:add-alias <index-name> <alias>
-php bin/console elastic:remove-alias <index-name> <alias>
+php bin/console spameri:elastic:add-alias <index-name> <alias>
+php bin/console spameri:elastic:remove-alias <index-name> <alias>
 ```
 
 ## Architecture
@@ -114,8 +114,12 @@ php bin/console elastic:remove-alias <index-name> <alias>
 **Event System** (`src/EventManager.php`, `src/EventManager/`)
 - Events: `PRE_PERSIST`, `POST_PERSIST`, `POST_CREATE`, `POST_UPDATE`, `PRE_DELETE`, `POST_DELETE`
 - Listeners implement `ListenerInterface` with `getEvent()`, `getEntityClass()`, `handle()` methods
-- Auto-discovered from DI container
-- Both global event manager and per-entity `dispatchEvents()` support
+- Auto-discovered from DI container via `initListeners()`
+- Events dispatch to both exact entity class matches AND parent classes
+- Recursive event propagation through entity trees via `DispatchEvents`
+- `ChangeSet` integration determines POST_CREATE vs POST_UPDATE
+- Nested entity event propagation (fires for EntityInterface properties)
+- Collection item event propagation (fires for items in EntityCollectionInterface)
 
 **Import System** (`src/Import/`)
 - `Run` and `SimpleRun` - orchestrate data imports with progress tracking
@@ -185,8 +189,9 @@ spameriElasticSearch:
     port: 9200
     debug: true  # Enables Tracy debug bar panel
     version: 8  # ElasticSearch version
-    entities:
-        - App\Model\Entity\MyEntity
+
+services:
+    - App\Model\Settings\MyEntityMapping  # IndexConfigInterface implementation
 ```
 
 ## Code Style
@@ -214,6 +219,287 @@ spameriElasticSearch:
 **Event listeners** - must implement `ListenerInterface` and be registered in DI container to be auto-discovered by EventManager.
 
 **Value objects** - prefer value objects implementing `ValueInterface` for entity properties to encapsulate validation logic.
+
+## Event System Deep Dive
+
+### Event Lifecycle
+
+**Persist Flow (EntityManager::persist):**
+1. `PRE_PERSIST` - Before any changes
+   - Dispatched on main entity
+   - Dispatched recursively on all nested entities/collections via `DispatchEvents`
+2. Entity saved to ElasticSearch via `Insert`
+3. `POST_PERSIST` - After save
+   - Dispatched on main entity
+   - Dispatched recursively on all nested entities/collections
+4. `POST_CREATE` or `POST_UPDATE` - Based on ChangeSet
+   - If `ChangeSet::isExisting($entity)` is false → `POST_CREATE`
+   - If `ChangeSet::isExisting($entity)` is true → `POST_UPDATE`
+   - Dispatched on main entity first
+   - Dispatched recursively (POST_UPDATE only) on nested entities
+   - POST_CREATE uses ChangeSet filtering during recursion
+5. Final recursive dispatch of POST_CREATE and POST_PERSIST
+
+**Delete Flow (EntityManager::remove):**
+1. `PRE_DELETE` - Before deletion
+   - Dispatched on main entity
+   - Dispatched recursively on all nested entities/collections
+2. Entity deleted from ElasticSearch via `Delete`
+3. `POST_DELETE` - After deletion
+   - Dispatched on main entity
+   - Dispatched recursively on all nested entities/collections
+
+### ChangeSet System
+
+**Purpose:** Tracks whether entities are new or existing to determine correct lifecycle events.
+
+**Key Methods:**
+- `markExisting($entity)` - Marks entity as loaded from database (called by EntityFactory)
+- `isExisting($entity)` - Returns true if entity was previously marked
+
+**How It Works:**
+- Uses `spl_object_hash()` for entity identity tracking
+- Stored as: `$created[$className][$objectHash] = true`
+- Works with any object, not just `ElasticEntityInterface`
+
+**Integration:**
+```php
+// EntityManager::persist()
+if ($this->changeSet->isExisting($entity) === false) {
+    // Fire POST_CREATE
+} else {
+    // Fire POST_UPDATE
+}
+```
+
+### DispatchEvents - Recursive Event Propagation
+
+**Purpose:** Walks entity tree and fires events on nested entities and collections.
+
+**Entry Point:**
+```php
+$this->dispatchEvents->execute($entity, EventManager::PRE_PERSIST);
+```
+
+**Propagation Flow:**
+1. Calls `iterateVariables()` with entity's properties
+2. For each property:
+   - If `EntityInterface` → dispatch event + recurse into its properties
+   - If `EntityCollectionInterface` → iterate items, dispatch + recurse for each
+   - Otherwise → skip (scalars, value objects, etc.)
+3. Recursion continues through entire entity tree
+
+**Special POST_CREATE Handling:**
+- POST_CREATE events are conditionally dispatched based on `ChangeSet`
+- Only fires if `ChangeSet::isExisting($property)` returns false
+- Prevents firing CREATE events for existing nested entities loaded from database
+
+**Example Tree:**
+```
+Video (ElasticEntity)
+├── Technical (EntityInterface) ← Events fired here
+│   ├── Resolution (scalar) ← No events
+│   └── Codec (scalar) ← No events
+├── Seasons (EntityCollection) ← Events fired on each item
+│   ├── Season 1 (EntityInterface) ← Events fired here
+│   │   └── Episodes (EntityCollection) ← Events fired on each
+│   └── Season 2 (EntityInterface) ← Events fired here
+└── Cast (ElasticEntityCollection) ← Events fired on each item
+    ├── Person 1 (ElasticEntity) ← Events fired here
+    └── Person 2 (ElasticEntity) ← Events fired here
+```
+
+All entities in this tree receive appropriate lifecycle events.
+
+### Listener Auto-Discovery
+
+**How It Works:**
+1. On first event dispatch, `EventManager::initListeners()` is called
+2. Searches DI container for all services implementing `ListenerInterface`
+3. For each listener:
+   - Calls `getEvent()` - which event to listen for
+   - Calls `getEntityClass()` - which entity classes (returns array)
+   - Registers listener for each class/event combination
+
+**Inheritance Matching:**
+Events dispatch to listeners registered for:
+- The exact entity class
+- ANY parent class or interface
+
+Example:
+```php
+class VideoListener implements ListenerInterface {
+    public function getEntityClass(): array {
+        return [AbstractElasticEntity::class]; // Matches ALL entities
+    }
+}
+
+class SpecificVideoListener implements ListenerInterface {
+    public function getEntityClass(): array {
+        return [Video::class]; // Only Video entities
+    }
+}
+```
+
+### Creating Event Listeners
+
+**1. Implement ListenerInterface:**
+```php
+namespace App\EventListener;
+
+class VideoPersistedListener implements \Spameri\Elastic\EventManager\ListenerInterface
+{
+    public function __construct(
+        private \Psr\Log\LoggerInterface $logger
+    ) {}
+
+    public function handle(object|null $entity, object|null $parent): void
+    {
+        if ($entity instanceof \App\Entity\Video) {
+            $this->logger->info('Video persisted', [
+                'id' => $entity->id()->value(),
+                'title' => $entity->title(),
+            ]);
+        }
+    }
+
+    public function getEntityClass(): array
+    {
+        return [\App\Entity\Video::class];
+    }
+
+    public function getEvent(): string
+    {
+        return \Spameri\Elastic\EventManager::POST_PERSIST;
+    }
+}
+```
+
+**2. Register in DI:**
+```neon
+services:
+    - App\EventListener\VideoPersistedListener
+```
+
+**That's it!** No manual registration needed - auto-discovered on first event.
+
+### Parent Entity Access
+
+Listeners receive both the entity and its parent:
+
+```php
+public function handle(object|null $entity, object|null $parent): void
+{
+    // $entity = the entity the event fired for
+    // $parent = the entity containing this one (for nested entities)
+
+    if ($entity instanceof Season && $parent instanceof Video) {
+        // Season was saved as part of Video
+    }
+}
+```
+
+### Common Patterns
+
+**1. Invalidate Cache After Update:**
+```php
+class InvalidateCacheListener implements ListenerInterface
+{
+    public function __construct(private CacheInterface $cache) {}
+
+    public function handle(object|null $entity, object|null $parent): void
+    {
+        if ($entity instanceof Video) {
+            $this->cache->delete('video.' . $entity->id()->value());
+        }
+    }
+
+    public function getEntityClass(): array
+    {
+        return [Video::class];
+    }
+
+    public function getEvent(): string
+    {
+        return EventManager::POST_UPDATE;
+    }
+}
+```
+
+**2. Send Notification After Creation:**
+```php
+class NotifyOnCreateListener implements ListenerInterface
+{
+    public function __construct(private NotificationService $notifications) {}
+
+    public function handle(object|null $entity, object|null $parent): void
+    {
+        if ($entity instanceof Video) {
+            $this->notifications->send(
+                'New video created: ' . $entity->title()
+            );
+        }
+    }
+
+    public function getEntityClass(): array
+    {
+        return [Video::class];
+    }
+
+    public function getEvent(): string
+    {
+        return EventManager::POST_CREATE; // Only on creation, not updates
+    }
+}
+```
+
+**3. Update Related Data Before Persist:**
+```php
+class UpdateTimestampListener implements ListenerInterface
+{
+    public function handle(object|null $entity, object|null $parent): void
+    {
+        if ($entity instanceof Video) {
+            $entity->setModifiedAt(new \DateTime());
+        }
+    }
+
+    public function getEntityClass(): array
+    {
+        return [Video::class];
+    }
+
+    public function getEvent(): string
+    {
+        return EventManager::PRE_PERSIST; // Before save
+    }
+}
+```
+
+**4. Listen to All Entities (Global Listener):**
+```php
+class GlobalAuditListener implements ListenerInterface
+{
+    public function handle(object|null $entity, object|null $parent): void
+    {
+        // Log ALL entity persists
+        if ($entity !== null) {
+            $this->auditLog->record($entity::class, 'persisted');
+        }
+    }
+
+    public function getEntityClass(): array
+    {
+        // Empty string or base class matches all
+        return [AbstractElasticEntity::class];
+    }
+
+    public function getEvent(): string
+    {
+        return EventManager::POST_PERSIST;
+    }
+}
+```
 
 ## Testing Notes
 

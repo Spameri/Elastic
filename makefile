@@ -16,7 +16,7 @@ composer-lowest:
 	composer update --no-interaction --no-suggest --no-progress --prefer-dist --prefer-stable --prefer-lowest
 
 tests:
-	vendor/bin/tester -s -c ./tests/php.ini-unix ./tests
+	vendor/bin/tester -j 1 -s -c ./tests/php.ini-unix ./tests
 
 tests-local:
 	vendor/bin/tester -j 1 -c ./tests/SpameriTests/php.ini tests

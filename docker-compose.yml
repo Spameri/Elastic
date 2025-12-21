@@ -1,0 +1,36 @@
+services:
+  php:
+    build:
+      context: .
+      args:
+        PHP_VERSION: ${PHP_VERSION:-8.2}
+    volumes:
+      - .:/app
+    working_dir: /app
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    environment:
+      - ELASTICSEARCH_HOST=elasticsearch
+      - ELASTICSEARCH_PORT=9200
+    stdin_open: true
+    tty: true
+
+  elasticsearch:
+    image: elasticsearch:9.2.2
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - action.destructive_requires_name=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9201:9200"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
