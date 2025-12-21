@@ -24,11 +24,11 @@ class Extension extends \SpameriTests\Elastic\AbstractTestCase
 		\Tester\Assert::type('int', $versionProvider->provide());
 
 		if ($versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
-			\Tester\Assert::same(\SpameriTests\Elastic\Config::HOST, $connection->getHost());
-			\Tester\Assert::same(\SpameriTests\Elastic\Config::PORT, $connection->getPort());
+			\Tester\Assert::same(\SpameriTests\Elastic\Config::host(), $connection->getHost());
+			\Tester\Assert::same(\SpameriTests\Elastic\Config::port(), $connection->getPort());
 
 		} else {
-			\Tester\Assert::same(\SpameriTests\Elastic\Config::CONNECTION, $connection->getHost());
+			\Tester\Assert::same(\SpameriTests\Elastic\Config::connection(), $connection->getHost());
 		}
 	}
 

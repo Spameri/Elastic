@@ -14,6 +14,17 @@ class Execute extends \SpameriTests\Elastic\AbstractTestCase
 	{
 		parent::setUp();
 
+		// Delete any existing index or alias with wildcard
+		/** @var \Spameri\Elastic\ClientProvider $clientProvider */
+		$clientProvider = $this->container->getByType(\Spameri\Elastic\ClientProvider::class);
+		try {
+			$clientProvider->client()->indices()->delete(['index' => \SpameriTests\Elastic\Config::INDEX_DUMP . '*']);
+		} catch (\Throwable $e) {
+			// Ignore if index doesn't exist
+		}
+
+		\usleep(100000);
+
 		/** @var \Spameri\Elastic\Model\RestoreIndex $restoreIndex */
 		$restoreIndex = $this->container->getByType(\Spameri\Elastic\Model\RestoreIndex::class);
 		$restoreIndex->setOutput(new \Symfony\Component\Console\Output\ConsoleOutput());

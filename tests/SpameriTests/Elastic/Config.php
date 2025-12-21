@@ -11,6 +11,24 @@ class Config
 	public const PORT = 9200;
 	public const CONNECTION = self::HOST . ':' . self::PORT;
 
+
+	public static function host(): string
+	{
+		return \getenv('ELASTICSEARCH_HOST') ?: self::HOST;
+	}
+
+
+	public static function port(): int
+	{
+		return (int) (\getenv('ELASTICSEARCH_PORT') ?: self::PORT);
+	}
+
+
+	public static function connection(): string
+	{
+		return self::host() . ':' . self::port();
+	}
+
 	public const INDEX_DUMP = 'spameri_product_dump';
 	public const INDEX_RESTORE = 'spameri_product_restore';
 	public const INDEX_MIGRATE = 'spameri_product_migrate';
@@ -19,5 +37,6 @@ class Config
 	public const INDEX_EM = 'spameri_em';
 	public const INDEX_TITLE = 'spameri_title';
 	public const INDEX_IMAGE = 'spameri_image';
+	public const INDEX_EDGE_CASE = 'spameri_edge_case';
 
 }

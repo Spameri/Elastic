@@ -13,10 +13,30 @@ class EntityManagerTest extends \SpameriTests\Elastic\AbstractTestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        // Delete any existing indexes or aliases with wildcard
+        /** @var \Spameri\Elastic\ClientProvider $clientProvider */
+        $clientProvider = $this->container->getByType(\Spameri\Elastic\ClientProvider::class);
+        try {
+            $clientProvider->client()->indices()->delete(['index' => \SpameriTests\Elastic\Config::INDEX_TITLE . '*']);
+        } catch (\Throwable $e) {
+            // Ignore if index doesn't exist
+        }
+        try {
+            $clientProvider->client()->indices()->delete(['index' => \SpameriTests\Elastic\Config::INDEX_IMAGE . '*']);
+        } catch (\Throwable $e) {
+            // Ignore if index doesn't exist
+        }
+
+        \usleep(100000);
+
         /** @var \Spameri\Elastic\Model\Indices\Create $create */
         $create = $this->container->getByType(\Spameri\Elastic\Model\Indices\Create::class);
         $create->execute(\SpameriTests\Elastic\Config::INDEX_TITLE, []);
         $create->execute(\SpameriTests\Elastic\Config::INDEX_IMAGE, []);
+
+        // Wait for index to be ready
+        \usleep(100000);
     }
 
 

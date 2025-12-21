@@ -2,8 +2,8 @@ extensions:
 	spameriElasticSearch: Spameri\Elastic\DI\SpameriElasticSearchExtension
 
 spameriElasticSearch:
-	host: 127.0.0.1
-	port: 9200
+	host: %elasticSearch.host%
+	port: %elasticSearch.port%
 	version: 81200
 
 php:
@@ -11,6 +11,8 @@ php:
 
 parameters:
 	elasticSearch:
+		host: 127.0.0.1
+		port: 9200
 		personIndex: spameri_person
 		videoIndex: spameri_video
 
@@ -28,5 +30,8 @@ services:
 
 	elastic.image.mapping:
 		factory: SpameriTests\Elastic\Data\Model\ImageMapping
+
+	elastic.edgecase.mapping:
+		factory: SpameriTests\Elastic\Data\Model\EdgeCaseMapping
 
 includes:
