@@ -26,6 +26,13 @@ class ClientProvider
 				$settings->host() . ':' . $settings->port(),
 			],
 		);
+
+		if ($settings->username() !== null && $settings->password() !== null) {
+			$this->clientBuilder->setBasicAuthentication(
+				$settings->username(),
+				$settings->password(),
+			);
+		}
 	}
 
 

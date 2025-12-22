@@ -57,6 +57,8 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 		$neonSettingsProvider = $services['services']['neonSettingsProvider']['factory'];
 		$neonSettingsProvider->arguments[0] = $config['host'];
 		$neonSettingsProvider->arguments[1] = $config['port'];
+		$neonSettingsProvider->arguments[2] = $config['username'] ?? null;
+		$neonSettingsProvider->arguments[3] = $config['password'] ?? null;
 
 		$versionProvider = $services['services']['versionProvider']['factory'];
 		$versionProvider->arguments[0] = $config['version'];
