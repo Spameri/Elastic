@@ -14,12 +14,6 @@ class MockDataProvider implements \Spameri\Elastic\Import\DataProviderInterface
 	private array $data = [];
 
 	/**
-	 * @var array<\Spameri\Elastic\Import\Exception\ImportException>
-	 */
-	private array $exceptionsToThrow = [];
-
-
-	/**
 	 * @param array<mixed> $data
 	 */
 	public function setData(array $data): void
@@ -28,21 +22,15 @@ class MockDataProvider implements \Spameri\Elastic\Import\DataProviderInterface
 	}
 
 
-	public function setExceptionForItem(int $index, \Spameri\Elastic\Import\Exception\ImportException $exception): void
+	public function provide(\Spameri\Elastic\Import\Run\Options $options): \Generator // phpcs:ignore
 	{
-		$this->exceptionsToThrow[$index] = $exception;
-	}
-
-
-	public function provide(\Spameri\Elastic\Import\Run\Options $options): \Generator
-	{
-		foreach ($this->data as $index => $item) {
+		foreach ($this->data as $index => $item) { // phpcs:ignore
 			yield $item;
 		}
 	}
 
 
-	public function count(\Spameri\Elastic\Import\Run\Options $options): int
+	public function count(\Spameri\Elastic\Import\Run\Options $options): int // phpcs:ignore
 	{
 		return \count($this->data);
 	}

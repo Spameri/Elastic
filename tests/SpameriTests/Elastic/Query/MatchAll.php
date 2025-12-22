@@ -1,13 +1,13 @@
 <?php declare(strict_types = 1);
 
-namespace Spameri\ElasticQuery\Query;
+namespace SpameriTests\Elastic\Query;
 
 /**
  * Match all documents query.
  *
  * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-match-all-query.html
  */
-class MatchAll implements LeafQueryInterface
+class MatchAll implements \Spameri\ElasticQuery\Query\LeafQueryInterface
 {
 
 	public function __construct(
@@ -23,6 +23,9 @@ class MatchAll implements LeafQueryInterface
 	}
 
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	public function toArray(): array
 	{
 		if ($this->boost !== 1.0) {
