@@ -73,7 +73,25 @@ class PrepareEntityArray
 			}
 
 			foreach ($attributes as $attribute) {
-				if ($attribute->getName() === \Spameri\Elastic\Mapping\STIEntity::class) {
+				if ($attribute->getName() === \Spameri\Elastic\Mapping\Collection::class) {
+					if ($property === null) {
+						continue 2;
+					}
+
+					/** @var \Spameri\Elastic\Entity\EntityInterface $item */
+					foreach ($property as $item) {
+						$collectionItemData = $this->iterateVariables(
+							$item->entityVariables(),
+							$this->reflection->createReflection($item::class),
+						);
+						$collectionItemData[self::ENTITY_CLASS] = $item::class;
+
+						$preparedArray[$key][] = $collectionItemData;
+					}
+
+					continue 2;
+
+				} elseif ($attribute->getName() === \Spameri\Elastic\Mapping\STIEntity::class) {
 					if ($property === null) {
 						continue 2;
 					}
