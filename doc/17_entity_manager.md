@@ -405,6 +405,66 @@ $this->entityManager->remove($video);
 
 ---
 
+### clear() - Clear Entity Manager State
+
+Clears all cached entities from the Identity Map and resets ChangeSet tracking.
+
+#### Method Signature
+
+```php
+public function clear(): void
+```
+
+#### Example
+
+```php
+// After processing many entities in a long-running process
+foreach ($largeDataSet as $item) {
+    $video = $this->entityManager->find(Video::class, new ElasticId($item->id));
+    // Process video...
+}
+
+// Clear to free memory and reset state
+$this->entityManager->clear();
+
+// Now all entities will be freshly loaded from ElasticSearch
+$video = $this->entityManager->find(Video::class, new ElasticId('abc123'));
+// This is a new instance, not from cache
+```
+
+#### How It Works
+
+1. **Clears Identity Map** - All cached entity instances are removed
+2. **Clears ChangeSet** - All entity tracking is reset
+
+#### Use Cases
+
+- **Long-running processes** - CLI commands, queue workers, batch imports where memory accumulates
+- **Force fresh loads** - When you need to reload entities from database without cached state
+- **Testing** - Reset state between test cases
+- **Batch operations** - Clear between batches to prevent memory issues
+
+#### Important Notes
+
+- Does **not** affect persisted data in ElasticSearch
+- Does **not** dispatch any events
+- After clear, the same entity ID will return a **new object instance**
+- Any in-memory changes to entities that weren't persisted will be lost
+
+```php
+// Example: Same ID, different instances after clear
+$video1 = $this->entityManager->find(Video::class, $id);
+$video2 = $this->entityManager->find(Video::class, $id);
+$video1 === $video2; // true (same instance from Identity Map)
+
+$this->entityManager->clear();
+
+$video3 = $this->entityManager->find(Video::class, $id);
+$video1 === $video3; // false (new instance after clear)
+```
+
+---
+
 ## Identity Map Integration
 
 EntityManager automatically manages the Identity Map to ensure:

@@ -130,6 +130,69 @@ class ChangeSetTest extends \Tester\TestCase
 		\Tester\Assert::true(isset($this->changeSet->created[\ArrayObject::class]));
 	}
 
+
+	public function testClearRemovesAllTrackedEntities(): void
+	{
+		$entity1 = new \stdClass();
+		$entity2 = new \ArrayObject([]);
+		$entity3 = new \DateTime();
+
+		$this->changeSet->markExisting($entity1);
+		$this->changeSet->markExisting($entity2);
+		$this->changeSet->markExisting($entity3);
+
+		// Verify all are tracked
+		\Tester\Assert::true($this->changeSet->isExisting($entity1));
+		\Tester\Assert::true($this->changeSet->isExisting($entity2));
+		\Tester\Assert::true($this->changeSet->isExisting($entity3));
+
+		// Clear the change set
+		$this->changeSet->clear();
+
+		// All should be gone
+		\Tester\Assert::false($this->changeSet->isExisting($entity1));
+		\Tester\Assert::false($this->changeSet->isExisting($entity2));
+		\Tester\Assert::false($this->changeSet->isExisting($entity3));
+	}
+
+
+	public function testClearOnEmptyChangeSetDoesNotThrow(): void
+	{
+		// Should not throw any exceptions
+		$this->changeSet->clear();
+
+		\Tester\Assert::true(empty($this->changeSet->created));
+	}
+
+
+	public function testClearResetsCreatedArray(): void
+	{
+		$entity = new \stdClass();
+		$this->changeSet->markExisting($entity);
+
+		\Tester\Assert::false(empty($this->changeSet->created));
+
+		$this->changeSet->clear();
+
+		\Tester\Assert::true(empty($this->changeSet->created));
+	}
+
+
+	public function testEntitiesCanBeReMarkedAfterClear(): void
+	{
+		$entity = new \stdClass();
+
+		$this->changeSet->markExisting($entity);
+		\Tester\Assert::true($this->changeSet->isExisting($entity));
+
+		$this->changeSet->clear();
+		\Tester\Assert::false($this->changeSet->isExisting($entity));
+
+		// Can be marked again
+		$this->changeSet->markExisting($entity);
+		\Tester\Assert::true($this->changeSet->isExisting($entity));
+	}
+
 }
 
 (new ChangeSetTest())->run();
