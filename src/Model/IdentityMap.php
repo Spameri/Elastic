@@ -121,4 +121,13 @@ class IdentityMap
 		return \md5(\serialize($serializedArray));
 	}
 
+
+	public function clear(): void
+	{
+		$this->identityMap = [];
+		$this->persisted = [];
+		$this->creatingEntityList = [];
+		$this->uninitializedEntityList = [];
+	}
+
 }

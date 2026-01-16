@@ -26,4 +26,10 @@ class ChangeSet
 		return isset($this->created[$entity::class][\spl_object_hash($entity)]);
 	}
 
+
+	public function clear(): void
+	{
+		$this->created = [];
+	}
+
 }

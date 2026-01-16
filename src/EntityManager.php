@@ -233,4 +233,11 @@ readonly class EntityManager
 		return true;
 	}
 
+
+	public function clear(): void
+	{
+		$this->identityMap->clear();
+		$this->changeSet->clear();
+	}
+
 }
