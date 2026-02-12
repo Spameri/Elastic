@@ -245,6 +245,7 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 				} elseif (
 					isset(\class_implements($propertyTypeName)[\Spameri\Elastic\Entity\ElasticEntityInterface::class]) === true
 					&& \is_string($value) === true
+					&& $value !== ''
 				) {
 					if (isset($this->identityMap->creatingEntityList[$propertyTypeName][$value])) {
 						$propertyValue = eval("return (new class() extends $propertyTypeName {public function __construct(){}});");
