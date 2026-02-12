@@ -213,7 +213,11 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 			/** @var \GuzzleHttp\Psr7\Response $response */
 			$response = $context['response'];
 			$query = \array_pop($this->queries);
-			$decoded = \Nette\Utils\Json::decode($response->getBody()->getContents(), \JSON_OBJECT_AS_ARRAY);
+			$contents = $response->getBody()->getContents();
+			if ($contents === '') {
+				$contents = '{}';
+			}
+			$decoded = \Nette\Utils\Json::decode($contents, \JSON_OBJECT_AS_ARRAY);
 			$query['responseBody'] =
 				\Tracy\Dumper::toHtml(
 					$decoded,
