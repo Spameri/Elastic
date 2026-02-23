@@ -207,6 +207,7 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 						],
 					),
 				'requestBodyString' => $contents,
+				'startTime' => \microtime(true),
 			];
 
 		} elseif (isset($context['response']) === true) {
@@ -225,7 +226,7 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 						\Tracy\Dumper::DEPTH => 30,
 					],
 				);
-			$query['duration'] = $decoded['took'] ?? null;
+			$query['duration'] = (\microtime(true) - $query['startTime']) * 1000;
 
 		} else {
 			return;
