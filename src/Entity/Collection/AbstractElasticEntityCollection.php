@@ -111,6 +111,16 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 
 
 	/**
+	 * @param array<string> $ids
+	 */
+	public function setElasticIds(array $ids): void
+	{
+		$this->elasticIds = $ids;
+		$this->initialized = false;
+	}
+
+
+	/**
 	 * @return array<T>
 	 */
 	protected function collection(): array

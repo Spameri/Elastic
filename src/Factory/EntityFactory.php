@@ -153,21 +153,8 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 						$propertyValue = new $propertyTypeName($entityManager, $arguments['class']);
 						$this->changeSet->markExisting($propertyValue);
 
-						if ($value !== null) {
-							foreach ($value as $entityKey => $entityId) {
-								$collectionElasticEntity = $entityManager->find(
-									id: $entityId,
-									class: $arguments['class'],
-								);
-
-								if ($collectionElasticEntity === null) {
-									continue;
-								}
-
-								$propertyValue->add($collectionElasticEntity);
-
-								$this->changeSet->markExisting($collectionElasticEntity);
-							}
+						if ($value !== null && \is_array($value) && \count($value) > 0) {
+							$propertyValue->setElasticIds(\array_values($value));
 						}
 
 					} elseif (
@@ -175,21 +162,25 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 					) {
 						$propertyValue = new $propertyTypeName();
 						$this->changeSet->markExisting($propertyValue);
-						if ($value !== null) {
-							foreach ($value as $entityKey => $entity) {
-								$collectionEntity = new $entity[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS](
-									... $this->resolveProperties(
-										hit: $hit,
-										class: $entity[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS],
-										entityManager: $entityManager,
-										parentFieldName: $hitKey . '.' . $entityKey,
-									),
-								);
+						if ($value !== null && \is_array($value) && \count($value) > 0) {
+							$propertyValue->setInitializer(
+								function () use ($value, $hit, $hitKey, $entityManager, $propertyValue): void {
+									foreach ($value as $entityKey => $entity) {
+										$collectionEntity = new $entity[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS](
+											...$this->resolveProperties(
+												hit: $hit,
+												class: $entity[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS],
+												entityManager: $entityManager,
+												parentFieldName: $hitKey . '.' . $entityKey,
+											),
+										);
 
-								$propertyValue->add($collectionEntity);
+										$propertyValue->add($collectionEntity);
 
-								$this->changeSet->markExisting($collectionEntity);
-							}
+										$this->changeSet->markExisting($collectionEntity);
+									}
+								},
+							);
 						}
 
 					} elseif (

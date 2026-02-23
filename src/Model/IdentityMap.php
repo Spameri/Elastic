@@ -112,7 +112,7 @@ class IdentityMap
 			if ($item instanceof \Spameri\Elastic\Entity\ElasticEntityInterface) {
 				$serializedArray[$key] = $item->id()->value();
 			} elseif ($item instanceof \Spameri\Elastic\Entity\ElasticEntityCollectionInterface) {
-				$serializedArray[$key] = $item->keys();
+				$serializedArray[$key] = $item->initialized() ? $item->keys() : $item->elasticIds();
 			} elseif ($item instanceof \Spameri\Elastic\Entity\EntityCollectionInterface) {
 				$serializedArray[$key] = $item->keys();
 			}
