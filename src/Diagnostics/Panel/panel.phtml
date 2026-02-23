@@ -7,6 +7,20 @@ namespace Spameri\Elastic\Diagnostics\Panel;
 	#nette-debug .elasticSearchPanel-method { font-weight: bold; }
 
 	#nette-debug .elasticSearchPanel-error { font-size: xx-small; }
+
+	#nette-debug .elasticSearchPanel-copy {
+		cursor: pointer;
+		padding: 2px 6px;
+		font-size: 11px;
+		background: #eee;
+		border: 1px solid #ccc;
+		border-radius: 3px;
+		margin-left: 4px;
+	}
+
+	#nette-debug .elasticSearchPanel-copy:hover {
+		background: #ddd;
+	}
 </style>
 <h1>
 	Elastic queries:
@@ -40,10 +54,11 @@ namespace Spameri\Elastic\Diagnostics\Panel;
                 </td>
 
                 <td>
+                    <button class="elasticSearchPanel-copy" data-query-id="<?= $key ?>" title="Copy to clipboard">Copy</button>
                     <span class="tracy-toggle tracy-collapsed">
 						<span class="tracy-dump-object">Show</span>
 					</span>
-                    <div class="tracy-collapsed">
+                    <div class="tracy-collapsed" id="elasticSearchPanel-query-<?= $key ?>">
                         <?= $query['requestBodyString'] ?>
                     </div>
                 </td>
@@ -61,3 +76,15 @@ namespace Spameri\Elastic\Diagnostics\Panel;
 		</tbody>
 	</table>
 </div>
+<script>
+	document.querySelectorAll('.elasticSearchPanel-copy').forEach(function (button) {
+		button.addEventListener('click', function () {
+			var id = 'elasticSearchPanel-query-' + this.dataset.queryId;
+			var text = document.getElementById(id).textContent.trim();
+			navigator.clipboard.writeText(text).then(function () {
+				button.textContent = 'Copied!';
+				setTimeout(function () { button.textContent = 'Copy'; }, 1500);
+			});
+		});
+	});
+</script>
