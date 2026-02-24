@@ -34,8 +34,8 @@ namespace Spameri\Elastic\Diagnostics\Panel;
 		box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 	}
 
-	#nette-debug .elasticSearchPanel .tracy-toggle > .tracy-dump-object,
-	#tracy-debug .elasticSearchPanel .tracy-toggle > .tracy-dump-object {
+	#nette-debug .elasticSearchPanel .tracy-toggle,
+	#tracy-debug .elasticSearchPanel .tracy-toggle {
 		cursor: pointer !important;
 		display: inline-block !important;
 		padding: 4px 10px !important;
@@ -44,19 +44,26 @@ namespace Spameri\Elastic\Diagnostics\Panel;
 		border: 1px solid #bbb !important;
 		border-radius: 4px !important;
 		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
-		color: #333 !important;
+		color: #C22 !important;
+		font-weight: bold !important;
 	}
 
-	#nette-debug .elasticSearchPanel .tracy-toggle > .tracy-dump-object:hover,
-	#tracy-debug .elasticSearchPanel .tracy-toggle > .tracy-dump-object:hover {
+	#nette-debug .elasticSearchPanel .tracy-toggle:hover,
+	#tracy-debug .elasticSearchPanel .tracy-toggle:hover {
 		background: #e8e8e8 !important;
 		border-color: #aaa !important;
 	}
 
-	#nette-debug .elasticSearchPanel .tracy-toggle > .tracy-dump-object:active,
-	#tracy-debug .elasticSearchPanel .tracy-toggle > .tracy-dump-object:active {
+	#nette-debug .elasticSearchPanel .tracy-toggle:active,
+	#tracy-debug .elasticSearchPanel .tracy-toggle:active {
 		background: #ddd !important;
 		box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+	}
+
+	#nette-debug .elasticSearchPanel .tracy-toggle::after,
+	#tracy-debug .elasticSearchPanel .tracy-toggle::after {
+		opacity: 0.7 !important;
+		margin-left: 4px !important;
 	}
 </style>
 <h1>
