@@ -211,26 +211,21 @@ class Video extends \Spameri\Elastic\Entity\AbstractElasticEntity
 	public function __construct(
 		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
 
-		#[\Spameri\Elastic\Mapping\Entity(class: \SpameriTests\Elastic\Data\Entity\Video\Identification::class)]
+		// No #[Entity] needed - concrete class type is known from type hint
 		private \SpameriTests\Elastic\Data\Entity\Video\Identification $identification,
 
 		private \SpameriTests\Elastic\Data\Entity\Property\Name $name,
 
 		private \SpameriTests\Elastic\Data\Entity\Property\Year $year,
 
-		#[\Spameri\Elastic\Mapping\Entity(class: \SpameriTests\Elastic\Data\Entity\Video\Technical::class)]
 		private \SpameriTests\Elastic\Data\Entity\Video\Technical $technical,
 
-		#[\Spameri\Elastic\Mapping\Entity(class: \SpameriTests\Elastic\Data\Entity\Video\Story::class)]
 		private \SpameriTests\Elastic\Data\Entity\Video\Story $story,
 
-		#[\Spameri\Elastic\Mapping\Entity(class: \SpameriTests\Elastic\Data\Entity\Video\Details::class)]
 		private \SpameriTests\Elastic\Data\Entity\Video\Details $details,
 
-		#[\Spameri\Elastic\Mapping\Entity(class: \SpameriTests\Elastic\Data\Entity\Video\HighLights::class)]
 		private \SpameriTests\Elastic\Data\Entity\Video\HighLights $highLights,
 
-		#[\Spameri\Elastic\Mapping\Entity(class: \SpameriTests\Elastic\Data\Entity\Video\Connections::class)]
 		private \SpameriTests\Elastic\Data\Entity\Video\Connections $connections,
 
 		#[\Spameri\Elastic\Mapping\Collection]
