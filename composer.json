@@ -28,7 +28,7 @@
 		"ext-json": "*",
 		"ext-curl": "*",
 		"spameri/elastic-query": "dev-master",
-		"elasticsearch/elasticsearch": "^9.0.0",
+		"elasticsearch/elasticsearch": "^8.17.0 || ^9.0.0",
 		"guzzlehttp/guzzle": "^7.9",
 		"nette/di": "^3.1.10",
 		"nette/utils": "^4.0.0|^3.2.5",
