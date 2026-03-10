@@ -71,29 +71,51 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 
 	public function initialize(): void
 	{
-		if ($this->elasticIds) {
-			$entities = $this->entityManager->findBy(
-				new \Spameri\ElasticQuery\ElasticQuery(
-					new \Spameri\ElasticQuery\Query\QueryCollection(
-						null,
-						new \Spameri\ElasticQuery\Query\MustCollection(
-							new \Spameri\ElasticQuery\Query\Terms(
-								'_id',
-								$this->elasticIds,
-							),
-						),
+		$this->initialized = true;
+
+		if ( ! $this->elasticIds) {
+			return;
+		}
+
+		// Check IdentityMap for already-cached entities
+		$uncachedIds = [];
+		foreach ($this->elasticIds as $id) {
+			$cached = $this->entityManager->findCached($id, $this->entityClass);
+			if ($cached !== null) {
+				$this->collection[$cached->id()->value()] = $cached;
+			} else {
+				$uncachedIds[] = $id;
+			}
+		}
+
+		if (\count($uncachedIds) === 0) {
+			return;
+		}
+
+		$elasticQuery = new \Spameri\ElasticQuery\ElasticQuery(
+			new \Spameri\ElasticQuery\Query\QueryCollection(
+				null,
+				new \Spameri\ElasticQuery\Query\MustCollection(
+					new \Spameri\ElasticQuery\Query\Terms(
+						'_id',
+						$uncachedIds,
 					),
 				),
-				$this->entityClass,
-			);
+			),
+		);
+		$elasticQuery->options()->changeSize(\count($uncachedIds));
 
-			$this->initialized = true;
+		$entities = $this->entityManager->findBy(
+			$elasticQuery,
+			$this->entityClass,
+		);
 
-			foreach ($entities as $entity) {
-				$this->add($entity);
+		foreach ($entities as $entity) {
+			if ($entity->id() instanceof \Spameri\Elastic\Entity\Property\ElasticId) {
+				$this->collection[$entity->id()->value()] = $entity;
+			} else {
+				$this->collection[] = $entity;
 			}
-		} else {
-			$this->initialized = true;
 		}
 	}
 
@@ -107,6 +129,15 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	public function elasticIds(): array
 	{
 		return $this->elasticIds;
+	}
+
+
+	/**
+	 * @return class-string
+	 */
+	public function entityClass(): string
+	{
+		return $this->entityClass;
 	}
 
 
@@ -189,7 +220,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	public function count(): int
 	{
 		if ( ! $this->initialized) {
-			$this->initialize();
+			return \count($this->elasticIds);
 		}
 
 		return \count($this->collection);

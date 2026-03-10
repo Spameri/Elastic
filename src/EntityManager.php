@@ -234,6 +234,87 @@ readonly class EntityManager
 	}
 
 
+	/**
+	 * @template T of \Spameri\Elastic\Entity\AbstractElasticEntity
+	 * @param class-string<T> $class
+	 * @return T|null
+	 */
+	public function findCached(
+		string $id,
+		string $class,
+	): \Spameri\Elastic\Entity\AbstractElasticEntity|null
+	{
+		return $this->identityMap->get(
+			class: $class,
+			id: $id,
+		);
+	}
+
+
+	/**
+	 * Preloads related entities for all items in a collection to avoid N+1 queries.
+	 * Collects elastic IDs from uninitialized ElasticEntityCollection properties,
+	 * groups them by entity class, and loads each group in a single bulk query.
+	 *
+	 * @template T of \Spameri\Elastic\Entity\AbstractElasticEntity
+	 * @param \Spameri\Elastic\Entity\Collection\ElasticEntityCollection<T> $entities
+	 */
+	public function preloadRelations(
+		\Spameri\Elastic\Entity\Collection\ElasticEntityCollection $entities,
+	): void
+	{
+		/** @var array<class-string, array<string, true>> $idsByClass */
+		$idsByClass = [];
+
+		foreach ($entities as $entity) {
+			foreach ($entity->entityVariables() as $property) {
+				if (
+					$property instanceof \Spameri\Elastic\Entity\Collection\AbstractElasticEntityCollection
+					&& ! $property->initialized()
+					&& \count($property->elasticIds()) > 0
+				) {
+					$class = $property->entityClass();
+					foreach ($property->elasticIds() as $id) {
+						$idsByClass[$class][$id] = true;
+					}
+				}
+			}
+		}
+
+		foreach ($idsByClass as $class => $ids) {
+			$idsArray = \array_keys($ids);
+
+			// Skip IDs already in IdentityMap
+			$uncachedIds = [];
+			foreach ($idsArray as $id) {
+				if ($this->identityMap->get($class, $id) === null) {
+					$uncachedIds[] = $id;
+				}
+			}
+
+			if (\count($uncachedIds) === 0) {
+				continue;
+			}
+
+			$elasticQuery = new \Spameri\ElasticQuery\ElasticQuery(
+				new \Spameri\ElasticQuery\Query\QueryCollection(
+					null,
+					new \Spameri\ElasticQuery\Query\MustCollection(
+						new \Spameri\ElasticQuery\Query\Terms('_id', $uncachedIds),
+					),
+				),
+			);
+			$elasticQuery->options()->changeSize(\count($uncachedIds));
+
+			try {
+				$this->findBy($elasticQuery, $class);
+			} catch (\Spameri\Elastic\Exception\ElasticSearch $exception) {
+				\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
+			}
+		}
+	}
+
+
 	public function clear(): void
 	{
 		$this->identityMap->clear();
