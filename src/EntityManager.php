@@ -308,7 +308,7 @@ readonly class EntityManager
 
 			try {
 				$this->findBy($elasticQuery, $class);
-			} catch (\Spameri\Elastic\Exception\ElasticSearch $exception) {
+			} catch (\Throwable $exception) {
 				\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
 			}
 		}
