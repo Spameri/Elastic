@@ -24,11 +24,17 @@ readonly class Insert
 		bool $hasSti = false,
 	): string
 	{
-		if ($this->identityMap->isChanged($entity) === false) {
+		// Only check isChanged for entities with real IDs (updates)
+		// New entities (EmptyElasticId) should always be inserted
+		$hasRealId = ! $entity->id() instanceof \Spameri\Elastic\Entity\Property\EmptyElasticId;
+		if ($hasRealId && $this->identityMap->isChanged($entity) === false) {
 			return $entity->id()->value();
 		}
 
-		$this->identityMap->markInserted($entity);
+		// Only mark inserted for entities with real IDs (prevents collision on empty string key)
+		if ($hasRealId) {
+			$this->identityMap->markInserted($entity);
+		}
 
 		$entityArray = $this->prepareEntityArray->prepare($entity, $hasSti);
 		unset($entityArray['id']);

@@ -7,7 +7,6 @@ readonly class DeleteMultiple
 
 	public function __construct(
 		private \Spameri\Elastic\ClientProvider $clientProvider,
-		private \Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
 	)
 	{
 	}
@@ -57,10 +56,47 @@ readonly class DeleteMultiple
 				throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 			}
 
-			return $this->resultMapper->mapBulkResult($response);
+			// Manually create ResultBulk because ResultMapper::mapBulkResult has a bug
+			// (it calls mapStats() which expects 'hits' key that bulk responses don't have)
+			$bulkActions = [];
+			foreach ($response['items'] ?? [] as $item) {
+				$actionType = \array_key_first($item);
+				$action = $item[$actionType];
+				$shards = $action['_shards'] ?? ['total' => 0, 'successful' => 0, 'skipped' => 0, 'failed' => 0];
+				$bulkActions[] = new \Spameri\ElasticQuery\Response\Result\BulkAction(
+					action: $actionType,
+					index: $action['_index'],
+					type: $action['_type'] ?? '_doc',
+					id: $action['_id'],
+					version: $action['_version'] ?? 0,
+					result: $action['result'] ?? '',
+					shards: new \Spameri\ElasticQuery\Response\Shards(
+						$shards['total'] ?? 0,
+						$shards['successful'] ?? 0,
+						$shards['skipped'] ?? 0,
+						$shards['failed'] ?? 0,
+					),
+					status: $action['status'],
+					seqNo: $action['_seq_no'] ?? 0,
+					primaryTerm: $action['_primary_term'] ?? 0,
+				);
+			}
+
+			$bulkActionCollection = new \Spameri\ElasticQuery\Response\Result\BulkActionCollection(...$bulkActions);
+			$stats = new \Spameri\ElasticQuery\Response\Stats(
+				$response['took'] ?? 0,
+				$response['errors'] ?? false,
+				\count($response['items'] ?? []),
+			);
+
+			return new \Spameri\ElasticQuery\Response\ResultBulk($stats, $bulkActionCollection);
 		}
 
-		throw new \Spameri\Elastic\Exception\DocumentInsertFailed();
+		// Return empty result for empty collection instead of throwing
+		return new \Spameri\ElasticQuery\Response\ResultBulk(
+			new \Spameri\ElasticQuery\Response\Stats(0, false, 0),
+			new \Spameri\ElasticQuery\Response\Result\BulkActionCollection(),
+		);
 	}
 
 }
