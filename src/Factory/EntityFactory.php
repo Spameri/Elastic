@@ -243,10 +243,19 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 						$this->identityMap->uninitializedEntityList[$propertyTypeName][$value][$property->getName()][$hit->id()] = $class;
 
 					} else {
-						$propertyValue = $entityManager->find(
-							id: $value,
-							class: $propertyTypeName,
-						);
+						try {
+							$propertyValue = $entityManager->find(
+								id: $value,
+								class: $propertyTypeName,
+							);
+						} catch (\Spameri\Elastic\Exception\DocumentNotFound $e) {
+							if ($reflectionPropertyType->allowsNull()) {
+								$propertyValue = null;
+								$setNull = true;
+							} else {
+								throw $e;
+							}
+						}
 					}
 
 				} elseif ($this->container->getByType($propertyTypeName, false) !== null) {
