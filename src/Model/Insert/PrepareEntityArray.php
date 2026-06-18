@@ -111,7 +111,10 @@ class PrepareEntityArray
 
 					$preparedArray[$key][self::ENTITY_CLASS] = $property::class;
 
-					if ($this->identityMap->isChanged($property) === false) {
+					if (
+						$this->identityMap->isPersisting($property) === true
+						|| $this->identityMap->isChanged($property) === false
+					) {
 						$preparedArray[$key][self::ENTITY_ID] = $property->id()->value();
 
 					} else {
@@ -127,7 +130,10 @@ class PrepareEntityArray
 			}
 
 			if ($property instanceof \Spameri\Elastic\Entity\AbstractElasticEntity) {
-				if ($this->identityMap->isChanged($property) === false) {
+				if (
+					$this->identityMap->isPersisting($property) === true
+					|| $this->identityMap->isChanged($property) === false
+				) {
 					$preparedArray[$key] = $property->id()->value();
 
 				} else {
@@ -178,7 +184,10 @@ class PrepareEntityArray
 				} else {
 					/** @var \Spameri\Elastic\Entity\AbstractElasticEntity $item */
 					foreach ($property as $item) {
-						if ($this->identityMap->isChanged($item) === false) {
+						if (
+							$this->identityMap->isPersisting($item) === true
+							|| $this->identityMap->isChanged($item) === false
+						) {
 							$preparedArray[$key][] = $item->id()->value();
 
 						} else {
