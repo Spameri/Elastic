@@ -201,7 +201,7 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 				'uri' => $request->getUri()->getPath(),
 				'requestBody' =>
 					\Tracy\Dumper::toHtml(
-						\Nette\Utils\Json::decode($contents, \JSON_OBJECT_AS_ARRAY),
+						$this->decodeBody($contents),
 						[
 							\Tracy\Dumper::DEPTH => 30,
 						],
@@ -218,10 +218,9 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 			if ($contents === '') {
 				$contents = '{}';
 			}
-			$decoded = \Nette\Utils\Json::decode($contents, \JSON_OBJECT_AS_ARRAY);
 			$query['responseBody'] =
 				\Tracy\Dumper::toHtml(
-					$decoded,
+					$this->decodeBody($contents),
 					[
 						\Tracy\Dumper::DEPTH => 30,
 					],
@@ -233,6 +232,38 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 		}
 
 		$this->queries[] = $query;
+	}
+
+
+	/**
+	 * Bulk API bodies are NDJSON (one JSON document per line), not a single JSON document.
+	 * Diagnostics must never break the request itself, so anything undecodable is dumped
+	 * as the raw string instead of throwing.
+	 */
+	private function decodeBody(
+		string $contents,
+	): mixed
+	{
+		try {
+			return \Nette\Utils\Json::decode($contents, \JSON_OBJECT_AS_ARRAY);
+		} catch (\Nette\Utils\JsonException) {
+			// Not a single JSON document, try NDJSON below.
+		}
+
+		$documents = [];
+		foreach (\explode("\n", $contents) as $line) {
+			if (\trim($line) === '') {
+				continue;
+			}
+
+			try {
+				$documents[] = \Nette\Utils\Json::decode($line, \JSON_OBJECT_AS_ARRAY);
+			} catch (\Nette\Utils\JsonException) {
+				return $contents;
+			}
+		}
+
+		return $documents;
 	}
 
 
