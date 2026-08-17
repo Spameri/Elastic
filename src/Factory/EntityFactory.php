@@ -184,6 +184,34 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 						}
 
 					} elseif (
+						$attribute->getName() === \Spameri\Elastic\Mapping\ValueCollection::class
+					) {
+						/** @var array{class: class-string} $arguments */
+						$arguments = $attribute->getArguments();
+
+						// The mirror of PrepareEntityArray's ValueCollectionInterface
+						// branch, which writes value() for each member and so leaves a
+						// flat list of scalars in the document. Rebuilding one member
+						// per scalar is the whole of it; there are no nested properties
+						// to resolve, and looking for them under `field.*` is what this
+						// used to do by falling through to the tail below - producing an
+						// empty collection, silently, on every single read.
+						$propertyValue = new $propertyTypeName();
+
+						if (\is_array($value)) {
+							foreach ($value as $item) {
+								if ($item === null || $item === '') {
+									continue;
+								}
+
+								$collectionValue = new $arguments['class']($item);
+								$propertyValue->add($collectionValue);
+
+								$this->changeSet->markExisting($collectionValue);
+							}
+						}
+
+					} elseif (
 						$attribute->getName() === \Spameri\Elastic\Mapping\STIEntity::class
 					) {
 						$propertyValue = new $value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS](
