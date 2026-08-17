@@ -13,9 +13,24 @@ class Execute extends \SpameriTests\Elastic\AbstractTestCase
 	protected function setUp(): void
 	{
 		parent::setUp();
+
+		// Delete any existing index or alias with wildcard
+		/** @var \Spameri\Elastic\ClientProvider $clientProvider */
+		$clientProvider = $this->container->getByType(\Spameri\Elastic\ClientProvider::class);
+		try {
+			$clientProvider->client()->indices()->delete(['index' => \SpameriTests\Elastic\Config::INDEX_RESTORE . '*']);
+		} catch (\Throwable $e) {
+			// Ignore if index doesn't exist
+		}
+
+		\usleep(100000);
+
 		/** @var \Spameri\Elastic\Model\Indices\Create $create */
 		$create = $this->container->getByType(\Spameri\Elastic\Model\Indices\Create::class);
 		$create->execute(\SpameriTests\Elastic\Config::INDEX_RESTORE, []);
+
+		// Wait for index to be ready
+		\usleep(100000);
 	}
 
 
@@ -29,7 +44,7 @@ class Execute extends \SpameriTests\Elastic\AbstractTestCase
 		$id = new \Spameri\Elastic\Entity\Property\ElasticId('192461');
 		/** @var \Spameri\Elastic\Model\Get $get */
 		$get = $this->container->getByType(\Spameri\Elastic\Model\Get::class);
-		$result = $get->execute($id, \SpameriTests\Elastic\Config::INDEX_RESTORE, \SpameriTests\Elastic\Config::INDEX_RESTORE);
+		$result = $get->execute($id, \SpameriTests\Elastic\Config::INDEX_RESTORE);
 
 		\Tester\Assert::same($id->value(), $result->hit()->id());
 	}

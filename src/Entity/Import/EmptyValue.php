@@ -20,7 +20,7 @@ readonly class EmptyValue implements ValidationPropertyInterface
 
 	public function getValue(): null
 	{
-		return NULL;
+		return null;
 	}
 
 }

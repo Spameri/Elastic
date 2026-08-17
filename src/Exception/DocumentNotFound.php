@@ -7,7 +7,7 @@ class DocumentNotFound extends \Spameri\Elastic\Exception\AbstractElasticSearchE
 
 	public function __construct(
 		string $message,
-		\Spameri\ElasticQuery\ElasticQuery|null $elasticQuery = NULL,
+		\Spameri\ElasticQuery\ElasticQuery|null $elasticQuery = null,
 	)
 	{
 		$queryString = '';

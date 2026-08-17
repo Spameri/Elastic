@@ -7,6 +7,10 @@ interface IndexConfigInterface
 
 	public function provide(): \Spameri\ElasticQuery\Mapping\Settings;
 
+
+	/**
+	 * @return array<class-string>
+	 */
 	public function entityClass(): array;
 
 	public function indexName(): string;

@@ -8,6 +8,8 @@ class Reflection
 
 	/**
 	 * @throws \ReflectionException
+	 *
+	 * @return \ReflectionClass<\Spameri\Elastic\Entity\AbstractElasticEntity>
 	 */
 	public function createReflection(object|string $class): \ReflectionClass
 	{
@@ -16,6 +18,7 @@ class Reflection
 
 
 	/**
+	 * @param \ReflectionClass<\Spameri\Elastic\Entity\AbstractElasticEntity> $class
 	 * @return array<\ReflectionProperty>
 	 */
 	public function getProperties(\ReflectionClass $class): array

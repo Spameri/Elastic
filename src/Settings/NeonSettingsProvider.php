@@ -11,6 +11,8 @@ readonly class NeonSettingsProvider implements \Spameri\Elastic\SettingsProvider
 	public function __construct(
 		private string $host,
 		private int $port,
+		private string|null $username,
+		private string|null $password,
 		private array $headers = [],
 	)
 	{
@@ -22,6 +24,8 @@ readonly class NeonSettingsProvider implements \Spameri\Elastic\SettingsProvider
 		return new \Spameri\Elastic\Settings(
 			$this->host,
 			$this->port,
+			$this->username,
+			$this->password,
 			$this->headers,
 		);
 	}

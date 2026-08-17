@@ -1,6 +1,3 @@
-
-[![Build Status](https://travis-ci.org/Spameri/Elastic.svg?branch=master)](https://travis-ci.org/Spameri/Elastic)
-
 # ElasticSearch implementation in Nette framework
 Fetching data from ElasticSearch, filtering, aggregation and more.
 

@@ -5,10 +5,7 @@ namespace SpameriTests\Elastic\Data\Entity\Video\Story;
 class PlotSummary implements \Spameri\Elastic\Entity\ValueInterface
 {
 
-	/**
-	 * @var string
-	 */
-	private $value;
+	private string $value;
 
 
 	public function __construct(

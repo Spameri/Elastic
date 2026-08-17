@@ -11,6 +11,8 @@ readonly class Settings
 	public function __construct(
 		private string $host,
 		private int $port,
+		private string|null $username,
+		private string|null $password,
 		private array $headers,
 	)
 	{
@@ -26,6 +28,18 @@ readonly class Settings
 	public function port(): int
 	{
 		return $this->port;
+	}
+
+
+	public function username(): string|null
+	{
+		return $this->username;
+	}
+
+
+	public function password(): string|null
+	{
+		return $this->password;
 	}
 
 

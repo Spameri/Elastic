@@ -8,7 +8,7 @@ class Runtime implements \Spameri\Elastic\Entity\ValueInterface
 	/**
 	 * @var int|NULL
 	 */
-	private $value;
+	private ?int $value = null;
 
 
 	public function __construct(

@@ -2,13 +2,17 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Story;
 
+/**
+ * @template-covariant T of \SpameriTests\Elastic\Data\Entity\Video\Story\PlotSummary
+ * @template-implements \Spameri\Elastic\Entity\ValueCollectionInterface<T>
+ */
 class PlotSummaryCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
 	/**
 	 * @var array<\SpameriTests\Elastic\Data\Entity\Video\Story\PlotSummary>
 	 */
-	private $collection;
+	private array $collection;
 
 
 	public function __construct(
@@ -34,10 +38,13 @@ class PlotSummaryCollection implements \Spameri\Elastic\Entity\ValueCollectionIn
 	{
 		$first = \reset($this->collection);
 
-		return $first ?: NULL;
+		return $first ?: null;
 	}
 
 
+	/**
+	 * @return \ArrayIterator<int|string, \SpameriTests\Elastic\Data\Entity\Video\Story\PlotSummary>
+	 */
 	public function getIterator(): \ArrayIterator
 	{
 		return new \ArrayIterator($this->collection);

@@ -6,7 +6,7 @@ readonly class VersionProvider
 {
 
 	public function __construct(
-		private int $versionNumber = \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7,
+		private int $versionNumber = \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_8,
 	)
 	{
 	}

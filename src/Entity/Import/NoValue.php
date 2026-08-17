@@ -7,13 +7,13 @@ readonly class NoValue implements ValidationPropertyInterface
 
 	public function key(): null
 	{
-		return NULL;
+		return null;
 	}
 
 
 	public function getValue(): null
 	{
-		return NULL;
+		return null;
 	}
 
 }

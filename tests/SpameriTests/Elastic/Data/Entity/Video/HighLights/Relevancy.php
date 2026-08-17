@@ -5,21 +5,14 @@ namespace SpameriTests\Elastic\Data\Entity\Video\HighLights;
 class Relevancy implements \Spameri\Elastic\Entity\ValueInterface
 {
 
-	/**
-	 * @var int
-	 */
-	private $value;
-
-
 	public function __construct(
-		int $value,
+		private int $value,
 	)
 	{
 		if ($value < 0) {
 			throw new \InvalidArgumentException();
 		}
 
-		$this->value = $value;
 	}
 
 

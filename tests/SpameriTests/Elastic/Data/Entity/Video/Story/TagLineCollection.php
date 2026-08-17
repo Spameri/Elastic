@@ -2,13 +2,18 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Story;
 
+
+/**
+ * @template-covariant T of \SpameriTests\Elastic\Data\Entity\Video\Story\TagLine
+ * @template-implements \Spameri\Elastic\Entity\ValueCollectionInterface<T>
+ */
 class TagLineCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
 	/**
 	 * @var array<\SpameriTests\Elastic\Data\Entity\Video\Story\TagLine>
 	 */
-	private $collection;
+	private array $collection;
 
 
 	public function __construct(
@@ -31,7 +36,7 @@ class TagLineCollection implements \Spameri\Elastic\Entity\ValueCollectionInterf
 
 
 	/**
-	 * @return \ArrayIterator<\SpameriTests\Elastic\Data\Entity\Video\Story\TagLine>
+	 * @return \ArrayIterator<int|string, \SpameriTests\Elastic\Data\Entity\Video\Story\TagLine>
 	 */
 	public function getIterator(): \ArrayIterator
 	{

@@ -8,59 +8,59 @@ class Technical implements \Spameri\Elastic\Entity\EntityInterface
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Video\Technical\Camera|NULL
 	 */
-	private $camera;
+	private ?\SpameriTests\Elastic\Data\Entity\Video\Technical\Camera $camera = null;
 
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Video\Technical\Runtime|NULL
 	 */
-	private $runtime;
+	private ?\SpameriTests\Elastic\Data\Entity\Video\Technical\Runtime $runtime = null;
 
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Video\Technical\Color|NULL
 	 */
-	private $color;
+	private ?\SpameriTests\Elastic\Data\Entity\Video\Technical\Color $color = null;
 
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Video\Technical\Ratio|NULL
 	 */
-	private $ratio;
+	private ?\SpameriTests\Elastic\Data\Entity\Video\Technical\Ratio $ratio = null;
 
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Video\Technical\Laboratory|NULL
 	 */
-	private $laboratory;
+	private ?\SpameriTests\Elastic\Data\Entity\Video\Technical\Laboratory $laboratory = null;
 
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Video\Technical\FilmLength|NULL
 	 */
-	private $filmLength;
+	private ?\SpameriTests\Elastic\Data\Entity\Video\Technical\FilmLength $filmLength = null;
 
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Video\Technical\NegativeFormat|NULL
 	 */
-	private $negativeFormat;
+	private ?\SpameriTests\Elastic\Data\Entity\Video\Technical\NegativeFormat $negativeFormat = null;
 
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Video\Technical\CineProcess|NULL
 	 */
-	private $cineProcess;
+	private ?\SpameriTests\Elastic\Data\Entity\Video\Technical\CineProcess $cineProcess = null;
 
 	/**
 	 * @var \SpameriTests\Elastic\Data\Entity\Video\Technical\Printed|NULL
 	 */
-	private $printed;
+	private ?\SpameriTests\Elastic\Data\Entity\Video\Technical\Printed $printed = null;
 
 
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Video\Technical\Camera|null $camera = NULL,
-		\SpameriTests\Elastic\Data\Entity\Video\Technical\Runtime|null $runtime = NULL,
-		\SpameriTests\Elastic\Data\Entity\Video\Technical\Color|null $color = NULL,
-		\SpameriTests\Elastic\Data\Entity\Video\Technical\Ratio|null $ratio = NULL,
-		\SpameriTests\Elastic\Data\Entity\Video\Technical\Laboratory|null $laboratory = NULL,
-		\SpameriTests\Elastic\Data\Entity\Video\Technical\FilmLength|null $filmLength = NULL,
-		\SpameriTests\Elastic\Data\Entity\Video\Technical\NegativeFormat|null $negativeFormat = NULL,
-		\SpameriTests\Elastic\Data\Entity\Video\Technical\CineProcess|null $cineProcess = NULL,
-		\SpameriTests\Elastic\Data\Entity\Video\Technical\Printed|null $printed = NULL,
+		\SpameriTests\Elastic\Data\Entity\Video\Technical\Camera|null $camera = null,
+		\SpameriTests\Elastic\Data\Entity\Video\Technical\Runtime|null $runtime = null,
+		\SpameriTests\Elastic\Data\Entity\Video\Technical\Color|null $color = null,
+		\SpameriTests\Elastic\Data\Entity\Video\Technical\Ratio|null $ratio = null,
+		\SpameriTests\Elastic\Data\Entity\Video\Technical\Laboratory|null $laboratory = null,
+		\SpameriTests\Elastic\Data\Entity\Video\Technical\FilmLength|null $filmLength = null,
+		\SpameriTests\Elastic\Data\Entity\Video\Technical\NegativeFormat|null $negativeFormat = null,
+		\SpameriTests\Elastic\Data\Entity\Video\Technical\CineProcess|null $cineProcess = null,
+		\SpameriTests\Elastic\Data\Entity\Video\Technical\Printed|null $printed = null,
 	)
 	{
 		$this->camera = $camera;

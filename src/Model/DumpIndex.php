@@ -29,14 +29,9 @@ class DumpIndex
 	public function execute(
 		string $index,
 		string $filename,
-		string|null $type = NULL,
 	): void
 	{
-		if ( ! $type) {
-			$type = $index;
-		}
-
-		$continue = TRUE;
+		$continue = true;
 		$elasticQuery = new \Spameri\ElasticQuery\ElasticQuery();
 		$elasticQuery->options()->changeSize(5000);
 		$elasticQuery->options()->startScroll('10m');
@@ -48,7 +43,7 @@ class DumpIndex
 		\Nette\Utils\FileSystem::createDir(\dirname($filename));
 		while ($continue) {
 			$this->bulkData = '';
-			$result = $this->scroll->execute($elasticQuery, $index, $type);
+			$result = $this->scroll->execute($elasticQuery, $index);
 			if ($progressBar->getMaxSteps() === 0) {
 				$progressBar->start($result->stats()->total());
 			}
@@ -60,7 +55,7 @@ class DumpIndex
 			$progressBar->advance(5000);
 			$this->writeToFile($filename);
 			if ($result->stats()->total() <= $progressBar->getProgress()) {
-				$continue = FALSE;
+				$continue = false;
 			}
 		}
 
@@ -78,7 +73,6 @@ class DumpIndex
 		$bulkData = [
 			'index' => [
 				'_index' => $hit->index(),
-				'_type' => $hit->type(),
 				'_id' => $hit->id(),
 			],
 		];

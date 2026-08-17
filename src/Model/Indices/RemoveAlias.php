@@ -12,6 +12,9 @@ readonly class RemoveAlias
 	}
 
 
+	/**
+	 * @return array<mixed>
+	 */
 	public function execute(string $alias, string $index): array
 	{
 		try {
@@ -29,8 +32,7 @@ readonly class RemoveAlias
 							],
 						],
 					),
-					NULL,
-					NULL,
+					null,
 					[
 						'name' => $index,
 					],

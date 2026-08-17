@@ -2,13 +2,17 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Video\Story;
 
+/**
+ * @template-covariant T of \SpameriTests\Elastic\Data\Entity\Video\Story\KeyWord
+ * @template-implements \Spameri\Elastic\Entity\ValueCollectionInterface<T>
+ */
 class KeyWordCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
 	/**
 	 * @var array<\SpameriTests\Elastic\Data\Entity\Video\Story\KeyWord>
 	 */
-	private $collection;
+	private array $collection;
 
 
 	public function __construct(
@@ -30,6 +34,9 @@ class KeyWordCollection implements \Spameri\Elastic\Entity\ValueCollectionInterf
 	}
 
 
+	/**
+	 * @return \ArrayIterator<int|string, \SpameriTests\Elastic\Data\Entity\Video\Story\KeyWord>
+	 */
 	public function getIterator(): \ArrayIterator
 	{
 		return new \ArrayIterator($this->collection);

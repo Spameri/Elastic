@@ -1,0 +1,7 @@
+.git/
+vendor/
+tests/tmp/
+.idea/
+.vscode/
+*.log
+.phpcs-cache

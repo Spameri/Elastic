@@ -1,23 +1,32 @@
 name: Package CI
 
 on:
+  push:
+    branches:
+      - master
   pull_request:
 
 jobs:
-  checks:
-    name: Checks
+  tests:
+    name: PHP ${{ matrix.php }} - ${{ matrix.version }}
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        php: [ 8.2, 8.3 ]
+        php: [ '8.2', '8.5' ]
         version: [ lowest, standard ]
-        elastic: [ 8.12.0 ]
+        elastic: [ '9.2.2' ]
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: shivammathur/setup-php@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
+          extensions: json, curl
+          coverage: none
 
       - name: Configure sysctl limits
         run: |
@@ -30,27 +39,60 @@ jobs:
         uses: elastic/elastic-github-actions/elasticsearch@master
         with:
           stack-version: ${{ matrix.elastic }}
+          security-enabled: false
+          elasticsearch_options: action.destructive_requires_name=false
 
-      - if: matrix.version == 'lowest'
-        name: Composer lowest
+      - name: Install dependencies (lowest)
+        if: matrix.version == 'lowest'
         run: make composer-lowest
 
-      - if: matrix.version == 'standard'
-        name: Composer standard
+      - name: Install dependencies (standard)
+        if: matrix.version == 'standard'
         run: make composer
 
-      - if: matrix.php == '8.2'
-        name: Coding standard
+      - name: Run tests
+        run: make tests
+
+  code-quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: json, curl
+          coverage: none
+
+      - name: Install dependencies
+        run: make composer
+
+      - name: Check coding standards
         run: make cs
 
-      - if: matrix.php == '8.2' && matrix.version == 'lowest'
-        name: PHPStan lowest
-        run: make phpstan-lowest
-
-      - if: matrix.php == '8.2' && matrix.version == 'standard'
-        name: PHPStan standard
+      - name: Run PHPStan
         run: make phpstan
 
-      - name: Tests
-        run: make tests
+  phpstan-lowest:
+    name: PHPStan (lowest deps)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: json, curl
+          coverage: none
+
+      - name: Install dependencies
+        run: make composer-lowest
+
+      - name: Run PHPStan
+        run: make phpstan-lowest
 

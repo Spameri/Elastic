@@ -8,6 +8,12 @@ services:
 	prepareEntityArray:
 		factory: Spameri\Elastic\Model\Insert\PrepareEntityArray
 
+	identityMap:
+		factory: Spameri\Elastic\Model\IdentityMap
+
+	changeSet:
+		factory: Spameri\Elastic\Model\ChangeSet
+
 	versionProvider:
 		factory: Spameri\Elastic\Model\VersionProvider(%version%)
 
@@ -29,20 +35,14 @@ services:
 	delete:
 		factory: Spameri\Elastic\Model\Delete
 
+	dispatchEvents:
+		factory: Spameri\Elastic\EventManager\DispatchEvents
+
 	aggregate:
 		factory: Spameri\Elastic\Model\Aggregate
 
 	deleteMultiple:
 		factory: Spameri\Elastic\Model\DeleteMultiple
-
-	serviceLocator:
-		factory: Spameri\Elastic\Model\ServiceLocator
-
-	documentMigrateStatus:
-		factory: Spameri\Elastic\Model\TypeToNewIndex\DocumentMigrateStatus
-
-	migrate:
-		factory: Spameri\Elastic\Model\TypeToNewIndex\Migrate
 
 	modelDumpIndex:
 		factory: \Spameri\Elastic\Model\DumpIndex
@@ -153,12 +153,6 @@ services:
 			- kdyby.console.command
 			- console.command
 
-	typeToNewIndexCommand:
-		factory: Spameri\Elastic\Commands\TypeToNewIndex
-		tags:
-			- kdyby.console.command
-			- console.command
-
 	dumpIndexCommand:
 		factory: Spameri\Elastic\Commands\DumpIndex
 		tags:
@@ -221,8 +215,11 @@ services:
 	entityFactory:
 		factory: Spameri\Elastic\Factory\EntityFactory
 
-#	entityService:
-#		factory: Spameri\Elastic\Model\EntityService
+	entityManager:
+		factory: Spameri\Elastic\EntityManager
 
-	entityRepository:
-		factory: Spameri\Elastic\EntityRepository
+	eventManager:
+		factory: Spameri\Elastic\EventManager
+
+	reflection:
+		factory: Spameri\Elastic\Reflection\Reflection

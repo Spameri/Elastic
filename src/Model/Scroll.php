@@ -8,7 +8,6 @@ readonly class Scroll
 	public function __construct(
 		private \Spameri\Elastic\ClientProvider $clientProvider,
 		private \Spameri\ElasticQuery\Response\ResultMapper $resultMapper,
-		private VersionProvider $versionProvider,
 	)
 	{
 	}
@@ -20,26 +19,16 @@ readonly class Scroll
 	public function execute(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
 		string $index,
-		string|null $type = NULL,
 	): \Spameri\ElasticQuery\Response\ResultSearch
 	{
-		if ($type === NULL) {
-			$type = $index;
-		}
-
-		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
-			$type = NULL;
-		}
-
 		try {
-			if ($elasticQuery->options()->scrollId() === NULL) {
+			if ($elasticQuery->options()->scrollId() === null) {
 				$result = $this->clientProvider->client()->search(
 					(
 						new \Spameri\ElasticQuery\Document(
 							$index,
 							new \Spameri\ElasticQuery\Document\Body\Plain($elasticQuery->toArray()),
-							$type,
-							NULL,
+							null,
 							[
 								'scroll' => $elasticQuery->options()->scroll(),
 							],
@@ -62,10 +51,9 @@ readonly class Scroll
 				$result = $this->clientProvider->client()->scroll(
 					(
 						new \Spameri\ElasticQuery\Document(
-							NULL,
-							NULL,
-							NULL,
-							NULL,
+							null,
+							null,
+							null,
 							[
 								'scroll' => $elasticQuery->options()->scroll(),
 								'scroll_id' => $elasticQuery->options()->scrollId(),
@@ -93,10 +81,9 @@ readonly class Scroll
 			$this->clientProvider->client()->clearScroll(
 				(
 					new \Spameri\ElasticQuery\Document(
-						NULL,
-						NULL,
-						NULL,
-						NULL,
+						null,
+						null,
+						null,
 						[
 							'scroll_id' => $elasticQuery->options()->scrollId(),
 						],

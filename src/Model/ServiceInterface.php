@@ -20,6 +20,9 @@ interface ServiceInterface
 	): \Spameri\Elastic\Entity\ElasticEntityInterface;
 
 
+	/**
+	 * @return \Spameri\Elastic\Entity\ElasticEntityCollectionInterface<\Spameri\Elastic\Entity\AbstractElasticEntity>
+	 */
 	public function getAllBy(
 		\Spameri\ElasticQuery\ElasticQuery $elasticQuery,
 	): \Spameri\Elastic\Entity\ElasticEntityCollectionInterface;

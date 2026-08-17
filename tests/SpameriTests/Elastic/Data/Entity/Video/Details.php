@@ -6,37 +6,17 @@ class Details implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\Details\GenreCollection
+	 * @param \SpameriTests\Elastic\Data\Entity\Video\Details\GenreCollection<\SpameriTests\Elastic\Data\Entity\Video\Details\Genre> $genres
+	 * @param \SpameriTests\Elastic\Data\Entity\Video\Details\AliasCollectionElastic<\SpameriTests\Elastic\Data\Entity\Video\Details\Alias> $aliases
+	 * @param \SpameriTests\Elastic\Data\Entity\Video\Details\ReleaseCollectionElastic<\SpameriTests\Elastic\Data\Entity\Video\Details\Release> $releases
 	 */
-	private $genres;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\Details\AliasCollectionElastic
-	 */
-	private $alias;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\Details\ReleaseCollectionElastic
-	 */
-	private $release;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\Details\Ratings
-	 */
-	private $ratings;
-
-
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Video\Details\GenreCollection $genres,
-		\SpameriTests\Elastic\Data\Entity\Video\Details\AliasCollectionElastic $aliases,
-		\SpameriTests\Elastic\Data\Entity\Video\Details\ReleaseCollectionElastic $releases,
-		\SpameriTests\Elastic\Data\Entity\Video\Details\Ratings $ratings,
+		public \SpameriTests\Elastic\Data\Entity\Video\Details\GenreCollection $genres,
+		public \SpameriTests\Elastic\Data\Entity\Video\Details\AliasCollectionElastic $aliases,
+		public \SpameriTests\Elastic\Data\Entity\Video\Details\ReleaseCollectionElastic $releases,
+		public \SpameriTests\Elastic\Data\Entity\Video\Details\Ratings $ratings,
 	)
 	{
-		$this->genres = $genres;
-		$this->alias = $aliases;
-		$this->release = $releases;
-		$this->ratings = $ratings;
 	}
 
 
@@ -49,30 +29,6 @@ class Details implements \Spameri\Elastic\Entity\EntityInterface
 	public function key(): string
 	{
 		return (string) \spl_object_id($this);
-	}
-
-
-	public function genres(): Details\GenreCollection
-	{
-		return $this->genres;
-	}
-
-
-	public function alias(): Details\AliasCollectionElastic
-	{
-		return $this->alias;
-	}
-
-
-	public function release(): Details\ReleaseCollectionElastic
-	{
-		return $this->release;
-	}
-
-
-	public function ratings(): \SpameriTests\Elastic\Data\Entity\Video\Details\Ratings
-	{
-		return $this->ratings;
 	}
 
 }
