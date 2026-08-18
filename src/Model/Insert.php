@@ -15,6 +15,17 @@ readonly class Insert
 
 
 	/**
+	 * New entities are indexed in two phases so that nested entities can reference
+	 * the parent (and circular references do not loop):
+	 *
+	 *  1. the parent is indexed first (empty body, no refresh) to obtain its id and
+	 *     is marked as "persisting" in the identity map,
+	 *  2. its nested entities are persisted - a back-reference to the parent now
+	 *     resolves to the parent's id instead of re-persisting it,
+	 *  3. the parent is re-indexed with the full body.
+	 *
+	 * Entities that already have an id are indexed once, as before.
+	 *
 	 * @throws \Spameri\Elastic\Exception\ElasticSearch
 	 * @throws \Spameri\Elastic\Exception\DocumentInsertFailed
 	 */
@@ -31,14 +42,42 @@ readonly class Insert
 			return $entity->id()->value();
 		}
 
-		// Only mark inserted for entities with real IDs (prevents collision on empty string key)
-		if ($hasRealId) {
-			$this->identityMap->markInserted($entity);
+		// New entity: index it first (shallow body) to obtain its id before its
+		// nested entities are persisted, so circular references can resolve to it.
+		if ($hasRealId === false) {
+			$this->index($entity, $index, $this->shallowBody($entity), false);
 		}
 
-		$entityArray = $this->prepareEntityArray->prepare($entity, $hasSti);
-		unset($entityArray['id']);
+		$this->identityMap->markInserted($entity);
+		$this->identityMap->markPersisting($entity);
 
+		try {
+			$entityArray = $this->prepareEntityArray->prepare($entity, $hasSti);
+			unset($entityArray['id']);
+
+			$id = $this->index($entity, $index, $entityArray, true);
+			$this->identityMap->markInserted($entity);
+
+			return $id;
+
+		} finally {
+			$this->identityMap->unmarkPersisting($entity);
+		}
+	}
+
+
+	/**
+	 * @param array<mixed> $entityArray
+	 * @throws \Spameri\Elastic\Exception\ElasticSearch
+	 * @throws \Spameri\Elastic\Exception\DocumentInsertFailed
+	 */
+	private function index(
+		\Spameri\Elastic\Entity\AbstractElasticEntity $entity,
+		string $index,
+		array $entityArray,
+		bool $refresh,
+	): string
+	{
 		try {
 			$response = $this->clientProvider->client()->index(
 				(
@@ -55,27 +94,52 @@ readonly class Insert
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}
 
-		try {
-			$this->clientProvider->client()->indices()->refresh(
-				(
-					new \Spameri\ElasticQuery\Document($index)
+		if ($refresh === true) {
+			try {
+				$this->clientProvider->client()->indices()->refresh(
+					(
+						new \Spameri\ElasticQuery\Document($index)
+					)
+						->toArray(),
 				)
-					->toArray(),
-			)
-			;
+				;
 
-		} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {
-			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
+			} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {
+				throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
+			}
 		}
 
 		if (isset($response['result']) && ($response['result'] === 'created' || $response['result'] === 'updated')) {
 			$entity->id = new \Spameri\Elastic\Entity\Property\ElasticId($response['_id']);
-			$this->identityMap->markInserted($entity);
 
 			return $response['_id'];
 		}
 
 		throw new \Spameri\Elastic\Exception\DocumentInsertFailed();
+	}
+
+
+	/**
+	 * Minimal non-empty body for the first index of a new entity: every field
+	 * (except the id) nulled. The real values are written by the second index;
+	 * this only reserves the document so it gets a server generated id.
+	 *
+	 * @return array<string, null>
+	 */
+	private function shallowBody(
+		\Spameri\Elastic\Entity\AbstractElasticEntity $entity,
+	): array
+	{
+		$body = [];
+		foreach (\array_keys($entity->entityVariables()) as $key) {
+			if ($key === 'id') {
+				continue;
+			}
+
+			$body[$key] = null;
+		}
+
+		return $body;
 	}
 
 }

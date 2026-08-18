@@ -27,6 +27,13 @@ class IdentityMap
 	 */
 	public array $uninitializedEntityList = [];
 
+	/**
+	 * entities currently being persisted (write side) - used to break circular references
+	 *
+	 * @var array<class-string, array<string, bool>>
+	 */
+	public array $persistingList = [];
+
 
 	public function add(
 		\Spameri\Elastic\Entity\AbstractElasticEntity $entity,
@@ -90,6 +97,42 @@ class IdentityMap
 	}
 
 
+	public function markPersisting(
+		\Spameri\Elastic\Entity\AbstractElasticEntity $entity,
+	): void
+	{
+		if ($entity->id instanceof \Spameri\Elastic\Entity\Property\EmptyElasticId) {
+			return;
+		}
+
+		$this->persistingList[$entity::class][$entity->id()->value()] = true;
+	}
+
+
+	public function unmarkPersisting(
+		\Spameri\Elastic\Entity\AbstractElasticEntity $entity,
+	): void
+	{
+		if ($entity->id instanceof \Spameri\Elastic\Entity\Property\EmptyElasticId) {
+			return;
+		}
+
+		unset($this->persistingList[$entity::class][$entity->id()->value()]);
+	}
+
+
+	public function isPersisting(
+		\Spameri\Elastic\Entity\AbstractElasticEntity $entity,
+	): bool
+	{
+		if ($entity->id instanceof \Spameri\Elastic\Entity\Property\EmptyElasticId) {
+			return false;
+		}
+
+		return isset($this->persistingList[$entity::class][$entity->id()->value()]);
+	}
+
+
 	public function isChanged(
 		\Spameri\Elastic\Entity\AbstractElasticEntity $entity,
 	): bool
@@ -128,6 +171,7 @@ class IdentityMap
 		$this->persisted = [];
 		$this->creatingEntityList = [];
 		$this->uninitializedEntityList = [];
+		$this->persistingList = [];
 	}
 
 }
