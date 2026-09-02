@@ -8,6 +8,7 @@ readonly class EntityManager
 	public function __construct(
 		private \Spameri\Elastic\Model\Insert $insert,
 		private \Spameri\Elastic\Model\GetAllBy $getAllBy,
+		private \Spameri\Elastic\Model\Get $get,
 		private \Spameri\Elastic\Model\Delete $delete,
 		private \Spameri\Elastic\Model\EntitySettingsLocator $entitySettingsLocator,
 		private \Spameri\Elastic\EventManager $eventManager,
@@ -39,15 +40,21 @@ readonly class EntityManager
 			return $entity;
 		}
 
-		$elasticQuery = new \Spameri\ElasticQuery\ElasticQuery();
-		$elasticQuery->addMustQuery(
-			new \Spameri\ElasticQuery\Query\Term(
-				'_id',
-				$id,
-			),
-		);
+		$indexConfig = $this->entitySettingsLocator->locateByEntityClass($class);
 
-		return $this->findOneBy($elasticQuery, $class);
+		try {
+			$singleResult = $this->get->execute(
+				new \Spameri\Elastic\Entity\Property\ElasticId($id),
+				$indexConfig->indexName(),
+			);
+
+		} catch (\Spameri\Elastic\Exception\ElasticSearch $exception) {
+			\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
+
+			throw $exception;
+		}
+
+		return $this->entityFactory->create($singleResult->hit(), $class, $this);
 	}
 
 
