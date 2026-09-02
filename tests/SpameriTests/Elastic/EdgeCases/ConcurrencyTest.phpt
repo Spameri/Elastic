@@ -223,7 +223,7 @@ class ConcurrencyTest extends \SpameriTests\Elastic\AbstractTestCase
 		\usleep(300000);
 
 		// Verify deletions - use a fresh Get model to bypass identity map cache
-		// Get model throws ElasticSearch exception for 404
+		// Get model reports a document that is not there as DocumentNotFound
 		/** @var \Spameri\Elastic\Model\Get $get */
 		$get = $this->container->getByType(\Spameri\Elastic\Model\Get::class);
 
@@ -233,7 +233,7 @@ class ConcurrencyTest extends \SpameriTests\Elastic\AbstractTestCase
 					new \Spameri\Elastic\Entity\Property\ElasticId($id),
 					\SpameriTests\Elastic\Config::INDEX_EDGE_CASE,
 				),
-				\Spameri\Elastic\Exception\ElasticSearch::class,
+				\Spameri\Elastic\Exception\DocumentNotFound::class,
 			);
 		}
 

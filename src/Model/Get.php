@@ -14,6 +14,7 @@ readonly class Get
 
 
 	/**
+	 * @throws \Spameri\Elastic\Exception\DocumentNotFound when the document is not there
 	 * @throws \Spameri\Elastic\Exception\ElasticSearch
 	 */
 	public function execute(
@@ -33,6 +34,20 @@ readonly class Get
 					->toArray(),
 			)
 			;
+
+		} catch (\Elastic\Elasticsearch\Exception\ClientResponseException $exception) {
+			if ($exception->getCode() !== 404) {
+				throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
+			}
+
+			// The client reports a missing document as a 404 and throws. Saying so with the
+			// exception the library already has for it makes this path agree with every other one:
+			// findOneBy() raises DocumentNotFound for the same situation, and AbstractBaseService
+			// means to as well - its found() check cannot be reached today, because the blanket
+			// wrap below turns a 404 into ElasticSearch and its catch rethrows that first.
+			throw new \Spameri\Elastic\Exception\DocumentNotFound(
+				$index . ' with id ' . $id->value(),
+			);
 
 		} catch (\Elastic\Elasticsearch\Exception\ElasticsearchException $exception) {
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());

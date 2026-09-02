@@ -65,7 +65,14 @@ class GetTest extends \SpameriTests\Elastic\AbstractTestCase
 	}
 
 
-	public function testGetNonExistentThrowsException(): void
+	/**
+	 * The exception says which situation it is now.
+	 *
+	 * It used to be ElasticSearch, not by design but because every client exception was wrapped the
+	 * same way - so a missing document and an unreachable cluster arrived as the same type, while
+	 * findOneBy() raised DocumentNotFound for that very situation.
+	 */
+	public function testGetNonExistentThrowsDocumentNotFound(): void
 	{
 		/** @var \Spameri\Elastic\Model\Get $get */
 		$get = $this->container->getByType(\Spameri\Elastic\Model\Get::class);
@@ -75,7 +82,7 @@ class GetTest extends \SpameriTests\Elastic\AbstractTestCase
 				new \Spameri\Elastic\Entity\Property\ElasticId('nonexistent-id-12345'),
 				self::INDEX,
 			),
-			\Spameri\Elastic\Exception\ElasticSearch::class,
+			\Spameri\Elastic\Exception\DocumentNotFound::class,
 		);
 	}
 
@@ -126,13 +133,14 @@ class GetTest extends \SpameriTests\Elastic\AbstractTestCase
 		);
 		\Tester\Assert::same($idB, $resultB->hit()->id());
 
-		// Trying to get A's ID from B should fail
+		// Trying to get A's ID from B should fail - as a document that is not there, which is what
+		// it is, rather than as an unspecified Elasticsearch failure.
 		\Tester\Assert::exception(
 			static fn () => $get->execute(
 				new \Spameri\Elastic\Entity\Property\ElasticId($idA),
 				$indexB,
 			),
-			\Spameri\Elastic\Exception\ElasticSearch::class,
+			\Spameri\Elastic\Exception\DocumentNotFound::class,
 		);
 
 		// Cleanup extra indexes

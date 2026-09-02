@@ -219,7 +219,7 @@ class DeleteMultipleTest extends \SpameriTests\Elastic\AbstractTestCase
 			static function () use ($get, $id): void {
 				$get->execute(new \Spameri\Elastic\Entity\Property\ElasticId($id), self::INDEX);
 			},
-			\Spameri\Elastic\Exception\ElasticSearch::class,
+			\Spameri\Elastic\Exception\DocumentNotFound::class,
 		);
 	}
 

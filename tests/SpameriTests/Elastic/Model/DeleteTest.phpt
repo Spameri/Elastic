@@ -67,7 +67,7 @@ class DeleteTest extends \SpameriTests\Elastic\AbstractTestCase
 		// Verify it's gone
 		\Tester\Assert::exception(
 			static fn () => $get->execute(new \Spameri\Elastic\Entity\Property\ElasticId($id), self::INDEX),
-			\Spameri\Elastic\Exception\ElasticSearch::class,
+			\Spameri\Elastic\Exception\DocumentNotFound::class,
 		);
 	}
 
@@ -132,7 +132,7 @@ class DeleteTest extends \SpameriTests\Elastic\AbstractTestCase
 		// Entity A should be gone
 		\Tester\Assert::exception(
 			static fn () => $get->execute(new \Spameri\Elastic\Entity\Property\ElasticId($idA), $indexA),
-			\Spameri\Elastic\Exception\ElasticSearch::class,
+			\Spameri\Elastic\Exception\DocumentNotFound::class,
 		);
 
 		// Cleanup
