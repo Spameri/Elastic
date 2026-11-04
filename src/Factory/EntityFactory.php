@@ -69,6 +69,101 @@ readonly class EntityFactory implements \Spameri\Elastic\Factory\EntityFactoryIn
 	}
 
 	/**
+	 * Lists the documents a hit references as single entities, walking its properties the way
+	 * resolveProperties() does, so a page can fetch them in one query before it is hydrated.
+	 * Lazy collections are left out; their references load when they are first read.
+	 *
+	 * @return array<class-string, array<string, true>> referenced ids keyed by entity class
+	 * @throws \ReflectionException
+	 */
+	public function collectReferences(
+		\Spameri\ElasticQuery\Response\Result\Hit $hit,
+		string $class,
+		string|null $parentFieldName = null,
+	): array
+	{
+		$references = [];
+		$reflection = $this->reflection->createReflection($class);
+
+		foreach ($this->reflection->getProperties($reflection) as $property) {
+			$hitKey = $parentFieldName === null ? $property->getName() : $parentFieldName . '.' . $property->getName();
+			$reflectionPropertyType = $this->reflection->getPropertyType($property);
+			$value = $hit->getValue($hitKey);
+
+			if ($reflectionPropertyType === null || $value === null) {
+				continue;
+			}
+
+			$propertyTypeName = $reflectionPropertyType->getName();
+
+			if (
+				$propertyTypeName === \Spameri\Elastic\Entity\Property\Date::class
+				|| $propertyTypeName === \Spameri\Elastic\Entity\Property\DateTime::class
+			) {
+				continue;
+			}
+
+			if (\count($property->getAttributes()) > 0) {
+				foreach ($property->getAttributes() as $attribute) {
+					$nested = [];
+
+					if ($attribute->getName() === \Spameri\Elastic\Mapping\Entity::class) {
+						/** @var array{class: class-string} $arguments */
+						$arguments = $attribute->getArguments();
+
+						if ($arguments['class'] !== \Spameri\Elastic\Entity\Property\ElasticId::class) {
+							$nested = $this->collectReferences($hit, $propertyTypeName, $hitKey);
+						}
+
+					} elseif ($attribute->getName() === \Spameri\Elastic\Mapping\STIEntity::class) {
+						$nested = $this->collectReferences($hit, $propertyTypeName, $hitKey);
+
+					} elseif (
+						$attribute->getName() === \Spameri\Elastic\Mapping\STIElasticEntity::class
+						&& \is_array($value)
+						&& isset($value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS], $value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_ID])
+						&& \class_exists($value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS])
+					) {
+						$references[$value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS]][(string) $value[\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_ID]] = true;
+					}
+
+					$references = \array_replace_recursive($references, $nested);
+				}
+
+				continue;
+			}
+
+			if (\class_exists($propertyTypeName) === false || \enum_exists($propertyTypeName) === true) {
+				continue;
+			}
+
+			$interfaces = \class_implements($propertyTypeName);
+
+			if (isset($interfaces[\Spameri\Elastic\Entity\ValueInterface::class]) === true) {
+				continue;
+			}
+
+			if (isset($interfaces[\Spameri\Elastic\Entity\ElasticEntityInterface::class]) === true) {
+				if (\is_string($value) === true && $value !== '') {
+					$references[$propertyTypeName][$value] = true;
+				}
+
+				continue;
+			}
+
+			if ($this->container->getByType($propertyTypeName, false) === null) {
+				$references = \array_replace_recursive(
+					$references,
+					$this->collectReferences($hit, $propertyTypeName, $hitKey),
+				);
+			}
+		}
+
+		return $references;
+	}
+
+
+	/**
 	 * @return array<mixed>
 	 * @throws \ReflectionException
 	 */
