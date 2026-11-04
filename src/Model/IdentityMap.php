@@ -27,6 +27,13 @@ class IdentityMap
 	 */
 	public array $uninitializedEntityList = [];
 
+	/**
+	 * Referenced documents a page is already fetching in one batch, so nested pages don't fetch them again.
+	 *
+	 * @var array<class-string, array<string, true>>
+	 */
+	public array $preloadingList = [];
+
 
 	public function add(
 		\Spameri\Elastic\Entity\AbstractElasticEntity $entity,
@@ -128,6 +135,7 @@ class IdentityMap
 		$this->persisted = [];
 		$this->creatingEntityList = [];
 		$this->uninitializedEntityList = [];
+		$this->preloadingList = [];
 	}
 
 }
