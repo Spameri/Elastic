@@ -195,6 +195,46 @@ class PersistTest extends \SpameriTests\Elastic\AbstractTestCase
 	}
 
 
+	public function testSecondPersistOfSameInstanceFiresPostUpdate(): void
+	{
+		$createListener = new \SpameriTests\Elastic\Data\Listener\MockListener(
+			[\SpameriTests\Elastic\Data\Entity\Title::class],
+			\Spameri\Elastic\EventManager::POST_CREATE,
+		);
+		$updateListener = new \SpameriTests\Elastic\Data\Listener\MockListener(
+			[\SpameriTests\Elastic\Data\Entity\Title::class],
+			\Spameri\Elastic\EventManager::POST_UPDATE,
+		);
+
+		/** @var \Spameri\Elastic\EventManager $eventManager */
+		$eventManager = $this->container->getByType(\Spameri\Elastic\EventManager::class);
+		$eventManager->addListener(
+			\Spameri\Elastic\EventManager::POST_CREATE,
+			\SpameriTests\Elastic\Data\Entity\Title::class,
+			$createListener,
+		);
+		$eventManager->addListener(
+			\Spameri\Elastic\EventManager::POST_UPDATE,
+			\SpameriTests\Elastic\Data\Entity\Title::class,
+			$updateListener,
+		);
+
+		/** @var \Spameri\Elastic\EntityManager $entityManager */
+		$entityManager = $this->container->getByType(\Spameri\Elastic\EntityManager::class);
+
+		$entity = new \SpameriTests\Elastic\Data\Entity\Title(
+			new \Spameri\Elastic\Entity\Property\EmptyElasticId(),
+			null,
+		);
+
+		$entityManager->persist($entity);
+		$entityManager->persist($entity);
+
+		\Tester\Assert::same(1, $createListener->getCallCount());
+		\Tester\Assert::same(1, $updateListener->getCallCount());
+	}
+
+
 	public function testPersistReturnsIdString(): void
 	{
 		/** @var \Spameri\Elastic\EntityManager $entityManager */

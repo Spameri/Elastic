@@ -30,6 +30,9 @@ class Execute extends \SpameriTests\Elastic\AbstractTestCase
 		$restoreIndex->setOutput(new \Symfony\Component\Console\Output\ConsoleOutput());
 
 		$restoreIndex->execute(__DIR__ . '/dumpData.json', 500);
+
+		// The dump reads through search, which only sees documents after a refresh.
+		$clientProvider->client()->indices()->refresh(['index' => \SpameriTests\Elastic\Config::INDEX_DUMP]);
 	}
 
 
