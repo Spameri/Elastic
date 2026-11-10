@@ -5,6 +5,8 @@ namespace Spameri\Elastic;
 readonly class EntityManager
 {
 
+	private const PRELOAD_CHUNK_SIZE = 1000;
+
 	public function __construct(
 		private \Spameri\Elastic\Model\Insert $insert,
 		private \Spameri\Elastic\Model\GetAllBy $getAllBy,
@@ -124,6 +126,8 @@ readonly class EntityManager
 		\Spameri\ElasticQuery\Response\ResultSearch $resultSearch,
 	): \Spameri\Elastic\Entity\Collection\ElasticEntityCollection
 	{
+		$this->preloadReferences($class, $resultSearch);
+
 		$entities = [];
 		foreach ($resultSearch->hits() as $hit) {
 			try {
@@ -310,6 +314,89 @@ readonly class EntityManager
 				$this->findBy($elasticQuery, $class);
 			} catch (\Throwable $exception) {
 				\Tracy\Debugger::log($exception->getMessage(), \Tracy\ILogger::CRITICAL);
+			}
+		}
+	}
+
+
+	/**
+	 * Fetches every document the page's hits reference as a single entity in one query per
+	 * class, so hydrating them hits the identity map instead of running one find() per reference.
+	 * The preloaded pages preload their own references the same way, so a chain of references
+	 * costs one query per level. Ids already being preloaded further up are skipped, which ends
+	 * reference cycles.
+	 *
+	 * @param class-string $class
+	 */
+	private function preloadReferences(
+		string $class,
+		\Spameri\ElasticQuery\Response\ResultSearch $resultSearch,
+	): void
+	{
+		/** @var array<class-string, array<string, true>> $idsByClass */
+		$idsByClass = [];
+
+		foreach ($resultSearch->hits() as $hit) {
+			$hitClass = $hit->getValue(\Spameri\Elastic\Model\Insert\PrepareEntityArray::ENTITY_CLASS) ?? $class;
+			$idsByClass = \array_replace_recursive(
+				$idsByClass,
+				$this->entityFactory->collectReferences($hit, $hitClass),
+			);
+		}
+
+		foreach ($idsByClass as $referencedClass => $ids) {
+			$idsToLoad = [];
+
+			foreach (\array_keys($ids) as $id) {
+				$id = (string) $id;
+
+				if (
+					$this->identityMap->get($referencedClass, $id) === null
+					&& isset($this->identityMap->preloadingList[$referencedClass][$id]) === false
+					&& isset($this->identityMap->creatingEntityList[$referencedClass][$id]) === false
+				) {
+					$idsToLoad[] = $id;
+				}
+			}
+
+			foreach (\array_chunk($idsToLoad, self::PRELOAD_CHUNK_SIZE) as $chunk) {
+				$this->preloadChunk($referencedClass, $chunk);
+			}
+		}
+	}
+
+
+	/**
+	 * A failed preload is not fatal: whatever it did not load is still fetched one by one with
+	 * find() while hydrating, exactly as without preloading.
+	 *
+	 * @param class-string $class
+	 * @param list<string> $ids
+	 */
+	private function preloadChunk(
+		string $class,
+		array $ids,
+	): void
+	{
+		foreach ($ids as $id) {
+			$this->identityMap->preloadingList[$class][$id] = true;
+		}
+
+		$elasticQuery = new \Spameri\ElasticQuery\ElasticQuery();
+		$elasticQuery->addMustQuery(
+			new \Spameri\ElasticQuery\Query\Terms('_id', $ids),
+		);
+		$elasticQuery->options()->changeSize(\count($ids));
+
+		try {
+			$this->findBy($elasticQuery, $class);
+
+		} catch (\Spameri\Elastic\Exception\ElasticSearch) {
+			// findBy() has logged it; hydration falls back to find().
+
+		} finally {
+			foreach ($ids as $id) {
+				unset($this->identityMap->preloadingList[$class][$id]);
 			}
 		}
 	}
