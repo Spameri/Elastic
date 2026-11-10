@@ -118,7 +118,6 @@
 	<rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInClosureUse"/>
 	<rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInDeclaration"/>
 	<rule ref="SlevomatCodingStandard.Classes.RequireConstructorPropertyPromotion"/>
-	<rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint"/>
 	<rule ref="SlevomatCodingStandard.Commenting.EmptyComment"/>
 
 </ruleset>

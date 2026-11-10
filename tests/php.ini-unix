@@ -1,5 +1,4 @@
 extension=curl.so
-extension=json.so
 extension=iconv.so
 extension=tokenizer.so
 

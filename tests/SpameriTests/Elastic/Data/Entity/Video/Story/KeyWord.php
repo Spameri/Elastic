@@ -5,14 +5,8 @@ namespace SpameriTests\Elastic\Data\Entity\Video\Story;
 class KeyWord implements \Spameri\Elastic\Entity\ValueInterface
 {
 
-	/**
-	 * @var string
-	 */
-	private $value;
-
-
 	public function __construct(
-		string $value,
+		private string $value,
 	)
 	{
 		if ($value === '') {
@@ -22,7 +16,6 @@ class KeyWord implements \Spameri\Elastic\Entity\ValueInterface
 			throw new \InvalidArgumentException();
 		}
 
-		$this->value = $value;
 	}
 
 

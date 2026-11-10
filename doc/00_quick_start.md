@@ -1,8 +1,11 @@
 # Quick Start
 
+This guide walks you through setting up Spameri/Elastic and creating your first searchable entity.
+
 ## 1. Install
 
-Use composer to install this library.
+Use composer to install this library:
+
 ```bash
 composer require spameri/elastic
 ```
@@ -11,449 +14,454 @@ composer require spameri/elastic
 
 ## 2. Configure
 
-You need to set up few things first, before you can dive into ElasticSearch.
+### I. Register Extension
 
-### I. Register extension
+In your configuration neon file, add the extension:
 
-In your configuration neon file you need to add these lines to `extension:` section.
-
-```yaml
+```neon
 extensions:
-	spameriElasticSearch: \Spameri\Elastic\DI\SpameriElasticSearchExtension
+    spameriElasticSearch: \Spameri\Elastic\DI\SpameriElasticSearchExtension
 ```
 
-Optionaly you need some Symfony Console implementation ie:
+Optionally add a Symfony Console implementation for CLI commands:
 
-`````yaml
+```neon
 extensions:
-	console: Kdyby\Console\DI\ConsoleExtension
-`````
+    console: Contributte\Console\DI\ConsoleExtension
+```
 
-### II. Configure
+### II. Configure ElasticSearch Connection
 
-Now you need to tell library where is ElasticSearch running. Default values are **localhost**
-and port **9200**. That means if you are running ElasticSearch locally with default port, no
-need to configure anything. 
+Tell the library where ElasticSearch is running. Default values are **localhost:9200**.
 
-```yaml
+```neon
 spameriElasticSearch:
-	host: 192.168.0.14
-	port: 9200
-```
-
-### III. Configure Entity
-
-Next step is to configure your first entity. In this example, entity is for e-shop product. 
-
-In neon configuration you need just index name. In this example it is just under parameters.elasticsSearch key, but can be anywhere.
-
-```yaml
-parameters:
-	elasticSearch:
-		SimpleProductIndex: spameri_simple_product
+    host: 127.0.0.1
+    port: 9200
+    debug: true  # Enable Tracy debug panel
+    version: 8   # ElasticSearch version
 ```
 
 ---
 
-## 3. Create entity class
+## 3. Create Entity Class
 
-Mainly you need entity class, which implements \Spameri\Elastic\Entity\ElasticEntityInterface interface.
+Create an entity that extends `AbstractElasticEntity`:
+
 ```php
 <?php declare(strict_types = 1);
 
-class SimpleProduct implements \Spameri\Elastic\Entity\ElasticEntityInterface
+namespace App\Model\Entity;
+
+class Product extends \Spameri\Elastic\Entity\AbstractElasticEntity
 {
-	
-	public function __construct(
-		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
-		int $databaseId,
-		string $name,
-		?string $content,
-		string $alias,
-		string $image,
-		float $price,
-		string $availability,
-		array $tags,
-		array $categories
-	)
-	{
-		// ...
-	}
-	
+    public function __construct(
+        \Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
+        public readonly int $databaseId,
+        public readonly string $name,
+        public readonly ?string $description,
+        public readonly float $price,
+        public readonly string $availability,
+    ) {
+        parent::__construct($id);
+    }
 }
 ```
 
-And then implement two methods. Method id is quite clear :) and entityVariables method returns all the properties you want inserted to Elastic.
-
-```php
-public function id(): \Spameri\Elastic\Entity\Property\ElasticIdInterface
-{
-	return $this->id;
-}
-
-
-public function entityVariables(): array
-{
-	return \get_object_vars($this);
-}
-```
-
-To build entity from Elasticsearch and not use black magic🪄 you have to explicitly make factory class for that entity. And from hit object which represents result from Elasticsearch you have to extract all parameters. No magic, typed 🎖️
-
-### Factory
-````php
-class SimpleProductFactory implements \Spameri\Elastic\Factory\EntityFactoryInterface
-{
-
-	public function create(\Spameri\ElasticQuery\Response\Result\Hit $hit) : \Generator
-	{
-		yield new \App\ProductModule\Entity\SimpleProduct(
-			new \Spameri\Elastic\Entity\Property\ElasticId($hit->id()),
-			$hit->getValue('databaseId'),
-			$hit->getValue('name'),
-			$hit->getValue('content'),
-			$hit->getValue('alias'),
-			$hit->getValue('image'),
-			$hit->getValue('price'),
-			$hit->getValue('availability'),
-			$hit->getValue('tags'),
-			$hit->getValue('categories')
-		);
-	}
-
-}
-````
-
-In collection factory you need to specify our entity.
-
-### CollectionFactory
-````php
-class SimpleProductCollectionFactory implements \Spameri\Elastic\Factory\CollectionFactoryInterface
-{
-
-	public function create(
-		\Spameri\Elastic\Model\ServiceInterface $service,
-        array $elasticIds = [],
-        \Spameri\Elastic\Entity\ElasticEntityInterface ... $entityCollection
-	) : \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
-	{
-		return new \App\ProductModule\Entity\ProductCollection($service, $elasticIds, ... $entityCollection);
-	}
-
-}
-````
+**Key Points:**
+- Extend `AbstractElasticEntity` (implements `ElasticEntityInterface`)
+- First constructor parameter must be `ElasticIdInterface`
+- Use `readonly` properties for immutability
+- The `entityVariables()` method is inherited and returns all properties automatically
 
 ---
 
-## 4. Index Configuring
-````php
-class SimpleProductConfig implements \Spameri\Elastic\Settings\IndexConfigInterface
-{
-	public function __construct(
-		string $indexName
-	)
-	{
-		$this->indexName = $indexName;
-	}
-}
-````
+## 4. Create Index Configuration
 
-`public function provide(): \Spameri\ElasticQuery\Mapping\Settings`
-
-````php
-$settings = new \Spameri\ElasticQuery\Mapping\Settings($this->indexName);
-$czechDictionary = new \Spameri\ElasticQuery\Mapping\Analyzer\Custom\CzechDictionary();
-$settings->addAnalyzer($czechDictionary);
-
-$lowerCase = new \Spameri\ElasticQuery\Mapping\Analyzer\Custom\Lowercase();
-$settings->addAnalyzer($lowerCase);
-````
-
-````php
-$settings->addMappingField(
-	new \Spameri\ElasticQuery\Mapping\Settings\Mapping\Field(
-		'databaseId',
-		\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_KEYWORD
-	)
-);
-$settings->addMappingField(
-	new \Spameri\ElasticQuery\Mapping\Settings\Mapping\Field(
-		'name',
-		\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_TEXT,
-		$czechDictionary
-	)
-);
-$settings->addMappingField(
-	new \Spameri\ElasticQuery\Mapping\Settings\Mapping\Field(
-		'content',
-		\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_TEXT,
-		$czechDictionary
-	)
-);
-````
-
-
-````php
-$settings->addMappingField(
-	new \Spameri\ElasticQuery\Mapping\Settings\Mapping\Field(
-		'tags',
-		\Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_TEXT,
-		$lowerCase
-	)
-);
-````
-
-
-## 5. Export data to ElasticSearch
-
-````php
-class ExportToElastic extends \Spameri\Elastic\Import\Run
-{
-
-	public function __construct(
-		string $logDir = 'log',
-		\Symfony\Component\Console\Output\ConsoleOutput $output,
-		\Spameri\Elastic\Import\Run\NullLoggerHandler $loggerHandler,
-		\Spameri\Elastic\Import\Lock\NullLock $lock,
-		\Spameri\Elastic\Import\RunHandler\NullHandler $runHandler,
-
-		\App\ProductModule\Model\ExportToElastic\DataProvider $dataProvider,
-		\App\ProductModule\Model\ExportToElastic\PrepareImportData $prepareImportData,
-		\App\ProductModule\Model\ExportToElastic\DataImport $dataImport,
-
-		\Spameri\Elastic\Import\AfterImport\NullAfterImport $afterImport
-	)
-	{
-		parent::__construct($logDir, $output, $loggerHandler, $lock, $runHandler, $dataProvider, $prepareImportData, $dataImport, $afterImport);
-	}
-
-}
-````
-
-
-````php
-class DataProvider implements \Spameri\Elastic\Import\DataProviderInterface
-{
-	public function provide(\Spameri\Elastic\Import\Run\Options $options): \Generator
-	{
-		$query = $this->connection->select('*')->from('table');
-		
-		while ($hasResults) {
-			$items = $query->fetchAll($offset, $limit);
-
-			yield from $items;
-
-			if ( ! \count($items)) {
-				$hasResults = FALSE;
-
-			} else {
-				$offset += $limit;
-			}
-		}
-	}
-}	
-````
-
-
-````php
-
-class PrepareImportData implements \Spameri\Elastic\Import\PrepareImportDataInterface
-{
-
-	public function prepare($entityData): \Spameri\Elastic\Entity\AbstractImport
-	{
-		$imageSrc = '//via.placeholder.com/150x150';
-		$elasticId = NULL;
-		$tags = [];
-		$categories = [];
-		return new \App\ProductModule\Entity\SimpleProduct(
-			$elasticId,
-			$entityData['id'],
-			$entityData['name'],
-			$entityData['content_description'],
-			$entityData['alias'],
-			$imageSrc,
-			$entityData['amount'],
-			$entityData['availability_id'] === 1 ? 'Skladem' : 'Nedostupné',
-			$tags,
-			$categories
-		);
-	}
-
-}
-````
-
-````php
-class DataImport implements \Spameri\Elastic\Import\DataImportInterface
-{
-
-	/**
-	 * @param \App\ProductModule\Entity\SimpleProduct $entity
-	 */
-	public function import(
-		\Spameri\Elastic\Entity\AbstractImport $entity
-	): \Spameri\Elastic\Import\ResponseInterface
-	{
-		$id = $this->productService->insert($entity);
-
-		return new \Spameri\Elastic\Import\Response\SimpleResponse(
-			$id,
-			$entity
-		);
-	}
-
-}
-````
-
-````php
-$options = new \Spameri\Elastic\Import\Run\Options(600);
-
-// Clear index
-try {
-	$this->delete->execute($this->simpleProductConfig->provide()->indexName());
-} catch (\Spameri\Elastic\Exception\AbstractElasticSearchException $exception) {}
-
-// Create index
-$this->create->execute(
-	$this->simpleProductConfig->provide()->indexName(),
-	$this->simpleProductConfig->provide()->toArray()
-);
-
-// Export
-$this->exportToElastic->execute($options);
-````
-
-## 6. Presenter, Form, Template
-````php
-class SimpleProductListPresenter extends \App\Presenter\BasePresenter
-{
-	
-	public function renderDefault($queryString): void
-	{
-		$query = $this->buildQuery($queryString);
-
-		try {
-			$products = $this->productService->getAllBy($query);
-
-		} catch (\Spameri\Elastic\Exception\AbstractElasticSearchException $exception) {
-			$products = [];
-		}
-
-		$this->getTemplate()->add(
-			'products',
-			$products
-		);
-		$this->getTemplate()->add(
-			'queryString',
-			$queryString
-		);
-	}
-
-}
-````
-
-````php
-public function createComponentSearchForm() :\Nette\Application\UI\Form
-{
-	$form = new \Nette\Application\UI\Form();
-	$form->addText('queryString', 'query')
-		->setAttribute('class', 'inp-text suggest')
-	;
-
-	$form->addSubmit('search', 'Search');
-
-	$form->onSuccess[] = function () use ($form) {
-		$this->redirect(
-			301,
-			':Product:SimpleProductList:default',
-			[
-				'queryString' => $form->getValues()->queryString,
-			]
-		);
-	};
-
-	return $form;
-}
-````
-
-````php
-{control searchForm}
-<h2>You have searched: {$queryString}</h2>
-
-<div class="product-list products-list-full">
-	<ul class="reset products full-products">
-	{foreach $products as $product}
-		<li>
-			<div class="spc">
-				<a href="//benu.cz/{$product->getAlias()}" class="detail" style="height: 321px">
-					<h2 class="title">
-						<span class="img">
-							<img class="lazy lazy-loaded" src="{$product->getImage()}" width="180" height="156" alt="{$product->getName()}">
-						</span>
-						<span class="name" style="height: 48px;">{$product->getName()|truncate:40}</span>
-					</h2>
-````
-
-## 7. Search
+Create a mapping class that defines how the entity is stored in ElasticSearch:
 
 ```php
-public function buildQuery(?string $queryString): \Spameri\ElasticQuery\ElasticQuery
+<?php declare(strict_types = 1);
+
+namespace App\Model\Settings;
+
+class ProductMapping implements \Spameri\Elastic\Settings\IndexConfigInterface
 {
-	$query = new \Spameri\ElasticQuery\ElasticQuery();
-	$query->addShouldQuery(
-		new \Spameri\ElasticQuery\Query\ElasticMatch(
-			'name',
-			$queryString
-		)
-	);
-	
-	return $query;
+    public function __construct(
+        private readonly string $indexName = 'product',
+    ) {}
+
+    public function provide(): \Spameri\ElasticQuery\Mapping\Settings
+    {
+        $settings = new \Spameri\ElasticQuery\Mapping\Settings($this->indexName);
+
+        $settings->addMappingField(
+            new \Spameri\ElasticQuery\Mapping\Settings\Mapping\Field(
+                'databaseId',
+                \Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_KEYWORD
+            )
+        );
+
+        $settings->addMappingField(
+            new \Spameri\ElasticQuery\Mapping\Settings\Mapping\Field(
+                'name',
+                \Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_TEXT
+            )
+        );
+
+        $settings->addMappingField(
+            new \Spameri\ElasticQuery\Mapping\Settings\Mapping\Field(
+                'description',
+                \Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_TEXT
+            )
+        );
+
+        $settings->addMappingField(
+            new \Spameri\ElasticQuery\Mapping\Settings\Mapping\Field(
+                'price',
+                \Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_FLOAT
+            )
+        );
+
+        $settings->addMappingField(
+            new \Spameri\ElasticQuery\Mapping\Settings\Mapping\Field(
+                'availability',
+                \Spameri\Elastic\Model\ValidateMapping\AllowedValues::TYPE_KEYWORD
+            )
+        );
+
+        return $settings;
+    }
+
+    public function entityClass(): array
+    {
+        return [\App\Model\Entity\Product::class];
+    }
+
+    public function indexName(): string
+    {
+        return $this->indexName;
+    }
 }
 ```
 
-````php
-$products = $this->productService->getAllBy($query);
-````
+Register it in your configuration:
 
-## 8. Fine Tuning
+```neon
+services:
+    - App\Model\Settings\ProductMapping
+```
 
-````php
-$subQuery = new \Spameri\ElasticQuery\Query\QueryCollection();
-````
+---
+
+## 5. Create the Index
+
+Run the console command to create the index:
+
+```bash
+php bin/console spameri:elastic:initialize-index
+```
+
+Or for a specific index:
+
+```bash
+php bin/console spameri:elastic:initialize-index product
+```
+
+---
+
+## 6. Save Data
+
+Use the `EntityManager` to persist entities:
 
 ```php
-$subQuery->addShouldQuery(
-	new \Spameri\ElasticQuery\Query\ElasticMatch(
-		'name',
-		$queryString,
-		3,
-		\Spameri\ElasticQuery\Query\Match\Operator::OR,
-		new \Spameri\ElasticQuery\Query\Match\Fuzziness(\Spameri\ElasticQuery\Query\Match\Fuzziness::AUTO)
-	)
-);
-$subQuery->addShouldQuery(
-	new \Spameri\ElasticQuery\Query\WildCard(
-		'name',
-		$queryString . '*',
-		1
-	)
-);
-$subQuery->addShouldQuery(
-	new \Spameri\ElasticQuery\Query\MatchPhrase(
-		'name',
-		$queryString,
-		1
-	)
-);
-$subQuery->addShouldQuery(
-	new \Spameri\ElasticQuery\Query\ElasticMatch(
-		'content',
-		$queryString,
-		1,
-		\Spameri\ElasticQuery\Query\Match\Operator:: OR,
-		new \Spameri\ElasticQuery\Query\Match\Fuzziness(\Spameri\ElasticQuery\Query\Match\Fuzziness::AUTO)
-	)
+<?php declare(strict_types = 1);
+
+namespace App\Service;
+
+class ProductService
+{
+    public function __construct(
+        private readonly \Spameri\Elastic\EntityManager $entityManager,
+    ) {}
+
+    public function createProduct(
+        int $databaseId,
+        string $name,
+        ?string $description,
+        float $price,
+        string $availability,
+    ): \App\Model\Entity\Product
+    {
+        $product = new \App\Model\Entity\Product(
+            new \Spameri\Elastic\Entity\Property\EmptyElasticId(),
+            $databaseId,
+            $name,
+            $description,
+            $price,
+            $availability,
+        );
+
+        $this->entityManager->persist($product);
+
+        return $product;
+    }
+}
+```
+
+**Key Points:**
+- Use `EmptyElasticId` for new entities
+- After `persist()`, the entity has a real `ElasticId` assigned by ElasticSearch
+
+---
+
+## 7. Retrieve Data
+
+### Get by ID
+
+```php
+$product = $this->entityManager->find(
+    \App\Model\Entity\Product::class,
+    new \Spameri\Elastic\Entity\Property\ElasticId('abc123'),
 );
 ```
 
+### Get All
 
+```php
+$products = $this->entityManager->findAll(\App\Model\Entity\Product::class);
+
+foreach ($products as $product) {
+    echo $product->name . PHP_EOL;
+}
+```
+
+### Query with Filters
+
+```php
+$elasticQuery = new \Spameri\ElasticQuery\ElasticQuery();
+$elasticQuery->query()->addMust(
+    new \Spameri\ElasticQuery\Query\Term('availability', 'in_stock')
+);
+
+$products = $this->entityManager->findBy(
+    \App\Model\Entity\Product::class,
+    $elasticQuery,
+);
+```
+
+---
+
+## 8. Search
+
+### Simple Text Search
+
+```php
+public function search(string $queryString): \Spameri\Elastic\Entity\Collection\ElasticEntityCollection
+{
+    $elasticQuery = new \Spameri\ElasticQuery\ElasticQuery();
+
+    $elasticQuery->query()->addShould(
+        new \Spameri\ElasticQuery\Query\Match\Match(
+            'name',
+            $queryString
+        )
+    );
+
+    $elasticQuery->query()->addShould(
+        new \Spameri\ElasticQuery\Query\Match\Match(
+            'description',
+            $queryString
+        )
+    );
+
+    return $this->entityManager->findBy(
+        \App\Model\Entity\Product::class,
+        $elasticQuery,
+    );
+}
+```
+
+### Advanced Search with Fuzzy Matching
+
+```php
+public function advancedSearch(string $queryString): \Spameri\Elastic\Entity\Collection\ElasticEntityCollection
+{
+    $elasticQuery = new \Spameri\ElasticQuery\ElasticQuery();
+
+    // Fuzzy match on name (handles typos)
+    $elasticQuery->query()->addShould(
+        new \Spameri\ElasticQuery\Query\Match\Match(
+            'name',
+            $queryString,
+            3, // boost
+            \Spameri\ElasticQuery\Query\Match\Operator::OR,
+            new \Spameri\ElasticQuery\Query\Match\Fuzziness(
+                \Spameri\ElasticQuery\Query\Match\Fuzziness::AUTO
+            )
+        )
+    );
+
+    // Wildcard for partial matches
+    $elasticQuery->query()->addShould(
+        new \Spameri\ElasticQuery\Query\WildCard(
+            'name',
+            $queryString . '*',
+            1 // boost
+        )
+    );
+
+    // Exact phrase match (higher score)
+    $elasticQuery->query()->addShould(
+        new \Spameri\ElasticQuery\Query\MatchPhrase(
+            'name',
+            $queryString,
+            5 // boost
+        )
+    );
+
+    return $this->entityManager->findBy(
+        \App\Model\Entity\Product::class,
+        $elasticQuery,
+    );
+}
+```
+
+---
+
+## 9. Use in Presenter
+
+```php
+<?php declare(strict_types = 1);
+
+namespace App\Presenter;
+
+class ProductPresenter extends \Nette\Application\UI\Presenter
+{
+    public function __construct(
+        private readonly \Spameri\Elastic\EntityManager $entityManager,
+    ) {
+        parent::__construct();
+    }
+
+    public function renderList(?string $query = null): void
+    {
+        if ($query !== null && $query !== '') {
+            $elasticQuery = new \Spameri\ElasticQuery\ElasticQuery();
+            $elasticQuery->query()->addShould(
+                new \Spameri\ElasticQuery\Query\Match\Match('name', $query)
+            );
+            $products = $this->entityManager->findBy(
+                \App\Model\Entity\Product::class,
+                $elasticQuery,
+            );
+        } else {
+            $products = $this->entityManager->findAll(
+                \App\Model\Entity\Product::class,
+            );
+        }
+
+        $this->template->products = $products;
+        $this->template->query = $query;
+    }
+
+    protected function createComponentSearchForm(): \Nette\Application\UI\Form
+    {
+        $form = new \Nette\Application\UI\Form();
+        $form->addText('query', 'Search');
+        $form->addSubmit('search', 'Search');
+
+        $form->onSuccess[] = function (\Nette\Application\UI\Form $form): void {
+            $this->redirect('this', ['query' => $form->getValues()->query]);
+        };
+
+        return $form;
+    }
+}
+```
+
+---
+
+## 10. Bulk Import (Optional)
+
+For importing large amounts of data, use the Import system:
+
+```php
+<?php declare(strict_types = 1);
+
+namespace App\Import;
+
+class ProductDataProvider implements \Spameri\Elastic\Import\DataProviderInterface
+{
+    public function __construct(
+        private readonly \Nette\Database\Explorer $database,
+    ) {}
+
+    public function provide(\Spameri\Elastic\Import\Run\Options $options): \Generator
+    {
+        $offset = 0;
+        $limit = 100;
+
+        while (true) {
+            $items = $this->database->table('products')
+                ->limit($limit, $offset)
+                ->fetchAll();
+
+            if (empty($items)) {
+                break;
+            }
+
+            yield from $items;
+
+            $offset += $limit;
+        }
+    }
+}
+```
+
+```php
+<?php declare(strict_types = 1);
+
+namespace App\Import;
+
+class ProductPrepareData implements \Spameri\Elastic\Import\PrepareImportDataInterface
+{
+    public function prepare(mixed $entityData): \App\Model\Entity\Product
+    {
+        return new \App\Model\Entity\Product(
+            new \Spameri\Elastic\Entity\Property\EmptyElasticId(),
+            $entityData->id,
+            $entityData->name,
+            $entityData->description,
+            (float) $entityData->price,
+            $entityData->availability,
+        );
+    }
+}
+```
+
+See [Import System](15_import_system.md) for complete documentation.
+
+---
+
+## Summary
+
+| Step | What You Do |
+|------|-------------|
+| 1. Install | `composer require spameri/elastic` |
+| 2. Configure | Add extension and settings to neon |
+| 3. Entity | Create class extending `AbstractElasticEntity` |
+| 4. Mapping | Create `IndexConfigInterface` implementation |
+| 5. Index | Run `spameri:elastic:initialize-index` |
+| 6. Save | Use `EntityManager->persist()` |
+| 7. Query | Use `EntityManager->find/findBy/findAll()` |
+
+---
+
+## Next Steps
+
+- [Configuration](02_configuration.md) - All configuration options
+- [Entity Class Guide](03_entity_class.md) - Detailed entity creation
+- [Index Mapping](05_new_index_with_mapping.md) - Advanced mapping options
+- [Advanced Queries](13_advanced_get.md) - Complex query examples
+- [EntityManager](17_entity_manager.md) - Full API reference

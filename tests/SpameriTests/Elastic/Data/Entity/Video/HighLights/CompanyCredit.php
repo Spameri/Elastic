@@ -6,23 +6,13 @@ class CompanyCredit implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Property\Text
+	 * @param \SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCredit\CompanyCollection<\SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCredit\Company> $company
 	 */
-	private $group;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCredit\CompanyCollection
-	 */
-	private $company;
-
-
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Property\Text $group,
-		\SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCredit\CompanyCollection $company,
+		private \SpameriTests\Elastic\Data\Entity\Property\Text $group,
+		private \SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCredit\CompanyCollection $company,
 	)
 	{
-		$this->group = $group;
-		$this->company = $company;
 	}
 
 
@@ -41,12 +31,6 @@ class CompanyCredit implements \Spameri\Elastic\Entity\EntityInterface
 	public function group(): \SpameriTests\Elastic\Data\Entity\Property\Text
 	{
 		return $this->group;
-	}
-
-
-	public function company(): \SpameriTests\Elastic\Data\Entity\Video\HighLights\CompanyCredit\CompanyCollection
-	{
-		return $this->company;
 	}
 
 }

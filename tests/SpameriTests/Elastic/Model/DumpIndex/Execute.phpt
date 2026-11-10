@@ -14,11 +14,25 @@ class Execute extends \SpameriTests\Elastic\AbstractTestCase
 	{
 		parent::setUp();
 
+		// Delete any existing index or alias with wildcard
+		/** @var \Spameri\Elastic\ClientProvider $clientProvider */
+		$clientProvider = $this->container->getByType(\Spameri\Elastic\ClientProvider::class);
+		try {
+			$clientProvider->client()->indices()->delete(['index' => \SpameriTests\Elastic\Config::INDEX_DUMP . '*']);
+		} catch (\Throwable $e) {
+			// Ignore if index doesn't exist
+		}
+
+		\usleep(100000);
+
 		/** @var \Spameri\Elastic\Model\RestoreIndex $restoreIndex */
 		$restoreIndex = $this->container->getByType(\Spameri\Elastic\Model\RestoreIndex::class);
 		$restoreIndex->setOutput(new \Symfony\Component\Console\Output\ConsoleOutput());
 
 		$restoreIndex->execute(__DIR__ . '/dumpData.json', 500);
+
+		// The dump reads through search, which only sees documents after a refresh.
+		$clientProvider->client()->indices()->refresh(['index' => \SpameriTests\Elastic\Config::INDEX_DUMP]);
 	}
 
 
@@ -31,7 +45,6 @@ class Execute extends \SpameriTests\Elastic\AbstractTestCase
 		$dumpIndex->execute(
 			\SpameriTests\Elastic\Config::INDEX_DUMP,
 			'test.log',
-			\SpameriTests\Elastic\Config::INDEX_DUMP
 		);
 
 		\Tester\Assert::true(\file_exists('test.log'));

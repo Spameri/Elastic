@@ -4,23 +4,78 @@ namespace Spameri\Elastic\Diagnostics\Panel;
 
 ?>
 <style>
-	#nette-debug .elasticSearchPanel-method { font-weight: bold; }
+	#nette-debug .elasticSearchPanel-method,
+	#tracy-debug .elasticSearchPanel-method { font-weight: bold; }
 
-	#nette-debug .elasticSearchPanel-error { font-size: xx-small; }
+	#nette-debug .elasticSearchPanel-error,
+	#tracy-debug .elasticSearchPanel-error { font-size: xx-small; }
+
+	#nette-debug .elasticSearchPanel-copy,
+	#tracy-debug .elasticSearchPanel-copy {
+		cursor: pointer;
+		padding: 4px 10px;
+		font-size: 11px;
+		background: #f5f5f5;
+		border: 1px solid #bbb;
+		border-radius: 4px;
+		margin-left: 4px;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+	}
+
+	#nette-debug .elasticSearchPanel-copy:hover,
+	#tracy-debug .elasticSearchPanel-copy:hover {
+		background: #e8e8e8;
+		border-color: #aaa;
+	}
+
+	#nette-debug .elasticSearchPanel-copy:active,
+	#tracy-debug .elasticSearchPanel-copy:active {
+		background: #ddd;
+		box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+	}
+
+	#nette-debug .elasticSearchPanel td > .tracy-toggle,
+	#tracy-debug .elasticSearchPanel td > .tracy-toggle {
+		cursor: pointer !important;
+		display: inline-block !important;
+		padding: 4px 10px !important;
+		font-size: 11px !important;
+		background: #f5f5f5 !important;
+		border: 1px solid #bbb !important;
+		border-radius: 4px !important;
+		box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+		color: #C22 !important;
+		font-weight: bold !important;
+	}
+
+	#nette-debug .elasticSearchPanel td > .tracy-toggle:hover,
+	#tracy-debug .elasticSearchPanel td > .tracy-toggle:hover {
+		background: #e8e8e8 !important;
+		border-color: #aaa !important;
+	}
+
+	#nette-debug .elasticSearchPanel td > .tracy-toggle:active,
+	#tracy-debug .elasticSearchPanel td > .tracy-toggle:active {
+		background: #ddd !important;
+		box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+	}
+
+	#nette-debug .elasticSearchPanel td > .tracy-toggle::after,
+	#tracy-debug .elasticSearchPanel td > .tracy-toggle::after {
+		opacity: 0.7 !important;
+		margin-left: 4px !important;
+	}
 </style>
 <h1>
 	Elastic queries:
-	<?= count($queries) ?> queries / <?= sprintf('%0.1f', $queriesDuration * 1000) ?>ms
+	<?= count($queries) ?> queries / <?= sprintf('%0.1f', $queriesDuration) ?>ms
 </h1>
 <div class="nette-inner elasticSearchPanel">
 	<table>
 		<thead>
 		<tr>
-			<?php foreach ($queriesHeader as $header): ?>
-				<th class="elasticSearchPanel-<?= $header ?>">
-					<?= $header; ?>
-				</th>
-			<?php endforeach; ?>
+			<th>Uri</th>
+			<th>Took</th>
 			<th>Request</th>
 			<th>Request string</th>
 			<th>Response</th>
@@ -28,51 +83,52 @@ namespace Spameri\Elastic\Diagnostics\Panel;
 		</thead>
 		<tbody>
 		<?php foreach ($queries as $key => $query): ?>
-			<tr>
-				<?php foreach ($queriesHeader as $header): ?>
-					<?php
-					$value = isset($query[$header]) ? $query[$header] : NULL;
-					if ($header === 'duration' && $value !== NULL) {
-						$value = sprintf('%0.1f', $value * 1000) . 'ms';
-					}
-					if ( ! is_scalar($value)) {
-						$value = json_encode($value);
-					}
-					?>
-					<td class="elasticSearchPanel-<?= $header ?>">
-						<?= $value ?>
-					</td>
-				<?php endforeach; ?>
-				<td>
-					<span class="tracy-toggle tracy-collapsed">
+            <tr>
+                <td><?= $query['uri'] ?></td>
+
+                <td><?= sprintf('%0.1f', $query['duration']) ?> ms</td>
+
+                <td>
+                    <span class="tracy-toggle tracy-collapsed">
 						<span class="tracy-dump-object">Show</span>
 					</span>
-					<div class="tracy-collapsed">
-						<?= \Tracy\Dumper::toHtml(\json_decode($requestBodies[$key][0] ?? ''), [
-							\Tracy\Dumper::DEPTH => 30,
-						]); ?>
-					</div>
-				</td>
-				<td>
-					<span class="tracy-toggle tracy-collapsed">
+                    <div class="tracy-collapsed">
+		                <?= $query['requestBody'] ?>
+                    </div>
+                </td>
+
+                <td>
+                    <button class="elasticSearchPanel-copy" data-query-id="<?= $key ?>" title="Copy to clipboard">Copy</button>
+                    <span class="tracy-toggle tracy-collapsed">
 						<span class="tracy-dump-object">Show</span>
 					</span>
-					<div class="tracy-collapsed">
-						<?= $requestBodies[$key][0] ?? ''; ?>
-					</div>
-				</td>
-				<td>
-					<span class="tracy-toggle tracy-collapsed">
+                    <div class="tracy-collapsed" id="elasticSearchPanel-query-<?= $key ?>">
+                        <?= $query['requestBodyString'] ?>
+                    </div>
+                </td>
+
+                <td>
+                    <span class="tracy-toggle tracy-collapsed">
 						<span class="tracy-dump-object">Show</span>
 					</span>
-					<div class="tracy-collapsed">
-						<?= \Tracy\Dumper::toHtml($responseBodies[$key][0] ?? [], [
-							\Tracy\Dumper::DEPTH => 30,
-						]); ?>
-					</div>
-				</td>
-			</tr>
+                    <div class="tracy-collapsed">
+		                <?= $query['responseBody'] ?>
+                    </div>
+                </td>
+            </tr>
 		<?php endforeach; ?>
 		</tbody>
 	</table>
 </div>
+<script>
+	document.querySelectorAll('.elasticSearchPanel-copy').forEach(function (button) {
+		button.addEventListener('click', function () {
+			var id = 'elasticSearchPanel-query-' + this.dataset.queryId;
+			var text = document.getElementById(id).textContent.trim();
+			navigator.clipboard.writeText(text).then(function () {
+				button.textContent = 'Copied!';
+				setTimeout(function () { button.textContent = 'Copy'; }, 1500);
+			});
+		});
+	});
+</script>

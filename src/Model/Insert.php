@@ -8,7 +8,7 @@ readonly class Insert
 	public function __construct(
 		private \Spameri\Elastic\Model\Insert\PrepareEntityArray $prepareEntityArray,
 		private \Spameri\Elastic\ClientProvider $clientProvider,
-		private \Spameri\Elastic\Model\VersionProvider $versionProvider,
+		private \Spameri\Elastic\Model\IdentityMap $identityMap,
 	)
 	{
 	}
@@ -21,16 +21,19 @@ readonly class Insert
 	public function execute(
 		\Spameri\Elastic\Entity\AbstractElasticEntity $entity,
 		string $index,
-		string|null $type = NULL,
-		bool $hasSti = FALSE,
+		bool $hasSti = false,
 	): string
 	{
-		if ($type === NULL) {
-			$type = $index;
+		// Only check isChanged for entities with real IDs (updates)
+		// New entities (EmptyElasticId) should always be inserted
+		$hasRealId = ! $entity->id() instanceof \Spameri\Elastic\Entity\Property\EmptyElasticId;
+		if ($hasRealId && $this->identityMap->isChanged($entity) === false) {
+			return $entity->id()->value();
 		}
 
-		if ($this->versionProvider->provide() >= \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7) {
-			$type = NULL;
+		// Only mark inserted for entities with real IDs (prevents collision on empty string key)
+		if ($hasRealId) {
+			$this->identityMap->markInserted($entity);
 		}
 
 		$entityArray = $this->prepareEntityArray->prepare($entity, $hasSti);
@@ -40,10 +43,9 @@ readonly class Insert
 			$response = $this->clientProvider->client()->index(
 				(
 					new \Spameri\ElasticQuery\Document(
-						$index,
-						new \Spameri\ElasticQuery\Document\Body\Plain($entityArray),
-						$type,
-						$entity->id()->value(),
+						index: $index,
+						body: new \Spameri\ElasticQuery\Document\Body\Plain($entityArray),
+						id: $entity->id()->value(),
 					)
 				)->toArray(),
 			)->asArray()
@@ -56,7 +58,7 @@ readonly class Insert
 		try {
 			$this->clientProvider->client()->indices()->refresh(
 				(
-				new \Spameri\ElasticQuery\Document($index)
+					new \Spameri\ElasticQuery\Document($index)
 				)
 					->toArray(),
 			)
@@ -66,13 +68,10 @@ readonly class Insert
 			throw new \Spameri\Elastic\Exception\ElasticSearch($exception->getMessage());
 		}
 
-		if (isset($response['created']) || isset($response['updated'])) {
-			$entity->id = new \Spameri\Elastic\Entity\Property\ElasticId($response['_id']);
-			return $response['_id'];
-		}
-
 		if (isset($response['result']) && ($response['result'] === 'created' || $response['result'] === 'updated')) {
 			$entity->id = new \Spameri\Elastic\Entity\Property\ElasticId($response['_id']);
+			$this->identityMap->markInserted($entity);
+
 			return $response['_id'];
 		}
 

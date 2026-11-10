@@ -19,6 +19,9 @@ if ( ! $loader) {
 	exit(1);
 }
 
+// Load MatchAll query class (not part of elastic-query package)
+require_once __DIR__ . '/SpameriTests/Elastic/Query/MatchAll.php';
+
 // configure environment
 \Tester\Environment::setup();
 \date_default_timezone_set('Europe/Prague');
@@ -29,13 +32,11 @@ Tester\Helpers::purge(\TEMP_DIR);
 Tracy\Debugger::$logDirectory = \TEMP_DIR;
 
 $ch = \curl_init();
-\curl_setopt($ch, \CURLOPT_URL, \SpameriTests\Elastic\Config::CONNECTION . '/' . \SpameriTests\Elastic\Config::INDEX . '*');
+\curl_setopt($ch, \CURLOPT_URL, \SpameriTests\Elastic\Config::connection() . '/' . \SpameriTests\Elastic\Config::INDEX . '*');
 \curl_setopt($ch, \CURLOPT_RETURNTRANSFER, 1);
 \curl_setopt($ch, \CURLOPT_CUSTOMREQUEST, 'DELETE');
 \curl_setopt($ch, \CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
 
 \curl_exec($ch);
-
-\curl_close($ch);
 
 return $loader;

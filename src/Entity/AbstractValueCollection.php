@@ -2,6 +2,10 @@
 
 namespace Spameri\Elastic\Entity;
 
+/**
+ * @template-covariant T of \Spameri\Elastic\Entity\ValueInterface
+ * @template-implements \Spameri\Elastic\Entity\ValueCollectionInterface<T>
+ */
 abstract class AbstractValueCollection implements ValueCollectionInterface
 {
 
@@ -39,7 +43,7 @@ abstract class AbstractValueCollection implements ValueCollectionInterface
 	public function get(mixed $key): \Spameri\Elastic\Entity\ValueInterface|null
 	{
 		if ( ! isset($this->collection[$key])) {
-			return NULL;
+			return null;
 		}
 
 		return $this->collection[$key];
@@ -47,7 +51,7 @@ abstract class AbstractValueCollection implements ValueCollectionInterface
 
 
 	/**
-	 * @return \ArrayIterator<\Spameri\Elastic\Entity\ValueInterface>
+	 * @return \ArrayIterator<int|string, \Spameri\Elastic\Entity\ValueInterface>
 	 */
 	public function getIterator(): \ArrayIterator
 	{

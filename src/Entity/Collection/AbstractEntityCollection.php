@@ -2,6 +2,10 @@
 
 namespace Spameri\Elastic\Entity\Collection;
 
+/**
+ * @template-covariant T of \Spameri\Elastic\Entity\EntityInterface
+ * @template-implements \Spameri\Elastic\Entity\EntityCollectionInterface<T>
+ */
 abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\EntityCollectionInterface
 {
 
@@ -9,6 +13,10 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 	 * @var array<\Spameri\Elastic\Entity\EntityInterface>
 	 */
 	protected array $collection;
+
+	protected bool $lazyInitialized = true;
+
+	protected \Closure|null $lazyInitializer = null;
 
 
 	public function __construct(
@@ -22,22 +30,60 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 	}
 
 
+	public function setInitializer(\Closure $initializer): void
+	{
+		$this->lazyInitializer = $initializer;
+		$this->lazyInitialized = false;
+	}
+
+
+	public function ensureInitialized(): void
+	{
+		if ($this->lazyInitialized) {
+			return;
+		}
+
+		$this->lazyInitialized = true;
+		$initializer = $this->lazyInitializer;
+		$this->lazyInitializer = null;
+
+		if ($initializer !== null) {
+			$initializer();
+		}
+	}
+
+
+	public function initialized(): bool
+	{
+		return $this->lazyInitialized;
+	}
+
+
 	public function add(
 		\Spameri\Elastic\Entity\EntityInterface $entity,
 	): void
 	{
+		$this->ensureInitialized();
 		$this->collection[$entity->key()] = $entity;
 	}
 
 
+	/**
+	 * @return array<T>
+	 */
 	protected function collection(): array
 	{
 		return $this->collection;
 	}
 
 
+	/**
+	 * @return \ArrayIterator<int|string, \Spameri\Elastic\Entity\EntityInterface>
+	 */
 	public function getIterator(): \ArrayIterator
 	{
+		$this->ensureInitialized();
+
 		return new \ArrayIterator($this->collection);
 	}
 
@@ -46,11 +92,13 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 		string $key,
 	): \Spameri\Elastic\Entity\EntityInterface|null
 	{
+		$this->ensureInitialized();
+
 		if (\array_key_exists($key, $this->collection)) {
 			return $this->collection[$key];
 		}
 
-		return NULL;
+		return null;
 	}
 
 
@@ -58,6 +106,7 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 		string|int $key,
 	): void
 	{
+		$this->ensureInitialized();
 		unset($this->collection[$key]);
 	}
 
@@ -66,18 +115,24 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 		string $key,
 	): bool
 	{
+		$this->ensureInitialized();
+
 		return \array_key_exists($key, $this->collection);
 	}
 
 
 	public function count(): int
 	{
+		$this->ensureInitialized();
+
 		return \count($this->collection);
 	}
 
 
 	public function keys(): array
 	{
+		$this->ensureInitialized();
+
 		return \array_map('\strval', \array_keys($this->collection));
 	}
 
@@ -86,6 +141,8 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 		string $key,
 	): bool
 	{
+		$this->ensureInitialized();
+
 		return \array_key_exists($key, \array_map('\strval', \array_keys($this->collection)));
 	}
 
@@ -93,6 +150,8 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 	public function clear(): void
 	{
 		$this->collection = [];
+		$this->lazyInitialized = true;
+		$this->lazyInitializer = null;
 	}
 
 
@@ -101,7 +160,9 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 		string $type,
 	): void
 	{
-		if ( ! \in_array($type, ['asc', 'desc'], TRUE)) {
+		$this->ensureInitialized();
+
+		if ( ! \in_array($type, ['asc', 'desc'], true)) {
 			throw new \Nette\InvalidArgumentException('Not supported sorting method.');
 		}
 
@@ -111,7 +172,9 @@ abstract class AbstractEntityCollection implements \Spameri\Elastic\Entity\Entit
 
 	public function first(): \Spameri\Elastic\Entity\EntityInterface|null
 	{
-		return \reset($this->collection) ?: NULL;
+		$this->ensureInitialized();
+
+		return \reset($this->collection) ?: null;
 	}
 
 }

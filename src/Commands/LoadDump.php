@@ -2,6 +2,10 @@
 
 namespace Spameri\Elastic\Commands;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(
+	name: 'spameri:elastic:load-dump',
+	description: 'Loads data from provided dump file.',
+)]
 class LoadDump extends \Symfony\Component\Console\Command\Command
 {
 
@@ -15,7 +19,7 @@ class LoadDump extends \Symfony\Component\Console\Command\Command
 		private readonly \Spameri\Elastic\Model\RestoreIndex $migrate,
 	)
 	{
-		parent::__construct(null);
+		parent::__construct(self::$defaultName);
 	}
 
 

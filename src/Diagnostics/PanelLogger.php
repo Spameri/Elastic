@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace Spameri\Elastic\Diagnostics;
 
@@ -31,13 +29,13 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 
 
 	/**
-	 * @param string $message
+	 * @param string|\Stringable $message
 	 * @param array<mixed> $context
 	 */
 	public function emergency(
-		$message,
+		string|\Stringable $message,
 		array $context = [],
-	)
+	): void
 	{
 		$this->logger->emergency($message, $context);
 		$this->logQuery($context);
@@ -45,11 +43,11 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 
 
 	/**
-	 * @param string $message
+	 * @param string|\Stringable $message
 	 * @param array<mixed> $context
 	 */
 	public function alert(
-		$message,
+		string|\Stringable $message,
 		array $context = [],
 	): void
 	{
@@ -59,11 +57,11 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 
 
 	/**
-	 * @param string $message
+	 * @param string|\Stringable $message
 	 * @param array<mixed> $context
 	 */
 	public function critical(
-		$message,
+		string|\Stringable $message,
 		array $context = [],
 	): void
 	{
@@ -73,11 +71,11 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 
 
 	/**
-	 * @param string $message
+	 * @param string|\Stringable $message
 	 * @param array<mixed> $context
 	 */
 	public function error(
-		$message,
+		string|\Stringable $message,
 		array $context = [],
 	): void
 	{
@@ -87,11 +85,11 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 
 
 	/**
-	 * @param string $message
+	 * @param string|\Stringable $message
 	 * @param array<mixed> $context
 	 */
 	public function warning(
-		$message,
+		string|\Stringable $message,
 		array $context = [],
 	): void
 	{
@@ -101,11 +99,11 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 
 
 	/**
-	 * @param string $message
+	 * @param string|\Stringable $message
 	 * @param array<mixed> $context
 	 */
 	public function notice(
-		$message,
+		string|\Stringable $message,
 		array $context = [],
 	): void
 	{
@@ -115,11 +113,11 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 
 
 	/**
-	 * @param string $message
+	 * @param string|\Stringable $message
 	 * @param array<mixed> $context
 	 */
 	public function info(
-		$message,
+		string|\Stringable $message,
 		array $context = [],
 	): void
 	{
@@ -129,29 +127,27 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 
 
 	/**
-	 * @param string $message
+	 * @param string|\Stringable $message
 	 * @param array<mixed> $context
 	 */
 	public function debug(
-		$message,
+		string|\Stringable $message,
 		array $context = [],
 	): void
 	{
 		$this->logger->debug($message, $context);
 		$this->logQuery($context);
-		$this->logRequestBody($message, $context);
-		$this->logResponseBody($message, $context);
 	}
 
 
 	/**
 	 * @param mixed $level
-	 * @param string $message
+	 * @param string|\Stringable $message
 	 * @param array<mixed> $context
 	 */
 	public function log(
 		$level,
-		$message,
+		string|\Stringable $message,
 		array $context = [],
 	): void
 	{
@@ -194,42 +190,81 @@ class PanelLogger implements \Psr\Log\LoggerInterface
 		array $context = [],
 	): void
 	{
-		if (isset($context['method'], $context['uri'])) {
-			$path = \explode('9200', $context['uri']);
-			$context['uri'] = $path[1] ?? $context['uri'];
-			$this->queries[] = $context;
+		if (isset($context['request']) === true) {
+			/** @var \GuzzleHttp\Psr7\Request $request */
+			$request = $context['request'];
+			$contents = $request->getBody()->getContents();
+			if ($contents === '') {
+				$contents = '{}';
+			}
+			$query = [
+				'uri' => $request->getUri()->getPath(),
+				'requestBody' =>
+					\Tracy\Dumper::toHtml(
+						$this->decodeBody($contents),
+						[
+							\Tracy\Dumper::DEPTH => 30,
+						],
+					),
+				'requestBodyString' => $contents,
+				'startTime' => \microtime(true),
+			];
+
+		} elseif (isset($context['response']) === true) {
+			/** @var \GuzzleHttp\Psr7\Response $response */
+			$response = $context['response'];
+			$query = \array_pop($this->queries);
+			$contents = $response->getBody()->getContents();
+			if ($contents === '') {
+				$contents = '{}';
+			}
+			$query['responseBody'] =
+				\Tracy\Dumper::toHtml(
+					$this->decodeBody($contents),
+					[
+						\Tracy\Dumper::DEPTH => 30,
+					],
+				);
+			$query['duration'] = (\microtime(true) - $query['startTime']) * 1000;
+
+		} else {
+			return;
 		}
+
+		$this->queries[] = $query;
 	}
 
 
 	/**
-	 * @param mixed $context
+	 * Bulk API bodies are NDJSON (one JSON document per line), not a single JSON document.
+	 * Diagnostics must never break the request itself, so anything undecodable is dumped
+	 * as the raw string instead of throwing.
 	 */
-	private function logRequestBody(
-		string $message,
-		$context,
-	): void
+	private function decodeBody(
+		string $contents,
+	): mixed
 	{
-		if (
-			$message === 'Request Body'
-			|| $message === 'Request Plain'
-		) {
-			$this->requestBodies[] = $context;
+		try {
+			return \Nette\Utils\Json::decode($contents, \JSON_OBJECT_AS_ARRAY);
+		} catch (\Nette\Utils\JsonException) {
+			// Not a single JSON document, try NDJSON below.
 		}
+
+		$documents = [];
+		foreach (\explode("\n", $contents) as $line) {
+			if (\trim($line) === '') {
+				continue;
+			}
+
+			try {
+				$documents[] = \Nette\Utils\Json::decode($line, \JSON_OBJECT_AS_ARRAY);
+			} catch (\Nette\Utils\JsonException) {
+				return $contents;
+			}
+		}
+
+		return $documents;
 	}
 
-
-	/**
-	 * @param mixed $context
-	 */
-	private function logResponseBody(
-		string $message,
-		$context,
-	): void
-	{
-		if ($message === 'Response') {
-			$this->responseBodies[] = $context;
-		}
-	}
 
 }

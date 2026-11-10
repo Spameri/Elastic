@@ -2,18 +2,26 @@
 
 namespace Spameri\Elastic\Entity;
 
+/**
+ * @template-covariant T of \Spameri\Elastic\Entity\AbstractElasticEntity
+ * @template-extends \IteratorAggregate<T>
+ */
 interface ElasticEntityCollectionInterface extends \IteratorAggregate
 {
 
 	public function add(
-		\Spameri\Elastic\Entity\ElasticEntityInterface $elasticEntity,
+		\Spameri\Elastic\Entity\AbstractElasticEntity $elasticEntity,
 	): void;
 
 
 	public function entity(
 		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
-	): \Spameri\Elastic\Entity\ElasticEntityInterface|null;
+	): \Spameri\Elastic\Entity\AbstractElasticEntity|null;
 
+	/**
+	 * @return T|null
+	 */
+	public function first(): \Spameri\Elastic\Entity\AbstractElasticEntity|null;
 
 	public function remove(
 		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
@@ -28,6 +36,9 @@ interface ElasticEntityCollectionInterface extends \IteratorAggregate
 	public function count(): int;
 
 
+	/**
+	 * @return array<string>
+	 */
 	public function keys(): array;
 
 
@@ -37,6 +48,9 @@ interface ElasticEntityCollectionInterface extends \IteratorAggregate
 	public function initialized(): bool;
 
 
+	/**
+	 * @return array<string>
+	 */
 	public function elasticIds(): array;
 
 

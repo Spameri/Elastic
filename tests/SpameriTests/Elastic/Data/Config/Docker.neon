@@ -1,0 +1,4 @@
+parameters:
+	elasticSearch:
+		host: elasticsearch
+		port: 9200

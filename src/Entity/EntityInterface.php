@@ -8,6 +8,9 @@ interface EntityInterface
 	public function key(): string;
 
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	public function entityVariables(): array;
 
 }

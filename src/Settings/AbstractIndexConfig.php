@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace Spameri\Elastic\Settings;
 
@@ -8,6 +6,9 @@ abstract class AbstractIndexConfig implements IndexConfigInterface
 {
 
 
+	/**
+	 * @param array<class-string> $entityClass
+	 */
 	public function __construct(
 		protected string $index,
 		protected array $entityClass,

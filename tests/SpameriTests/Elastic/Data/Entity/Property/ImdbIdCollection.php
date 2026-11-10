@@ -2,13 +2,17 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Property;
 
+/**
+ * @template-covariant T of \SpameriTests\Elastic\Data\Entity\Property\ImdbId
+ * @template-implements \Spameri\Elastic\Entity\ValueCollectionInterface<T>
+ */
 class ImdbIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInterface
 {
 
 	/**
 	 * @var array<\SpameriTests\Elastic\Data\Entity\Property\ImdbId>
 	 */
-	private $collection;
+	private array $collection;
 
 
 	public function __construct(
@@ -40,10 +44,13 @@ class ImdbIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInterfa
 			}
 		}
 
-		return NULL;
+		return null;
 	}
 
 
+	/**
+	 * @return array<int|string>
+	 */
 	public function keys(): array
 	{
 		return \array_keys($this->collection);
@@ -54,7 +61,7 @@ class ImdbIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInterfa
 	{
 		$first = \reset($this->collection);
 
-		if ($first === FALSE) {
+		if ($first === false) {
 			throw new \Nette\InvalidStateException();
 		}
 
@@ -62,6 +69,9 @@ class ImdbIdCollection implements \Spameri\Elastic\Entity\ValueCollectionInterfa
 	}
 
 
+	/**
+	 * @return \ArrayIterator<int|string, \SpameriTests\Elastic\Data\Entity\Property\ImdbId>
+	 */
 	public function getIterator(): \ArrayIterator
 	{
 		return new \ArrayIterator($this->collection);

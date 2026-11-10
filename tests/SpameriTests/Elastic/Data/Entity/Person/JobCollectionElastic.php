@@ -2,12 +2,16 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Person;
 
+/**
+ * @template-covariant T of \SpameriTests\Elastic\Data\Entity\Person\Job
+ * @template-extends \Spameri\Elastic\Entity\Collection\AbstractEntityCollection<T>
+ */
 class JobCollectionElastic extends \Spameri\Elastic\Entity\Collection\AbstractEntityCollection
 {
 
 	public function job(
 		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $imdbId,
-		\SpameriTests\Elastic\Data\Entity\Property\ImdbId|null $episode = NULL,
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId|null $episode = null,
 	): Job
 	{
 		/** @var \SpameriTests\Elastic\Data\Entity\Person\Job $job */

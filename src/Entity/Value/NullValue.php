@@ -12,7 +12,7 @@ readonly class NullValue implements \Spameri\Elastic\Entity\ValueInterface
 
 	public function value(): null
 	{
-		return NULL;
+		return null;
 	}
 
 }

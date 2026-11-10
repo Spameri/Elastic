@@ -8,13 +8,12 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 	/**
 	 * @var array<mixed>
 	 */
-	public $defaults = [
+	public array $defaults = [
 		'host' => 'localhost',
 		'port' => 9200,
-		'debug' => FALSE,
-		'version' => \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_7,
-		'synonymPath' => NULL,
-		'entities' => [],
+		'debug' => false,
+		'version' => \Spameri\ElasticQuery\Response\Result\Version::ELASTIC_VERSION_ID_8,
+		'synonymPath' => null,
 	];
 
 
@@ -45,6 +44,11 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 	}
 
 
+	/**
+	 * @param array<mixed> $services
+	 * @param array<mixed> $config
+	 * @return array<mixed>
+	 */
 	public function setConfigOptions(
 		array $services,
 		array $config,
@@ -53,6 +57,8 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 		$neonSettingsProvider = $services['services']['neonSettingsProvider']['factory'];
 		$neonSettingsProvider->arguments[0] = $config['host'];
 		$neonSettingsProvider->arguments[1] = $config['port'];
+		$neonSettingsProvider->arguments[2] = $config['username'] ?? null;
+		$neonSettingsProvider->arguments[3] = $config['password'] ?? null;
 
 		$versionProvider = $services['services']['versionProvider']['factory'];
 		$versionProvider->arguments[0] = $config['version'];
@@ -71,7 +77,7 @@ class SpameriElasticSearchExtension extends \Nette\DI\CompilerExtension
 		array $services,
 	): array
 	{
-		if ( ! $config['debug']) {
+		if ($config['debug'] === false) {
 			unset(
 				$services['tracy'],
 				$services['services']['elasticPanelLogger'],

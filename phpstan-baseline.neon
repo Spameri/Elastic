@@ -1,0 +1,11 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Unreachable statement \\- code above always terminates\\.$#"
+			count: 1
+			path: src/Factory/EntityFactory.php
+
+		-
+			message: "#^Variable \\$propertyValue might not be defined\\.$#"
+			count: 1
+			path: src/Factory/EntityFactory.php

@@ -18,8 +18,8 @@ $video = new \SpameriTests\Elastic\Data\Entity\Video(
 );
 ```
 
-## Save 
-- Entity is created, validated and ready to be saved. Just pass entity to [service](12_entity_service.md). And done.
+## Save
+- Entity is created, validated and ready to be saved. Just pass entity to [EntityManager](17_entity_manager.md). And done.
 ```php
-$videoService->insert($video);
+$entityManager->persist($video);
 ```

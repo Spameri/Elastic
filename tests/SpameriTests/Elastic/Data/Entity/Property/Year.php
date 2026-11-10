@@ -5,10 +5,7 @@ namespace SpameriTests\Elastic\Data\Entity\Property;
 class Year implements \Spameri\Elastic\Entity\ValueInterface
 {
 
-	/**
-	 * @var int
-	 */
-	private $value;
+	private int $value;
 
 
 	public function __construct(

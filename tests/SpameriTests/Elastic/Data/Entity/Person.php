@@ -6,6 +6,10 @@ class Person extends \Spameri\Elastic\Entity\AbstractElasticEntity
 {
 
 
+	/**
+	 * @param \Spameri\Elastic\Entity\Collection\AbstractEntityCollection<\SpameriTests\Elastic\Data\Entity\Person\Character> $characters
+	 * @param \Spameri\Elastic\Entity\Collection\AbstractEntityCollection<\SpameriTests\Elastic\Data\Entity\Person\Job> $jobs
+	 */
 	public function __construct(
 		#[\Spameri\Elastic\Mapping\Entity(class: \Spameri\Elastic\Entity\Property\ElasticId::class)]
 		public \Spameri\Elastic\Entity\Property\ElasticIdInterface $id,

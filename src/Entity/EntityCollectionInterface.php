@@ -2,6 +2,10 @@
 
 namespace Spameri\Elastic\Entity;
 
+/**
+ * @template-covariant T of \Spameri\Elastic\Entity\EntityInterface
+ * @template-extends \IteratorAggregate<T>
+ */
 interface EntityCollectionInterface extends \IteratorAggregate
 {
 
@@ -28,6 +32,9 @@ interface EntityCollectionInterface extends \IteratorAggregate
 	public function count(): int;
 
 
+	/**
+	 * @return array<string>
+	 */
 	public function keys(): array;
 
 

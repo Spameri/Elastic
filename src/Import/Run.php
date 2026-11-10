@@ -94,7 +94,7 @@ class Run
 			}
 		}
 
-		$this->runHandler->finish($this->runName, $this->progressBar, $prepared ?? NULL);
+		$this->runHandler->finish($this->runName, $this->progressBar, $prepared ?? null);
 
 		$this->lock->release();
 

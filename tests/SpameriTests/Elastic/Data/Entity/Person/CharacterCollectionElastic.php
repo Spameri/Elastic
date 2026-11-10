@@ -2,12 +2,16 @@
 
 namespace SpameriTests\Elastic\Data\Entity\Person;
 
+/**
+ * @template-covariant T of \SpameriTests\Elastic\Data\Entity\Person\Character
+ * @template-extends \Spameri\Elastic\Entity\Collection\AbstractEntityCollection<T>
+ */
 class CharacterCollectionElastic extends \Spameri\Elastic\Entity\Collection\AbstractEntityCollection
 {
 
 	public function character(
 		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $id,
-		\SpameriTests\Elastic\Data\Entity\Property\ImdbId|null $episode = NULL,
+		\SpameriTests\Elastic\Data\Entity\Property\ImdbId|null $episode = null,
 	): Character
 	{
 		/** @var \SpameriTests\Elastic\Data\Entity\Person\Character $character */

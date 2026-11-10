@@ -2,31 +2,49 @@
 
 namespace Spameri\Elastic\Entity\Collection;
 
+/**
+ * @template-covariant T of \Spameri\Elastic\Entity\AbstractElasticEntity
+ * @template-implements \Spameri\Elastic\Entity\ElasticEntityCollectionInterface<T>
+ */
 abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entity\ElasticEntityCollectionInterface
 {
 
 	/**
-	 * @var array<\Spameri\Elastic\Entity\ElasticEntityInterface>
+	 * @var array<\Spameri\Elastic\Entity\AbstractElasticEntity>
 	 */
 	protected array $collection;
 
 	protected bool $initialized;
 
+	/**
+	 * @var array<string>
+	 */
+	protected array $elasticIds;
 
+
+	/**
+	 * @param class-string $entityClass
+	 */
 	public function __construct(
-		protected \Spameri\Elastic\Model\ServiceInterface $service,
-		protected array $elasticIds = [],
-		\Spameri\Elastic\Entity\ElasticEntityInterface ...$entityCollection,
+		protected \Spameri\Elastic\EntityManager $entityManager,
+		protected string $entityClass,
+		public \Spameri\ElasticQuery\Response\ResultSearch $resultSearch = new \Spameri\ElasticQuery\Response\ResultSearch(
+			new \Spameri\ElasticQuery\Response\Stats(0, false, 0),
+			new \Spameri\ElasticQuery\Response\Shards(0, 1, 0, 0),
+			new \Spameri\ElasticQuery\Response\Result\HitCollection(),
+			new \Spameri\ElasticQuery\Response\Result\AggregationCollection(),
+		),
+		\Spameri\Elastic\Entity\AbstractElasticEntity ...$entityCollection,
 	)
 	{
 		$this->collection = [];
-		$this->initialized = FALSE;
+		$this->initialized = false;
+		$this->elasticIds = $resultSearch->hits()->ids();
 
 		if (
-			! $elasticIds
-			&& \count($entityCollection) > 0
+			\count($entityCollection) > 0
 		) {
-			$this->initialized = TRUE;
+			$this->initialized = true;
 		}
 
 		foreach ($entityCollection as $elasticEntity) {
@@ -36,7 +54,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 
 
 	public function add(
-		\Spameri\Elastic\Entity\ElasticEntityInterface $elasticEntity,
+		\Spameri\Elastic\Entity\AbstractElasticEntity $elasticEntity,
 	): void
 	{
 		if ( ! $this->initialized) {
@@ -53,28 +71,51 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 
 	public function initialize(): void
 	{
-		if ($this->elasticIds) {
-			$entities = $this->service->getAllBy(
-				new \Spameri\ElasticQuery\ElasticQuery(
-					new \Spameri\ElasticQuery\Query\QueryCollection(
-						NULL,
-						new \Spameri\ElasticQuery\Query\MustCollection(
-							new \Spameri\ElasticQuery\Query\Terms(
-								'_id',
-								$this->elasticIds,
-							),
-						),
+		$this->initialized = true;
+
+		if ( ! $this->elasticIds) {
+			return;
+		}
+
+		// Check IdentityMap for already-cached entities
+		$uncachedIds = [];
+		foreach ($this->elasticIds as $id) {
+			$cached = $this->entityManager->findCached($id, $this->entityClass);
+			if ($cached !== null) {
+				$this->collection[$cached->id()->value()] = $cached;
+			} else {
+				$uncachedIds[] = $id;
+			}
+		}
+
+		if (\count($uncachedIds) === 0) {
+			return;
+		}
+
+		$elasticQuery = new \Spameri\ElasticQuery\ElasticQuery(
+			new \Spameri\ElasticQuery\Query\QueryCollection(
+				null,
+				new \Spameri\ElasticQuery\Query\MustCollection(
+					new \Spameri\ElasticQuery\Query\Terms(
+						'_id',
+						$uncachedIds,
 					),
 				),
-			);
+			),
+		);
+		$elasticQuery->options()->changeSize(\count($uncachedIds));
 
-			$this->initialized = TRUE;
+		$entities = $this->entityManager->findBy(
+			$elasticQuery,
+			$this->entityClass,
+		);
 
-			foreach ($entities as $entity) {
-				$this->add($entity);
+		foreach ($entities as $entity) {
+			if ($entity->id() instanceof \Spameri\Elastic\Entity\Property\ElasticId) {
+				$this->collection[$entity->id()->value()] = $entity;
+			} else {
+				$this->collection[] = $entity;
 			}
-		} else {
-			$this->initialized = TRUE;
 		}
 	}
 
@@ -91,12 +132,37 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	}
 
 
+	/**
+	 * @return class-string
+	 */
+	public function entityClass(): string
+	{
+		return $this->entityClass;
+	}
+
+
+	/**
+	 * @param array<string> $ids
+	 */
+	public function setElasticIds(array $ids): void
+	{
+		$this->elasticIds = $ids;
+		$this->initialized = false;
+	}
+
+
+	/**
+	 * @return array<T>
+	 */
 	protected function collection(): array
 	{
 		return $this->collection;
 	}
 
 
+	/**
+	 * @return \ArrayIterator<int|string, \Spameri\Elastic\Entity\AbstractElasticEntity>
+	 */
 	public function getIterator(): \ArrayIterator
 	{
 		if ( ! $this->initialized) {
@@ -109,21 +175,21 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 
 	public function entity(
 		\Spameri\Elastic\Entity\Property\ElasticIdInterface $id,
-	): \Spameri\Elastic\Entity\ElasticEntityInterface|null
+	): \Spameri\Elastic\Entity\AbstractElasticEntity|null
 	{
 		if ( ! $this->initialized) {
 			$this->initialize();
 		}
 
 		if ($id instanceof \Spameri\Elastic\Entity\Property\EmptyElasticId) {
-			return NULL;
+			return null;
 		}
 
 		if ($id->value() && \array_key_exists($id->value(), $this->keys())) {
 			return $this->collection[$id->value()];
 		}
 
-		return NULL;
+		return null;
 	}
 
 
@@ -154,7 +220,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	public function count(): int
 	{
 		if ( ! $this->initialized) {
-			$this->initialize();
+			return \count($this->elasticIds);
 		}
 
 		return \count($this->collection);
@@ -198,7 +264,7 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 			$this->initialize();
 		}
 
-		if ( ! \in_array($type, ['asc', 'desc'], TRUE)) {
+		if ( ! \in_array($type, ['asc', 'desc'], true)) {
 			throw new \Nette\InvalidArgumentException('Not supported sorting method.');
 		}
 
@@ -206,13 +272,28 @@ abstract class AbstractElasticEntityCollection implements \Spameri\Elastic\Entit
 	}
 
 
-	public function first(): \Spameri\Elastic\Entity\ElasticEntityInterface|null
+	public function first(): \Spameri\Elastic\Entity\AbstractElasticEntity|null
 	{
 		if ( ! $this->initialized) {
 			$this->initialize();
 		}
 
-		return \reset($this->collection) ?: NULL;
+		return \reset($this->collection) ?: null;
+	}
+
+	public function __serialize(): array
+	{
+		return [
+			'collection' => $this->collection,
+		];
+	}
+
+	/**
+	 * @param array<mixed> $data
+	 */
+	public function __unserialize(array $data): void
+	{
+		$this->collection = $data;
 	}
 
 }

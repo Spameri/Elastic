@@ -6,23 +6,13 @@ class Season implements \Spameri\Elastic\Entity\EntityInterface
 {
 
 	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Property\ImdbId
+	 * @param \SpameriTests\Elastic\Data\Entity\Video\Season\EpisodeCollection<\SpameriTests\Elastic\Data\Entity\Video\Season\Episode> $episodes
 	 */
-	private $number;
-
-	/**
-	 * @var \SpameriTests\Elastic\Data\Entity\Video\Season\EpisodeCollection
-	 */
-	private $episodes;
-
-
 	public function __construct(
-		\SpameriTests\Elastic\Data\Entity\Property\ImdbId $number,
-		\SpameriTests\Elastic\Data\Entity\Video\Season\EpisodeCollection $episodes,
+		public \SpameriTests\Elastic\Data\Entity\Property\ImdbId $number,
+		public \SpameriTests\Elastic\Data\Entity\Video\Season\EpisodeCollection $episodes,
 	)
 	{
-		$this->number = $number;
-		$this->episodes = $episodes;
 	}
 
 
@@ -41,12 +31,6 @@ class Season implements \Spameri\Elastic\Entity\EntityInterface
 	public function number(): \SpameriTests\Elastic\Data\Entity\Property\ImdbId
 	{
 		return $this->number;
-	}
-
-
-	public function episodes(): \SpameriTests\Elastic\Data\Entity\Video\Season\EpisodeCollection
-	{
-		return $this->episodes;
 	}
 
 }
