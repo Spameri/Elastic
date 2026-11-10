@@ -204,6 +204,9 @@ readonly class EntityManager
 		$this->dispatchEvents->execute($entity, EventManager::POST_CREATE);
 		$this->dispatchEvents->execute($entity, EventManager::POST_PERSIST);
 
+		// The entity is stored now: a second persist of this instance is an update, not a create.
+		$this->changeSet->markExisting($entity);
+
 		return $id;
 	}
 
